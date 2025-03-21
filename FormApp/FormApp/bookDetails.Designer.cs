@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(bookDetails));
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -40,6 +41,8 @@
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -161,12 +164,22 @@
             button3.Text = "Cancel";
             button3.UseVisualStyleBackColor = false;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(1060, 9);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(68, 75);
+            pictureBox1.TabIndex = 14;
+            pictureBox1.TabStop = false;
+            // 
             // bookDetails
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1140, 680);
+            Controls.Add(pictureBox1);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -181,6 +194,7 @@
             Controls.Add(label1);
             Name = "bookDetails";
             Text = "bookDetails";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -199,5 +213,6 @@
         private Button button1;
         private Button button2;
         private Button button3;
+        private PictureBox pictureBox1;
     }
 }

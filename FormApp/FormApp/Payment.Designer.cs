@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Payment));
             label1 = new Label();
             groupBox1 = new GroupBox();
             label2 = new Label();
@@ -39,8 +40,10 @@
             comboBox1 = new ComboBox();
             button1 = new Button();
             button3 = new Button();
+            pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -49,11 +52,12 @@
             label1.BackColor = SystemColors.ButtonHighlight;
             label1.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             label1.ForeColor = Color.LightSteelBlue;
-            label1.Location = new Point(420, 24);
+            label1.Location = new Point(451, 24);
             label1.Name = "label1";
-            label1.Size = new Size(355, 63);
+            label1.Size = new Size(258, 63);
             label1.TabIndex = 2;
-            label1.Text = "Book Details";
+            label1.Text = "Payment";
+            label1.Click += label1_Click;
             // 
             // groupBox1
             // 
@@ -157,12 +161,22 @@
             button3.UseVisualStyleBackColor = false;
             button3.Click += button3_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(1045, 24);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(68, 75);
+            pictureBox1.TabIndex = 14;
+            pictureBox1.TabStop = false;
+            // 
             // Payment
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1140, 680);
+            Controls.Add(pictureBox1);
             Controls.Add(button3);
             Controls.Add(button1);
             Controls.Add(groupBox2);
@@ -174,6 +188,7 @@
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -191,5 +206,6 @@
         private Label label4;
         private Button button1;
         private Button button3;
+        private PictureBox pictureBox1;
     }
 }

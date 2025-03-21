@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace FormApp
 {
-    public partial class Payment : Form
+    public partial class ManageUser: Form
     {
-        public Payment()
+        public ManageUser()
         {
             InitializeComponent();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
