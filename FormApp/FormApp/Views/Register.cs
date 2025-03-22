@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace FormApp
 {
-    public partial class Register: Form
+    public partial class Register : Form
     {
         public Register()
         {
             InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

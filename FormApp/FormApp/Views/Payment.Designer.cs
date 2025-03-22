@@ -28,120 +28,86 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Payment));
-            label1 = new Label();
-            groupBox1 = new GroupBox();
-            label2 = new Label();
-            textBox1 = new TextBox();
-            label3 = new Label();
-            textBox2 = new TextBox();
-            groupBox2 = new GroupBox();
-            label4 = new Label();
-            comboBox1 = new ComboBox();
+            pageTitleTxt = new Label();
+            totalRentalPriceTxt = new TextBox();
+            bookNameTxt = new TextBox();
+            bookNameLbl = new Label();
+            paymentMethodCb = new ComboBox();
+            paymentMethodLbl = new Label();
             button1 = new Button();
             button3 = new Button();
-            pictureBox1 = new PictureBox();
-            groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            totalRentalPriceLbl = new Label();
+            bookRentalPriceTxt = new TextBox();
+            bookRentalPriceLbl = new Label();
             SuspendLayout();
             // 
-            // label1
+            // pageTitleTxt
             // 
-            label1.AutoSize = true;
-            label1.BackColor = SystemColors.ButtonHighlight;
-            label1.Font = new Font("Tahoma", 26F, FontStyle.Bold);
-            label1.ForeColor = Color.LightSteelBlue;
-            label1.Location = new Point(451, 24);
-            label1.Name = "label1";
-            label1.Size = new Size(258, 63);
-            label1.TabIndex = 2;
-            label1.Text = "Payment";
-            label1.Click += label1_Click;
+            pageTitleTxt.AutoSize = true;
+            pageTitleTxt.BackColor = Color.Transparent;
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.ForeColor = Color.Cornsilk;
+            pageTitleTxt.Location = new Point(346, 9);
+            pageTitleTxt.Name = "pageTitleTxt";
+            pageTitleTxt.Size = new Size(258, 63);
+            pageTitleTxt.TabIndex = 2;
+            pageTitleTxt.Text = "Payment";
+            pageTitleTxt.Click += label1_Click;
             // 
-            // groupBox1
+            // totalRentalPriceTxt
             // 
-            groupBox1.Controls.Add(textBox2);
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(textBox1);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Location = new Point(42, 116);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1028, 150);
-            groupBox1.TabIndex = 3;
-            groupBox1.TabStop = false;
+            totalRentalPriceTxt.Location = new Point(444, 320);
+            totalRentalPriceTxt.Name = "totalRentalPriceTxt";
+            totalRentalPriceTxt.Size = new Size(340, 31);
+            totalRentalPriceTxt.TabIndex = 6;
+           // totalRentalPriceTxt.TextChanged += this.textBox2_TextChanged;
             // 
-            // label2
+            // bookNameTxt
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Tahoma", 14F, FontStyle.Bold);
-            label2.ForeColor = Color.MidnightBlue;
-            label2.Location = new Point(29, 63);
-            label2.Name = "label2";
-            label2.Size = new Size(85, 34);
-            label2.TabIndex = 3;
-            label2.Text = "Book";
+            bookNameTxt.Location = new Point(438, 151);
+            bookNameTxt.Name = "bookNameTxt";
+            bookNameTxt.Size = new Size(340, 31);
+            bookNameTxt.TabIndex = 4;
             // 
-            // textBox1
+            // bookNameLbl
             // 
-            textBox1.Location = new Point(135, 70);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(346, 31);
-            textBox1.TabIndex = 4;
+            bookNameLbl.AutoSize = true;
+            bookNameLbl.BackColor = Color.Transparent;
+            bookNameLbl.Font = new Font("Britannic Bold", 14F);
+            bookNameLbl.ForeColor = Color.Black;
+            bookNameLbl.Location = new Point(120, 148);
+            bookNameLbl.Name = "bookNameLbl";
+            bookNameLbl.Size = new Size(154, 31);
+            bookNameLbl.TabIndex = 3;
+            bookNameLbl.Text = "Book Name";
+            bookNameLbl.Click += bookNameLbl_Click;
             // 
-            // label3
+            // paymentMethodCb
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Tahoma", 14F, FontStyle.Bold);
-            label3.ForeColor = Color.MidnightBlue;
-            label3.Location = new Point(527, 70);
-            label3.Name = "label3";
-            label3.Size = new Size(85, 34);
-            label3.TabIndex = 5;
-            label3.Text = "Price";
+            paymentMethodCb.FormattingEnabled = true;
+            paymentMethodCb.Location = new Point(444, 401);
+            paymentMethodCb.Name = "paymentMethodCb";
+            paymentMethodCb.Size = new Size(340, 33);
+            paymentMethodCb.TabIndex = 8;
             // 
-            // textBox2
+            // paymentMethodLbl
             // 
-            textBox2.Location = new Point(618, 73);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(346, 31);
-            textBox2.TabIndex = 6;
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(comboBox1);
-            groupBox2.Controls.Add(label4);
-            groupBox2.Location = new Point(42, 298);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1028, 267);
-            groupBox2.TabIndex = 4;
-            groupBox2.TabStop = false;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.MidnightBlue;
-            label4.Location = new Point(29, 43);
-            label4.Name = "label4";
-            label4.Size = new Size(333, 34);
-            label4.TabIndex = 7;
-            label4.Text = "Select a payment method";
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(368, 48);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(390, 33);
-            comboBox1.TabIndex = 8;
+            paymentMethodLbl.AutoSize = true;
+            paymentMethodLbl.BackColor = Color.Transparent;
+            paymentMethodLbl.Font = new Font("Britannic Bold", 12F);
+            paymentMethodLbl.ForeColor = Color.Black;
+            paymentMethodLbl.Location = new Point(120, 401);
+            paymentMethodLbl.Name = "paymentMethodLbl";
+            paymentMethodLbl.Size = new Size(281, 27);
+            paymentMethodLbl.TabIndex = 7;
+            paymentMethodLbl.Text = "Select a payment method";
             // 
             // button1
             // 
-            button1.BackColor = Color.LightSteelBlue;
-            button1.Font = new Font("Tahoma", 10F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(361, 596);
+            button1.BackColor = Color.Cornsilk;
+            button1.Font = new Font("Britannic Bold", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.Black;
+            button1.Location = new Point(292, 541);
             button1.Name = "button1";
             button1.Size = new Size(162, 51);
             button1.TabIndex = 9;
@@ -153,7 +119,7 @@
             button3.BackColor = Color.IndianRed;
             button3.Font = new Font("Tahoma", 10F, FontStyle.Bold);
             button3.ForeColor = Color.White;
-            button3.Location = new Point(613, 596);
+            button3.Location = new Point(492, 541);
             button3.Name = "button3";
             button3.Size = new Size(162, 51);
             button3.TabIndex = 13;
@@ -161,51 +127,75 @@
             button3.UseVisualStyleBackColor = false;
             button3.Click += button3_Click;
             // 
-            // pictureBox1
+            // totalRentalPriceLbl
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(1045, 24);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(68, 75);
-            pictureBox1.TabIndex = 14;
-            pictureBox1.TabStop = false;
+            totalRentalPriceLbl.AutoSize = true;
+            totalRentalPriceLbl.BackColor = Color.Transparent;
+            totalRentalPriceLbl.Font = new Font("Britannic Bold", 14F);
+            totalRentalPriceLbl.ForeColor = Color.Black;
+            totalRentalPriceLbl.Location = new Point(120, 315);
+            totalRentalPriceLbl.Name = "totalRentalPriceLbl";
+            totalRentalPriceLbl.Size = new Size(237, 31);
+            totalRentalPriceLbl.TabIndex = 5;
+            totalRentalPriceLbl.Text = "Total Rental Price";
+            //totalRentalPriceLbl.Click += this.label3_Click;
+            // 
+            // bookRentalPriceTxt
+            // 
+            bookRentalPriceTxt.Location = new Point(441, 236);
+            bookRentalPriceTxt.Name = "bookRentalPriceTxt";
+            bookRentalPriceTxt.Size = new Size(340, 31);
+            bookRentalPriceTxt.TabIndex = 15;
+            // 
+            // bookRentalPriceLbl
+            // 
+            bookRentalPriceLbl.AutoSize = true;
+            bookRentalPriceLbl.BackColor = Color.Transparent;
+            bookRentalPriceLbl.Font = new Font("Britannic Bold", 14F);
+            bookRentalPriceLbl.ForeColor = Color.Black;
+            bookRentalPriceLbl.Location = new Point(120, 231);
+            bookRentalPriceLbl.Name = "bookRentalPriceLbl";
+            bookRentalPriceLbl.Size = new Size(238, 31);
+            bookRentalPriceLbl.TabIndex = 14;
+            bookRentalPriceLbl.Text = "Book Rental Price";
             // 
             // Payment
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(1140, 680);
-            Controls.Add(pictureBox1);
+            BackgroundImage = Properties.Resources.Book_trans_bg;
+            ClientSize = new Size(978, 644);
+            Controls.Add(bookRentalPriceTxt);
+            Controls.Add(bookRentalPriceLbl);
+            Controls.Add(totalRentalPriceTxt);
+            Controls.Add(paymentMethodCb);
+            Controls.Add(totalRentalPriceLbl);
+            Controls.Add(paymentMethodLbl);
+            Controls.Add(bookNameTxt);
+            Controls.Add(bookNameLbl);
             Controls.Add(button3);
             Controls.Add(button1);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
-            Controls.Add(label1);
+            Controls.Add(pageTitleTxt);
             Name = "Payment";
             Text = "Payment";
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            Load += Payment_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
-        private GroupBox groupBox1;
-        private TextBox textBox2;
-        private Label label3;
-        private TextBox textBox1;
-        private Label label2;
-        private GroupBox groupBox2;
-        private ComboBox comboBox1;
-        private Label label4;
+        private Label pageTitleTxt;
+        private TextBox totalRentalPriceTxt;
+        private TextBox bookNameTxt;
+        private Label bookNameLbl;
+        private ComboBox paymentMethodCb;
+        private Label paymentMethodLbl;
         private Button button1;
         private Button button3;
-        private PictureBox pictureBox1;
+        private Label totalRentalPriceLbl;
+        private TextBox bookRentalPriceTxt;
+        private Label bookRentalPriceLbl;
     }
 }
