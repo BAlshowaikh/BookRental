@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace FormApp
 {
-    public partial class ManageUser: Form
+    public partial class ManageUser : Form
     {
         public ManageUser()
         {
             InitializeComponent();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

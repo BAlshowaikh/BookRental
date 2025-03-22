@@ -28,275 +28,186 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(homePageAdmin));
-            panel1 = new Panel();
-            pictureBox1 = new PictureBox();
-            label1 = new Label();
-            pictureBox2 = new PictureBox();
-            panel2 = new Panel();
-            panel3 = new Panel();
-            panel4 = new Panel();
-            panel5 = new Panel();
-            panel6 = new Panel();
-            panel7 = new Panel();
-            panel8 = new Panel();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
-            label7 = new Label();
-            label8 = new Label();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panel2.SuspendLayout();
-            panel3.SuspendLayout();
-            panel4.SuspendLayout();
-            panel5.SuspendLayout();
-            panel6.SuspendLayout();
-            panel7.SuspendLayout();
-            panel8.SuspendLayout();
+            userIcon = new PictureBox();
+            homeIcon = new PictureBox();
+            exitIcon = new PictureBox();
+            returnIcon = new PictureBox();
+            welcomeTxt = new Label();
+            manageUsersBtn = new Button();
+            manageBooksBtn = new Button();
+            manageRentalTransictionsBtn = new Button();
+            manageRentalRequestBtn = new Button();
+            manageRentalRecordsBtn = new Button();
+            generateRecordsBtn = new Button();
+            ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // userIcon
             // 
-            panel1.BackColor = SystemColors.ActiveCaption;
-            panel1.Controls.Add(pictureBox2);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(0, -1);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1141, 150);
-            panel1.TabIndex = 0;
+            userIcon.BackColor = Color.Transparent;
+            userIcon.Image = Properties.Resources.user;
+            userIcon.Location = new Point(19, 12);
+            userIcon.Name = "userIcon";
+            userIcon.Size = new Size(60, 60);
+            userIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            userIcon.TabIndex = 8;
+            userIcon.TabStop = false;
             // 
-            // pictureBox1
+            // homeIcon
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(30, 3);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(150, 135);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            homeIcon.BackColor = Color.Transparent;
+            homeIcon.Image = Properties.Resources.home__1_;
+            homeIcon.Location = new Point(832, 12);
+            homeIcon.Name = "homeIcon";
+            homeIcon.Size = new Size(60, 60);
+            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            homeIcon.TabIndex = 9;
+            homeIcon.TabStop = false;
+            homeIcon.Click += pictureBox2_Click;
             // 
-            // label1
+            // exitIcon
             // 
-            label1.AutoSize = true;
-            label1.BackColor = SystemColors.ActiveCaption;
-            label1.Font = new Font("Tahoma", 26F, FontStyle.Bold);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(227, 39);
-            label1.Name = "label1";
-            label1.Size = new Size(267, 63);
-            label1.TabIndex = 4;
-            label1.Text = "Welcome";
+            exitIcon.BackColor = Color.Transparent;
+            exitIcon.Image = Properties.Resources.logout;
+            exitIcon.Location = new Point(898, 12);
+            exitIcon.Name = "exitIcon";
+            exitIcon.Size = new Size(60, 60);
+            exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            exitIcon.TabIndex = 10;
+            exitIcon.TabStop = false;
             // 
-            // pictureBox2
+            // returnIcon
             // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(1033, 49);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(67, 75);
-            pictureBox2.TabIndex = 5;
-            pictureBox2.TabStop = false;
+            returnIcon.BackColor = Color.Transparent;
+            returnIcon.Image = Properties.Resources._return;
+            returnIcon.Location = new Point(766, 12);
+            returnIcon.Name = "returnIcon";
+            returnIcon.Size = new Size(60, 60);
+            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            returnIcon.TabIndex = 11;
+            returnIcon.TabStop = false;
             // 
-            // panel2
+            // welcomeTxt
             // 
-            panel2.BackColor = SystemColors.ControlLight;
-            panel2.Controls.Add(label2);
-            panel2.Location = new Point(30, 175);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(300, 83);
-            panel2.TabIndex = 1;
+            welcomeTxt.AutoSize = true;
+            welcomeTxt.BackColor = Color.Transparent;
+            welcomeTxt.Font = new Font("Edwardian Script ITC", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            welcomeTxt.Location = new Point(205, 165);
+            welcomeTxt.Name = "welcomeTxt";
+            welcomeTxt.Size = new Size(596, 66);
+            welcomeTxt.TabIndex = 12;
+            welcomeTxt.Text = "Welocome to Book Nook Store!";
             // 
-            // panel3
+            // manageUsersBtn
             // 
-            panel3.BackColor = SystemColors.ControlLight;
-            panel3.Controls.Add(label3);
-            panel3.Location = new Point(395, 175);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(300, 83);
-            panel3.TabIndex = 2;
+            manageUsersBtn.BackColor = Color.Cornsilk;
+            manageUsersBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageUsersBtn.Location = new Point(104, 299);
+            manageUsersBtn.Name = "manageUsersBtn";
+            manageUsersBtn.Size = new Size(220, 50);
+            manageUsersBtn.TabIndex = 13;
+            manageUsersBtn.Text = "Manage Users";
+            manageUsersBtn.UseVisualStyleBackColor = false;
             // 
-            // panel4
+            // manageBooksBtn
             // 
-            panel4.BackColor = SystemColors.ControlLight;
-            panel4.Controls.Add(label4);
-            panel4.Location = new Point(763, 175);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(365, 83);
-            panel4.TabIndex = 3;
+            manageBooksBtn.BackColor = Color.Cornsilk;
+            manageBooksBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageBooksBtn.Location = new Point(387, 297);
+            manageBooksBtn.Name = "manageBooksBtn";
+            manageBooksBtn.Size = new Size(220, 50);
+            manageBooksBtn.TabIndex = 14;
+            manageBooksBtn.Text = "Manage Books";
+            manageBooksBtn.UseVisualStyleBackColor = false;
             // 
-            // panel5
+            // manageRentalTransictionsBtn
             // 
-            panel5.BackColor = SystemColors.ControlLight;
-            panel5.Controls.Add(label5);
-            panel5.Location = new Point(30, 313);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(300, 83);
-            panel5.TabIndex = 4;
+            manageRentalTransictionsBtn.BackColor = Color.Cornsilk;
+            manageRentalTransictionsBtn.Font = new Font("Britannic Bold", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageRentalTransictionsBtn.Location = new Point(387, 409);
+            manageRentalTransictionsBtn.Name = "manageRentalTransictionsBtn";
+            manageRentalTransictionsBtn.Size = new Size(220, 50);
+            manageRentalTransictionsBtn.TabIndex = 15;
+            manageRentalTransictionsBtn.Text = "Manage Rental Transictions";
+            manageRentalTransictionsBtn.UseVisualStyleBackColor = false;
             // 
-            // panel6
+            // manageRentalRequestBtn
             // 
-            panel6.BackColor = SystemColors.ControlLight;
-            panel6.Controls.Add(label6);
-            panel6.Location = new Point(395, 313);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(331, 83);
-            panel6.TabIndex = 5;
+            manageRentalRequestBtn.BackColor = Color.Cornsilk;
+            manageRentalRequestBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageRentalRequestBtn.Location = new Point(657, 297);
+            manageRentalRequestBtn.Name = "manageRentalRequestBtn";
+            manageRentalRequestBtn.Size = new Size(220, 50);
+            manageRentalRequestBtn.TabIndex = 16;
+            manageRentalRequestBtn.Text = "Manage Rental Request";
+            manageRentalRequestBtn.UseVisualStyleBackColor = false;
+            manageRentalRequestBtn.Click += button2_Click;
             // 
-            // panel7
+            // manageRentalRecordsBtn
             // 
-            panel7.BackColor = SystemColors.ControlLight;
-            panel7.Controls.Add(label8);
-            panel7.Location = new Point(780, 313);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(320, 83);
-            panel7.TabIndex = 6;
+            manageRentalRecordsBtn.BackColor = Color.Cornsilk;
+            manageRentalRecordsBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageRentalRecordsBtn.Location = new Point(104, 411);
+            manageRentalRecordsBtn.Name = "manageRentalRecordsBtn";
+            manageRentalRecordsBtn.Size = new Size(220, 50);
+            manageRentalRecordsBtn.TabIndex = 17;
+            manageRentalRecordsBtn.Text = "Manage Rental Records";
+            manageRentalRecordsBtn.UseVisualStyleBackColor = false;
             // 
-            // panel8
+            // generateRecordsBtn
             // 
-            panel8.BackColor = SystemColors.ControlLight;
-            panel8.Controls.Add(label7);
-            panel8.Location = new Point(356, 475);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(415, 83);
-            panel8.TabIndex = 7;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = SystemColors.ControlDarkDark;
-            label2.Location = new Point(41, 24);
-            label2.Name = "label2";
-            label2.Size = new Size(213, 34);
-            label2.TabIndex = 0;
-            label2.Text = "Manage Users";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.ControlDarkDark;
-            label3.Location = new Point(38, 24);
-            label3.Name = "label3";
-            label3.Size = new Size(219, 34);
-            label3.TabIndex = 1;
-            label3.Text = "Manage Books";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = SystemColors.ControlDarkDark;
-            label4.Location = new Point(0, 24);
-            label4.Name = "label4";
-            label4.Size = new Size(365, 34);
-            label4.TabIndex = 2;
-            label4.Text = "Manage Rental Requests";
-            label4.Click += label4_Click;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = SystemColors.ControlDarkDark;
-            label5.Location = new Point(14, 28);
-            label5.Name = "label5";
-            label5.Size = new Size(267, 34);
-            label5.TabIndex = 3;
-            label5.Text = "Generate Records";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = SystemColors.ControlDarkDark;
-            label6.Location = new Point(0, 28);
-            label6.Name = "label6";
-            label6.Size = new Size(334, 34);
-            label6.TabIndex = 4;
-            label6.Text = "Manage Rental Record";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = SystemColors.ControlDarkDark;
-            label7.Location = new Point(3, 24);
-            label7.Name = "label7";
-            label7.Size = new Size(414, 34);
-            label7.TabIndex = 5;
-            label7.Text = "Manage Rental Transactions";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = SystemColors.ControlDarkDark;
-            label8.Location = new Point(1, 28);
-            label8.Name = "label8";
-            label8.Size = new Size(319, 34);
-            label8.TabIndex = 3;
-            label8.Text = "View Recieved Emails";
+            generateRecordsBtn.BackColor = Color.Cornsilk;
+            generateRecordsBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            generateRecordsBtn.Location = new Point(657, 405);
+            generateRecordsBtn.Name = "generateRecordsBtn";
+            generateRecordsBtn.Size = new Size(220, 50);
+            generateRecordsBtn.TabIndex = 18;
+            generateRecordsBtn.Text = "Generate Records";
+            generateRecordsBtn.UseVisualStyleBackColor = false;
+            generateRecordsBtn.Click += button1_Click;
             // 
             // homePageAdmin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(1140, 680);
-            Controls.Add(panel8);
-            Controls.Add(panel7);
-            Controls.Add(panel6);
-            Controls.Add(panel5);
-            Controls.Add(panel4);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
+            BackgroundImage = Properties.Resources.Book_trans_bg;
+            ClientSize = new Size(978, 644);
+            Controls.Add(generateRecordsBtn);
+            Controls.Add(manageRentalRecordsBtn);
+            Controls.Add(manageRentalRequestBtn);
+            Controls.Add(manageRentalTransictionsBtn);
+            Controls.Add(manageBooksBtn);
+            Controls.Add(manageUsersBtn);
+            Controls.Add(welcomeTxt);
+            Controls.Add(returnIcon);
+            Controls.Add(exitIcon);
+            Controls.Add(homeIcon);
+            Controls.Add(userIcon);
             Name = "homePageAdmin";
             Text = "homePageAdmin";
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
-            panel6.ResumeLayout(false);
-            panel6.PerformLayout();
-            panel7.ResumeLayout(false);
-            panel7.PerformLayout();
-            panel8.ResumeLayout(false);
-            panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private Panel panel1;
-        private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
-        private Label label1;
-        private Panel panel2;
-        private Label label2;
-        private Panel panel3;
-        private Label label3;
-        private Panel panel4;
-        private Label label4;
-        private Panel panel5;
-        private Panel panel6;
-        private Panel panel7;
-        private Panel panel8;
-        private Label label5;
-        private Label label6;
-        private Label label8;
-        private Label label7;
+        private PictureBox userIcon;
+        private PictureBox homeIcon;
+        private PictureBox exitIcon;
+        private PictureBox returnIcon;
+        private Label welcomeTxt;
+        private Button manageUsersBtn;
+        private Button manageBooksBtn;
+        private Button manageRentalTransictionsBtn;
+        private Button manageRentalRequestBtn;
+        private Button manageRentalRecordsBtn;
+        private Button generateRecordsBtn;
     }
 }

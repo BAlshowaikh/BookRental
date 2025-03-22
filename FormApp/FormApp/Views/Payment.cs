@@ -26,5 +26,15 @@ namespace FormApp
         {
 
         }
+
+        private void Payment_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bookNameLbl_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
