@@ -205,6 +205,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
@@ -215,6 +216,7 @@
             Controls.Add(button3);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
+            DoubleBuffered = true;
             Name = "ManageUser";
             Text = "ManageUser";
             groupBox1.ResumeLayout(false);

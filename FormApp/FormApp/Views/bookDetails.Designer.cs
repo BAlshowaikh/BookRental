@@ -246,6 +246,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(textBox5);
             Controls.Add(label6);
@@ -265,6 +266,7 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            DoubleBuffered = true;
             ForeColor = Color.Black;
             Name = "bookDetails";
             Text = "bookDetails";
