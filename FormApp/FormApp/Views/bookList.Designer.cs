@@ -204,6 +204,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(button6);
             Controls.Add(button5);
@@ -214,6 +215,7 @@
             Controls.Add(userIcon);
             Controls.Add(groupBox1);
             Controls.Add(dataGridView1);
+            DoubleBuffered = true;
             Name = "bookList";
             Text = "bookList";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

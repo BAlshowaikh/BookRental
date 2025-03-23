@@ -175,6 +175,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(generateRecordsBtn);
             Controls.Add(manageRentalRecordsBtn);
@@ -187,6 +188,7 @@
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
+            DoubleBuffered = true;
             Name = "homePageAdmin";
             Text = "homePageAdmin";
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();

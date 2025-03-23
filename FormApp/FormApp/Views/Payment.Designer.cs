@@ -60,7 +60,6 @@
             totalRentalPriceTxt.Name = "totalRentalPriceTxt";
             totalRentalPriceTxt.Size = new Size(340, 31);
             totalRentalPriceTxt.TabIndex = 6;
-           // totalRentalPriceTxt.TextChanged += this.textBox2_TextChanged;
             // 
             // bookNameTxt
             // 
@@ -138,7 +137,6 @@
             totalRentalPriceLbl.Size = new Size(237, 31);
             totalRentalPriceLbl.TabIndex = 5;
             totalRentalPriceLbl.Text = "Total Rental Price";
-            //totalRentalPriceLbl.Click += this.label3_Click;
             // 
             // bookRentalPriceTxt
             // 
@@ -165,6 +163,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(bookRentalPriceTxt);
             Controls.Add(bookRentalPriceLbl);
@@ -177,6 +176,7 @@
             Controls.Add(button3);
             Controls.Add(button1);
             Controls.Add(pageTitleTxt);
+            DoubleBuffered = true;
             Name = "Payment";
             Text = "Payment";
             Load += Payment_Load;
