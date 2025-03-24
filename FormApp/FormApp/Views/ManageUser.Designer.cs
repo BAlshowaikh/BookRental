@@ -223,12 +223,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
-<<<<<<< HEAD
-            ClientSize = new Size(782, 515);
-=======
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(978, 644);
->>>>>>> aa4dac08643b0931a5e917a56107aee4e68dad44
+            ClientSize = new Size(982, 653);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
@@ -238,11 +234,7 @@
             Controls.Add(addBttn);
             Controls.Add(dgvUsers);
             Controls.Add(groupBox1);
-<<<<<<< HEAD
-            Margin = new Padding(2);
-=======
             DoubleBuffered = true;
->>>>>>> aa4dac08643b0931a5e917a56107aee4e68dad44
             Name = "ManageUser";
             Text = "ManageUser";
             Load += ManageUser_Load;
