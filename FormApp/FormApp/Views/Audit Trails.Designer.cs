@@ -48,10 +48,10 @@
             pageTitleTxt.BackColor = Color.Transparent;
             pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(252, 7);
+            pageTitleTxt.Location = new Point(315, 9);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
             pageTitleTxt.Name = "pageTitleTxt";
-            pageTitleTxt.Size = new Size(274, 53);
+            pageTitleTxt.Size = new Size(327, 63);
             pageTitleTxt.TabIndex = 3;
             pageTitleTxt.Text = "Audit Trails";
             // 
@@ -59,11 +59,11 @@
             // 
             dataGridView1.BackgroundColor = SystemColors.Control;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(79, 111);
-            dataGridView1.Margin = new Padding(2, 2, 2, 2);
+            dataGridView1.Location = new Point(99, 139);
+            dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(634, 314);
+            dataGridView1.Size = new Size(792, 392);
             dataGridView1.TabIndex = 4;
             // 
             // button6
@@ -71,10 +71,10 @@
             button6.BackColor = Color.Cornsilk;
             button6.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             button6.ForeColor = Color.Black;
-            button6.Location = new Point(25, 457);
-            button6.Margin = new Padding(2, 2, 2, 2);
+            button6.Location = new Point(31, 571);
+            button6.Margin = new Padding(2);
             button6.Name = "button6";
-            button6.Size = new Size(130, 41);
+            button6.Size = new Size(162, 51);
             button6.TabIndex = 20;
             button6.Text = "Refresh";
             button6.UseVisualStyleBackColor = false;
@@ -83,10 +83,10 @@
             // 
             returnIcon.BackColor = Color.Transparent;
             returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(613, 10);
-            returnIcon.Margin = new Padding(2, 2, 2, 2);
+            returnIcon.Location = new Point(830, 12);
+            returnIcon.Margin = new Padding(2);
             returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(48, 48);
+            returnIcon.Size = new Size(40, 40);
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 24;
             returnIcon.TabStop = false;
@@ -94,11 +94,11 @@
             // exitIcon
             // 
             exitIcon.BackColor = Color.Transparent;
-            exitIcon.Image = Properties.Resources.logout;
-            exitIcon.Location = new Point(718, 10);
-            exitIcon.Margin = new Padding(2, 2, 2, 2);
+            exitIcon.Image = Properties.Resources.exit_icon;
+            exitIcon.Location = new Point(930, 12);
+            exitIcon.Margin = new Padding(2);
             exitIcon.Name = "exitIcon";
-            exitIcon.Size = new Size(48, 48);
+            exitIcon.Size = new Size(40, 40);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 23;
             exitIcon.TabStop = false;
@@ -106,11 +106,11 @@
             // homeIcon
             // 
             homeIcon.BackColor = Color.Transparent;
-            homeIcon.Image = Properties.Resources.home__1_;
-            homeIcon.Location = new Point(666, 10);
-            homeIcon.Margin = new Padding(2, 2, 2, 2);
+            homeIcon.Image = Properties.Resources.home__2_;
+            homeIcon.Location = new Point(880, 12);
+            homeIcon.Margin = new Padding(2);
             homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(48, 48);
+            homeIcon.Size = new Size(40, 40);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 22;
             homeIcon.TabStop = false;
@@ -119,22 +119,22 @@
             // 
             userIcon.BackColor = Color.Transparent;
             userIcon.Image = Properties.Resources.user;
-            userIcon.Location = new Point(15, 10);
-            userIcon.Margin = new Padding(2, 2, 2, 2);
+            userIcon.Location = new Point(19, 12);
+            userIcon.Margin = new Padding(2);
             userIcon.Name = "userIcon";
-            userIcon.Size = new Size(48, 48);
+            userIcon.Size = new Size(40, 40);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 21;
             userIcon.TabStop = false;
             // 
             // Audit_Trails
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(982, 653);
+            ClientSize = new Size(978, 644);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
@@ -143,7 +143,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(pageTitleTxt);
             DoubleBuffered = true;
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "Audit_Trails";
             Text = "Audit_Trails";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
