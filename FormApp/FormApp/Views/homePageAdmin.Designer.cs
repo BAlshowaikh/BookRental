@@ -49,9 +49,10 @@
             // 
             userIcon.BackColor = Color.Transparent;
             userIcon.Image = Properties.Resources.user;
-            userIcon.Location = new Point(19, 12);
+            userIcon.Location = new Point(15, 10);
+            userIcon.Margin = new Padding(2, 2, 2, 2);
             userIcon.Name = "userIcon";
-            userIcon.Size = new Size(60, 60);
+            userIcon.Size = new Size(48, 48);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 8;
             userIcon.TabStop = false;
@@ -60,9 +61,10 @@
             // 
             homeIcon.BackColor = Color.Transparent;
             homeIcon.Image = Properties.Resources.home__1_;
-            homeIcon.Location = new Point(832, 12);
+            homeIcon.Location = new Point(666, 10);
+            homeIcon.Margin = new Padding(2, 2, 2, 2);
             homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(60, 60);
+            homeIcon.Size = new Size(48, 48);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 9;
             homeIcon.TabStop = false;
@@ -72,9 +74,10 @@
             // 
             exitIcon.BackColor = Color.Transparent;
             exitIcon.Image = Properties.Resources.logout;
-            exitIcon.Location = new Point(898, 12);
+            exitIcon.Location = new Point(718, 10);
+            exitIcon.Margin = new Padding(2, 2, 2, 2);
             exitIcon.Name = "exitIcon";
-            exitIcon.Size = new Size(60, 60);
+            exitIcon.Size = new Size(48, 48);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 10;
             exitIcon.TabStop = false;
@@ -83,9 +86,10 @@
             // 
             returnIcon.BackColor = Color.Transparent;
             returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(766, 12);
+            returnIcon.Location = new Point(613, 10);
+            returnIcon.Margin = new Padding(2, 2, 2, 2);
             returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(60, 60);
+            returnIcon.Size = new Size(48, 48);
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 11;
             returnIcon.TabStop = false;
@@ -95,9 +99,10 @@
             welcomeTxt.AutoSize = true;
             welcomeTxt.BackColor = Color.Transparent;
             welcomeTxt.Font = new Font("Edwardian Script ITC", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            welcomeTxt.Location = new Point(205, 165);
+            welcomeTxt.Location = new Point(164, 132);
+            welcomeTxt.Margin = new Padding(2, 0, 2, 0);
             welcomeTxt.Name = "welcomeTxt";
-            welcomeTxt.Size = new Size(596, 66);
+            welcomeTxt.Size = new Size(509, 55);
             welcomeTxt.TabIndex = 12;
             welcomeTxt.Text = "Welocome to Book Nook Store!";
             // 
@@ -105,9 +110,10 @@
             // 
             manageUsersBtn.BackColor = Color.Cornsilk;
             manageUsersBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageUsersBtn.Location = new Point(104, 299);
+            manageUsersBtn.Location = new Point(83, 239);
+            manageUsersBtn.Margin = new Padding(2, 2, 2, 2);
             manageUsersBtn.Name = "manageUsersBtn";
-            manageUsersBtn.Size = new Size(220, 50);
+            manageUsersBtn.Size = new Size(176, 40);
             manageUsersBtn.TabIndex = 13;
             manageUsersBtn.Text = "Manage Users";
             manageUsersBtn.UseVisualStyleBackColor = false;
@@ -116,9 +122,10 @@
             // 
             manageBooksBtn.BackColor = Color.Cornsilk;
             manageBooksBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageBooksBtn.Location = new Point(387, 297);
+            manageBooksBtn.Location = new Point(310, 238);
+            manageBooksBtn.Margin = new Padding(2, 2, 2, 2);
             manageBooksBtn.Name = "manageBooksBtn";
-            manageBooksBtn.Size = new Size(220, 50);
+            manageBooksBtn.Size = new Size(176, 40);
             manageBooksBtn.TabIndex = 14;
             manageBooksBtn.Text = "Manage Books";
             manageBooksBtn.UseVisualStyleBackColor = false;
@@ -127,9 +134,10 @@
             // 
             manageRentalTransictionsBtn.BackColor = Color.Cornsilk;
             manageRentalTransictionsBtn.Font = new Font("Britannic Bold", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageRentalTransictionsBtn.Location = new Point(387, 409);
+            manageRentalTransictionsBtn.Location = new Point(310, 327);
+            manageRentalTransictionsBtn.Margin = new Padding(2, 2, 2, 2);
             manageRentalTransictionsBtn.Name = "manageRentalTransictionsBtn";
-            manageRentalTransictionsBtn.Size = new Size(220, 50);
+            manageRentalTransictionsBtn.Size = new Size(176, 40);
             manageRentalTransictionsBtn.TabIndex = 15;
             manageRentalTransictionsBtn.Text = "Manage Rental Transictions";
             manageRentalTransictionsBtn.UseVisualStyleBackColor = false;
@@ -138,9 +146,10 @@
             // 
             manageRentalRequestBtn.BackColor = Color.Cornsilk;
             manageRentalRequestBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageRentalRequestBtn.Location = new Point(657, 297);
+            manageRentalRequestBtn.Location = new Point(526, 238);
+            manageRentalRequestBtn.Margin = new Padding(2, 2, 2, 2);
             manageRentalRequestBtn.Name = "manageRentalRequestBtn";
-            manageRentalRequestBtn.Size = new Size(220, 50);
+            manageRentalRequestBtn.Size = new Size(176, 40);
             manageRentalRequestBtn.TabIndex = 16;
             manageRentalRequestBtn.Text = "Manage Rental Request";
             manageRentalRequestBtn.UseVisualStyleBackColor = false;
@@ -150,9 +159,10 @@
             // 
             manageRentalRecordsBtn.BackColor = Color.Cornsilk;
             manageRentalRecordsBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageRentalRecordsBtn.Location = new Point(104, 411);
+            manageRentalRecordsBtn.Location = new Point(83, 329);
+            manageRentalRecordsBtn.Margin = new Padding(2, 2, 2, 2);
             manageRentalRecordsBtn.Name = "manageRentalRecordsBtn";
-            manageRentalRecordsBtn.Size = new Size(220, 50);
+            manageRentalRecordsBtn.Size = new Size(176, 40);
             manageRentalRecordsBtn.TabIndex = 17;
             manageRentalRecordsBtn.Text = "Manage Rental Records";
             manageRentalRecordsBtn.UseVisualStyleBackColor = false;
@@ -161,9 +171,10 @@
             // 
             generateRecordsBtn.BackColor = Color.Cornsilk;
             generateRecordsBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            generateRecordsBtn.Location = new Point(657, 405);
+            generateRecordsBtn.Location = new Point(526, 324);
+            generateRecordsBtn.Margin = new Padding(2, 2, 2, 2);
             generateRecordsBtn.Name = "generateRecordsBtn";
-            generateRecordsBtn.Size = new Size(220, 50);
+            generateRecordsBtn.Size = new Size(176, 40);
             generateRecordsBtn.TabIndex = 18;
             generateRecordsBtn.Text = "Generate Records";
             generateRecordsBtn.UseVisualStyleBackColor = false;
@@ -171,11 +182,12 @@
             // 
             // homePageAdmin
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
-            ClientSize = new Size(978, 644);
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(982, 653);
             Controls.Add(generateRecordsBtn);
             Controls.Add(manageRentalRecordsBtn);
             Controls.Add(manageRentalRequestBtn);
@@ -187,6 +199,8 @@
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
+            DoubleBuffered = true;
+            Margin = new Padding(2, 2, 2, 2);
             Name = "homePageAdmin";
             Text = "homePageAdmin";
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
