@@ -139,6 +139,7 @@
             Margin = new Padding(2);
             Name = "Login";
             Text = "Login";
+            Load += Login_Load;
             ResumeLayout(false);
             PerformLayout();
         }

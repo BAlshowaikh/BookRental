@@ -21,5 +21,10 @@ namespace FormApp
         {
 
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            //comment
+        }
     }
 }
