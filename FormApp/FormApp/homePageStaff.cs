@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace FormApp
 {
-    public partial class Audit_Trails : Form
+    public partial class homePageStaff: Form
     {
-        public Audit_Trails()
+        public homePageStaff()
         {
             InitializeComponent();
-        }
-
-        private void Audit_Trails_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

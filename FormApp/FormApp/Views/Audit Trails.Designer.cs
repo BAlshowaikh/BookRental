@@ -146,6 +146,7 @@
             Margin = new Padding(2);
             Name = "Audit_Trails";
             Text = "Audit_Trails";
+            Load += Audit_Trails_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
