@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            button2 = new Button();
-            button1 = new Button();
-            textBox1 = new TextBox();
+            refreshBttn = new Button();
+            ddlUser = new ComboBox();
+            filterBttn = new Button();
             label1 = new Label();
-            dataGridView1 = new DataGridView();
-            button3 = new Button();
-            button5 = new Button();
-            button6 = new Button();
+            dgvUsers = new DataGridView();
+            addBttn = new Button();
+            editBttn = new Button();
+            deleteBttn = new Button();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -52,116 +52,131 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Transparent;
-            groupBox1.Controls.Add(button2);
-            groupBox1.Controls.Add(button1);
-            groupBox1.Controls.Add(textBox1);
+            groupBox1.Controls.Add(refreshBttn);
+            groupBox1.Controls.Add(ddlUser);
+            groupBox1.Controls.Add(filterBttn);
             groupBox1.Controls.Add(label1);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
-            groupBox1.Location = new Point(22, 92);
+            groupBox1.Location = new Point(18, 74);
+            groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(928, 96);
+            groupBox1.Padding = new Padding(2);
+            groupBox1.Size = new Size(742, 77);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
-            groupBox1.Enter += groupBox1_Enter;
             // 
-            // button2
+            // refreshBttn
             // 
-            button2.BackColor = Color.IndianRed;
-            button2.Font = new Font("Britannic Bold", 10F);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(506, 35);
-            button2.Name = "button2";
-            button2.Size = new Size(140, 35);
-            button2.TabIndex = 17;
-            button2.Text = "Cancel";
-            button2.UseVisualStyleBackColor = false;
+            refreshBttn.BackColor = Color.Cornsilk;
+            refreshBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            refreshBttn.ForeColor = Color.Black;
+            refreshBttn.Location = new Point(454, 30);
+            refreshBttn.Margin = new Padding(2);
+            refreshBttn.Name = "refreshBttn";
+            refreshBttn.Size = new Size(112, 30);
+            refreshBttn.TabIndex = 19;
+            refreshBttn.Text = "Refresh";
+            refreshBttn.UseVisualStyleBackColor = false;
+            refreshBttn.Click += refreshBttn_Click;
             // 
-            // button1
+            // ddlUser
             // 
-            button1.BackColor = Color.Cornsilk;
-            button1.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(353, 35);
-            button1.Name = "button1";
-            button1.Size = new Size(140, 35);
-            button1.TabIndex = 10;
-            button1.Text = "Filter";
-            button1.UseVisualStyleBackColor = false;
+            ddlUser.FormattingEnabled = true;
+            ddlUser.Location = new Point(111, 29);
+            ddlUser.Name = "ddlUser";
+            ddlUser.Size = new Size(202, 29);
+            ddlUser.TabIndex = 18;
             // 
-            // textBox1
+            // filterBttn
             // 
-            textBox1.Location = new Point(130, 37);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(210, 32);
-            textBox1.TabIndex = 1;
+            filterBttn.BackColor = Color.Cornsilk;
+            filterBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            filterBttn.ForeColor = Color.Black;
+            filterBttn.Location = new Point(332, 30);
+            filterBttn.Margin = new Padding(2);
+            filterBttn.Name = "filterBttn";
+            filterBttn.Size = new Size(112, 30);
+            filterBttn.TabIndex = 10;
+            filterBttn.Text = "Filter";
+            filterBttn.UseVisualStyleBackColor = false;
+            filterBttn.Click += filterBttn_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(18, 40);
+            label1.Location = new Point(14, 32);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(108, 27);
+            label1.Size = new Size(90, 22);
             label1.TabIndex = 0;
             label1.Text = "Filter By:";
             // 
-            // dataGridView1
+            // dgvUsers
             // 
-            dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.GridColor = SystemColors.ButtonFace;
-            dataGridView1.Location = new Point(22, 210);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(930, 340);
-            dataGridView1.TabIndex = 1;
+            dgvUsers.BackgroundColor = SystemColors.Control;
+            dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsers.GridColor = SystemColors.ButtonFace;
+            dgvUsers.Location = new Point(18, 168);
+            dgvUsers.Margin = new Padding(2);
+            dgvUsers.Name = "dgvUsers";
+            dgvUsers.RowHeadersWidth = 62;
+            dgvUsers.Size = new Size(744, 272);
+            dgvUsers.TabIndex = 1;
             // 
-            // button3
+            // addBttn
             // 
-            button3.BackColor = Color.Cornsilk;
-            button3.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.Black;
-            button3.Location = new Point(22, 571);
-            button3.Name = "button3";
-            button3.Size = new Size(200, 50);
-            button3.TabIndex = 10;
-            button3.Text = "Add User";
-            button3.UseVisualStyleBackColor = false;
+            addBttn.BackColor = Color.Cornsilk;
+            addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addBttn.ForeColor = Color.Black;
+            addBttn.Location = new Point(18, 457);
+            addBttn.Margin = new Padding(2);
+            addBttn.Name = "addBttn";
+            addBttn.Size = new Size(160, 40);
+            addBttn.TabIndex = 10;
+            addBttn.Text = "Add User";
+            addBttn.UseVisualStyleBackColor = false;
+            addBttn.Click += addBttn_Click;
             // 
-            // button5
+            // editBttn
             // 
-            button5.BackColor = Color.Cornsilk;
-            button5.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button5.ForeColor = Color.Black;
-            button5.Location = new Point(247, 571);
-            button5.Name = "button5";
-            button5.Size = new Size(200, 50);
-            button5.TabIndex = 11;
-            button5.Text = "Edit User";
-            button5.UseVisualStyleBackColor = false;
+            editBttn.BackColor = Color.Cornsilk;
+            editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            editBttn.ForeColor = Color.Black;
+            editBttn.Location = new Point(198, 457);
+            editBttn.Margin = new Padding(2);
+            editBttn.Name = "editBttn";
+            editBttn.Size = new Size(160, 40);
+            editBttn.TabIndex = 11;
+            editBttn.Text = "Edit User";
+            editBttn.UseVisualStyleBackColor = false;
+            editBttn.Click += editBttn_Click;
             // 
-            // button6
+            // deleteBttn
             // 
-            button6.BackColor = Color.IndianRed;
-            button6.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button6.ForeColor = Color.White;
-            button6.Location = new Point(471, 571);
-            button6.Name = "button6";
-            button6.Size = new Size(200, 50);
-            button6.TabIndex = 12;
-            button6.Text = "Delete User";
-            button6.UseVisualStyleBackColor = false;
+            deleteBttn.BackColor = Color.IndianRed;
+            deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            deleteBttn.ForeColor = Color.White;
+            deleteBttn.Location = new Point(377, 457);
+            deleteBttn.Margin = new Padding(2);
+            deleteBttn.Name = "deleteBttn";
+            deleteBttn.Size = new Size(160, 40);
+            deleteBttn.TabIndex = 12;
+            deleteBttn.Text = "Delete User";
+            deleteBttn.UseVisualStyleBackColor = false;
+            deleteBttn.Click += deleteBttn_Click;
             // 
             // returnIcon
             // 
             returnIcon.BackColor = Color.Transparent;
             returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(766, 12);
+            returnIcon.Location = new Point(613, 10);
+            returnIcon.Margin = new Padding(2);
             returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(60, 60);
+            returnIcon.Size = new Size(48, 48);
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 16;
             returnIcon.TabStop = false;
@@ -170,9 +185,10 @@
             // 
             exitIcon.BackColor = Color.Transparent;
             exitIcon.Image = Properties.Resources.logout;
-            exitIcon.Location = new Point(898, 12);
+            exitIcon.Location = new Point(718, 10);
+            exitIcon.Margin = new Padding(2);
             exitIcon.Name = "exitIcon";
-            exitIcon.Size = new Size(60, 60);
+            exitIcon.Size = new Size(48, 48);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 15;
             exitIcon.TabStop = false;
@@ -181,9 +197,10 @@
             // 
             homeIcon.BackColor = Color.Transparent;
             homeIcon.Image = Properties.Resources.home__1_;
-            homeIcon.Location = new Point(832, 12);
+            homeIcon.Location = new Point(666, 10);
+            homeIcon.Margin = new Padding(2);
             homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(60, 60);
+            homeIcon.Size = new Size(48, 48);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 14;
             homeIcon.TabStop = false;
@@ -192,36 +209,38 @@
             // 
             userIcon.BackColor = Color.Transparent;
             userIcon.Image = Properties.Resources.user;
-            userIcon.Location = new Point(19, 12);
+            userIcon.Location = new Point(15, 10);
+            userIcon.Margin = new Padding(2);
             userIcon.Name = "userIcon";
-            userIcon.Size = new Size(60, 60);
+            userIcon.Size = new Size(48, 48);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 13;
             userIcon.TabStop = false;
             // 
             // ManageUser
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(978, 644);
+            ClientSize = new Size(982, 653);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
-            Controls.Add(button6);
-            Controls.Add(button5);
-            Controls.Add(button3);
-            Controls.Add(dataGridView1);
+            Controls.Add(deleteBttn);
+            Controls.Add(editBttn);
+            Controls.Add(addBttn);
+            Controls.Add(dgvUsers);
             Controls.Add(groupBox1);
             DoubleBuffered = true;
             Name = "ManageUser";
             Text = "ManageUser";
+            Load += ManageUser_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvUsers).EndInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
@@ -232,17 +251,20 @@
         #endregion
 
         private GroupBox groupBox1;
+        private Button filterBttn;
         private TextBox textBox1;
         private Label label1;
         private Button button1;
         private Button button2;
-        private DataGridView dataGridView1;
-        private Button button3;
-        private Button button5;
-        private Button button6;
+        private DataGridView dgvUsers;
+        private Button addBttn;
+        private Button editBttn;
+        private Button deleteBttn;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
+        private ComboBox ddlUser;
+        private Button refreshBttn;
     }
 }
