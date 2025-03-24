@@ -36,5 +36,10 @@ namespace FormApp
         {
 
         }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
