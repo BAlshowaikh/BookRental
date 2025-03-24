@@ -126,6 +126,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
@@ -134,6 +135,7 @@
             Controls.Add(button6);
             Controls.Add(dataGridView1);
             Controls.Add(pageTitleTxt);
+            DoubleBuffered = true;
             Name = "Audit_Trails";
             Text = "Audit_Trails";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
