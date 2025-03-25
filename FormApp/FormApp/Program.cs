@@ -1,4 +1,5 @@
 using FormApp;
+using FormApp.Views;
 
 namespace FormApp
 {
@@ -13,7 +14,7 @@ namespace FormApp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-           Application.Run(new Audit_Trails());
+           Application.Run(new ManageCategory());
         }
     }
 }
