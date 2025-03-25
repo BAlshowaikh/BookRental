@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
 
 namespace FormApp.Controllers
 {
+        
         public static class HelperFunctions {
         // Create a method that set up the new form design
         public static void setUpFormDesign(Form form)
@@ -27,11 +29,25 @@ namespace FormApp.Controllers
 
             // Set image layout to strech so it doesn't messed up
             form.BackgroundImageLayout = ImageLayout.Stretch;
-
-            // Function to specify the size for (Add, edit, delete) buttons
             
         }
 
+        public static void exitBtn()
+        {
+            Application.Exit();
+        }
+
+        public static void homePageBtn(Form form)
+        {
+            homePageAdmin homePageAdmin = new homePageAdmin();
+            homePageAdmin.Show();
+            form.Close();
+        }
+
+        public static void returnBtn(Form form)
+        {
+
+        }
 
     }
 }
