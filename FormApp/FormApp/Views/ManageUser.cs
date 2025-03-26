@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +34,8 @@ namespace FormApp
             ddlUser.DisplayMember = "FullName";
             ddlUser.ValueMember = "userId";
             ddlUser.SelectedItem = null;
+
+            RefreshUsersGridView();
         }
 
         private void filterBttn_Click(object sender, EventArgs e)
@@ -65,7 +68,6 @@ namespace FormApp
                         Email = s.Email,
                         Role = s.UserRole.Role
                     }).ToList();
-
                 }
             }
             catch (Exception ex)
@@ -83,26 +85,56 @@ namespace FormApp
 
         private void addBttn_Click(object sender, EventArgs e)
         {
+            AddEditUser addEdit = new AddEditUser();
+            addEdit.StartPosition = FormStartPosition.CenterScreen;
+            addEdit.ShowDialog();
 
+            if(addEdit.DialogResult == DialogResult.OK)
+            {
+                RefreshUsersGridView();
+            }
+            
         }
 
         private void editBttn_Click(object sender, EventArgs e)
         {
+            int selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
 
+            User user = context.Users.Where(x => x.UserId == selectedCell).FirstOrDefault();
+
+            AddEditUser addEdit = new AddEditUser(user);
+            addEdit.StartPosition = FormStartPosition.CenterScreen;
+            addEdit.ShowDialog();
+
+            if (addEdit.DialogResult == DialogResult.OK)
+            {
+                RefreshUsersGridView();
+            }
         }
 
         private void deleteBttn_Click(object sender, EventArgs e)
         {
-            var selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
-
-            User user = context.Users.Where(x => x.UserId == selectedCell).FirstOrDefault();
-
-            if (selectedCell != null)
+            try
             {
-                if (MessageBox.Show("Are you sure you want to delete the user - (" + user.UserId +")?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.OK)
+                if (dgvUsers.SelectedCells.Count > 0)
                 {
-                    context.Users.Remove(user);
+                    int selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
+
+                    User u1 = context.Users.Single(x => x.UserId == selectedCell);
+
+                    if (MessageBox.Show("Are you sure you want to delete the user - (" + u1.UserId + ")?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Users.Remove(u1);
+
+                        context.SaveChanges();
+
+                        RefreshUsersGridView();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

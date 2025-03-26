@@ -29,30 +29,30 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            button2 = new Button();
+            btnViewFeedback = new Button();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
             textBox4 = new TextBox();
-            label5 = new Label();
+            lblAuthorName = new Label();
             textBox3 = new TextBox();
-            label4 = new Label();
+            lblPublishDate = new Label();
             textBox5 = new TextBox();
-            label6 = new Label();
+            lblBookDesc = new Label();
             textBox2 = new TextBox();
-            label3 = new Label();
+            lblBookName = new Label();
             textBox1 = new TextBox();
             textBox6 = new TextBox();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
+            lblBookID = new Label();
+            lblBookCategory = new Label();
+            lblRentalPrice = new Label();
             textBox7 = new TextBox();
-            label10 = new Label();
+            lblBookCondition = new Label();
             textBox8 = new TextBox();
-            label11 = new Label();
+            lblAvailability = new Label();
             textBox9 = new TextBox();
-            label2 = new Label();
+            lblISBN = new Label();
             textBox10 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -73,18 +73,18 @@
             label1.TabIndex = 1;
             label1.Text = "Book Details";
             // 
-            // button2
+            // btnViewFeedback
             // 
-            button2.BackColor = Color.Cornsilk;
-            button2.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.Black;
-            button2.Location = new Point(396, 559);
-            button2.Margin = new Padding(2);
-            button2.Name = "button2";
-            button2.Size = new Size(200, 50);
-            button2.TabIndex = 11;
-            button2.Text = "View Feedback";
-            button2.UseVisualStyleBackColor = false;
+            btnViewFeedback.BackColor = Color.Cornsilk;
+            btnViewFeedback.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnViewFeedback.ForeColor = Color.Black;
+            btnViewFeedback.Location = new Point(396, 559);
+            btnViewFeedback.Margin = new Padding(2);
+            btnViewFeedback.Name = "btnViewFeedback";
+            btnViewFeedback.Size = new Size(200, 50);
+            btnViewFeedback.TabIndex = 11;
+            btnViewFeedback.Text = "View Feedback";
+            btnViewFeedback.UseVisualStyleBackColor = false;
             // 
             // returnIcon
             // 
@@ -142,18 +142,18 @@
             textBox4.Size = new Size(250, 31);
             textBox4.TabIndex = 9;
             // 
-            // label5
+            // lblAuthorName
             // 
-            label5.AutoSize = true;
-            label5.BackColor = Color.Transparent;
-            label5.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.Black;
-            label5.Location = new Point(540, 217);
-            label5.Margin = new Padding(2, 0, 2, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(167, 29);
-            label5.TabIndex = 5;
-            label5.Text = "Author name";
+            lblAuthorName.AutoSize = true;
+            lblAuthorName.BackColor = Color.Transparent;
+            lblAuthorName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAuthorName.ForeColor = Color.Black;
+            lblAuthorName.Location = new Point(540, 217);
+            lblAuthorName.Margin = new Padding(2, 0, 2, 0);
+            lblAuthorName.Name = "lblAuthorName";
+            lblAuthorName.Size = new Size(167, 29);
+            lblAuthorName.TabIndex = 5;
+            lblAuthorName.Text = "Author name";
             // 
             // textBox3
             // 
@@ -163,18 +163,18 @@
             textBox3.Size = new Size(250, 31);
             textBox3.TabIndex = 8;
             // 
-            // label4
+            // lblPublishDate
             // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Black;
-            label4.Location = new Point(21, 455);
-            label4.Margin = new Padding(2, 0, 2, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(192, 29);
-            label4.TabIndex = 4;
-            label4.Text = "Published Date";
+            lblPublishDate.AutoSize = true;
+            lblPublishDate.BackColor = Color.Transparent;
+            lblPublishDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPublishDate.ForeColor = Color.Black;
+            lblPublishDate.Location = new Point(21, 455);
+            lblPublishDate.Margin = new Padding(2, 0, 2, 0);
+            lblPublishDate.Name = "lblPublishDate";
+            lblPublishDate.Size = new Size(192, 29);
+            lblPublishDate.TabIndex = 4;
+            lblPublishDate.Text = "Published Date";
             // 
             // textBox5
             // 
@@ -184,18 +184,18 @@
             textBox5.Size = new Size(250, 31);
             textBox5.TabIndex = 18;
             // 
-            // label6
+            // lblBookDesc
             // 
-            label6.AutoSize = true;
-            label6.BackColor = Color.Transparent;
-            label6.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.Black;
-            label6.Location = new Point(19, 377);
-            label6.Margin = new Padding(2, 0, 2, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(223, 29);
-            label6.TabIndex = 17;
-            label6.Text = "Book Description ";
+            lblBookDesc.AutoSize = true;
+            lblBookDesc.BackColor = Color.Transparent;
+            lblBookDesc.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookDesc.ForeColor = Color.Black;
+            lblBookDesc.Location = new Point(19, 377);
+            lblBookDesc.Margin = new Padding(2, 0, 2, 0);
+            lblBookDesc.Name = "lblBookDesc";
+            lblBookDesc.Size = new Size(223, 29);
+            lblBookDesc.TabIndex = 17;
+            lblBookDesc.Text = "Book Description ";
             // 
             // textBox2
             // 
@@ -205,19 +205,19 @@
             textBox2.Size = new Size(250, 31);
             textBox2.TabIndex = 7;
             // 
-            // label3
+            // lblBookName
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.Black;
-            label3.Location = new Point(19, 214);
-            label3.Margin = new Padding(2, 0, 2, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(150, 29);
-            label3.TabIndex = 3;
-            label3.Text = "Book Name";
-            label3.Click += label3_Click;
+            lblBookName.AutoSize = true;
+            lblBookName.BackColor = Color.Transparent;
+            lblBookName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookName.ForeColor = Color.Black;
+            lblBookName.Location = new Point(19, 214);
+            lblBookName.Margin = new Padding(2, 0, 2, 0);
+            lblBookName.Name = "lblBookName";
+            lblBookName.Size = new Size(150, 29);
+            lblBookName.TabIndex = 3;
+            lblBookName.Text = "Book Name";
+            lblBookName.Click += label3_Click;
             // 
             // textBox1
             // 
@@ -235,44 +235,44 @@
             textBox6.Size = new Size(250, 31);
             textBox6.TabIndex = 20;
             // 
-            // label7
+            // lblBookID
             // 
-            label7.AutoSize = true;
-            label7.BackColor = Color.Transparent;
-            label7.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = Color.Black;
-            label7.Location = new Point(19, 132);
-            label7.Margin = new Padding(2, 0, 2, 0);
-            label7.Name = "label7";
-            label7.Size = new Size(110, 29);
-            label7.TabIndex = 19;
-            label7.Text = "Book ID";
+            lblBookID.AutoSize = true;
+            lblBookID.BackColor = Color.Transparent;
+            lblBookID.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookID.ForeColor = Color.Black;
+            lblBookID.Location = new Point(19, 132);
+            lblBookID.Margin = new Padding(2, 0, 2, 0);
+            lblBookID.Name = "lblBookID";
+            lblBookID.Size = new Size(110, 29);
+            lblBookID.TabIndex = 19;
+            lblBookID.Text = "Book ID";
             // 
-            // label8
+            // lblBookCategory
             // 
-            label8.AutoSize = true;
-            label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = Color.Black;
-            label8.Location = new Point(540, 297);
-            label8.Margin = new Padding(2, 0, 2, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(163, 24);
-            label8.TabIndex = 21;
-            label8.Text = "Book Category ";
+            lblBookCategory.AutoSize = true;
+            lblBookCategory.BackColor = Color.Transparent;
+            lblBookCategory.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookCategory.ForeColor = Color.Black;
+            lblBookCategory.Location = new Point(540, 297);
+            lblBookCategory.Margin = new Padding(2, 0, 2, 0);
+            lblBookCategory.Name = "lblBookCategory";
+            lblBookCategory.Size = new Size(163, 24);
+            lblBookCategory.TabIndex = 21;
+            lblBookCategory.Text = "Book Category ";
             // 
-            // label9
+            // lblRentalPrice
             // 
-            label9.AutoSize = true;
-            label9.BackColor = Color.Transparent;
-            label9.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.Black;
-            label9.Location = new Point(540, 136);
-            label9.Margin = new Padding(2, 0, 2, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(157, 29);
-            label9.TabIndex = 22;
-            label9.Text = "Rental Price";
+            lblRentalPrice.AutoSize = true;
+            lblRentalPrice.BackColor = Color.Transparent;
+            lblRentalPrice.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRentalPrice.ForeColor = Color.Black;
+            lblRentalPrice.Location = new Point(540, 136);
+            lblRentalPrice.Margin = new Padding(2, 0, 2, 0);
+            lblRentalPrice.Name = "lblRentalPrice";
+            lblRentalPrice.Size = new Size(157, 29);
+            lblRentalPrice.TabIndex = 22;
+            lblRentalPrice.Text = "Rental Price";
             // 
             // textBox7
             // 
@@ -282,18 +282,18 @@
             textBox7.Size = new Size(250, 31);
             textBox7.TabIndex = 23;
             // 
-            // label10
+            // lblBookCondition
             // 
-            label10.AutoSize = true;
-            label10.BackColor = Color.Transparent;
-            label10.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.ForeColor = Color.Black;
-            label10.Location = new Point(538, 381);
-            label10.Margin = new Padding(2, 0, 2, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(162, 24);
-            label10.TabIndex = 24;
-            label10.Text = "Book Condition";
+            lblBookCondition.AutoSize = true;
+            lblBookCondition.BackColor = Color.Transparent;
+            lblBookCondition.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookCondition.ForeColor = Color.Black;
+            lblBookCondition.Location = new Point(538, 381);
+            lblBookCondition.Margin = new Padding(2, 0, 2, 0);
+            lblBookCondition.Name = "lblBookCondition";
+            lblBookCondition.Size = new Size(162, 24);
+            lblBookCondition.TabIndex = 24;
+            lblBookCondition.Text = "Book Condition";
             // 
             // textBox8
             // 
@@ -303,18 +303,18 @@
             textBox8.Size = new Size(250, 31);
             textBox8.TabIndex = 25;
             // 
-            // label11
+            // lblAvailability
             // 
-            label11.AutoSize = true;
-            label11.BackColor = Color.Transparent;
-            label11.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.ForeColor = Color.Black;
-            label11.Location = new Point(540, 455);
-            label11.Margin = new Padding(2, 0, 2, 0);
-            label11.Name = "label11";
-            label11.Size = new Size(145, 29);
-            label11.TabIndex = 26;
-            label11.Text = "Availability";
+            lblAvailability.AutoSize = true;
+            lblAvailability.BackColor = Color.Transparent;
+            lblAvailability.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAvailability.ForeColor = Color.Black;
+            lblAvailability.Location = new Point(540, 455);
+            lblAvailability.Margin = new Padding(2, 0, 2, 0);
+            lblAvailability.Name = "lblAvailability";
+            lblAvailability.Size = new Size(145, 29);
+            lblAvailability.TabIndex = 26;
+            lblAvailability.Text = "Availability";
             // 
             // textBox9
             // 
@@ -324,16 +324,16 @@
             textBox9.Size = new Size(250, 31);
             textBox9.TabIndex = 27;
             // 
-            // label2
+            // lblISBN
             // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(19, 287);
-            label2.Name = "label2";
-            label2.Size = new Size(88, 34);
-            label2.TabIndex = 28;
-            label2.Text = "ISBN";
+            lblISBN.AutoSize = true;
+            lblISBN.BackColor = Color.Transparent;
+            lblISBN.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblISBN.Location = new Point(19, 287);
+            lblISBN.Name = "lblISBN";
+            lblISBN.Size = new Size(88, 34);
+            lblISBN.TabIndex = 28;
+            lblISBN.Text = "ISBN";
             // 
             // textBox10
             // 
@@ -352,30 +352,30 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(textBox10);
-            Controls.Add(label2);
+            Controls.Add(lblISBN);
             Controls.Add(textBox9);
-            Controls.Add(label11);
+            Controls.Add(lblAvailability);
             Controls.Add(textBox8);
-            Controls.Add(label10);
+            Controls.Add(lblBookCondition);
             Controls.Add(textBox7);
-            Controls.Add(label9);
-            Controls.Add(label8);
+            Controls.Add(lblRentalPrice);
+            Controls.Add(lblBookCategory);
             Controls.Add(textBox6);
-            Controls.Add(label7);
+            Controls.Add(lblBookID);
             Controls.Add(textBox5);
-            Controls.Add(label6);
+            Controls.Add(lblBookDesc);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
-            Controls.Add(button2);
+            Controls.Add(btnViewFeedback);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
+            Controls.Add(lblAuthorName);
+            Controls.Add(lblPublishDate);
+            Controls.Add(lblBookName);
             Controls.Add(label1);
             DoubleBuffered = true;
             ForeColor = Color.Black;
@@ -393,30 +393,30 @@
         #endregion
 
         private Label label1;
-        private Button button2;
+        private Button btnViewFeedback;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
         private TextBox textBox4;
-        private Label label5;
+        private Label lblAuthorName;
         private TextBox textBox3;
-        private Label label4;
+        private Label lblPublishDate;
         private TextBox textBox5;
-        private Label label6;
+        private Label lblBookDesc;
         private TextBox textBox2;
-        private Label label3;
+        private Label lblBookName;
         private TextBox textBox1;
         private TextBox textBox6;
-        private Label label7;
-        private Label label8;
-        private Label label9;
+        private Label lblBookID;
+        private Label lblBookCategory;
+        private Label lblRentalPrice;
         private TextBox textBox7;
-        private Label label10;
+        private Label lblBookCondition;
         private TextBox textBox8;
-        private Label label11;
+        private Label lblAvailability;
         private TextBox textBox9;
-        private Label label2;
+        private Label lblISBN;
         private TextBox textBox10;
     }
 }
