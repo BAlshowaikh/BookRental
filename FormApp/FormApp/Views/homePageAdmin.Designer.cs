@@ -99,11 +99,11 @@
             // 
             welcomeTxt.AutoSize = true;
             welcomeTxt.BackColor = Color.Transparent;
-            welcomeTxt.Font = new Font("Edwardian Script ITC", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            welcomeTxt.Location = new Point(205, 165);
+            welcomeTxt.Font = new Font("Felix Titling", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            welcomeTxt.Location = new Point(66, 176);
             welcomeTxt.Margin = new Padding(2, 0, 2, 0);
             welcomeTxt.Name = "welcomeTxt";
-            welcomeTxt.Size = new Size(596, 66);
+            welcomeTxt.Size = new Size(854, 52);
             welcomeTxt.TabIndex = 12;
             welcomeTxt.Text = "Welocome to Book Nook Store!";
             // 
@@ -118,6 +118,7 @@
             manageUsersBtn.TabIndex = 13;
             manageUsersBtn.Text = "Manage Users";
             manageUsersBtn.UseVisualStyleBackColor = false;
+            manageUsersBtn.Click += manageUsersBtn_Click;
             // 
             // manageBooksBtn
             // 
@@ -130,6 +131,7 @@
             manageBooksBtn.TabIndex = 14;
             manageBooksBtn.Text = "Manage Books";
             manageBooksBtn.UseVisualStyleBackColor = false;
+            manageBooksBtn.Click += manageBooksBtn_Click;
             // 
             // manageRentalTransictionsBtn
             // 
@@ -140,7 +142,7 @@
             manageRentalTransictionsBtn.Name = "manageRentalTransictionsBtn";
             manageRentalTransictionsBtn.Size = new Size(220, 50);
             manageRentalTransictionsBtn.TabIndex = 15;
-            manageRentalTransictionsBtn.Text = "Manage Rental Transictions";
+            manageRentalTransictionsBtn.Text = "Manage Rental Transactions";
             manageRentalTransictionsBtn.UseVisualStyleBackColor = false;
             // 
             // manageRentalRequestBtn
@@ -154,7 +156,6 @@
             manageRentalRequestBtn.TabIndex = 16;
             manageRentalRequestBtn.Text = "Manage Rental Request";
             manageRentalRequestBtn.UseVisualStyleBackColor = false;
-            manageRentalRequestBtn.Click += button2_Click;
             // 
             // manageRentalRecordsBtn
             // 

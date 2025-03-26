@@ -28,20 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            dgvBooksList = new DataGridView();
             groupBox1 = new GroupBox();
-            comboBox1 = new ComboBox();
-            refreshBttn = new Button();
-            button1 = new Button();
-            label1 = new Label();
+            lblFilterByBookName = new Label();
+            txtFilterByBookID = new TextBox();
+            cbFilterByBookName = new ComboBox();
+            btnRefresh = new Button();
+            btnFilter = new Button();
+            lblfilterByBookID = new Label();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
-            button6 = new Button();
-            button5 = new Button();
-            button3 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            btnDeleteBook = new Button();
+            btnEditBook = new Button();
+            btnAddBook = new Button();
+            btnViewDetails = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvBooksList).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -49,24 +52,26 @@
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dgvBooksList
             // 
-            dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(22, 210);
-            dataGridView1.Margin = new Padding(2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(930, 340);
-            dataGridView1.TabIndex = 2;
+            dgvBooksList.BackgroundColor = SystemColors.Control;
+            dgvBooksList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvBooksList.Location = new Point(22, 210);
+            dgvBooksList.Margin = new Padding(2);
+            dgvBooksList.Name = "dgvBooksList";
+            dgvBooksList.RowHeadersWidth = 62;
+            dgvBooksList.Size = new Size(930, 340);
+            dgvBooksList.TabIndex = 2;
             // 
             // groupBox1
             // 
             groupBox1.BackColor = Color.Transparent;
-            groupBox1.Controls.Add(comboBox1);
-            groupBox1.Controls.Add(refreshBttn);
-            groupBox1.Controls.Add(button1);
-            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(lblFilterByBookName);
+            groupBox1.Controls.Add(txtFilterByBookID);
+            groupBox1.Controls.Add(cbFilterByBookName);
+            groupBox1.Controls.Add(btnRefresh);
+            groupBox1.Controls.Add(btnFilter);
+            groupBox1.Controls.Add(lblfilterByBookID);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
             groupBox1.Location = new Point(22, 92);
@@ -78,53 +83,72 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
             // 
-            // comboBox1
+            // lblFilterByBookName
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(136, 36);
-            comboBox1.Margin = new Padding(4);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(263, 32);
-            comboBox1.TabIndex = 27;
+            lblFilterByBookName.AutoSize = true;
+            lblFilterByBookName.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFilterByBookName.ForeColor = Color.Black;
+            lblFilterByBookName.Location = new Point(333, 45);
+            lblFilterByBookName.Margin = new Padding(2, 0, 2, 0);
+            lblFilterByBookName.Name = "lblFilterByBookName";
+            lblFilterByBookName.Size = new Size(192, 22);
+            lblFilterByBookName.TabIndex = 29;
+            lblFilterByBookName.Text = "Filter by book name:";
             // 
-            // refreshBttn
+            // txtFilterByBookID
             // 
-            refreshBttn.BackColor = Color.Cornsilk;
-            refreshBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            refreshBttn.ForeColor = Color.Black;
-            refreshBttn.Location = new Point(586, 35);
-            refreshBttn.Margin = new Padding(2);
-            refreshBttn.Name = "refreshBttn";
-            refreshBttn.Size = new Size(140, 38);
-            refreshBttn.TabIndex = 20;
-            refreshBttn.Text = "Refresh";
-            refreshBttn.UseVisualStyleBackColor = false;
-            refreshBttn.Click += refreshBttn_Click;
+            txtFilterByBookID.Location = new Point(166, 39);
+            txtFilterByBookID.Name = "txtFilterByBookID";
+            txtFilterByBookID.Size = new Size(150, 32);
+            txtFilterByBookID.TabIndex = 28;
             // 
-            // button1
+            // cbFilterByBookName
             // 
-            button1.BackColor = Color.Cornsilk;
-            button1.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(429, 35);
-            button1.Margin = new Padding(2);
-            button1.Name = "button1";
-            button1.Size = new Size(140, 38);
-            button1.TabIndex = 10;
-            button1.Text = "Filter";
-            button1.UseVisualStyleBackColor = false;
+            cbFilterByBookName.FormattingEnabled = true;
+            cbFilterByBookName.Location = new Point(528, 40);
+            cbFilterByBookName.Margin = new Padding(4);
+            cbFilterByBookName.Name = "cbFilterByBookName";
+            cbFilterByBookName.Size = new Size(168, 32);
+            cbFilterByBookName.TabIndex = 27;
             // 
-            // label1
+            // btnRefresh
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(18, 40);
-            label1.Margin = new Padding(2, 0, 2, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(108, 27);
-            label1.TabIndex = 0;
-            label1.Text = "Filter By:";
+            btnRefresh.BackColor = Color.Cornsilk;
+            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.ForeColor = Color.Black;
+            btnRefresh.Location = new Point(813, 35);
+            btnRefresh.Margin = new Padding(2);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(105, 38);
+            btnRefresh.TabIndex = 20;
+            btnRefresh.Text = "Reset";
+            btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += refreshBttn_Click;
+            // 
+            // btnFilter
+            // 
+            btnFilter.BackColor = Color.Cornsilk;
+            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFilter.ForeColor = Color.Black;
+            btnFilter.Location = new Point(702, 35);
+            btnFilter.Margin = new Padding(2);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(105, 38);
+            btnFilter.TabIndex = 10;
+            btnFilter.Text = "Filter";
+            btnFilter.UseVisualStyleBackColor = false;
+            // 
+            // lblfilterByBookID
+            // 
+            lblfilterByBookID.AutoSize = true;
+            lblfilterByBookID.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblfilterByBookID.ForeColor = Color.Black;
+            lblfilterByBookID.Location = new Point(6, 45);
+            lblfilterByBookID.Margin = new Padding(2, 0, 2, 0);
+            lblfilterByBookID.Name = "lblfilterByBookID";
+            lblfilterByBookID.Size = new Size(161, 22);
+            lblfilterByBookID.TabIndex = 0;
+            lblfilterByBookID.Text = "Filter by book id:";
             // 
             // returnIcon
             // 
@@ -175,44 +199,57 @@
             userIcon.TabIndex = 20;
             userIcon.TabStop = false;
             // 
-            // button6
+            // btnDeleteBook
             // 
-            button6.BackColor = Color.IndianRed;
-            button6.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button6.ForeColor = Color.White;
-            button6.Location = new Point(472, 578);
-            button6.Margin = new Padding(2);
-            button6.Name = "button6";
-            button6.Size = new Size(200, 50);
-            button6.TabIndex = 26;
-            button6.Text = "Delete Book";
-            button6.UseVisualStyleBackColor = false;
+            btnDeleteBook.BackColor = Color.IndianRed;
+            btnDeleteBook.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDeleteBook.ForeColor = Color.White;
+            btnDeleteBook.Location = new Point(752, 578);
+            btnDeleteBook.Margin = new Padding(2);
+            btnDeleteBook.Name = "btnDeleteBook";
+            btnDeleteBook.Size = new Size(200, 50);
+            btnDeleteBook.TabIndex = 26;
+            btnDeleteBook.Text = "Delete Book";
+            btnDeleteBook.UseVisualStyleBackColor = false;
             // 
-            // button5
+            // btnEditBook
             // 
-            button5.BackColor = Color.Cornsilk;
-            button5.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button5.ForeColor = Color.Black;
-            button5.Location = new Point(248, 578);
-            button5.Margin = new Padding(2);
-            button5.Name = "button5";
-            button5.Size = new Size(200, 50);
-            button5.TabIndex = 25;
-            button5.Text = "Edit Book";
-            button5.UseVisualStyleBackColor = false;
+            btnEditBook.BackColor = Color.Cornsilk;
+            btnEditBook.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEditBook.ForeColor = Color.Black;
+            btnEditBook.Location = new Point(266, 578);
+            btnEditBook.Margin = new Padding(2);
+            btnEditBook.Name = "btnEditBook";
+            btnEditBook.Size = new Size(200, 50);
+            btnEditBook.TabIndex = 25;
+            btnEditBook.Text = "Edit Book";
+            btnEditBook.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnAddBook
             // 
-            button3.BackColor = Color.Cornsilk;
-            button3.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.Black;
-            button3.Location = new Point(22, 578);
-            button3.Margin = new Padding(2);
-            button3.Name = "button3";
-            button3.Size = new Size(200, 50);
-            button3.TabIndex = 24;
-            button3.Text = "Add Book";
-            button3.UseVisualStyleBackColor = false;
+            btnAddBook.BackColor = Color.Cornsilk;
+            btnAddBook.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAddBook.ForeColor = Color.Black;
+            btnAddBook.Location = new Point(24, 578);
+            btnAddBook.Margin = new Padding(2);
+            btnAddBook.Name = "btnAddBook";
+            btnAddBook.Size = new Size(200, 50);
+            btnAddBook.TabIndex = 24;
+            btnAddBook.Text = "Add Book";
+            btnAddBook.UseVisualStyleBackColor = false;
+            // 
+            // btnViewDetails
+            // 
+            btnViewDetails.BackColor = Color.Cornsilk;
+            btnViewDetails.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnViewDetails.ForeColor = Color.Black;
+            btnViewDetails.Location = new Point(509, 578);
+            btnViewDetails.Margin = new Padding(2);
+            btnViewDetails.Name = "btnViewDetails";
+            btnViewDetails.Size = new Size(200, 50);
+            btnViewDetails.TabIndex = 27;
+            btnViewDetails.Text = "View Book Details";
+            btnViewDetails.UseVisualStyleBackColor = false;
             // 
             // bookList
             // 
@@ -222,20 +259,21 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
-            Controls.Add(button6);
-            Controls.Add(button5);
-            Controls.Add(button3);
+            Controls.Add(btnViewDetails);
+            Controls.Add(btnDeleteBook);
+            Controls.Add(btnEditBook);
+            Controls.Add(btnAddBook);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
             Controls.Add(groupBox1);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvBooksList);
             DoubleBuffered = true;
             Margin = new Padding(4);
             Name = "bookList";
             Text = "bookList";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvBooksList).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
@@ -246,18 +284,21 @@
         }
 
         #endregion
-        private DataGridView dataGridView1;
+        private DataGridView dgvBooksList;
         private GroupBox groupBox1;
-        private Button button1;
-        private Label label1;
+        private Button btnFilter;
+        private Label lblfilterByBookID;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
-        private Button button6;
-        private Button button5;
-        private Button button3;
-        private Button refreshBttn;
-        private ComboBox comboBox1;
+        private Button btnDeleteBook;
+        private Button btnEditBook;
+        private Button btnAddBook;
+        private Button btnRefresh;
+        private ComboBox cbFilterByBookName;
+        private TextBox txtFilterByBookID;
+        private Label lblFilterByBookName;
+        private Button btnViewDetails;
     }
 }
