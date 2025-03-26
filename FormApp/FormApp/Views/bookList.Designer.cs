@@ -62,6 +62,7 @@
             dgvBooksList.RowHeadersWidth = 62;
             dgvBooksList.Size = new Size(930, 340);
             dgvBooksList.TabIndex = 2;
+            dgvBooksList.CellContentClick += dgvBooksList_CellContentClick;
             // 
             // groupBox1
             // 
@@ -250,6 +251,7 @@
             btnViewDetails.TabIndex = 27;
             btnViewDetails.Text = "View Book Details";
             btnViewDetails.UseVisualStyleBackColor = false;
+            btnViewDetails.Click += btnViewDetails_Click;
             // 
             // bookList
             // 
@@ -273,6 +275,7 @@
             Margin = new Padding(4);
             Name = "bookList";
             Text = "bookList";
+            Load += bookList_Load;
             ((System.ComponentModel.ISupportInitialize)dgvBooksList).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
