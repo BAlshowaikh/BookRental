@@ -47,5 +47,10 @@ namespace FormApp.Views
             returnRecordForm.Show();
             this.Hide();
         }
+
+        private void manageBooksBtn_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
