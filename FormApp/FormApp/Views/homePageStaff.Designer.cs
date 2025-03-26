@@ -111,6 +111,7 @@
             manageBooksBtn.TabIndex = 14;
             manageBooksBtn.Text = "Manage Books";
             manageBooksBtn.UseVisualStyleBackColor = false;
+            manageBooksBtn.Click += manageBooksBtn_Click_1;
             // 
             // manageRentalRequestsBtn
             // 
