@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BookRentalObject;
 
 namespace FormApp
 {
     public partial class bookDetails : Form
     {
+        BookRentalDBContext context;
         public bookDetails()
         {
             InitializeComponent();
