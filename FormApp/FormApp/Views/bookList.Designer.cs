@@ -32,7 +32,7 @@
             groupBox1 = new GroupBox();
             lblFilterByBookName = new Label();
             txtFilterByBookID = new TextBox();
-            cbFilterByBookName = new ComboBox();
+            ddlFilterByBookName = new ComboBox();
             btnRefresh = new Button();
             btnFilter = new Button();
             lblfilterByBookID = new Label();
@@ -69,7 +69,7 @@
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(lblFilterByBookName);
             groupBox1.Controls.Add(txtFilterByBookID);
-            groupBox1.Controls.Add(cbFilterByBookName);
+            groupBox1.Controls.Add(ddlFilterByBookName);
             groupBox1.Controls.Add(btnRefresh);
             groupBox1.Controls.Add(btnFilter);
             groupBox1.Controls.Add(lblfilterByBookID);
@@ -103,14 +103,15 @@
             txtFilterByBookID.Size = new Size(150, 32);
             txtFilterByBookID.TabIndex = 28;
             // 
-            // cbFilterByBookName
+            // ddlFilterByBookName
             // 
-            cbFilterByBookName.FormattingEnabled = true;
-            cbFilterByBookName.Location = new Point(528, 40);
-            cbFilterByBookName.Margin = new Padding(4);
-            cbFilterByBookName.Name = "cbFilterByBookName";
-            cbFilterByBookName.Size = new Size(168, 32);
-            cbFilterByBookName.TabIndex = 27;
+            ddlFilterByBookName.FormattingEnabled = true;
+            ddlFilterByBookName.Location = new Point(528, 40);
+            ddlFilterByBookName.Margin = new Padding(4);
+            ddlFilterByBookName.Name = "ddlFilterByBookName";
+            ddlFilterByBookName.Size = new Size(168, 32);
+            ddlFilterByBookName.TabIndex = 27;
+            //ddlFilterByBookName.SelectedIndexChanged += ddlFilterByBookName_SelectedIndexChanged;
             // 
             // btnRefresh
             // 
@@ -138,6 +139,7 @@
             btnFilter.TabIndex = 10;
             btnFilter.Text = "Filter";
             btnFilter.UseVisualStyleBackColor = false;
+            btnFilter.Click += btnFilter_Click;
             // 
             // lblfilterByBookID
             // 
@@ -299,7 +301,7 @@
         private Button btnEditBook;
         private Button btnAddBook;
         private Button btnRefresh;
-        private ComboBox cbFilterByBookName;
+        private ComboBox ddlFilterByBookName;
         private TextBox txtFilterByBookID;
         private Label lblFilterByBookName;
         private Button btnViewDetails;
