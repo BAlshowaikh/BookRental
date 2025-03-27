@@ -111,7 +111,6 @@
             ddlFilterByBookName.Name = "ddlFilterByBookName";
             ddlFilterByBookName.Size = new Size(168, 32);
             ddlFilterByBookName.TabIndex = 27;
-            //ddlFilterByBookName.SelectedIndexChanged += ddlFilterByBookName_SelectedIndexChanged;
             // 
             // btnRefresh
             // 
@@ -240,6 +239,7 @@
             btnAddBook.TabIndex = 24;
             btnAddBook.Text = "Add Book";
             btnAddBook.UseVisualStyleBackColor = false;
+            btnAddBook.Click += btnAddBook_Click;
             // 
             // btnViewDetails
             // 
