@@ -35,8 +35,8 @@
             lastNameTxt = new TextBox();
             label4 = new Label();
             emailTxt = new TextBox();
-            SaveBtn = new Button();
-            button1 = new Button();
+            saveBtn = new Button();
+            cancelBtn = new Button();
             returnIcon = new PictureBox();
             homeIcon = new PictureBox();
             exitIcon = new PictureBox();
@@ -112,28 +112,30 @@
             emailTxt.Size = new Size(399, 31);
             emailTxt.TabIndex = 7;
             // 
-            // SaveBtn
+            // saveBtn
             // 
-            SaveBtn.BackColor = Color.Cornsilk;
-            SaveBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            SaveBtn.Location = new Point(242, 413);
-            SaveBtn.Name = "SaveBtn";
-            SaveBtn.Size = new Size(200, 50);
-            SaveBtn.TabIndex = 9;
-            SaveBtn.Text = "Save";
-            SaveBtn.UseVisualStyleBackColor = false;
+            saveBtn.BackColor = Color.Cornsilk;
+            saveBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            saveBtn.Location = new Point(242, 413);
+            saveBtn.Name = "saveBtn";
+            saveBtn.Size = new Size(200, 50);
+            saveBtn.TabIndex = 9;
+            saveBtn.Text = "Save";
+            saveBtn.UseVisualStyleBackColor = false;
+            saveBtn.Click += saveBtn_Click;
             // 
-            // button1
+            // cancelBtn
             // 
-            button1.BackColor = Color.IndianRed;
-            button1.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(523, 413);
-            button1.Name = "button1";
-            button1.Size = new Size(200, 50);
-            button1.TabIndex = 10;
-            button1.Text = "Cancel";
-            button1.UseVisualStyleBackColor = false;
+            cancelBtn.BackColor = Color.IndianRed;
+            cancelBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cancelBtn.ForeColor = Color.White;
+            cancelBtn.Location = new Point(523, 413);
+            cancelBtn.Name = "cancelBtn";
+            cancelBtn.Size = new Size(200, 50);
+            cancelBtn.TabIndex = 10;
+            cancelBtn.Text = "Cancel";
+            cancelBtn.UseVisualStyleBackColor = false;
+            cancelBtn.Click += cancelBtn_Click;
             // 
             // returnIcon
             // 
@@ -177,8 +179,8 @@
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(returnIcon);
-            Controls.Add(button1);
-            Controls.Add(SaveBtn);
+            Controls.Add(cancelBtn);
+            Controls.Add(saveBtn);
             Controls.Add(emailTxt);
             Controls.Add(label4);
             Controls.Add(lastNameTxt);
@@ -214,5 +216,7 @@
         private TextBox firstNameTxt;
         private TextBox lastNameTxt;
         private TextBox emailTxt;
+        private Button saveBtn;
+        private Button cancelBtn;
     }
 }
