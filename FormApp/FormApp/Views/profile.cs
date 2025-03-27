@@ -48,6 +48,36 @@ namespace FormApp.Views
             con.Close();
         }
 
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            string firstName = firstNameTxt.Text;
+            string lastName = lastNameTxt.Text;
+            string email = emailTxt.Text;
+
+            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookNookDB;Integrated Security=True";
+            SqlConnection con = new SqlConnection(connection);
+            con.Open();
+
+            string query = "UPDATE Users Set firstName = ' " + firstName + " ', lastName = ' "+ lastName +" ', Email '"+ email+ " ' WHERE UserID = " + currentUserId;
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            int result = cmd.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                MessageBox.Show("Profile updated");
+            }
+            else
+            {
+                MessageBox.Show("Update failed");
+            }
+            con.Close();
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
 
