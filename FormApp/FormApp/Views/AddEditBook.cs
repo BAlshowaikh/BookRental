@@ -16,12 +16,12 @@ namespace FormApp.Views
     {
         BookRentalDBContext context;
         Book newBook;
-        public AddEditBook(Form parentForm)
+        public AddEditBook()
         {
             InitializeComponent();
             context = new BookRentalDBContext();
             newBook = new Book();
-            this.Parent = parentForm; //When this form is called it will take the parent form (for return button)
+            HelperFunctions.setUpFormDesign(this);
         }
 
         // In case of "Edit" Option
@@ -30,7 +30,6 @@ namespace FormApp.Views
             InitializeComponent();
             context = new BookRentalDBContext();
             this.newBook = updatedBook;
-
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -40,6 +39,8 @@ namespace FormApp.Views
             {
                 Book newBook = new Book();
 
+                txtBookId.Text = "Generated automatically";
+                txtBookId.ReadOnly = true;
                 newBook.Name = txtBookName.Text;
                 newBook.Isbn = txtBookISBN.Text;
                 newBook.Description = txtBookDesc.Text;
@@ -60,7 +61,7 @@ namespace FormApp.Views
                 }
                 context.SaveChanges();
 
-                txtBookId.Text = newBook.BookId.ToString();
+                //txtBookId.Text = newBook.BookId.ToString();
 
                 MessageBox.Show($"Book added successfully! ID: {newBook.BookId}",
                                "Success",
@@ -106,7 +107,7 @@ namespace FormApp.Views
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            this.Close(); 
         }
 
         private void homeIcon_Click(object sender, EventArgs e)
@@ -121,8 +122,8 @@ namespace FormApp.Views
 
         private void returnIcon_Click(object sender, EventArgs e)
         {
-            this.Close();
-            Parent.Show();
+           // this.Close();
+            //Parent.Show();
         }
     }
 }

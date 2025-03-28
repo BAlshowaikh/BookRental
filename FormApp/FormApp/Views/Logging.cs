@@ -16,6 +16,7 @@ namespace FormApp.Views
         public Logging()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void homeIcon_Click(object sender, EventArgs e)

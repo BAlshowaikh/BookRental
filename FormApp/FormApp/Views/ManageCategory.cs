@@ -20,6 +20,7 @@ namespace FormApp.Views
         public ManageCategory()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
         }
 

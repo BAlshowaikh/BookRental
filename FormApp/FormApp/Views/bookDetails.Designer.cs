@@ -384,6 +384,7 @@
             Margin = new Padding(2);
             Name = "bookDetails";
             Text = "bookDetails";
+            Load += bookDetails_Load;
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();

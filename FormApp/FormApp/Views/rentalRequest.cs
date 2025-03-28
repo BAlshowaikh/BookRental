@@ -19,6 +19,7 @@ namespace FormApp.Views
         public rentalRequest()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void rentalRequest_Load(object sender, EventArgs e)

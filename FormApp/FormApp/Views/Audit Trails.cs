@@ -16,6 +16,7 @@ namespace FormApp
         public Audit_Trails()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void Audit_Trails_Load(object sender, EventArgs e)

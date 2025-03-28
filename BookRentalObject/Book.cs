@@ -56,5 +56,6 @@ namespace BookRentalObject
         public virtual ICollection<RentalRequest> RentalRequests { get; set; }
         [InverseProperty("Book")]
         public virtual ICollection<ReturnRecord> ReturnRecords { get; set; }
+
     }
 }

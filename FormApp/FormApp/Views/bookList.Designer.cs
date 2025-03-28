@@ -44,6 +44,8 @@
             btnAddBook = new Button();
             btnViewDetails = new Button();
             homeIcon = new PictureBox();
+            pageTitleTxt = new Label();
+            refreshBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvBooksList).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
@@ -56,12 +58,13 @@
             // 
             dgvBooksList.BackgroundColor = SystemColors.Control;
             dgvBooksList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvBooksList.Location = new Point(22, 210);
+            dgvBooksList.Location = new Point(22, 195);
             dgvBooksList.Margin = new Padding(2);
             dgvBooksList.Name = "dgvBooksList";
             dgvBooksList.RowHeadersWidth = 62;
-            dgvBooksList.Size = new Size(930, 340);
+            dgvBooksList.Size = new Size(930, 329);
             dgvBooksList.TabIndex = 2;
+            dgvBooksList.CellClick += dgvBooksList_CellClick;
             dgvBooksList.CellContentClick += dgvBooksList_CellContentClick;
             // 
             // groupBox1
@@ -75,7 +78,7 @@
             groupBox1.Controls.Add(lblfilterByBookID);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
-            groupBox1.Location = new Point(22, 92);
+            groupBox1.Location = new Point(22, 76);
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
@@ -201,6 +204,7 @@
             btnDeleteBook.TabIndex = 26;
             btnDeleteBook.Text = "Delete Book";
             btnDeleteBook.UseVisualStyleBackColor = false;
+            btnDeleteBook.Click += btnDeleteBook_Click;
             // 
             // btnEditBook
             // 
@@ -256,6 +260,31 @@
             homeIcon.TabStop = false;
             homeIcon.Click += homeIcon_Click;
             // 
+            // pageTitleTxt
+            // 
+            pageTitleTxt.AutoSize = true;
+            pageTitleTxt.BackColor = Color.Transparent;
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.ForeColor = Color.Cornsilk;
+            pageTitleTxt.Location = new Point(339, 9);
+            pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
+            pageTitleTxt.Name = "pageTitleTxt";
+            pageTitleTxt.Size = new Size(268, 63);
+            pageTitleTxt.TabIndex = 29;
+            pageTitleTxt.Text = "Book List";
+            // 
+            // refreshBtn
+            // 
+            refreshBtn.BackColor = Color.LightGray;
+            refreshBtn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            refreshBtn.Location = new Point(840, 529);
+            refreshBtn.Name = "refreshBtn";
+            refreshBtn.Size = new Size(110, 35);
+            refreshBtn.TabIndex = 30;
+            refreshBtn.Text = "Refresh";
+            refreshBtn.UseVisualStyleBackColor = false;
+            refreshBtn.Click += refreshBtn_Click;
+            // 
             // bookList
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -264,6 +293,8 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(refreshBtn);
+            Controls.Add(pageTitleTxt);
             Controls.Add(homeIcon);
             Controls.Add(btnViewDetails);
             Controls.Add(btnDeleteBook);
@@ -287,6 +318,7 @@
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -306,5 +338,7 @@
         private Label lblFilterByBookName;
         private Button btnViewDetails;
         private PictureBox homeIcon;
+        private Label pageTitleTxt;
+        private Button refreshBtn;
     }
 }
