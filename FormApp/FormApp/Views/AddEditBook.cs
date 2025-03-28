@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookRentalObject;
+using FormApp.Controllers;
 
 namespace FormApp.Views
 {
@@ -15,11 +16,12 @@ namespace FormApp.Views
     {
         BookRentalDBContext context;
         Book newBook;
-        public AddEditBook()
+        public AddEditBook(Form parentForm)
         {
             InitializeComponent();
             context = new BookRentalDBContext();
             newBook = new Book();
+            this.Parent = parentForm; //When this form is called it will take the parent form (for return button)
         }
 
         // In case of "Edit" Option
@@ -28,7 +30,6 @@ namespace FormApp.Views
             InitializeComponent();
             context = new BookRentalDBContext();
             this.newBook = updatedBook;
-
 
         }
 
@@ -106,6 +107,22 @@ namespace FormApp.Views
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
+
+        private void returnIcon_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Parent.Show();
         }
     }
 }

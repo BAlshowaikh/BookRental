@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using BookRentalObject;
 using FormApp.Views;
 using Microsoft.EntityFrameworkCore;
+using FormApp.Controllers;
 
 namespace FormApp
 {
@@ -163,10 +164,20 @@ namespace FormApp
 
         private void btnAddBook_Click(object sender, EventArgs e)
         {
-            AddEditBook addEditBook = new AddEditBook();
+            AddEditBook addEditBook = new AddEditBook(this);
             addEditBook.Show();
             //this.Close();
             LoadBookData();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }

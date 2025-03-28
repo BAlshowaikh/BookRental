@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using FormApp.Views;
 using System;
 using System.Collections.Generic;
@@ -89,11 +90,11 @@ namespace FormApp
             addEdit.StartPosition = FormStartPosition.CenterScreen;
             addEdit.ShowDialog();
 
-            if(addEdit.DialogResult == DialogResult.OK)
+            if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshUsersGridView();
             }
-            
+
         }
 
         private void editBttn_Click(object sender, EventArgs e)
@@ -136,6 +137,16 @@ namespace FormApp
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }

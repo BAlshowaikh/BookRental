@@ -49,5 +49,12 @@ namespace FormApp.Controllers
 
         }
 
+        public static void navigationToPage(Form currentForm, Form newForm)
+        {
+            newForm.Show();
+            currentForm.Hide();
+            //newForm.StartPosition = FormStartPosition.CenterScreen;
+        }
+
     }
 }

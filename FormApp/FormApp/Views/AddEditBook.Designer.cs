@@ -84,6 +84,7 @@
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 17;
             returnIcon.TabStop = false;
+            returnIcon.Click += returnIcon_Click;
             // 
             // homeIcon
             // 
@@ -96,6 +97,7 @@
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 18;
             homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
             // 
             // exitIcon
             // 
@@ -108,6 +110,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 19;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // txtBookId
             // 
