@@ -1,6 +1,6 @@
-﻿namespace FormApp.Views
+﻿namespace FormApp
 {
-    partial class returnRecord
+    partial class Audit_Trails
     {
         /// <summary>
         /// Required designer variable.
@@ -29,25 +29,24 @@
         private void InitializeComponent()
         {
             pageTitleTxt = new Label();
+            dgvAuditTrail = new DataGridView();
+            btnRefresh = new Button();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
-            dgvReturnRecourd = new DataGridView();
-            btnRefresh = new Button();
-            btnDetails = new Button();
             filterGB = new GroupBox();
-            ddlFilterBook = new ComboBox();
-            FilterbyBook = new Label();
             btnResetFilter = new Button();
             btnFilter = new Button();
-            txtFilterRecordNo = new TextBox();
-            FilterbyRecourdNo = new Label();
+            ddlFilterUser = new ComboBox();
+            FilterbyUser = new Label();
+            txtFilterTrailsNo = new TextBox();
+            FilterbyLoginTrailsNo = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvAuditTrail).BeginInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvReturnRecourd).BeginInit();
             filterGB.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,12 +56,37 @@
             pageTitleTxt.BackColor = Color.Transparent;
             pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(251, 9);
+            pageTitleTxt.Location = new Point(315, 9);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
             pageTitleTxt.Name = "pageTitleTxt";
-            pageTitleTxt.Size = new Size(466, 63);
-            pageTitleTxt.TabIndex = 4;
-            pageTitleTxt.Text = "Return Recourds";
+            pageTitleTxt.Size = new Size(327, 63);
+            pageTitleTxt.TabIndex = 3;
+            pageTitleTxt.Text = "Audit Trails";
+            // 
+            // dgvAuditTrail
+            // 
+            dgvAuditTrail.BackgroundColor = SystemColors.Control;
+            dgvAuditTrail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvAuditTrail.Location = new Point(93, 175);
+            dgvAuditTrail.Margin = new Padding(2);
+            dgvAuditTrail.Name = "dgvAuditTrail";
+            dgvAuditTrail.RowHeadersWidth = 62;
+            dgvAuditTrail.Size = new Size(792, 392);
+            dgvAuditTrail.TabIndex = 4;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.BackColor = Color.Cornsilk;
+            btnRefresh.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.ForeColor = Color.Black;
+            btnRefresh.Location = new Point(31, 576);
+            btnRefresh.Margin = new Padding(2);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(162, 51);
+            btnRefresh.TabIndex = 20;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // returnIcon
             // 
@@ -73,7 +97,7 @@
             returnIcon.Name = "returnIcon";
             returnIcon.Size = new Size(40, 40);
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 28;
+            returnIcon.TabIndex = 24;
             returnIcon.TabStop = false;
             // 
             // exitIcon
@@ -85,7 +109,7 @@
             exitIcon.Name = "exitIcon";
             exitIcon.Size = new Size(40, 40);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            exitIcon.TabIndex = 27;
+            exitIcon.TabIndex = 23;
             exitIcon.TabStop = false;
             // 
             // homeIcon
@@ -97,7 +121,7 @@
             homeIcon.Name = "homeIcon";
             homeIcon.Size = new Size(40, 40);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            homeIcon.TabIndex = 26;
+            homeIcon.TabIndex = 22;
             homeIcon.TabStop = false;
             // 
             // userIcon
@@ -109,79 +133,23 @@
             userIcon.Name = "userIcon";
             userIcon.Size = new Size(40, 40);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            userIcon.TabIndex = 25;
+            userIcon.TabIndex = 21;
             userIcon.TabStop = false;
-            // 
-            // dgvReturnRecourd
-            // 
-            dgvReturnRecourd.BackgroundColor = SystemColors.Control;
-            dgvReturnRecourd.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvReturnRecourd.Location = new Point(93, 175);
-            dgvReturnRecourd.Margin = new Padding(2);
-            dgvReturnRecourd.Name = "dgvReturnRecourd";
-            dgvReturnRecourd.RowHeadersWidth = 62;
-            dgvReturnRecourd.Size = new Size(792, 392);
-            dgvReturnRecourd.TabIndex = 29;
-            // 
-            // btnRefresh
-            // 
-            btnRefresh.BackColor = Color.Cornsilk;
-            btnRefresh.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnRefresh.ForeColor = Color.Black;
-            btnRefresh.Location = new Point(31, 576);
-            btnRefresh.Margin = new Padding(2);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(162, 51);
-            btnRefresh.TabIndex = 30;
-            btnRefresh.Text = "Refresh";
-            btnRefresh.UseVisualStyleBackColor = false;
-            btnRefresh.Click += btnRefresh_Click;
-            // 
-            // btnDetails
-            // 
-            btnDetails.BackColor = Color.Cornsilk;
-            btnDetails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnDetails.ForeColor = Color.Black;
-            btnDetails.Location = new Point(208, 576);
-            btnDetails.Margin = new Padding(2);
-            btnDetails.Name = "btnDetails";
-            btnDetails.Size = new Size(162, 51);
-            btnDetails.TabIndex = 31;
-            btnDetails.Text = "Details";
-            btnDetails.UseVisualStyleBackColor = false;
             // 
             // filterGB
             // 
-            filterGB.Controls.Add(ddlFilterBook);
-            filterGB.Controls.Add(FilterbyBook);
             filterGB.Controls.Add(btnResetFilter);
             filterGB.Controls.Add(btnFilter);
-            filterGB.Controls.Add(txtFilterRecordNo);
-            filterGB.Controls.Add(FilterbyRecourdNo);
+            filterGB.Controls.Add(ddlFilterUser);
+            filterGB.Controls.Add(FilterbyUser);
+            filterGB.Controls.Add(txtFilterTrailsNo);
+            filterGB.Controls.Add(FilterbyLoginTrailsNo);
             filterGB.Location = new Point(93, 86);
             filterGB.Name = "filterGB";
             filterGB.Size = new Size(792, 72);
-            filterGB.TabIndex = 38;
+            filterGB.TabIndex = 39;
             filterGB.TabStop = false;
             filterGB.Text = "Filter";
-            // 
-            // ddlFilterBook
-            // 
-            ddlFilterBook.FormattingEnabled = true;
-            ddlFilterBook.Location = new Point(394, 26);
-            ddlFilterBook.Margin = new Padding(4, 5, 4, 5);
-            ddlFilterBook.Name = "ddlFilterBook";
-            ddlFilterBook.Size = new Size(174, 33);
-            ddlFilterBook.TabIndex = 41;
-            // 
-            // FilterbyBook
-            // 
-            FilterbyBook.AutoSize = true;
-            FilterbyBook.Location = new Point(268, 31);
-            FilterbyBook.Name = "FilterbyBook";
-            FilterbyBook.Size = new Size(125, 25);
-            FilterbyBook.TabIndex = 40;
-            FilterbyBook.Text = "Filter by Book:";
             // 
             // btnResetFilter
             // 
@@ -212,47 +180,66 @@
             btnFilter.UseVisualStyleBackColor = false;
             btnFilter.Click += btnFilter_Click;
             // 
-            // txtFilterRecordNo
+            // ddlFilterUser
             // 
-            txtFilterRecordNo.Location = new Point(194, 29);
-            txtFilterRecordNo.Name = "txtFilterRecordNo";
-            txtFilterRecordNo.Size = new Size(68, 31);
-            txtFilterRecordNo.TabIndex = 1;
+            ddlFilterUser.FormattingEnabled = true;
+            ddlFilterUser.Location = new Point(385, 26);
+            ddlFilterUser.Margin = new Padding(4, 5, 4, 5);
+            ddlFilterUser.Name = "ddlFilterUser";
+            ddlFilterUser.Size = new Size(174, 33);
+            ddlFilterUser.TabIndex = 38;
             // 
-            // FilterbyRecourdNo
+            // FilterbyUser
             // 
-            FilterbyRecourdNo.AutoSize = true;
-            FilterbyRecourdNo.Location = new Point(12, 31);
-            FilterbyRecourdNo.Name = "FilterbyRecourdNo";
-            FilterbyRecourdNo.Size = new Size(178, 25);
-            FilterbyRecourdNo.TabIndex = 0;
-            FilterbyRecourdNo.Text = "Filter by Recourd No:";
+            FilterbyUser.AutoSize = true;
+            FilterbyUser.Location = new Point(259, 31);
+            FilterbyUser.Name = "FilterbyUser";
+            FilterbyUser.Size = new Size(119, 25);
+            FilterbyUser.TabIndex = 2;
+            FilterbyUser.Text = "Filter by User:";
             // 
-            // returnRecord
+            // txtFilterTrailsNo
+            // 
+            txtFilterTrailsNo.Location = new Point(169, 29);
+            txtFilterTrailsNo.Name = "txtFilterTrailsNo";
+            txtFilterTrailsNo.Size = new Size(68, 31);
+            txtFilterTrailsNo.TabIndex = 1;
+            // 
+            // FilterbyLoginTrailsNo
+            // 
+            FilterbyLoginTrailsNo.AutoSize = true;
+            FilterbyLoginTrailsNo.Location = new Point(12, 31);
+            FilterbyLoginTrailsNo.Name = "FilterbyLoginTrailsNo";
+            FilterbyLoginTrailsNo.Size = new Size(151, 25);
+            FilterbyLoginTrailsNo.TabIndex = 0;
+            FilterbyLoginTrailsNo.Text = "Filter by Trails No:";
+            // 
+            // Audit_Trails
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(filterGB);
-            Controls.Add(btnDetails);
-            Controls.Add(btnRefresh);
-            Controls.Add(dgvReturnRecourd);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
+            Controls.Add(btnRefresh);
+            Controls.Add(dgvAuditTrail);
             Controls.Add(pageTitleTxt);
             DoubleBuffered = true;
-            Name = "returnRecord";
-            Text = "returnRecord";
-            Load += returnRecord_Load;
+            Margin = new Padding(2);
+            Name = "Audit_Trails";
+            Text = "Audit_Trails";
+            Load += Audit_Trails_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvAuditTrail).EndInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvReturnRecourd).EndInit();
             filterGB.ResumeLayout(false);
             filterGB.PerformLayout();
             ResumeLayout(false);
@@ -262,19 +249,18 @@
         #endregion
 
         private Label pageTitleTxt;
+        private DataGridView dgvAuditTrail;
+        private Button btnRefresh;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
-        private DataGridView dgvReturnRecourd;
-        private Button btnRefresh;
-        private Button btnDetails;
         private GroupBox filterGB;
         private Button btnResetFilter;
-        private TextBox txtFilterRecordNo;
-        private Label FilterbyRecourdNo;
-        private ComboBox ddlFilterBook;
-        private Label FilterbyBook;
         private Button btnFilter;
+        private ComboBox ddlFilterUser;
+        private Label FilterbyUser;
+        private TextBox txtFilterTrailsNo;
+        private Label FilterbyLoginTrailsNo;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BookRentalObject;
-using FormApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,35 +9,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FormApp.Views
+namespace FormApp
 {
-    public partial class Logging : Form
+    public partial class Audit_Trails : Form
     {
         BookRentalDBContext context = new BookRentalDBContext();
-        public Logging()
+        public Audit_Trails()
         {
             InitializeComponent();
         }
 
-        private void Logging_Load(object sender, EventArgs e)
+        private void Audit_Trails_Load(object sender, EventArgs e)
         {
+
             ddlFilterUser.DataSource = context.Users.ToList(); ;
 
             ddlFilterUser.DisplayMember = "FullName";
             ddlFilterUser.ValueMember = "UserId";
             ddlFilterUser.SelectedItem = null;
 
-            RefreshLogTrailsGridview();
+            RefreshAuditTrailsGridview();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            RefreshLogTrailsGridview();
+            RefreshAuditTrailsGridview();
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            RefreshLogTrailsGridview();
+            RefreshAuditTrailsGridview();
         }
 
         private void btnResetFilter_Click(object sender, EventArgs e)
@@ -47,18 +47,18 @@ namespace FormApp.Views
             txtFilterTrailsNo.Focus();
 
             ddlFilterUser.SelectedValue = string.Empty;
-            RefreshLogTrailsGridview();
+            RefreshAuditTrailsGridview();
         }
 
-        private void RefreshLogTrailsGridview()
+        private void RefreshAuditTrailsGridview()
         {
-            dgvLogTrail.DataSource = null;
-            var TrailsToShow = context.Logs.AsQueryable();
+            dgvAuditTrail.DataSource = null;
+            var TrailsToShow = context.AuditTrails.AsQueryable();
 
             if (txtFilterTrailsNo.Text != "")
             {
                 TrailsToShow = TrailsToShow
-                    .Where(x => x.LogId == Convert.ToInt32(txtFilterTrailsNo.Text));
+                    .Where(x => x.AuditId == Convert.ToInt32(txtFilterTrailsNo.Text));
             }
             else if (ddlFilterUser.SelectedValue != null)
             {
@@ -66,14 +66,13 @@ namespace FormApp.Views
                     .Where(x => x.UserId == Convert.ToInt32(ddlFilterUser.SelectedValue.ToString()));
             }
 
-            dgvLogTrail.DataSource = TrailsToShow.Select(x => new 
+            dgvAuditTrail.DataSource = TrailsToShow.Select(x=> new
             {
-                LogID = x.LogId,
-                UserName = x.User.FullName,
+                AuditID = x.AuditId,
                 x.Timestamp,
-                x.AffectedData,
-                x.Source,
-                x.Exceptions
+                x.OldValue,
+                x.NewValue,
+                UserName = x.User.FullName
             }).ToList();
         }
 

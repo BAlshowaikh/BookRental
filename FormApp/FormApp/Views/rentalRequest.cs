@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using BookRentalObject;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace FormApp.Views
 {
@@ -50,6 +52,13 @@ namespace FormApp.Views
             RefreshRentalRequestGridview();
         }
 
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            int cell = Convert.ToInt32(dgvRentalRequest.SelectedCells[0].OwningRow.Cells[0].Value);
+            rentalRequestDetails frmrentalRequestDetails = new rentalRequestDetails(cell);
+            frmrentalRequestDetails.ShowDialog();
+        }
+
         private void RefreshRentalRequestGridview()
         {
             dgvRentalRequest.DataSource = null;
@@ -66,7 +75,14 @@ namespace FormApp.Views
                     .Where(x => x.UserId == Convert.ToInt32(ddlFilterUser.SelectedValue.ToString()));
             }
 
-            dgvRentalRequest.DataSource = RequestToShow.ToList();
+            dgvRentalRequest.DataSource = RequestToShow.Select(x => new
+            {
+                RequestID = x.RequestId,
+                UserName = x.User.FullName,
+                RentalRequestStatus = x.RentalRequestStatus.Status,
+                BookID = x.BookId,
+                StartDate = x.RentalStartDate
+            }).ToList();
         }
     }
 }
