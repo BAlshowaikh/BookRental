@@ -20,7 +20,7 @@ namespace FormApp
         public bookDetails(Book book)
         {
             InitializeComponent();
-            BookRentalDBContext context = new BookRentalDBContext();
+            context = new BookRentalDBContext();
             txtBookId.Text = book.BookId.ToString();
             txtBookName.Text = book.Name;
             txtBookISBN.Text = book.Isbn;
