@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -49,7 +50,6 @@ namespace FormApp.Views
             txtFilterRecordNo.Text = String.Empty;
             txtFilterRecordNo.Focus();
 
-            txtFilterTransactionNo.Text = String.Empty;
             ddlFilterBook.SelectedValue = string.Empty;
 
             RefreshReturnRecourdGridview();
@@ -65,18 +65,23 @@ namespace FormApp.Views
                 RequestToShow = RequestToShow
                     .Where(x => x.RecordId == Convert.ToInt32(txtFilterRecordNo.Text));
             }
-            else if (txtFilterTransactionNo.Text != "")
-            {
-                RequestToShow = RequestToShow
-                    .Where(x => x.RecordId == Convert.ToInt32(txtFilterTransactionNo.Text));
-            }
             else if (ddlFilterBook.SelectedValue != null)
             {
                 RequestToShow = RequestToShow
                     .Where(x => x.BookId == Convert.ToInt32(ddlFilterBook.SelectedValue.ToString()));
             }
 
-            dgvReturnRecourd.DataSource = RequestToShow.ToList();
+            dgvReturnRecourd.DataSource = RequestToShow.Select(x => new 
+            {
+                RecordID = x.RecordId,
+                x.ExpectedReturnDate,
+                x.ActualReturnDate,
+                x.TotalAdditionalCharges,
+                x.LateReturnFee,
+                BookName = x.Book.Name,
+                BookCondition = x.BookCondition.ReturnCondition,
+                x.TransactionId
+            }).ToList();
         }
 
         private void homeIcon_Click(object sender, EventArgs e)

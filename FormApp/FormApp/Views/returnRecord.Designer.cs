@@ -37,8 +37,6 @@
             btnRefresh = new Button();
             btnDetails = new Button();
             filterGB = new GroupBox();
-            txtFilterTransactionNo = new TextBox();
-            FilterbyTransactionNo = new Label();
             ddlFilterBook = new ComboBox();
             FilterbyBook = new Label();
             btnResetFilter = new Button();
@@ -120,11 +118,11 @@
             // 
             dgvReturnRecourd.BackgroundColor = SystemColors.Control;
             dgvReturnRecourd.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvReturnRecourd.Location = new Point(93, 202);
+            dgvReturnRecourd.Location = new Point(93, 175);
             dgvReturnRecourd.Margin = new Padding(2);
             dgvReturnRecourd.Name = "dgvReturnRecourd";
             dgvReturnRecourd.RowHeadersWidth = 62;
-            dgvReturnRecourd.Size = new Size(792, 365);
+            dgvReturnRecourd.Size = new Size(792, 392);
             dgvReturnRecourd.TabIndex = 29;
             // 
             // btnRefresh
@@ -156,41 +154,23 @@
             // 
             // filterGB
             // 
-            filterGB.Controls.Add(txtFilterTransactionNo);
-            filterGB.Controls.Add(FilterbyTransactionNo);
             filterGB.Controls.Add(ddlFilterBook);
             filterGB.Controls.Add(FilterbyBook);
             filterGB.Controls.Add(btnResetFilter);
             filterGB.Controls.Add(btnFilter);
             filterGB.Controls.Add(txtFilterRecordNo);
             filterGB.Controls.Add(FilterbyRecourdNo);
-            filterGB.Location = new Point(93, 75);
+            filterGB.Location = new Point(93, 86);
             filterGB.Name = "filterGB";
-            filterGB.Size = new Size(792, 107);
+            filterGB.Size = new Size(792, 72);
             filterGB.TabIndex = 38;
             filterGB.TabStop = false;
             filterGB.Text = "Filter";
             // 
-            // txtFilterTransactionNo
-            // 
-            txtFilterTransactionNo.Location = new Point(272, 64);
-            txtFilterTransactionNo.Name = "txtFilterTransactionNo";
-            txtFilterTransactionNo.Size = new Size(68, 31);
-            txtFilterTransactionNo.TabIndex = 43;
-            // 
-            // FilterbyTransactionNo
-            // 
-            FilterbyTransactionNo.AutoSize = true;
-            FilterbyTransactionNo.Location = new Point(65, 67);
-            FilterbyTransactionNo.Name = "FilterbyTransactionNo";
-            FilterbyTransactionNo.Size = new Size(201, 25);
-            FilterbyTransactionNo.TabIndex = 42;
-            FilterbyTransactionNo.Text = "Filter by Transaction No:";
-            // 
             // ddlFilterBook
             // 
             ddlFilterBook.FormattingEnabled = true;
-            ddlFilterBook.Location = new Point(513, 23);
+            ddlFilterBook.Location = new Point(394, 26);
             ddlFilterBook.Margin = new Padding(4, 5, 4, 5);
             ddlFilterBook.Name = "ddlFilterBook";
             ddlFilterBook.Size = new Size(174, 33);
@@ -199,7 +179,7 @@
             // FilterbyBook
             // 
             FilterbyBook.AutoSize = true;
-            FilterbyBook.Location = new Point(387, 28);
+            FilterbyBook.Location = new Point(268, 31);
             FilterbyBook.Name = "FilterbyBook";
             FilterbyBook.Size = new Size(125, 25);
             FilterbyBook.TabIndex = 40;
@@ -211,7 +191,7 @@
             btnResetFilter.FlatAppearance.BorderSize = 0;
             btnResetFilter.FlatStyle = FlatStyle.Flat;
             btnResetFilter.ForeColor = Color.Black;
-            btnResetFilter.Location = new Point(554, 62);
+            btnResetFilter.Location = new Point(680, 29);
             btnResetFilter.Margin = new Padding(4, 5, 4, 5);
             btnResetFilter.Name = "btnResetFilter";
             btnResetFilter.Size = new Size(105, 30);
@@ -225,7 +205,7 @@
             btnFilter.BackColor = Color.Cornsilk;
             btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnFilter.ForeColor = Color.Black;
-            btnFilter.Location = new Point(448, 63);
+            btnFilter.Location = new Point(574, 29);
             btnFilter.Margin = new Padding(2);
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(105, 30);
@@ -236,7 +216,7 @@
             // 
             // txtFilterRecordNo
             // 
-            txtFilterRecordNo.Location = new Point(272, 23);
+            txtFilterRecordNo.Location = new Point(194, 29);
             txtFilterRecordNo.Name = "txtFilterRecordNo";
             txtFilterRecordNo.Size = new Size(68, 31);
             txtFilterRecordNo.TabIndex = 1;
@@ -244,7 +224,7 @@
             // FilterbyRecourdNo
             // 
             FilterbyRecourdNo.AutoSize = true;
-            FilterbyRecourdNo.Location = new Point(65, 23);
+            FilterbyRecourdNo.Location = new Point(12, 31);
             FilterbyRecourdNo.Name = "FilterbyRecourdNo";
             FilterbyRecourdNo.Size = new Size(178, 25);
             FilterbyRecourdNo.TabIndex = 0;
@@ -293,12 +273,10 @@
         private Button btnDetails;
         private GroupBox filterGB;
         private Button btnResetFilter;
-        private Button btnFilter;
         private TextBox txtFilterRecordNo;
         private Label FilterbyRecourdNo;
         private ComboBox ddlFilterBook;
         private Label FilterbyBook;
-        private TextBox txtFilterTransactionNo;
-        private Label FilterbyTransactionNo;
+        private Button btnFilter;
     }
 }

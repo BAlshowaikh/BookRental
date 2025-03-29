@@ -137,6 +137,7 @@
             btnDetails.TabIndex = 36;
             btnDetails.Text = "Details";
             btnDetails.UseVisualStyleBackColor = false;
+            btnDetails.Click += btnDetails_Click;
             // 
             // btnRefresh
             // 

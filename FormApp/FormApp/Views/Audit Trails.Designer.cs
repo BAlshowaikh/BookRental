@@ -29,17 +29,25 @@
         private void InitializeComponent()
         {
             pageTitleTxt = new Label();
-            dataGridView1 = new DataGridView();
-            button6 = new Button();
+            dgvAuditTrail = new DataGridView();
+            btnRefresh = new Button();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            filterGB = new GroupBox();
+            btnResetFilter = new Button();
+            btnFilter = new Button();
+            ddlFilterUser = new ComboBox();
+            FilterbyUser = new Label();
+            txtFilterTrailsNo = new TextBox();
+            FilterbyLoginTrailsNo = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvAuditTrail).BeginInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
+            filterGB.SuspendLayout();
             SuspendLayout();
             // 
             // pageTitleTxt
@@ -55,29 +63,30 @@
             pageTitleTxt.TabIndex = 3;
             pageTitleTxt.Text = "Audit Trails";
             // 
-            // dataGridView1
+            // dgvAuditTrail
             // 
-            dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(99, 139);
-            dataGridView1.Margin = new Padding(2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(792, 392);
-            dataGridView1.TabIndex = 4;
+            dgvAuditTrail.BackgroundColor = SystemColors.Control;
+            dgvAuditTrail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvAuditTrail.Location = new Point(93, 175);
+            dgvAuditTrail.Margin = new Padding(2);
+            dgvAuditTrail.Name = "dgvAuditTrail";
+            dgvAuditTrail.RowHeadersWidth = 62;
+            dgvAuditTrail.Size = new Size(792, 392);
+            dgvAuditTrail.TabIndex = 4;
             // 
-            // button6
+            // btnRefresh
             // 
-            button6.BackColor = Color.Cornsilk;
-            button6.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button6.ForeColor = Color.Black;
-            button6.Location = new Point(31, 571);
-            button6.Margin = new Padding(2);
-            button6.Name = "button6";
-            button6.Size = new Size(162, 51);
-            button6.TabIndex = 20;
-            button6.Text = "Refresh";
-            button6.UseVisualStyleBackColor = false;
+            btnRefresh.BackColor = Color.Cornsilk;
+            btnRefresh.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.ForeColor = Color.Black;
+            btnRefresh.Location = new Point(31, 576);
+            btnRefresh.Margin = new Padding(2);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(162, 51);
+            btnRefresh.TabIndex = 20;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // returnIcon
             // 
@@ -129,6 +138,84 @@
             userIcon.TabIndex = 21;
             userIcon.TabStop = false;
             // 
+            // filterGB
+            // 
+            filterGB.Controls.Add(btnResetFilter);
+            filterGB.Controls.Add(btnFilter);
+            filterGB.Controls.Add(ddlFilterUser);
+            filterGB.Controls.Add(FilterbyUser);
+            filterGB.Controls.Add(txtFilterTrailsNo);
+            filterGB.Controls.Add(FilterbyLoginTrailsNo);
+            filterGB.Location = new Point(93, 86);
+            filterGB.Name = "filterGB";
+            filterGB.Size = new Size(792, 72);
+            filterGB.TabIndex = 39;
+            filterGB.TabStop = false;
+            filterGB.Text = "Filter";
+            // 
+            // btnResetFilter
+            // 
+            btnResetFilter.BackColor = Color.WhiteSmoke;
+            btnResetFilter.FlatAppearance.BorderSize = 0;
+            btnResetFilter.FlatStyle = FlatStyle.Flat;
+            btnResetFilter.ForeColor = Color.Black;
+            btnResetFilter.Location = new Point(680, 29);
+            btnResetFilter.Margin = new Padding(4, 5, 4, 5);
+            btnResetFilter.Name = "btnResetFilter";
+            btnResetFilter.Size = new Size(105, 30);
+            btnResetFilter.TabIndex = 39;
+            btnResetFilter.Text = "Reset Filter";
+            btnResetFilter.UseVisualStyleBackColor = false;
+            btnResetFilter.Click += btnResetFilter_Click;
+            // 
+            // btnFilter
+            // 
+            btnFilter.BackColor = Color.Cornsilk;
+            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFilter.ForeColor = Color.Black;
+            btnFilter.Location = new Point(574, 29);
+            btnFilter.Margin = new Padding(2);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(105, 30);
+            btnFilter.TabIndex = 38;
+            btnFilter.Text = "Filter";
+            btnFilter.UseVisualStyleBackColor = false;
+            btnFilter.Click += btnFilter_Click;
+            // 
+            // ddlFilterUser
+            // 
+            ddlFilterUser.FormattingEnabled = true;
+            ddlFilterUser.Location = new Point(385, 26);
+            ddlFilterUser.Margin = new Padding(4, 5, 4, 5);
+            ddlFilterUser.Name = "ddlFilterUser";
+            ddlFilterUser.Size = new Size(174, 33);
+            ddlFilterUser.TabIndex = 38;
+            // 
+            // FilterbyUser
+            // 
+            FilterbyUser.AutoSize = true;
+            FilterbyUser.Location = new Point(259, 31);
+            FilterbyUser.Name = "FilterbyUser";
+            FilterbyUser.Size = new Size(119, 25);
+            FilterbyUser.TabIndex = 2;
+            FilterbyUser.Text = "Filter by User:";
+            // 
+            // txtFilterTrailsNo
+            // 
+            txtFilterTrailsNo.Location = new Point(169, 29);
+            txtFilterTrailsNo.Name = "txtFilterTrailsNo";
+            txtFilterTrailsNo.Size = new Size(68, 31);
+            txtFilterTrailsNo.TabIndex = 1;
+            // 
+            // FilterbyLoginTrailsNo
+            // 
+            FilterbyLoginTrailsNo.AutoSize = true;
+            FilterbyLoginTrailsNo.Location = new Point(12, 31);
+            FilterbyLoginTrailsNo.Name = "FilterbyLoginTrailsNo";
+            FilterbyLoginTrailsNo.Size = new Size(151, 25);
+            FilterbyLoginTrailsNo.TabIndex = 0;
+            FilterbyLoginTrailsNo.Text = "Filter by Trails No:";
+            // 
             // Audit_Trails
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -137,23 +224,26 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(filterGB);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
-            Controls.Add(button6);
-            Controls.Add(dataGridView1);
+            Controls.Add(btnRefresh);
+            Controls.Add(dgvAuditTrail);
             Controls.Add(pageTitleTxt);
             DoubleBuffered = true;
             Margin = new Padding(2);
             Name = "Audit_Trails";
             Text = "Audit_Trails";
             Load += Audit_Trails_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvAuditTrail).EndInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
+            filterGB.ResumeLayout(false);
+            filterGB.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -161,11 +251,18 @@
         #endregion
 
         private Label pageTitleTxt;
-        private DataGridView dataGridView1;
-        private Button button6;
+        private DataGridView dgvAuditTrail;
+        private Button btnRefresh;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
+        private GroupBox filterGB;
+        private Button btnResetFilter;
+        private Button btnFilter;
+        private ComboBox ddlFilterUser;
+        private Label FilterbyUser;
+        private TextBox txtFilterTrailsNo;
+        private Label FilterbyLoginTrailsNo;
     }
 }
