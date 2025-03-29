@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookRentalObject;
+using FormApp.Views;
 using Microsoft.EntityFrameworkCore;
+using FormApp.Controllers;
 
 namespace FormApp
 {
@@ -49,35 +51,45 @@ namespace FormApp
             }
         }
 
+
         private void btnViewDetails_Click(object sender, EventArgs e)
         {
 
         }
 
+
         private void dgvBooksList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-        // Function to customize the showed attributes in the data grid view
-        private List<object> GetFormattedBookData(IQueryable<Book> books)
-        {
-            return books.Select(b => new
-            {
-                b.BookId,
-                b.Name,
-                b.Description,
-                b.RentalPrice,
-                b.PublishDate,
-                b.Isbn,
-                Category = b.Category.CategoryName,
-                Author = b.Author.FirstName,
-                Availability_Status = b.AvailabilityStatus.AvailabilityStatus1,
-                Book_Condition = b.BookCondition.ReturnCondition
-            }).ToList<object>(); // Convert to List<object> for UI binding
-        }
+
 
         // Function to load the book table into the grid view
-
+        private List<object> formattedGridView(IQueryable<Book> books)
+        {
+            try
+            {
+                return books.Select(b => new
+                {
+                    Book_ID = b.BookId,
+                    book_name = b.Name,
+                    Descrption = b.Description,
+                    ISBN = b.Isbn,
+                    Rental_price = b.RentalPrice,
+                    Published_date = b.PublishDate,
+                    Category = b.Category.CategoryName,
+                    Author = b.Author.FirstName,
+                    Availability = b.AvailabilityStatus.AvailabilityStatus1,
+                    Condition = b.BookCondition.ReturnCondition
+                }).ToList<object>();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading the books: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new List<object>();
+            }
+        }
         private void btnFilter_Click(object sender, EventArgs e)
         {
             ApplyFilters();
@@ -97,13 +109,14 @@ namespace FormApp
             try
             {
                 var books = context.Books.AsQueryable();
-                dgvBooksList.DataSource = GetFormattedBookData(books);
+                dgvBooksList.DataSource = formattedGridView(books);
             }
-            catch(Exception ex) {
-                    MessageBox.Show($"Error loading book data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading book data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
         private void ApplyFilters()
         {
             try
@@ -133,7 +146,7 @@ namespace FormApp
                 }
 
                 // Update the data grid view depending in the satisfied if condition
-                var result = GetFormattedBookData(booksToShow);
+                var result = formattedGridView(booksToShow);
 
                 if (result.Count == 0)
                 {
@@ -149,5 +162,22 @@ namespace FormApp
             }
         }
 
+        private void btnAddBook_Click(object sender, EventArgs e)
+        {
+            AddEditBook addEditBook = new AddEditBook(this);
+            addEditBook.Show();
+            //this.Close();
+            LoadBookData();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
     }
 }

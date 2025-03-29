@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,7 +53,7 @@ namespace FormApp.Views
         {
             try
             {
-                if(int.TryParse(txtCategoryID.Text, out int categoryID))
+                if (int.TryParse(txtCategoryID.Text, out int categoryID))
                 {
                     category.CategoryId = categoryID;
                 }
@@ -83,6 +84,16 @@ namespace FormApp.Views
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }

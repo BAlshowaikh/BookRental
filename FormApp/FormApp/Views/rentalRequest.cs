@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using BookRentalObject;
+
 using Microsoft.VisualBasic.ApplicationServices;
+
+
 
 namespace FormApp.Views
 {
@@ -84,5 +87,6 @@ namespace FormApp.Views
                 StartDate = x.RentalStartDate
             }).ToList();
         }
+
     }
 }

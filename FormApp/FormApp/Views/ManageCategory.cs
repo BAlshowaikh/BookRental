@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -98,7 +99,7 @@ namespace FormApp.Views
             AddEditCategory addEdit = new AddEditCategory();
             addEdit.ShowDialog();
 
-            if(addEdit.DialogResult == DialogResult.OK)
+            if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshCategoryGridView();
             }
@@ -113,11 +114,16 @@ namespace FormApp.Views
             AddEditCategory addEdit = new AddEditCategory(category);
             addEdit.ShowDialog();
 
-            if(addEdit.DialogResult == DialogResult.OK)
+            if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshCategoryGridView();
             }
-            
+
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
         }
     }
 }

@@ -38,18 +38,18 @@
             lblfilterByBookID = new Label();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
-            homeIcon = new PictureBox();
             userIcon = new PictureBox();
             btnDeleteBook = new Button();
             btnEditBook = new Button();
             btnAddBook = new Button();
             btnViewDetails = new Button();
+            homeIcon = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)dgvBooksList).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             SuspendLayout();
             // 
             // dgvBooksList
@@ -111,7 +111,6 @@
             ddlFilterByBookName.Name = "ddlFilterByBookName";
             ddlFilterByBookName.Size = new Size(168, 32);
             ddlFilterByBookName.TabIndex = 27;
-            //ddlFilterByBookName.SelectedIndexChanged += ddlFilterByBookName_SelectedIndexChanged;
             // 
             // btnRefresh
             // 
@@ -176,19 +175,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 22;
             exitIcon.TabStop = false;
-            // 
-            // homeIcon
-            // 
-            homeIcon.BackColor = Color.Transparent;
-            homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 12);
-            homeIcon.Margin = new Padding(2);
-            homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(40, 40);
-            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            homeIcon.TabIndex = 21;
-            homeIcon.TabStop = false;
-            homeIcon.Click += pictureBox2_Click;
+            exitIcon.Click += exitIcon_Click;
             // 
             // userIcon
             // 
@@ -240,6 +227,7 @@
             btnAddBook.TabIndex = 24;
             btnAddBook.Text = "Add Book";
             btnAddBook.UseVisualStyleBackColor = false;
+            btnAddBook.Click += btnAddBook_Click;
             // 
             // btnViewDetails
             // 
@@ -255,6 +243,19 @@
             btnViewDetails.UseVisualStyleBackColor = false;
             btnViewDetails.Click += btnViewDetails_Click;
             // 
+            // homeIcon
+            // 
+            homeIcon.BackColor = Color.Transparent;
+            homeIcon.Image = Properties.Resources.home__2_;
+            homeIcon.Location = new Point(880, 12);
+            homeIcon.Margin = new Padding(2);
+            homeIcon.Name = "homeIcon";
+            homeIcon.Size = new Size(40, 40);
+            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            homeIcon.TabIndex = 28;
+            homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
+            // 
             // bookList
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -263,13 +264,13 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(homeIcon);
             Controls.Add(btnViewDetails);
             Controls.Add(btnDeleteBook);
             Controls.Add(btnEditBook);
             Controls.Add(btnAddBook);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
-            Controls.Add(homeIcon);
             Controls.Add(userIcon);
             Controls.Add(groupBox1);
             Controls.Add(dgvBooksList);
@@ -283,8 +284,8 @@
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ResumeLayout(false);
         }
 
@@ -295,7 +296,6 @@
         private Label lblfilterByBookID;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
-        private PictureBox homeIcon;
         private PictureBox userIcon;
         private Button btnDeleteBook;
         private Button btnEditBook;
@@ -305,5 +305,6 @@
         private TextBox txtFilterByBookID;
         private Label lblFilterByBookName;
         private Button btnViewDetails;
+        private PictureBox homeIcon;
     }
 }
