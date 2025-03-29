@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using FormApp.Controllers;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace FormApp.Views
         public profile()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         int currentUserId;

@@ -20,6 +20,7 @@ namespace FormApp.Views
         public returnRecord()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void returnRecord_Load(object sender, EventArgs e)

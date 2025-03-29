@@ -9,28 +9,32 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookRentalObject;
 using FormApp.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 namespace FormApp.Views
 {
     public partial class AddEditBook : Form
     {
         BookRentalDBContext context;
-        Book newBook;
-        public AddEditBook(Form parentForm)
+        Book selectedBook;
+        bool isNew; 
+        public AddEditBook(BookRentalDBContext parentContext)
         {
             InitializeComponent();
-            context = new BookRentalDBContext();
-            newBook = new Book();
-            this.Parent = parentForm; //When this form is called it will take the parent form (for return button)
+            context = parentContext;
+            selectedBook = new Book();
+            HelperFunctions.setUpFormDesign(this);
+            isNew = true;
         }
 
         // In case of "Edit" Option
-        public AddEditBook(Book updatedBook)
+        public AddEditBook(Book updatedBook, BookRentalDBContext parentContext)
         {
             InitializeComponent();
-            context = new BookRentalDBContext();
-            this.newBook = updatedBook;
-
+            context = parentContext;
+            selectedBook = updatedBook;
+            HelperFunctions.setUpFormDesign(this);
+            isNew = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -38,34 +42,43 @@ namespace FormApp.Views
             // Take the filled fields and create a new book object
             try
             {
-                Book newBook = new Book();
+                //Book newBook = new Book();
 
-                newBook.Name = txtBookName.Text;
-                newBook.Isbn = txtBookISBN.Text;
-                newBook.Description = txtBookDesc.Text;
-                newBook.PublishDate = dtpPublishedDate.Value;
-                newBook.RentalPrice = Convert.ToDouble(txtRentalPrice.Text);
-                newBook.AuthorId = Convert.ToInt32(ddlAuthorName.SelectedValue);
-                newBook.AvailabilityStatusId = Convert.ToInt32(ddlAvailability.SelectedValue);
-                newBook.CategoryId = Convert.ToInt32(ddlBookCategory.SelectedValue);
-                newBook.BookConditionId = Convert.ToInt32(ddlBookCondition.SelectedValue);
+                txtBookId.Text = "Generated automatically";
+                txtBookId.ReadOnly = true;
+                selectedBook.Name = txtBookName.Text;
+                selectedBook.Isbn = txtBookISBN.Text;
+                selectedBook.Description = txtBookDesc.Text;
+                selectedBook.PublishDate = dtpPublishedDate.Value;
+                selectedBook.RentalPrice = Convert.ToDouble(txtRentalPrice.Text);
+                selectedBook.AuthorId = Convert.ToInt32(ddlAuthorName.SelectedValue);
+                selectedBook.AvailabilityStatusId = Convert.ToInt32(ddlAvailability.SelectedValue);
+                selectedBook.CategoryId = Convert.ToInt32(ddlBookCategory.SelectedValue);
+                selectedBook.BookConditionId = Convert.ToInt32(ddlBookCondition.SelectedValue);
 
-                if (newBook.BookId > 0)
+                if (selectedBook.BookId > 0)
                 {
-                    context.Books.Update(newBook);
+                    context.Entry(selectedBook).State = EntityState.Modified;
+                    context.Books.Update(selectedBook);
+                    context.SaveChanges();
+
+                    MessageBox.Show($"Book updated successfully! ID: {selectedBook.BookId}",
+                                   "Success",
+                                   MessageBoxButtons.OK,
+                                   MessageBoxIcon.Information);
                 }
                 else
                 {
-                    context.Books.Add(newBook);
+                    context.Books.Add(selectedBook);
+                    context.SaveChanges();
+
+                    MessageBox.Show($"Book added successfully! ID: {selectedBook.BookId}",
+                                   "Success",
+                                   MessageBoxButtons.OK,
+                                   MessageBoxIcon.Information);
                 }
-                context.SaveChanges();
 
-                txtBookId.Text = newBook.BookId.ToString();
-
-                MessageBox.Show($"Book added successfully! ID: {newBook.BookId}",
-                               "Success",
-                               MessageBoxButtons.OK,
-                               MessageBoxIcon.Information);
+                //txtBookId.Text = newBook.BookId.ToString();
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -73,14 +86,43 @@ namespace FormApp.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding a new book: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error adding/editing a new book: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
 
         private void AddEditBook_Load(object sender, EventArgs e)
         {
+            populateDropDownLists();
             txtBookId.ReadOnly = true;
+
+            //In case the user is editing a book
+            if (isNew == false)
+            {
+                txtBookId.Text = selectedBook.BookId.ToString();
+                txtBookName.Text = selectedBook.Name;
+                txtBookISBN.Text = selectedBook.Isbn;
+                txtBookDesc.Text = selectedBook.Description ?? "N/A";
+                if (selectedBook.PublishDate.HasValue)
+                {
+                    dtpPublishedDate.Value = selectedBook.PublishDate.Value;
+                }
+                else
+                {
+                    dtpPublishedDate.Value = DateTime.Today; 
+                }
+                txtRentalPrice.Text = selectedBook.RentalPrice.ToString("C");
+                ddlAvailability.Text = selectedBook.AvailabilityStatus?.AvailabilityStatus1 ?? "N/A";
+                ddlBookCondition.Text = selectedBook.BookCondition?.ReturnCondition ?? "N/A";
+                ddlBookCategory.Text = selectedBook.Category?.CategoryName ?? "N/A";
+                ddlAuthorName.Text = selectedBook.Author?.FirstName ?? "N/A";
+
+            }
+        }
+
+        // Populate all drop down lists
+        private void populateDropDownLists()
+        {
             // Populating the drop down lists with the data once the form load
             ddlAuthorName.DataSource = context.Authors.ToList();
             ddlAuthorName.DisplayMember = "FirstName";
@@ -106,7 +148,7 @@ namespace FormApp.Views
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            this.Close(); 
         }
 
         private void homeIcon_Click(object sender, EventArgs e)
@@ -121,8 +163,8 @@ namespace FormApp.Views
 
         private void returnIcon_Click(object sender, EventArgs e)
         {
-            this.Close();
-            Parent.Show();
+           // this.Close();
+            //Parent.Show();
         }
     }
 }

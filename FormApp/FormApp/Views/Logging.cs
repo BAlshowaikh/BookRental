@@ -18,6 +18,7 @@ namespace FormApp.Views
         public Logging()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void Logging_Load(object sender, EventArgs e)

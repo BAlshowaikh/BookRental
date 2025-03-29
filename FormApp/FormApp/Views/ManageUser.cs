@@ -20,6 +20,7 @@ namespace FormApp
         public ManageUser()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
         }
 

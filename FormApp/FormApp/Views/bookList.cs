@@ -11,16 +11,20 @@ using BookRentalObject;
 using FormApp.Views;
 using Microsoft.EntityFrameworkCore;
 using FormApp.Controllers;
+using System.Net;
 
 namespace FormApp
 {
     public partial class bookList : Form
     {
         BookRentalDBContext context;
+        // Instantiate a book object 
+        private Book _selectedBook;
 
         public bookList()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
         }
         private void bookList_Load(object sender, EventArgs e)
@@ -54,6 +58,15 @@ namespace FormApp
 
         private void btnViewDetails_Click(object sender, EventArgs e)
         {
+            if (_selectedBook == null) //Check if no row is selected
+            {
+                MessageBox.Show($"No selected row", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Form viewDetailsForm = new bookDetails(_selectedBook);
+                HelperFunctions.ShowChildForm(this, viewDetailsForm);
+            }
 
         }
 
@@ -64,7 +77,7 @@ namespace FormApp
         }
 
 
-        // Function to load the book table into the grid view
+        // Function to customize the book table into the grid view
         private List<object> formattedGridView(IQueryable<Book> books)
         {
             try
@@ -164,10 +177,13 @@ namespace FormApp
 
         private void btnAddBook_Click(object sender, EventArgs e)
         {
-            AddEditBook addEditBook = new AddEditBook(this);
-            addEditBook.Show();
-            //this.Close();
-            LoadBookData();
+            AddEditBook addEditBook = new AddEditBook(context);
+            HelperFunctions.ShowChildForm(this, addEditBook);
+
+            if (addEditBook.DialogResult == DialogResult.OK)
+            {
+                LoadBookData();
+            }
         }
 
         private void homeIcon_Click(object sender, EventArgs e)
@@ -178,6 +194,106 @@ namespace FormApp
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            LoadBookData();
+        }
+
+        // Function to retrieve the selected row and convert it to a book object
+        private void dgvBooksList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) // Ensure it's not a header row
+            {
+                // Select the entire row
+                dgvBooksList.Rows[e.RowIndex].Selected = true;
+
+                // Get the BookId from the selected row
+                // var selectedRow = dgvBooksList.Rows[e.RowIndex];
+                var bookId = Convert.ToInt32(dgvBooksList.Rows[e.RowIndex].Cells["Book_ID"].Value);
+
+                // Fetch the complete Book object from the database
+                //using (var context = new BookRentalDBContext())
+                //{
+                    var book = context.Books
+                       .Include(b => b.Author)
+                       .Include(b => b.Category)
+                       .Include(b => b.AvailabilityStatus)
+                       .Include(b => b.BookCondition)
+                       .FirstOrDefault(b => b.BookId == bookId);
+
+                    if (book != null)
+                    {
+                        _selectedBook = book;
+                    }
+                    else
+                    {
+                        // Handle not found case
+                        MessageBox.Show("Book not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        _selectedBook = null; // Explicitly clear previous selection
+                    }
+                //}
+            }
+        }
+
+        private void btnDeleteBook_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_selectedBook != null)
+                {
+                    var book = _selectedBook;
+                    int deleteBookId = book.BookId;
+                    String deleteBookName = book.Name;
+                    if (MessageBox.Show("Are you sure you want to delete book with id (" + deleteBookId + " and name: " + deleteBookName + ") ?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        var bookToDelete = context.Books.Find(deleteBookId); // Find in current context
+                        if (bookToDelete != null)
+                        {
+                            context.Books.Remove(bookToDelete);
+                            context.SaveChanges();
+                            LoadBookData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error occured when deleting: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEditBook_Click(object sender, EventArgs e)
+        {
+            // Check if there is a selected row
+            try
+            {
+                if (dgvBooksList.SelectedCells.Count > 0)
+                {
+                    if (_selectedBook != null)
+                    {
+                        {
+                            var updatedBook = _selectedBook;
+                            Form addEditBookForm = new AddEditBook(updatedBook, context);
+                            HelperFunctions.ShowChildForm(this, addEditBookForm);
+
+                            if (addEditBookForm.DialogResult == DialogResult.OK)
+                            {
+                                LoadBookData();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("You have to select an order", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"An error occured {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
