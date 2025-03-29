@@ -177,8 +177,13 @@ namespace FormApp
 
         private void btnAddBook_Click(object sender, EventArgs e)
         {
-            AddEditBook addEditBook = new AddEditBook();
+            AddEditBook addEditBook = new AddEditBook(context);
             HelperFunctions.ShowChildForm(this, addEditBook);
+
+            if (addEditBook.DialogResult == DialogResult.OK)
+            {
+                LoadBookData();
+            }
         }
 
         private void homeIcon_Click(object sender, EventArgs e)
@@ -209,8 +214,8 @@ namespace FormApp
                 var bookId = Convert.ToInt32(dgvBooksList.Rows[e.RowIndex].Cells["Book_ID"].Value);
 
                 // Fetch the complete Book object from the database
-                using (var context = new BookRentalDBContext())
-                {
+                //using (var context = new BookRentalDBContext())
+                //{
                     var book = context.Books
                        .Include(b => b.Author)
                        .Include(b => b.Category)
@@ -228,7 +233,7 @@ namespace FormApp
                         MessageBox.Show("Book not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         _selectedBook = null; // Explicitly clear previous selection
                     }
-                }
+                //}
             }
         }
 
@@ -241,7 +246,8 @@ namespace FormApp
                     var book = _selectedBook;
                     int deleteBookId = book.BookId;
                     String deleteBookName = book.Name;
-                    if (MessageBox.Show("Are you sure you want to delete book with id (" + deleteBookId + " and name: " + deleteBookName + ") ?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                    if (MessageBox.Show("Are you sure you want to delete book with id (" + deleteBookId + " and name: " + deleteBookName + ") ?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
                         var bookToDelete = context.Books.Find(deleteBookId); // Find in current context
                         if (bookToDelete != null)
                         {
@@ -255,6 +261,38 @@ namespace FormApp
             catch (Exception ex)
             {
                 MessageBox.Show($"Error occured when deleting: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEditBook_Click(object sender, EventArgs e)
+        {
+            // Check if there is a selected row
+            try
+            {
+                if (dgvBooksList.SelectedCells.Count > 0)
+                {
+                    if (_selectedBook != null)
+                    {
+                        {
+                            var updatedBook = _selectedBook;
+                            Form addEditBookForm = new AddEditBook(updatedBook, context);
+                            HelperFunctions.ShowChildForm(this, addEditBookForm);
+
+                            if (addEditBookForm.DialogResult == DialogResult.OK)
+                            {
+                                LoadBookData();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("You have to select an order", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"An error occured {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

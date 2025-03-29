@@ -218,6 +218,7 @@
             btnEditBook.TabIndex = 25;
             btnEditBook.Text = "Edit Book";
             btnEditBook.UseVisualStyleBackColor = false;
+            btnEditBook.Click += btnEditBook_Click;
             // 
             // btnAddBook
             // 
