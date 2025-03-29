@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using FormApp.Controllers;
 using BookRentalObject;
 
 using Microsoft.VisualBasic.ApplicationServices;
@@ -88,5 +88,14 @@ namespace FormApp.Views
             }).ToList();
         }
 
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
     }
 }
