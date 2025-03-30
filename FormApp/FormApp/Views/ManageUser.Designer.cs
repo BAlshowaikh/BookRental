@@ -41,6 +41,7 @@
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
+            pageTitleTxt = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
@@ -220,6 +221,19 @@
             userIcon.TabIndex = 13;
             userIcon.TabStop = false;
             // 
+            // pageTitleTxt
+            // 
+            pageTitleTxt.AutoSize = true;
+            pageTitleTxt.BackColor = Color.Transparent;
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.ForeColor = Color.Cornsilk;
+            pageTitleTxt.Location = new Point(290, 9);
+            pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
+            pageTitleTxt.Name = "pageTitleTxt";
+            pageTitleTxt.Size = new Size(393, 63);
+            pageTitleTxt.TabIndex = 17;
+            pageTitleTxt.Text = "Manage Users";
+            // 
             // ManageUser
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -228,6 +242,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(pageTitleTxt);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
@@ -250,6 +265,7 @@
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -270,5 +286,6 @@
         private PictureBox userIcon;
         private ComboBox ddlUser;
         private Button refreshBttn;
+        private Label pageTitleTxt;
     }
 }

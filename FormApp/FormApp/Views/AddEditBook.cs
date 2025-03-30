@@ -111,7 +111,7 @@ namespace FormApp.Views
                 {
                     dtpPublishedDate.Value = DateTime.Today; 
                 }
-                txtRentalPrice.Text = selectedBook.RentalPrice.ToString("C");
+                txtRentalPrice.Text = selectedBook.RentalPrice.ToString();
                 ddlAvailability.Text = selectedBook.AvailabilityStatus?.AvailabilityStatus1 ?? "N/A";
                 ddlBookCondition.Text = selectedBook.BookCondition?.ReturnCondition ?? "N/A";
                 ddlBookCategory.Text = selectedBook.Category?.CategoryName ?? "N/A";

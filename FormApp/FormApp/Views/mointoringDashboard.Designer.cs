@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            welcomeTxt = new Label();
             userIcon = new PictureBox();
             returnIcon = new PictureBox();
             homeIcon = new PictureBox();
             exitIcon = new PictureBox();
             totalBooksGroupBox = new GroupBox();
-            lblTotalBooksTitle = new Label();
             lblTotalBooks = new Label();
+            lblTotalBooksTitle = new Label();
             availableBooksGroupBox = new GroupBox();
             lblAvailableBooks = new Label();
             lblAvailableBooksTitle = new Label();
@@ -46,6 +45,7 @@
             lblTotalRentalRequets = new Label();
             lblTotalRentalRequetsTitle = new Label();
             refreshBtn = new Button();
+            pageTitleTxt = new Label();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -55,18 +55,6 @@
             damagedBooksGroupBox.SuspendLayout();
             totalRentalRequestsGroupBox.SuspendLayout();
             SuspendLayout();
-            // 
-            // welcomeTxt
-            // 
-            welcomeTxt.AutoSize = true;
-            welcomeTxt.BackColor = Color.Transparent;
-            welcomeTxt.Font = new Font("Felix Titling", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            welcomeTxt.Location = new Point(187, 96);
-            welcomeTxt.Margin = new Padding(2, 0, 2, 0);
-            welcomeTxt.Name = "welcomeTxt";
-            welcomeTxt.Size = new Size(638, 52);
-            welcomeTxt.TabIndex = 13;
-            welcomeTxt.Text = "Mointoring Dashboard";
             // 
             // userIcon
             // 
@@ -103,6 +91,7 @@
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 16;
             homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
             // 
             // exitIcon
             // 
@@ -115,27 +104,18 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 17;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // totalBooksGroupBox
             // 
             totalBooksGroupBox.BackColor = Color.Transparent;
             totalBooksGroupBox.Controls.Add(lblTotalBooks);
             totalBooksGroupBox.Controls.Add(lblTotalBooksTitle);
-            totalBooksGroupBox.Location = new Point(88, 170);
+            totalBooksGroupBox.Location = new Point(110, 143);
             totalBooksGroupBox.Name = "totalBooksGroupBox";
             totalBooksGroupBox.Size = new Size(300, 150);
             totalBooksGroupBox.TabIndex = 18;
             totalBooksGroupBox.TabStop = false;
-            // 
-            // lblTotalBooksTitle
-            // 
-            lblTotalBooksTitle.AutoSize = true;
-            lblTotalBooksTitle.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTotalBooksTitle.Location = new Point(84, 27);
-            lblTotalBooksTitle.Name = "lblTotalBooksTitle";
-            lblTotalBooksTitle.Size = new Size(137, 27);
-            lblTotalBooksTitle.TabIndex = 0;
-            lblTotalBooksTitle.Text = "Total Books";
             // 
             // lblTotalBooks
             // 
@@ -147,12 +127,22 @@
             lblTotalBooks.TabIndex = 1;
             lblTotalBooks.Text = "0";
             // 
+            // lblTotalBooksTitle
+            // 
+            lblTotalBooksTitle.AutoSize = true;
+            lblTotalBooksTitle.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotalBooksTitle.Location = new Point(84, 27);
+            lblTotalBooksTitle.Name = "lblTotalBooksTitle";
+            lblTotalBooksTitle.Size = new Size(137, 27);
+            lblTotalBooksTitle.TabIndex = 0;
+            lblTotalBooksTitle.Text = "Total Books";
+            // 
             // availableBooksGroupBox
             // 
             availableBooksGroupBox.BackColor = Color.Transparent;
             availableBooksGroupBox.Controls.Add(lblAvailableBooks);
             availableBooksGroupBox.Controls.Add(lblAvailableBooksTitle);
-            availableBooksGroupBox.Location = new Point(525, 170);
+            availableBooksGroupBox.Location = new Point(547, 143);
             availableBooksGroupBox.Name = "availableBooksGroupBox";
             availableBooksGroupBox.Size = new Size(300, 150);
             availableBooksGroupBox.TabIndex = 19;
@@ -183,7 +173,7 @@
             damagedBooksGroupBox.BackColor = Color.Transparent;
             damagedBooksGroupBox.Controls.Add(lblDamgedBooks);
             damagedBooksGroupBox.Controls.Add(lblDamagedBooksTitle);
-            damagedBooksGroupBox.Location = new Point(88, 396);
+            damagedBooksGroupBox.Location = new Point(110, 370);
             damagedBooksGroupBox.Name = "damagedBooksGroupBox";
             damagedBooksGroupBox.Size = new Size(300, 150);
             damagedBooksGroupBox.TabIndex = 19;
@@ -214,7 +204,7 @@
             totalRentalRequestsGroupBox.BackColor = Color.Transparent;
             totalRentalRequestsGroupBox.Controls.Add(lblTotalRentalRequets);
             totalRentalRequestsGroupBox.Controls.Add(lblTotalRentalRequetsTitle);
-            totalRentalRequestsGroupBox.Location = new Point(525, 396);
+            totalRentalRequestsGroupBox.Location = new Point(547, 370);
             totalRentalRequestsGroupBox.Name = "totalRentalRequestsGroupBox";
             totalRentalRequestsGroupBox.Size = new Size(300, 150);
             totalRentalRequestsGroupBox.TabIndex = 20;
@@ -244,12 +234,25 @@
             // 
             refreshBtn.BackColor = Color.Cornsilk;
             refreshBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            refreshBtn.Location = new Point(357, 563);
+            refreshBtn.Location = new Point(375, 563);
             refreshBtn.Name = "refreshBtn";
             refreshBtn.Size = new Size(200, 50);
             refreshBtn.TabIndex = 10;
             refreshBtn.Text = "Refresh";
             refreshBtn.UseVisualStyleBackColor = false;
+            // 
+            // pageTitleTxt
+            // 
+            pageTitleTxt.AutoSize = true;
+            pageTitleTxt.BackColor = Color.Transparent;
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.ForeColor = Color.Cornsilk;
+            pageTitleTxt.Location = new Point(159, 9);
+            pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
+            pageTitleTxt.Name = "pageTitleTxt";
+            pageTitleTxt.Size = new Size(610, 63);
+            pageTitleTxt.TabIndex = 21;
+            pageTitleTxt.Text = "Mointoring Dashboard";
             // 
             // mointoringDashboard
             // 
@@ -257,6 +260,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(978, 644);
+            Controls.Add(pageTitleTxt);
             Controls.Add(refreshBtn);
             Controls.Add(totalRentalRequestsGroupBox);
             Controls.Add(damagedBooksGroupBox);
@@ -266,7 +270,6 @@
             Controls.Add(homeIcon);
             Controls.Add(returnIcon);
             Controls.Add(userIcon);
-            Controls.Add(welcomeTxt);
             Name = "mointoringDashboard";
             Text = "mointoringDashboard";
             Load += mointoringDashboard_Load;
@@ -287,8 +290,6 @@
         }
 
         #endregion
-
-        private Label welcomeTxt;
         private PictureBox userIcon;
         private PictureBox returnIcon;
         private PictureBox homeIcon;
@@ -306,5 +307,6 @@
         private Label lblTotalRentalRequets;
         private Label lblTotalRentalRequetsTitle;
         private Button refreshBtn;
+        private Label pageTitleTxt;
     }
 }

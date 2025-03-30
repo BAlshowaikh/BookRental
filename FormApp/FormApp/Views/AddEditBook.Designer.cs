@@ -286,7 +286,7 @@
             pageTitle.BackColor = Color.Transparent;
             pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitle.ForeColor = Color.Cornsilk;
-            pageTitle.Location = new Point(291, 9);
+            pageTitle.Location = new Point(289, 9);
             pageTitle.Margin = new Padding(2, 0, 2, 0);
             pageTitle.Name = "pageTitle";
             pageTitle.Size = new Size(408, 63);

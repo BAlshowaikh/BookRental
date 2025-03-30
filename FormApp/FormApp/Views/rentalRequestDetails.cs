@@ -23,6 +23,7 @@ namespace FormApp.Views
         {
             this.requestID = requestID;
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void rentalRequestDetails_Load(object sender, EventArgs e)
@@ -68,7 +69,7 @@ namespace FormApp.Views
                 var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
                 if (request.RentalRequestStatusId == 1)
                 {
-                    if (MessageBox.Show("are you sure you want to approve requst (" + requestID  + ") ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show("are you sure you want to approve requst (" + requestID + ") ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         request.RentalRequestStatusId = 2;
                         context.RentalRequests.Update(request);
@@ -82,7 +83,7 @@ namespace FormApp.Views
                 }
                 else
                 {
-                    MessageBox.Show("This request cannot be approved, it has been " 
+                    MessageBox.Show("This request cannot be approved, it has been "
                         + context.RentalRequestStatuses
                         .Where(x => x.RentalRequestStatusId == request.RentalRequestStatusId)
                         .Select(x => x.Status)
@@ -93,7 +94,7 @@ namespace FormApp.Views
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void btnReject_Click(object sender, EventArgs e)
@@ -103,11 +104,11 @@ namespace FormApp.Views
                 var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
                 if (request.RentalRequestStatusId == 1)
                 {
-                    if (MessageBox.Show("are you sure you want to reject requst (" + requestID  + ") ", "conferm Rejection", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show("are you sure you want to reject requst (" + requestID + ") ", "conferm Rejection", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         request.RentalRequestStatusId = 3;
                         context.RentalRequests.Update(request);
-                        
+
                         context.SaveChanges();
                         this.Close();
                     }
@@ -125,7 +126,7 @@ namespace FormApp.Views
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
         private void homeIcon_Click(object sender, EventArgs e)
         {
@@ -136,5 +137,6 @@ namespace FormApp.Views
         {
             HelperFunctions.exitBtn();
         }
+
     }
 }
