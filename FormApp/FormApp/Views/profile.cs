@@ -60,7 +60,7 @@ namespace FormApp.Views
             SqlConnection con = new SqlConnection(connection);
             con.Open();
 
-            string query = "UPDATE Users Set firstName = ' " + firstName + " ', lastName = ' "+ lastName +" ', Email '"+ email+ " ' WHERE UserID = " + currentUserId;
+            string query = "UPDATE Users Set firstName = ' " + firstName + " ', lastName = ' " + lastName + " ', Email '" + email + " ' WHERE UserID = " + currentUserId;
             SqlCommand cmd = new SqlCommand(query, con);
 
             int result = cmd.ExecuteNonQuery();
@@ -79,6 +79,16 @@ namespace FormApp.Views
         private void cancelBtn_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
         }
     }
 }

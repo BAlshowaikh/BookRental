@@ -97,9 +97,9 @@
             welcomeTxt.Location = new Point(66, 176);
             welcomeTxt.Margin = new Padding(2, 0, 2, 0);
             welcomeTxt.Name = "welcomeTxt";
-            welcomeTxt.Size = new Size(854, 52);
+            welcomeTxt.Size = new Size(817, 52);
             welcomeTxt.TabIndex = 13;
-            welcomeTxt.Text = "Welocome to Book Nook Store!";
+            welcomeTxt.Text = "Welcome to Book Nook Store!";
             // 
             // manageBooksBtn
             // 

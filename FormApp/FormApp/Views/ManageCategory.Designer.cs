@@ -41,6 +41,7 @@
             ddlCategory = new ComboBox();
             filterBttn = new Button();
             label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -188,7 +189,7 @@
             // 
             ddlCategory.FormattingEnabled = true;
             ddlCategory.Location = new Point(139, 36);
-            ddlCategory.Margin = new Padding(4, 4, 4, 4);
+            ddlCategory.Margin = new Padding(4);
             ddlCategory.Name = "ddlCategory";
             ddlCategory.Size = new Size(252, 32);
             ddlCategory.TabIndex = 18;
@@ -219,6 +220,19 @@
             label1.TabIndex = 0;
             label1.Text = "Filter By:";
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            label2.ForeColor = Color.Cornsilk;
+            label2.Location = new Point(232, 9);
+            label2.Margin = new Padding(2, 0, 2, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(497, 63);
+            label2.TabIndex = 26;
+            label2.Text = "Manage Catogries";
+            // 
             // ManageCategory
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -227,6 +241,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(label2);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
@@ -237,7 +252,7 @@
             Controls.Add(dgvCategories);
             Controls.Add(groupBox1);
             DoubleBuffered = true;
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "ManageCategory";
             Text = "ManageCategory";
             Load += ManageCategory_Load;
@@ -249,6 +264,7 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -266,5 +282,6 @@
         private ComboBox ddlCategory;
         private Button filterBttn;
         private Label label1;
+        private Label label2;
     }
 }
