@@ -60,6 +60,10 @@ namespace FormApp.Views
             int cell = Convert.ToInt32(dgvRentalRequest.SelectedCells[0].OwningRow.Cells[0].Value);
             rentalRequestDetails frmrentalRequestDetails = new rentalRequestDetails(cell);
             frmrentalRequestDetails.ShowDialog();
+            if (frmrentalRequestDetails.DialogResult == DialogResult.OK) 
+            { 
+                RefreshRentalRequestGridview();  
+            }
         }
 
         private void RefreshRentalRequestGridview()

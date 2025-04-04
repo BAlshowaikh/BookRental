@@ -75,6 +75,7 @@ namespace FormApp.Views
 
                         context.SaveChanges();
 
+                        this.DialogResult = DialogResult.OK;
                         this.Close();
                         //GeneratedRransaction generatedRransaction = new GeneratedRransaction();
                     }
@@ -109,6 +110,7 @@ namespace FormApp.Views
                         context.RentalRequests.Update(request);
                         
                         context.SaveChanges();
+                        this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
                 }
