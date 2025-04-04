@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using FormApp.Controllers;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace FormApp.Views
         public mointoringDashboard()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
 
@@ -29,7 +31,7 @@ namespace FormApp.Views
             try
             {
                 string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookNookDB;Integrated Security=True";
-                using(SqlConnection con = new SqlConnection(connection))
+                using (SqlConnection con = new SqlConnection(connection))
                 {
                     con.Open();
 
@@ -50,10 +52,20 @@ namespace FormApp.Views
                     lblTotalRentalRequets.Text = cmdRequests.ExecuteScalar().ToString();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Error loading dashboard data: " + ex.Message);
             }
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
         }
     }
 }

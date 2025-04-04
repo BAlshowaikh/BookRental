@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,7 @@ namespace FormApp.Views
         public AddEditUser()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
             user = new User();
         }
@@ -28,6 +30,7 @@ namespace FormApp.Views
         {
             InitializeComponent();
             context = new BookRentalDBContext();
+            HelperFunctions.setUpFormDesign(this);
             this.user = user1;
         }
 
@@ -94,6 +97,16 @@ namespace FormApp.Views
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
         }
     }
 }

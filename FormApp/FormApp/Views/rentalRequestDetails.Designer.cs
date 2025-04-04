@@ -82,6 +82,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 20;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // homeIcon
             // 
@@ -94,6 +95,7 @@
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 19;
             homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
             // 
             // userIcon
             // 

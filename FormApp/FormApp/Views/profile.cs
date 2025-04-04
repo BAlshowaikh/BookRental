@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using FormApp.Controllers;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace FormApp.Views
         public profile()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         int currentUserId;
@@ -58,7 +60,7 @@ namespace FormApp.Views
             SqlConnection con = new SqlConnection(connection);
             con.Open();
 
-            string query = "UPDATE Users Set firstName = ' " + firstName + " ', lastName = ' "+ lastName +" ', Email '"+ email+ " ' WHERE UserID = " + currentUserId;
+            string query = "UPDATE Users Set firstName = ' " + firstName + " ', lastName = ' " + lastName + " ', Email '" + email + " ' WHERE UserID = " + currentUserId;
             SqlCommand cmd = new SqlCommand(query, con);
 
             int result = cmd.ExecuteNonQuery();
@@ -77,6 +79,16 @@ namespace FormApp.Views
         private void cancelBtn_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
         }
     }
 }
