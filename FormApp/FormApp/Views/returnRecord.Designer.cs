@@ -151,6 +151,7 @@
             btnDetails.TabIndex = 31;
             btnDetails.Text = "Details";
             btnDetails.UseVisualStyleBackColor = false;
+            btnDetails.Click += btnDetails_Click;
             // 
             // filterGB
             // 
