@@ -71,7 +71,7 @@ namespace FormApp.Views
                     .Where(x => x.BookId == Convert.ToInt32(ddlFilterBook.SelectedValue.ToString()));
             }
 
-            dgvReturnRecourd.DataSource = RequestToShow.Select(x => new 
+            dgvReturnRecourd.DataSource = RequestToShow.Select(x => new
             {
                 RecordID = x.RecordId,
                 x.ExpectedReturnDate,
@@ -92,6 +92,19 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            int cell = Convert.ToInt32(dgvReturnRecourd.SelectedCells[0].OwningRow.Cells[0].Value);
+            ReturnRecord selected = context.ReturnRecords.Find(cell);
+
+            returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(selected);
+            frmreturnRecordDetails.ShowDialog();
+            if (frmreturnRecordDetails.DialogResult == DialogResult.OK)
+            {
+                RefreshReturnRecourdGridview();
+            }
         }
     }
 }
