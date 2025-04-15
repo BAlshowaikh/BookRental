@@ -74,13 +74,15 @@ namespace FormApp.Views
             dgvReturnRecourd.DataSource = RequestToShow.Select(x => new
             {
                 RecordID = x.RecordId,
+                BookName = x.Book.Name,
+                BookCondition = x.BookCondition.ReturnCondition,
+                UserName = x.Transaction.User.FullName,
                 x.ExpectedReturnDate,
                 x.ActualReturnDate,
                 x.TotalAdditionalCharges,
                 x.LateReturnFee,
-                BookName = x.Book.Name,
-                BookCondition = x.BookCondition.ReturnCondition,
                 x.TransactionId
+
             }).ToList();
         }
 
