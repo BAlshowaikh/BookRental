@@ -35,11 +35,19 @@
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
             btnRefresh = new Button();
+            filterGB = new GroupBox();
+            btnResetFilter = new Button();
+            btnFilter = new Button();
+            ddlFilterUser = new ComboBox();
+            FilterbyUser = new Label();
+            txtFilterTrailsNo = new TextBox();
+            FilterbyLoginTrailsNo = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvLogTrail).BeginInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
+            filterGB.SuspendLayout();
             SuspendLayout();
             // 
             // pageTitleTxt
@@ -59,7 +67,7 @@
             // 
             dgvLogTrail.BackgroundColor = SystemColors.Control;
             dgvLogTrail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvLogTrail.Location = new Point(93, 126);
+            dgvLogTrail.Location = new Point(93, 175);
             dgvLogTrail.Margin = new Padding(2);
             dgvLogTrail.Name = "dgvLogTrail";
             dgvLogTrail.RowHeadersWidth = 62;
@@ -89,6 +97,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 26;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // homeIcon
             // 
@@ -101,6 +110,7 @@
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 25;
             homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
             // 
             // userIcon
             // 
@@ -119,13 +129,92 @@
             btnRefresh.BackColor = Color.Cornsilk;
             btnRefresh.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnRefresh.ForeColor = Color.Black;
-            btnRefresh.Location = new Point(31, 571);
+            btnRefresh.Location = new Point(31, 576);
             btnRefresh.Margin = new Padding(2);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(162, 51);
             btnRefresh.TabIndex = 29;
             btnRefresh.Text = "Refresh";
             btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
+            // filterGB
+            // 
+            filterGB.Controls.Add(btnResetFilter);
+            filterGB.Controls.Add(btnFilter);
+            filterGB.Controls.Add(ddlFilterUser);
+            filterGB.Controls.Add(FilterbyUser);
+            filterGB.Controls.Add(txtFilterTrailsNo);
+            filterGB.Controls.Add(FilterbyLoginTrailsNo);
+            filterGB.Location = new Point(93, 86);
+            filterGB.Name = "filterGB";
+            filterGB.Size = new Size(792, 72);
+            filterGB.TabIndex = 38;
+            filterGB.TabStop = false;
+            filterGB.Text = "Filter";
+            // 
+            // btnResetFilter
+            // 
+            btnResetFilter.BackColor = Color.WhiteSmoke;
+            btnResetFilter.FlatAppearance.BorderSize = 0;
+            btnResetFilter.FlatStyle = FlatStyle.Flat;
+            btnResetFilter.ForeColor = Color.Black;
+            btnResetFilter.Location = new Point(680, 29);
+            btnResetFilter.Margin = new Padding(4, 5, 4, 5);
+            btnResetFilter.Name = "btnResetFilter";
+            btnResetFilter.Size = new Size(105, 30);
+            btnResetFilter.TabIndex = 39;
+            btnResetFilter.Text = "Reset Filter";
+            btnResetFilter.UseVisualStyleBackColor = false;
+            btnResetFilter.Click += btnResetFilter_Click;
+            // 
+            // btnFilter
+            // 
+            btnFilter.BackColor = Color.Cornsilk;
+            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFilter.ForeColor = Color.Black;
+            btnFilter.Location = new Point(574, 29);
+            btnFilter.Margin = new Padding(2);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(105, 30);
+            btnFilter.TabIndex = 38;
+            btnFilter.Text = "Filter";
+            btnFilter.UseVisualStyleBackColor = false;
+            btnFilter.Click += btnFilter_Click;
+            // 
+            // ddlFilterUser
+            // 
+            ddlFilterUser.FormattingEnabled = true;
+            ddlFilterUser.Location = new Point(385, 26);
+            ddlFilterUser.Margin = new Padding(4, 5, 4, 5);
+            ddlFilterUser.Name = "ddlFilterUser";
+            ddlFilterUser.Size = new Size(174, 33);
+            ddlFilterUser.TabIndex = 38;
+            // 
+            // FilterbyUser
+            // 
+            FilterbyUser.AutoSize = true;
+            FilterbyUser.Location = new Point(259, 31);
+            FilterbyUser.Name = "FilterbyUser";
+            FilterbyUser.Size = new Size(119, 25);
+            FilterbyUser.TabIndex = 2;
+            FilterbyUser.Text = "Filter by User:";
+            // 
+            // txtFilterTrailsNo
+            // 
+            txtFilterTrailsNo.Location = new Point(169, 29);
+            txtFilterTrailsNo.Name = "txtFilterTrailsNo";
+            txtFilterTrailsNo.Size = new Size(68, 31);
+            txtFilterTrailsNo.TabIndex = 1;
+            // 
+            // FilterbyLoginTrailsNo
+            // 
+            FilterbyLoginTrailsNo.AutoSize = true;
+            FilterbyLoginTrailsNo.Location = new Point(12, 31);
+            FilterbyLoginTrailsNo.Name = "FilterbyLoginTrailsNo";
+            FilterbyLoginTrailsNo.Size = new Size(151, 25);
+            FilterbyLoginTrailsNo.TabIndex = 0;
+            FilterbyLoginTrailsNo.Text = "Filter by Trails No:";
             // 
             // Logging
             // 
@@ -134,6 +223,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(filterGB);
             Controls.Add(btnRefresh);
             Controls.Add(userIcon);
             Controls.Add(returnIcon);
@@ -144,11 +234,14 @@
             DoubleBuffered = true;
             Name = "Logging";
             Text = "Logging";
+            Load += Logging_Load;
             ((System.ComponentModel.ISupportInitialize)dgvLogTrail).EndInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
+            filterGB.ResumeLayout(false);
+            filterGB.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -162,5 +255,12 @@
         private PictureBox homeIcon;
         private PictureBox userIcon;
         private Button btnRefresh;
+        private GroupBox filterGB;
+        private Button btnResetFilter;
+        private Button btnFilter;
+        private ComboBox ddlFilterUser;
+        private Label FilterbyUser;
+        private TextBox txtFilterTrailsNo;
+        private Label FilterbyLoginTrailsNo;
     }
 }

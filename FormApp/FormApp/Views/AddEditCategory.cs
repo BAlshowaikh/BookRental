@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace FormApp.Views
         public AddEditCategory()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
             category = new Category();
         }
@@ -52,6 +54,14 @@ namespace FormApp.Views
         {
             try
             {
+<<<<<<< HEAD
+=======
+                if (int.TryParse(txtCategoryID.Text, out int categoryID))
+                {
+                    category.CategoryId = categoryID;
+                }
+
+>>>>>>> 045711317590bf1154c69489b4643faa6f765324
                 category.CategoryName = txtCategoryName.Text.ToString();
 
                 if (category.CategoryId > 0)
@@ -78,6 +88,16 @@ namespace FormApp.Views
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }

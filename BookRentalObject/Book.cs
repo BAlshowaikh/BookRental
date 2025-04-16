@@ -11,6 +11,7 @@ namespace BookRentalObject
     {
         public Book()
         {
+            Feedbacks = new HashSet<Feedback>();
             RentalRequests = new HashSet<RentalRequest>();
             RentalTransactions = new HashSet<RentalTransaction>();
             ReturnRecords = new HashSet<ReturnRecord>();
@@ -53,6 +54,8 @@ namespace BookRentalObject
         [ForeignKey("CategoryId")]
         [InverseProperty("Books")]
         public virtual Category Category { get; set; } = null!;
+        [InverseProperty("Book")]
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
         [InverseProperty("Book")]
         public virtual ICollection<RentalRequest> RentalRequests { get; set; }
         [InverseProperty("Book")]

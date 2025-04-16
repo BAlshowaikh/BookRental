@@ -28,10 +28,6 @@ namespace BookRentalObject
         public DateTime? ReturnDate { get; set; }
         [Column("rentalFee")]
         public double? RentalFee { get; set; }
-        [Column("deposit")]
-        public double? Deposit { get; set; }
-        [Column("extraChargesId")]
-        public int ExtraChargesId { get; set; }
         [Column("paymentMethodId")]
         public int PaymentMethodId { get; set; }
         [Column("paymentStatusId")]

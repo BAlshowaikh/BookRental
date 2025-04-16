@@ -32,36 +32,39 @@
             groupBox1 = new GroupBox();
             lblFilterByBookName = new Label();
             txtFilterByBookID = new TextBox();
-            cbFilterByBookName = new ComboBox();
+            ddlFilterByBookName = new ComboBox();
             btnRefresh = new Button();
             btnFilter = new Button();
             lblfilterByBookID = new Label();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
-            homeIcon = new PictureBox();
             userIcon = new PictureBox();
             btnDeleteBook = new Button();
             btnEditBook = new Button();
             btnAddBook = new Button();
             btnViewDetails = new Button();
+            homeIcon = new PictureBox();
+            pageTitleTxt = new Label();
+            refreshBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvBooksList).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             SuspendLayout();
             // 
             // dgvBooksList
             // 
             dgvBooksList.BackgroundColor = SystemColors.Control;
             dgvBooksList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvBooksList.Location = new Point(22, 210);
+            dgvBooksList.Location = new Point(22, 195);
             dgvBooksList.Margin = new Padding(2);
             dgvBooksList.Name = "dgvBooksList";
             dgvBooksList.RowHeadersWidth = 62;
-            dgvBooksList.Size = new Size(930, 340);
+            dgvBooksList.Size = new Size(930, 329);
             dgvBooksList.TabIndex = 2;
+            dgvBooksList.CellClick += dgvBooksList_CellClick;
             dgvBooksList.CellContentClick += dgvBooksList_CellContentClick;
             // 
             // groupBox1
@@ -69,13 +72,13 @@
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(lblFilterByBookName);
             groupBox1.Controls.Add(txtFilterByBookID);
-            groupBox1.Controls.Add(cbFilterByBookName);
+            groupBox1.Controls.Add(ddlFilterByBookName);
             groupBox1.Controls.Add(btnRefresh);
             groupBox1.Controls.Add(btnFilter);
             groupBox1.Controls.Add(lblfilterByBookID);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
-            groupBox1.Location = new Point(22, 92);
+            groupBox1.Location = new Point(22, 76);
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
@@ -103,14 +106,14 @@
             txtFilterByBookID.Size = new Size(150, 32);
             txtFilterByBookID.TabIndex = 28;
             // 
-            // cbFilterByBookName
+            // ddlFilterByBookName
             // 
-            cbFilterByBookName.FormattingEnabled = true;
-            cbFilterByBookName.Location = new Point(528, 40);
-            cbFilterByBookName.Margin = new Padding(4);
-            cbFilterByBookName.Name = "cbFilterByBookName";
-            cbFilterByBookName.Size = new Size(168, 32);
-            cbFilterByBookName.TabIndex = 27;
+            ddlFilterByBookName.FormattingEnabled = true;
+            ddlFilterByBookName.Location = new Point(528, 40);
+            ddlFilterByBookName.Margin = new Padding(4);
+            ddlFilterByBookName.Name = "ddlFilterByBookName";
+            ddlFilterByBookName.Size = new Size(168, 32);
+            ddlFilterByBookName.TabIndex = 27;
             // 
             // btnRefresh
             // 
@@ -138,6 +141,7 @@
             btnFilter.TabIndex = 10;
             btnFilter.Text = "Filter";
             btnFilter.UseVisualStyleBackColor = false;
+            btnFilter.Click += btnFilter_Click;
             // 
             // lblfilterByBookID
             // 
@@ -174,19 +178,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 22;
             exitIcon.TabStop = false;
-            // 
-            // homeIcon
-            // 
-            homeIcon.BackColor = Color.Transparent;
-            homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 12);
-            homeIcon.Margin = new Padding(2);
-            homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(40, 40);
-            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            homeIcon.TabIndex = 21;
-            homeIcon.TabStop = false;
-            homeIcon.Click += pictureBox2_Click;
+            exitIcon.Click += exitIcon_Click;
             // 
             // userIcon
             // 
@@ -212,6 +204,7 @@
             btnDeleteBook.TabIndex = 26;
             btnDeleteBook.Text = "Delete Book";
             btnDeleteBook.UseVisualStyleBackColor = false;
+            btnDeleteBook.Click += btnDeleteBook_Click;
             // 
             // btnEditBook
             // 
@@ -225,6 +218,7 @@
             btnEditBook.TabIndex = 25;
             btnEditBook.Text = "Edit Book";
             btnEditBook.UseVisualStyleBackColor = false;
+            btnEditBook.Click += btnEditBook_Click;
             // 
             // btnAddBook
             // 
@@ -238,6 +232,7 @@
             btnAddBook.TabIndex = 24;
             btnAddBook.Text = "Add Book";
             btnAddBook.UseVisualStyleBackColor = false;
+            btnAddBook.Click += btnAddBook_Click;
             // 
             // btnViewDetails
             // 
@@ -253,6 +248,44 @@
             btnViewDetails.UseVisualStyleBackColor = false;
             btnViewDetails.Click += btnViewDetails_Click;
             // 
+            // homeIcon
+            // 
+            homeIcon.BackColor = Color.Transparent;
+            homeIcon.Image = Properties.Resources.home__2_;
+            homeIcon.Location = new Point(880, 12);
+            homeIcon.Margin = new Padding(2);
+            homeIcon.Name = "homeIcon";
+            homeIcon.Size = new Size(40, 40);
+            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            homeIcon.TabIndex = 28;
+            homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
+            // 
+            // pageTitleTxt
+            // 
+            pageTitleTxt.AutoSize = true;
+            pageTitleTxt.BackColor = Color.Transparent;
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.ForeColor = Color.Cornsilk;
+            pageTitleTxt.Location = new Point(266, 3);
+            pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
+            pageTitleTxt.Name = "pageTitleTxt";
+            pageTitleTxt.Size = new Size(405, 63);
+            pageTitleTxt.TabIndex = 29;
+            pageTitleTxt.Text = "Manage Books";
+            // 
+            // refreshBtn
+            // 
+            refreshBtn.BackColor = Color.LightGray;
+            refreshBtn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            refreshBtn.Location = new Point(840, 529);
+            refreshBtn.Name = "refreshBtn";
+            refreshBtn.Size = new Size(110, 35);
+            refreshBtn.TabIndex = 30;
+            refreshBtn.Text = "Refresh";
+            refreshBtn.UseVisualStyleBackColor = false;
+            refreshBtn.Click += refreshBtn_Click;
+            // 
             // bookList
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -261,13 +294,15 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(refreshBtn);
+            Controls.Add(pageTitleTxt);
+            Controls.Add(homeIcon);
             Controls.Add(btnViewDetails);
             Controls.Add(btnDeleteBook);
             Controls.Add(btnEditBook);
             Controls.Add(btnAddBook);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
-            Controls.Add(homeIcon);
             Controls.Add(userIcon);
             Controls.Add(groupBox1);
             Controls.Add(dgvBooksList);
@@ -281,9 +316,10 @@
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -293,15 +329,17 @@
         private Label lblfilterByBookID;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
-        private PictureBox homeIcon;
         private PictureBox userIcon;
         private Button btnDeleteBook;
         private Button btnEditBook;
         private Button btnAddBook;
         private Button btnRefresh;
-        private ComboBox cbFilterByBookName;
+        private ComboBox ddlFilterByBookName;
         private TextBox txtFilterByBookID;
         private Label lblFilterByBookName;
         private Button btnViewDetails;
+        private PictureBox homeIcon;
+        private Label pageTitleTxt;
+        private Button refreshBtn;
     }
 }

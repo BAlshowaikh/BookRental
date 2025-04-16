@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FormApp.Controllers;
 
 namespace FormApp
 {
@@ -15,6 +16,7 @@ namespace FormApp
         public Register()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void label1_Click(object sender, EventArgs e)

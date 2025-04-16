@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using FormApp.Views;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace FormApp
         public ManageUser()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
         }
 
@@ -129,9 +131,20 @@ namespace FormApp
             }
         }
 
+<<<<<<< HEAD
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
 
+=======
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+>>>>>>> 045711317590bf1154c69489b4643faa6f765324
         }
     }
 }

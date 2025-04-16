@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FormApp.Controllers;
 
 namespace FormApp.Views
 {
@@ -15,6 +16,7 @@ namespace FormApp.Views
         public homePageStaff()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void homePageStaff_Load(object sender, EventArgs e)
@@ -46,6 +48,11 @@ namespace FormApp.Views
             returnRecord returnRecordForm = new returnRecord();
             returnRecordForm.Show();
             this.Hide();
+        }
+
+        private void manageBooksBtn_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

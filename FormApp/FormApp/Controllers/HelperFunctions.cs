@@ -26,9 +26,6 @@ namespace FormApp.Controllers
 
             // Prevent any resizing
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
-
-            // Set image layout to strech so it doesn't messed up
-            form.BackgroundImageLayout = ImageLayout.Stretch;
             
         }
 
@@ -47,6 +44,20 @@ namespace FormApp.Controllers
         public static void returnBtn(Form form)
         {
 
+        }
+
+        public static void navigationToPage(Form currentForm, Form newForm)
+        {
+            newForm.Show();
+            currentForm.Hide();
+        }
+
+        // Function to be used for parent-child relationship in forms (For example, between the bookList form and AddEditBook form)
+        public static void ShowChildForm(Form parentForm, Form childForm)
+        {
+            parentForm.Hide();
+            childForm.FormClosed += (s, args) => parentForm.Show();
+            childForm.Show();
         }
 
     }

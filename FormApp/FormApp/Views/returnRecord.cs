@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using BookRentalObject;
+using FormApp.Controllers;
 
 namespace FormApp.Views
 {
@@ -18,6 +20,7 @@ namespace FormApp.Views
         public returnRecord()
         {
             InitializeComponent();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void returnRecord_Load(object sender, EventArgs e)
@@ -47,7 +50,6 @@ namespace FormApp.Views
             txtFilterRecordNo.Text = String.Empty;
             txtFilterRecordNo.Focus();
 
-            txtFilterTransactionNo.Text = String.Empty;
             ddlFilterBook.SelectedValue = string.Empty;
 
             RefreshReturnRecourdGridview();
@@ -63,20 +65,48 @@ namespace FormApp.Views
                 RequestToShow = RequestToShow
                     .Where(x => x.RecordId == Convert.ToInt32(txtFilterRecordNo.Text));
             }
-            else if (txtFilterTransactionNo.Text != "")
-            {
-                RequestToShow = RequestToShow
-                    .Where(x => x.RecordId == Convert.ToInt32(txtFilterTransactionNo.Text));
-            }
             else if (ddlFilterBook.SelectedValue != null)
             {
                 RequestToShow = RequestToShow
                     .Where(x => x.BookId == Convert.ToInt32(ddlFilterBook.SelectedValue.ToString()));
             }
 
-            dgvReturnRecourd.DataSource = RequestToShow.ToList();
+            dgvReturnRecourd.DataSource = RequestToShow.Select(x => new
+            {
+                RecordID = x.RecordId,
+                BookName = x.Book.Name,
+                BookCondition = x.BookCondition.ReturnCondition,
+                UserName = x.Transaction.User.FullName,
+                x.ExpectedReturnDate,
+                x.ActualReturnDate,
+                x.TotalAdditionalCharges,
+                x.LateReturnFee,
+                x.TransactionId
+
+            }).ToList();
         }
 
-        
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
+
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            int cell = Convert.ToInt32(dgvReturnRecourd.SelectedCells[0].OwningRow.Cells[0].Value);
+            ReturnRecord selected = context.ReturnRecords.Find(cell);
+
+            returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(selected);
+            frmreturnRecordDetails.ShowDialog();
+            if (frmreturnRecordDetails.DialogResult == DialogResult.OK)
+            {
+                RefreshReturnRecourdGridview();
+            }
+        }
     }
 }

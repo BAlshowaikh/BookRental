@@ -103,9 +103,9 @@
             welcomeTxt.Location = new Point(66, 176);
             welcomeTxt.Margin = new Padding(2, 0, 2, 0);
             welcomeTxt.Name = "welcomeTxt";
-            welcomeTxt.Size = new Size(854, 52);
+            welcomeTxt.Size = new Size(817, 52);
             welcomeTxt.TabIndex = 12;
-            welcomeTxt.Text = "Welocome to Book Nook Store!";
+            welcomeTxt.Text = "Welcome to Book Nook Store!";
             // 
             // manageUsersBtn
             // 
@@ -144,6 +144,7 @@
             manageRentalTransictionsBtn.TabIndex = 15;
             manageRentalTransictionsBtn.Text = "Manage Rental Transactions";
             manageRentalTransictionsBtn.UseVisualStyleBackColor = false;
+            manageRentalTransictionsBtn.Click += manageRentalTransictionsBtn_Click;
             // 
             // manageRentalRequestBtn
             // 
@@ -156,6 +157,7 @@
             manageRentalRequestBtn.TabIndex = 16;
             manageRentalRequestBtn.Text = "Manage Rental Request";
             manageRentalRequestBtn.UseVisualStyleBackColor = false;
+            manageRentalRequestBtn.Click += manageRentalRequestBtn_Click;
             // 
             // manageRentalRecordsBtn
             // 
@@ -166,21 +168,22 @@
             manageRentalRecordsBtn.Name = "manageRentalRecordsBtn";
             manageRentalRecordsBtn.Size = new Size(220, 50);
             manageRentalRecordsBtn.TabIndex = 17;
-            manageRentalRecordsBtn.Text = "Manage Rental Records";
+            manageRentalRecordsBtn.Text = "Manage Return Records";
             manageRentalRecordsBtn.UseVisualStyleBackColor = false;
+            manageRentalRecordsBtn.Click += manageRentalRecordsBtn_Click_1;
             // 
             // generateRecordsBtn
             // 
             generateRecordsBtn.BackColor = Color.Cornsilk;
             generateRecordsBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            generateRecordsBtn.Location = new Point(658, 405);
+            generateRecordsBtn.Location = new Point(658, 409);
             generateRecordsBtn.Margin = new Padding(2);
             generateRecordsBtn.Name = "generateRecordsBtn";
             generateRecordsBtn.Size = new Size(220, 50);
             generateRecordsBtn.TabIndex = 18;
             generateRecordsBtn.Text = "Generate Records";
             generateRecordsBtn.UseVisualStyleBackColor = false;
-            generateRecordsBtn.Click += button1_Click;
+            generateRecordsBtn.Click += generateRecordsBtn_Click;
             // 
             // homePageAdmin
             // 

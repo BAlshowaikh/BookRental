@@ -34,26 +34,26 @@
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
-            textBox4 = new TextBox();
+            txtPublishDate = new TextBox();
             lblAuthorName = new Label();
-            textBox3 = new TextBox();
+            txtBookCategory = new TextBox();
             lblPublishDate = new Label();
-            textBox5 = new TextBox();
+            txtBookDesc = new TextBox();
             lblBookDesc = new Label();
-            textBox2 = new TextBox();
+            txtBookName = new TextBox();
             lblBookName = new Label();
-            textBox1 = new TextBox();
-            textBox6 = new TextBox();
+            txtRentalPrice = new TextBox();
+            txtBookId = new TextBox();
             lblBookID = new Label();
             lblBookCategory = new Label();
             lblRentalPrice = new Label();
-            textBox7 = new TextBox();
+            txtAuthorName = new TextBox();
             lblBookCondition = new Label();
-            textBox8 = new TextBox();
+            txtBookCondition = new TextBox();
             lblAvailability = new Label();
-            textBox9 = new TextBox();
+            txtAvailability = new TextBox();
             lblISBN = new Label();
-            textBox10 = new TextBox();
+            txtBookISBN = new TextBox();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -109,6 +109,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 15;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // homeIcon
             // 
@@ -121,6 +122,7 @@
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 14;
             homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
             // 
             // userIcon
             // 
@@ -134,13 +136,13 @@
             userIcon.TabIndex = 13;
             userIcon.TabStop = false;
             // 
-            // textBox4
+            // txtPublishDate
             // 
-            textBox4.Location = new Point(240, 455);
-            textBox4.Margin = new Padding(2);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(250, 31);
-            textBox4.TabIndex = 9;
+            txtPublishDate.Location = new Point(240, 455);
+            txtPublishDate.Margin = new Padding(2);
+            txtPublishDate.Name = "txtPublishDate";
+            txtPublishDate.Size = new Size(250, 31);
+            txtPublishDate.TabIndex = 9;
             // 
             // lblAuthorName
             // 
@@ -155,13 +157,13 @@
             lblAuthorName.TabIndex = 5;
             lblAuthorName.Text = "Author name";
             // 
-            // textBox3
+            // txtBookCategory
             // 
-            textBox3.Location = new Point(710, 293);
-            textBox3.Margin = new Padding(2);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(250, 31);
-            textBox3.TabIndex = 8;
+            txtBookCategory.Location = new Point(710, 293);
+            txtBookCategory.Margin = new Padding(2);
+            txtBookCategory.Name = "txtBookCategory";
+            txtBookCategory.Size = new Size(250, 31);
+            txtBookCategory.TabIndex = 8;
             // 
             // lblPublishDate
             // 
@@ -169,20 +171,20 @@
             lblPublishDate.BackColor = Color.Transparent;
             lblPublishDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblPublishDate.ForeColor = Color.Black;
-            lblPublishDate.Location = new Point(21, 455);
+            lblPublishDate.Location = new Point(19, 455);
             lblPublishDate.Margin = new Padding(2, 0, 2, 0);
             lblPublishDate.Name = "lblPublishDate";
             lblPublishDate.Size = new Size(192, 29);
             lblPublishDate.TabIndex = 4;
             lblPublishDate.Text = "Published Date";
             // 
-            // textBox5
+            // txtBookDesc
             // 
-            textBox5.Location = new Point(240, 375);
-            textBox5.Margin = new Padding(2);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(250, 31);
-            textBox5.TabIndex = 18;
+            txtBookDesc.Location = new Point(240, 375);
+            txtBookDesc.Margin = new Padding(2);
+            txtBookDesc.Name = "txtBookDesc";
+            txtBookDesc.Size = new Size(250, 31);
+            txtBookDesc.TabIndex = 18;
             // 
             // lblBookDesc
             // 
@@ -197,13 +199,13 @@
             lblBookDesc.TabIndex = 17;
             lblBookDesc.Text = "Book Description ";
             // 
-            // textBox2
+            // txtBookName
             // 
-            textBox2.Location = new Point(240, 218);
-            textBox2.Margin = new Padding(2);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(250, 31);
-            textBox2.TabIndex = 7;
+            txtBookName.Location = new Point(240, 218);
+            txtBookName.Margin = new Padding(2);
+            txtBookName.Name = "txtBookName";
+            txtBookName.Size = new Size(250, 31);
+            txtBookName.TabIndex = 7;
             // 
             // lblBookName
             // 
@@ -219,21 +221,21 @@
             lblBookName.Text = "Book Name";
             lblBookName.Click += label3_Click;
             // 
-            // textBox1
+            // txtRentalPrice
             // 
-            textBox1.Location = new Point(710, 136);
-            textBox1.Margin = new Padding(2);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(250, 31);
-            textBox1.TabIndex = 6;
+            txtRentalPrice.Location = new Point(710, 136);
+            txtRentalPrice.Margin = new Padding(2);
+            txtRentalPrice.Name = "txtRentalPrice";
+            txtRentalPrice.Size = new Size(250, 31);
+            txtRentalPrice.TabIndex = 6;
             // 
-            // textBox6
+            // txtBookId
             // 
-            textBox6.Location = new Point(240, 137);
-            textBox6.Margin = new Padding(2);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(250, 31);
-            textBox6.TabIndex = 20;
+            txtBookId.Location = new Point(240, 137);
+            txtBookId.Margin = new Padding(2);
+            txtBookId.Name = "txtBookId";
+            txtBookId.Size = new Size(250, 31);
+            txtBookId.TabIndex = 20;
             // 
             // lblBookID
             // 
@@ -274,13 +276,13 @@
             lblRentalPrice.TabIndex = 22;
             lblRentalPrice.Text = "Rental Price";
             // 
-            // textBox7
+            // txtAuthorName
             // 
-            textBox7.Location = new Point(710, 215);
-            textBox7.Margin = new Padding(2);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(250, 31);
-            textBox7.TabIndex = 23;
+            txtAuthorName.Location = new Point(710, 215);
+            txtAuthorName.Margin = new Padding(2);
+            txtAuthorName.Name = "txtAuthorName";
+            txtAuthorName.Size = new Size(250, 31);
+            txtAuthorName.TabIndex = 23;
             // 
             // lblBookCondition
             // 
@@ -295,13 +297,13 @@
             lblBookCondition.TabIndex = 24;
             lblBookCondition.Text = "Book Condition";
             // 
-            // textBox8
+            // txtBookCondition
             // 
-            textBox8.Location = new Point(710, 375);
-            textBox8.Margin = new Padding(2);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(250, 31);
-            textBox8.TabIndex = 25;
+            txtBookCondition.Location = new Point(710, 375);
+            txtBookCondition.Margin = new Padding(2);
+            txtBookCondition.Name = "txtBookCondition";
+            txtBookCondition.Size = new Size(250, 31);
+            txtBookCondition.TabIndex = 25;
             // 
             // lblAvailability
             // 
@@ -316,13 +318,13 @@
             lblAvailability.TabIndex = 26;
             lblAvailability.Text = "Availability";
             // 
-            // textBox9
+            // txtAvailability
             // 
-            textBox9.Location = new Point(710, 456);
-            textBox9.Margin = new Padding(2);
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(250, 31);
-            textBox9.TabIndex = 27;
+            txtAvailability.Location = new Point(710, 456);
+            txtAvailability.Margin = new Padding(2);
+            txtAvailability.Name = "txtAvailability";
+            txtAvailability.Size = new Size(250, 31);
+            txtAvailability.TabIndex = 27;
             // 
             // lblISBN
             // 
@@ -335,13 +337,13 @@
             lblISBN.TabIndex = 28;
             lblISBN.Text = "ISBN";
             // 
-            // textBox10
+            // txtBookISBN
             // 
-            textBox10.Location = new Point(240, 290);
-            textBox10.Margin = new Padding(2);
-            textBox10.Name = "textBox10";
-            textBox10.Size = new Size(250, 31);
-            textBox10.TabIndex = 29;
+            txtBookISBN.Location = new Point(240, 290);
+            txtBookISBN.Margin = new Padding(2);
+            txtBookISBN.Name = "txtBookISBN";
+            txtBookISBN.Size = new Size(250, 31);
+            txtBookISBN.TabIndex = 29;
             // 
             // bookDetails
             // 
@@ -351,28 +353,28 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
-            Controls.Add(textBox10);
+            Controls.Add(txtBookISBN);
             Controls.Add(lblISBN);
-            Controls.Add(textBox9);
+            Controls.Add(txtAvailability);
             Controls.Add(lblAvailability);
-            Controls.Add(textBox8);
+            Controls.Add(txtBookCondition);
             Controls.Add(lblBookCondition);
-            Controls.Add(textBox7);
+            Controls.Add(txtAuthorName);
             Controls.Add(lblRentalPrice);
             Controls.Add(lblBookCategory);
-            Controls.Add(textBox6);
+            Controls.Add(txtBookId);
             Controls.Add(lblBookID);
-            Controls.Add(textBox5);
+            Controls.Add(txtBookDesc);
             Controls.Add(lblBookDesc);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
             Controls.Add(btnViewFeedback);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(txtPublishDate);
+            Controls.Add(txtBookCategory);
+            Controls.Add(txtBookName);
+            Controls.Add(txtRentalPrice);
             Controls.Add(lblAuthorName);
             Controls.Add(lblPublishDate);
             Controls.Add(lblBookName);
@@ -382,6 +384,7 @@
             Margin = new Padding(2);
             Name = "bookDetails";
             Text = "bookDetails";
+            Load += bookDetails_Load;
             ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
@@ -398,25 +401,25 @@
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
-        private TextBox textBox4;
+        private TextBox txtPublishDate;
         private Label lblAuthorName;
-        private TextBox textBox3;
+        private TextBox txtBookCategory;
         private Label lblPublishDate;
-        private TextBox textBox5;
+        private TextBox txtBookDesc;
         private Label lblBookDesc;
-        private TextBox textBox2;
+        private TextBox txtBookName;
         private Label lblBookName;
-        private TextBox textBox1;
-        private TextBox textBox6;
+        private TextBox txtRentalPrice;
+        private TextBox txtBookId;
         private Label lblBookID;
         private Label lblBookCategory;
         private Label lblRentalPrice;
-        private TextBox textBox7;
+        private TextBox txtAuthorName;
         private Label lblBookCondition;
-        private TextBox textBox8;
+        private TextBox txtBookCondition;
         private Label lblAvailability;
-        private TextBox textBox9;
+        private TextBox txtAvailability;
         private Label lblISBN;
-        private TextBox textBox10;
+        private TextBox txtBookISBN;
     }
 }

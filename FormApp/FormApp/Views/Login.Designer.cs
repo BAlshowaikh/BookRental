@@ -31,10 +31,11 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            usernameTxt = new TextBox();
+            passwordTxt = new TextBox();
             label4 = new Label();
             linkLabel1 = new LinkLabel();
+            loginBtn = new Button();
             SuspendLayout();
             // 
             // label1
@@ -43,12 +44,13 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             label1.ForeColor = Color.Cornsilk;
-            label1.Location = new Point(378, 9);
+            label1.Location = new Point(412, 9);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(171, 63);
             label1.TabIndex = 0;
             label1.Text = "Login";
+            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -62,6 +64,7 @@
             label2.Size = new Size(146, 31);
             label2.TabIndex = 2;
             label2.Text = "Username";
+            label2.Click += label2_Click;
             // 
             // label3
             // 
@@ -76,21 +79,21 @@
             label3.TabIndex = 3;
             label3.Text = "Password";
             // 
-            // textBox1
+            // usernameTxt
             // 
-            textBox1.Location = new Point(255, 202);
-            textBox1.Margin = new Padding(2);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(500, 31);
-            textBox1.TabIndex = 4;
+            usernameTxt.Location = new Point(255, 202);
+            usernameTxt.Margin = new Padding(2);
+            usernameTxt.Name = "usernameTxt";
+            usernameTxt.Size = new Size(500, 31);
+            usernameTxt.TabIndex = 4;
             // 
-            // textBox2
+            // passwordTxt
             // 
-            textBox2.Location = new Point(255, 345);
-            textBox2.Margin = new Padding(2);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(500, 31);
-            textBox2.TabIndex = 5;
+            passwordTxt.Location = new Point(255, 345);
+            passwordTxt.Margin = new Padding(2);
+            passwordTxt.Name = "passwordTxt";
+            passwordTxt.Size = new Size(500, 31);
+            passwordTxt.TabIndex = 5;
             // 
             // label4
             // 
@@ -98,7 +101,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Britannic Bold", 11F);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(322, 469);
+            label4.Location = new Point(321, 505);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new Size(238, 25);
@@ -111,7 +114,7 @@
             linkLabel1.BackColor = Color.Transparent;
             linkLabel1.Font = new Font("Tahoma", 11F);
             linkLabel1.ForeColor = Color.SkyBlue;
-            linkLabel1.Location = new Point(566, 469);
+            linkLabel1.Location = new Point(563, 503);
             linkLabel1.Margin = new Padding(2, 0, 2, 0);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(92, 27);
@@ -119,6 +122,18 @@
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Register";
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
+            // loginBtn
+            // 
+            loginBtn.BackColor = Color.Cornsilk;
+            loginBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            loginBtn.Location = new Point(403, 414);
+            loginBtn.Name = "loginBtn";
+            loginBtn.Size = new Size(200, 50);
+            loginBtn.TabIndex = 8;
+            loginBtn.Text = "Login";
+            loginBtn.UseVisualStyleBackColor = false;
+            loginBtn.Click += loginBtn_Click;
             // 
             // Login
             // 
@@ -128,10 +143,11 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(loginBtn);
             Controls.Add(linkLabel1);
             Controls.Add(label4);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(passwordTxt);
+            Controls.Add(usernameTxt);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -153,5 +169,9 @@
         private TextBox textBox2;
         private Label label4;
         private LinkLabel linkLabel1;
+        private Button button1;
+        private Button loginBtn;
+        private TextBox usernameTxt;
+        private TextBox passwordTxt;
     }
 }
