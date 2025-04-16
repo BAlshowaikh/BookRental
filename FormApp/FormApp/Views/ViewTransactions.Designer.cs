@@ -35,12 +35,12 @@
             userIcon = new PictureBox();
             dgvTransaction = new DataGridView();
             groupBox1 = new GroupBox();
+            txtTransactionID = new TextBox();
             ddlCustomer = new ComboBox();
             label1 = new Label();
             refreshBttn = new Button();
             filterBttn = new Button();
             lblFilter = new Label();
-            txtTransactionID = new TextBox();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -54,10 +54,10 @@
             editBttn.BackColor = Color.Cornsilk;
             editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             editBttn.ForeColor = Color.Black;
-            editBttn.Location = new Point(565, 602);
+            editBttn.Location = new Point(706, 752);
             editBttn.Margin = new Padding(2);
             editBttn.Name = "editBttn";
-            editBttn.Size = new Size(185, 40);
+            editBttn.Size = new Size(231, 50);
             editBttn.TabIndex = 42;
             editBttn.Text = "Generate Record";
             editBttn.UseVisualStyleBackColor = false;
@@ -66,10 +66,10 @@
             // 
             returnIcon.BackColor = Color.Transparent;
             returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(840, 20);
+            returnIcon.Location = new Point(830, 12);
             returnIcon.Margin = new Padding(2);
             returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(32, 32);
+            returnIcon.Size = new Size(40, 40);
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 40;
             returnIcon.TabStop = false;
@@ -78,34 +78,36 @@
             // 
             exitIcon.BackColor = Color.Transparent;
             exitIcon.Image = Properties.Resources.exit_icon;
-            exitIcon.Location = new Point(920, 20);
+            exitIcon.Location = new Point(930, 12);
             exitIcon.Margin = new Padding(2);
             exitIcon.Name = "exitIcon";
-            exitIcon.Size = new Size(32, 32);
+            exitIcon.Size = new Size(40, 40);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 39;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // homeIcon
             // 
             homeIcon.BackColor = Color.Transparent;
             homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 20);
+            homeIcon.Location = new Point(880, 12);
             homeIcon.Margin = new Padding(2);
             homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(32, 32);
+            homeIcon.Size = new Size(40, 40);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 38;
             homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
             // 
             // userIcon
             // 
             userIcon.BackColor = Color.Transparent;
             userIcon.Image = Properties.Resources.user;
-            userIcon.Location = new Point(30, 20);
+            userIcon.Location = new Point(19, 12);
             userIcon.Margin = new Padding(2);
             userIcon.Name = "userIcon";
-            userIcon.Size = new Size(32, 32);
+            userIcon.Size = new Size(40, 40);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 37;
             userIcon.TabStop = false;
@@ -115,11 +117,11 @@
             dgvTransaction.BackgroundColor = SystemColors.Control;
             dgvTransaction.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTransaction.GridColor = SystemColors.ButtonFace;
-            dgvTransaction.Location = new Point(33, 221);
+            dgvTransaction.Location = new Point(22, 240);
             dgvTransaction.Margin = new Padding(2);
             dgvTransaction.Name = "dgvTransaction";
             dgvTransaction.RowHeadersWidth = 62;
-            dgvTransaction.Size = new Size(744, 359);
+            dgvTransaction.Size = new Size(928, 362);
             dgvTransaction.TabIndex = 36;
             // 
             // groupBox1
@@ -133,21 +135,30 @@
             groupBox1.Controls.Add(lblFilter);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
-            groupBox1.Location = new Point(33, 84);
+            groupBox1.Location = new Point(22, 93);
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
-            groupBox1.Size = new Size(742, 118);
+            groupBox1.Size = new Size(928, 127);
             groupBox1.TabIndex = 35;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
             // 
+            // txtTransactionID
+            // 
+            txtTransactionID.Location = new Point(200, 38);
+            txtTransactionID.Margin = new Padding(4);
+            txtTransactionID.Name = "txtTransactionID";
+            txtTransactionID.Size = new Size(255, 32);
+            txtTransactionID.TabIndex = 22;
+            // 
             // ddlCustomer
             // 
             ddlCustomer.FormattingEnabled = true;
-            ddlCustomer.Location = new Point(489, 25);
+            ddlCustomer.Location = new Point(611, 31);
+            ddlCustomer.Margin = new Padding(4);
             ddlCustomer.Name = "ddlCustomer";
-            ddlCustomer.Size = new Size(223, 29);
+            ddlCustomer.Size = new Size(278, 32);
             ddlCustomer.TabIndex = 21;
             // 
             // label1
@@ -155,10 +166,10 @@
             label1.AutoSize = true;
             label1.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(383, 32);
+            label1.Location = new Point(479, 40);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(101, 22);
+            label1.Size = new Size(121, 27);
             label1.TabIndex = 20;
             label1.Text = "Customer:";
             // 
@@ -167,10 +178,10 @@
             refreshBttn.BackColor = Color.Cornsilk;
             refreshBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             refreshBttn.ForeColor = Color.Black;
-            refreshBttn.Location = new Point(600, 70);
+            refreshBttn.Location = new Point(750, 88);
             refreshBttn.Margin = new Padding(2);
             refreshBttn.Name = "refreshBttn";
-            refreshBttn.Size = new Size(112, 30);
+            refreshBttn.Size = new Size(140, 38);
             refreshBttn.TabIndex = 19;
             refreshBttn.Text = "Refresh";
             refreshBttn.UseVisualStyleBackColor = false;
@@ -181,10 +192,10 @@
             filterBttn.BackColor = Color.Cornsilk;
             filterBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filterBttn.ForeColor = Color.Black;
-            filterBttn.Location = new Point(478, 70);
+            filterBttn.Location = new Point(598, 88);
             filterBttn.Margin = new Padding(2);
             filterBttn.Name = "filterBttn";
-            filterBttn.Size = new Size(112, 30);
+            filterBttn.Size = new Size(140, 38);
             filterBttn.TabIndex = 10;
             filterBttn.Text = "Filter";
             filterBttn.UseVisualStyleBackColor = false;
@@ -195,27 +206,20 @@
             lblFilter.AutoSize = true;
             lblFilter.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblFilter.ForeColor = Color.Black;
-            lblFilter.Location = new Point(11, 32);
+            lblFilter.Location = new Point(14, 40);
             lblFilter.Margin = new Padding(2, 0, 2, 0);
             lblFilter.Name = "lblFilter";
-            lblFilter.Size = new Size(147, 22);
+            lblFilter.Size = new Size(176, 27);
             lblFilter.TabIndex = 0;
             lblFilter.Text = "Transaction ID:";
             // 
-            // txtTransactionID
-            // 
-            txtTransactionID.Location = new Point(160, 30);
-            txtTransactionID.Name = "txtTransactionID";
-            txtTransactionID.Size = new Size(205, 28);
-            txtTransactionID.TabIndex = 22;
-            // 
             // ViewTransactions
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
-            ClientSize = new Size(982, 653);
+            ClientSize = new Size(978, 644);
             Controls.Add(editBttn);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
@@ -223,6 +227,7 @@
             Controls.Add(userIcon);
             Controls.Add(dgvTransaction);
             Controls.Add(groupBox1);
+            Margin = new Padding(4);
             Name = "ViewTransactions";
             Text = "ViewTransactions";
             Load += ViewTransactions_Load;
