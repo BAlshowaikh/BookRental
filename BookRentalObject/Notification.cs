@@ -14,9 +14,6 @@ namespace BookRentalObject
         public int NotificationId { get; set; }
         [Column("userId")]
         public int UserId { get; set; }
-        [Column("type")]
-        [StringLength(50)]
-        public string? Type { get; set; }
         [Column("message")]
         [StringLength(100)]
         public string? Message { get; set; }
