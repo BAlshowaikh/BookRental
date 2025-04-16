@@ -28,10 +28,6 @@ namespace BookRentalObject
         public DateTime? ReturnDate { get; set; }
         [Column("rentalFee")]
         public double? RentalFee { get; set; }
-        [Column("deposit")]
-        public double? Deposit { get; set; }
-        [Column("extraChargesId")]
-        public int ExtraChargesId { get; set; }
         [Column("paymentMethodId")]
         public int PaymentMethodId { get; set; }
         [Column("paymentStatusId")]
@@ -40,6 +36,9 @@ namespace BookRentalObject
         [StringLength(50)]
         public string? RentalPeriod { get; set; }
 
+        [ForeignKey("BookId")]
+        [InverseProperty("RentalTransactions")]
+        public virtual Book Book { get; set; } = null!;
         [ForeignKey("PaymentMethodId")]
         [InverseProperty("RentalTransactions")]
         public virtual PaymentMethod PaymentMethod { get; set; } = null!;

@@ -42,7 +42,7 @@ namespace BookRentalObject
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLOCALDB;Database=BookRental;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=reboot08.com;Database=BookRental;User Id=sa;password='caliber,willpower,enjoyably,ending,giggling,P5';Encrypt=True;TrustServerCertificate=True;");
             }
         }
 
@@ -112,6 +112,11 @@ namespace BookRentalObject
 
             modelBuilder.Entity<Feedback>(entity =>
             {
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.Feedbacks)
+                    .HasForeignKey(d => d.BookId)
+                    .HasConstraintName("FK_Feedback_Book");
+
                 entity.HasOne(d => d.Transaction)
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.TransactionId)
@@ -160,6 +165,12 @@ namespace BookRentalObject
 
             modelBuilder.Entity<RentalTransaction>(entity =>
             {
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.RentalTransactions)
+                    .HasForeignKey(d => d.BookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Rental Transaction_Book");
+
                 entity.HasOne(d => d.PaymentMethod)
                     .WithMany(p => p.RentalTransactions)
                     .HasForeignKey(d => d.PaymentMethodId)
