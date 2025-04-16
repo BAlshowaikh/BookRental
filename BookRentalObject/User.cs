@@ -37,6 +37,8 @@ namespace BookRentalObject
         [StringLength(50)]
         public string? ContactNo { get; set; }
 
+        public string FullName { get => FirstName + " " + LastName; }
+
         [ForeignKey("UserRoleId")]
         [InverseProperty("Users")]
         public virtual UserRole UserRole { get; set; } = null!;
@@ -52,7 +54,5 @@ namespace BookRentalObject
         public virtual ICollection<RentalRequest> RentalRequests { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<RentalTransaction> RentalTransactions { get; set; }
-
-        public String FullName { get { return FirstName + " " + LastName;} }
     }
 }

@@ -159,7 +159,6 @@
             groupBox1.Controls.Add(refreshBttn);
             groupBox1.Controls.Add(ddlCategory);
             groupBox1.Controls.Add(filterBttn);
-            groupBox1.Controls.Add(label1);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
             groupBox1.Location = new Point(21, 83);

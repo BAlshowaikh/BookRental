@@ -51,18 +51,11 @@ namespace FormApp
             {
                 var userToShow = context.Users.AsQueryable();
 
-                if (ddlUser.SelectedValue != null)
+                if (ddlUser.SelectedItem != null)
                 {
-                    dgvUsers.DataSource = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue)).Select(s => new
-                    {
-                        UserID = s.UserId,
-                        FullName = s.FullName,
-                        Email = s.Email,
-                        Role = s.UserRole.Role
-                    }).ToList();
+                    userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
                 }
-                else
-                {
+                
                     dgvUsers.DataSource = userToShow.Select(s => new
                     {
                         UserID = s.UserId,
@@ -70,7 +63,7 @@ namespace FormApp
                         Email = s.Email,
                         Role = s.UserRole.Role
                     }).ToList();
-                }
+                
             }
             catch (Exception ex)
             {
@@ -102,9 +95,7 @@ namespace FormApp
         {
             int selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
 
-            User user = context.Users.Where(x => x.UserId == selectedCell).FirstOrDefault();
-
-            AddEditUser addEdit = new AddEditUser(user);
+            AddEditUser addEdit = new AddEditUser(selectedCell);
             addEdit.StartPosition = FormStartPosition.CenterScreen;
             addEdit.ShowDialog();
 
@@ -139,6 +130,7 @@ namespace FormApp
                 MessageBox.Show(ex.Message);
             }
         }
+
 
         private void homeIcon_Click(object sender, EventArgs e)
         {

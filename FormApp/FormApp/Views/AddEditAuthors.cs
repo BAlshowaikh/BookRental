@@ -1,5 +1,4 @@
 ﻿using BookRentalObject;
-using FormApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,41 +11,44 @@ using System.Windows.Forms;
 
 namespace FormApp.Views
 {
-    public partial class AddEditCategory : Form
+    public partial class AddEditAuthors : Form
     {
         BookRentalDBContext context;
-        Category category;
+        Author author;
 
-        public AddEditCategory()
-        {
-            InitializeComponent();
-            HelperFunctions.setUpFormDesign(this);
-            context = new BookRentalDBContext();
-            category = new Category();
-        }
-
-        public AddEditCategory(int c1)
+        public AddEditAuthors()
         {
             InitializeComponent();
             context = new BookRentalDBContext();
-            this.category = context.Categories.Find(c1);
+            author = new Author();
         }
 
-        private void AddEditCategory_Load(object sender, EventArgs e)
+        public AddEditAuthors(int authorId)
         {
-            AddEditCategories();
+            InitializeComponent();
+            context = new BookRentalDBContext();
+            this.author = context.Authors.Find(authorId);
         }
 
-        private void AddEditCategories()
+        private void AddEditAuthors_Load(object sender, EventArgs e)
         {
-            if (category.CategoryId > 0)
+            AddEditAuthorsFields();
+        }
+
+        private void AddEditAuthorsFields()
+        {
+            if (this.author.AuthorId > 0)
             {
-                txtCategoryID.Text = category.CategoryId.ToString();
-                txtCategoryName.Text = category.CategoryName;
+                txtAuthorID.Text = author.AuthorId.ToString();
+                txtFirstName.Text = author.FirstName;
+                txtLastName.Text = author.LastName;
+                txtEmail.Text = author.Email;
             }
             else
             {
-                txtCategoryName.Text = "";
+                txtFirstName.Text = "";
+                txtLastName.Text = "";
+                txtEmail.Text = "";
             }
         }
 
@@ -54,15 +56,17 @@ namespace FormApp.Views
         {
             try
             {
-                category.CategoryName = txtCategoryName.Text.ToString();
+                author.FirstName = txtFirstName.Text;
+                author.LastName = txtLastName.Text;
+                author.Email = txtEmail.Text;
 
-                if (category.CategoryId > 0)
+                if (author.AuthorId > 0)
                 {
-                    context.Categories.Update(category);
+                    context.Authors.Update(author);
                 }
                 else
                 {
-                    context.Categories.Add(category);
+                    context.Authors.Add(author);
                 }
 
                 context.SaveChanges();
@@ -80,16 +84,6 @@ namespace FormApp.Views
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-
-        private void homeIcon_Click(object sender, EventArgs e)
-        {
-            HelperFunctions.homePageBtn(this);
-        }
-
-        private void exitIcon_Click(object sender, EventArgs e)
-        {
-            HelperFunctions.exitBtn();
         }
     }
 }
