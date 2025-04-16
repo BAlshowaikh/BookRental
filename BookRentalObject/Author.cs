@@ -17,9 +17,6 @@ namespace BookRentalObject
         [Key]
         [Column("authorId")]
         public int AuthorId { get; set; }
-
-        public string FullName { get => FirstName + " " + LastName; }
-
         [Column("firstName")]
         [StringLength(100)]
         public string FirstName { get; set; } = null!;
@@ -29,6 +26,8 @@ namespace BookRentalObject
         [Column("email")]
         [StringLength(100)]
         public string? Email { get; set; }
+
+        public string FullName { get => FirstName + " " + LastName; }
 
         [InverseProperty("Author")]
         public virtual ICollection<Book> Books { get; set; }

@@ -43,22 +43,17 @@ namespace FormApp.Views
             {
                 var categoryToShow = context.Categories.AsQueryable();
 
-                if (ddlCategory.SelectedValue != null)
+                if (ddlCategory.SelectedItem != null)
                 {
-                    dgvCategories.DataSource = categoryToShow.Where(x => x.CategoryId == Convert.ToInt32(ddlCategory.SelectedValue)).Select(x => new
-                    {
-                        CategoryID = x.CategoryId,
-                        CategoryName = x.CategoryName,
-                    }).ToList();
+                    categoryToShow = categoryToShow.Where(x => x.CategoryId == Convert.ToInt32(ddlCategory.SelectedValue));
                 }
-                else
-                {
+                
                     dgvCategories.DataSource = categoryToShow.Select(x => new
                     {
                         CategoryID = x.CategoryId,
                         CategoryName = x.CategoryName
                     }).ToList();
-                }
+                
             }
             catch (Exception ex)
             {
@@ -108,9 +103,7 @@ namespace FormApp.Views
         {
             int selectedCell = Convert.ToInt32(dgvCategories.SelectedCells[0].OwningRow.Cells[0].Value);
 
-            Category category = context.Categories.Where(x => x.CategoryId == selectedCell).FirstOrDefault();
-
-            AddEditCategory addEdit = new AddEditCategory(category);
+            AddEditCategory addEdit = new AddEditCategory(selectedCell);
             addEdit.ShowDialog();
 
             if(addEdit.DialogResult == DialogResult.OK)

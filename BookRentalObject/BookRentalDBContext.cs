@@ -160,6 +160,12 @@ namespace BookRentalObject
 
             modelBuilder.Entity<RentalTransaction>(entity =>
             {
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.RentalTransactions)
+                    .HasForeignKey(d => d.BookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Rental Transaction_Book");
+
                 entity.HasOne(d => d.PaymentMethod)
                     .WithMany(p => p.RentalTransactions)
                     .HasForeignKey(d => d.PaymentMethodId)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
             refreshBttn = new Button();
             ddlUser = new ComboBox();
@@ -41,6 +42,7 @@
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
+            contextMenuStrip1 = new ContextMenuStrip(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
@@ -217,6 +219,12 @@
             userIcon.TabIndex = 13;
             userIcon.TabStop = false;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
+            // 
             // ManageUser
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -266,5 +274,6 @@
         private PictureBox userIcon;
         private ComboBox ddlUser;
         private Button refreshBttn;
+        private ContextMenuStrip contextMenuStrip1;
     }
 }

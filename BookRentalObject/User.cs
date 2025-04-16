@@ -19,8 +19,6 @@ namespace BookRentalObject
             RentalTransactions = new HashSet<RentalTransaction>();
         }
 
-        public string FullName { get => this.FirstName + " " + this.LastName; }
-
         [Key]
         [Column("userId")]
         public int UserId { get; set; }
@@ -35,6 +33,8 @@ namespace BookRentalObject
         public string? Email { get; set; }
         [Column("userRoleId")]
         public int UserRoleId { get; set; }
+
+        public string FullName { get => FirstName + " " + LastName; }
 
         [ForeignKey("UserRoleId")]
         [InverseProperty("Users")]

@@ -24,11 +24,11 @@ namespace FormApp.Views
             user = new User();
         }
 
-        public AddEditUser(User user1)
+        public AddEditUser(int user1)
         {
             InitializeComponent();
             context = new BookRentalDBContext();
-            this.user = user1;
+            this.user = context.Users.Find(user1);
         }
 
         private void AddEditUser_Load(object sender, EventArgs e)

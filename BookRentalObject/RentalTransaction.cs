@@ -40,6 +40,9 @@ namespace BookRentalObject
         [StringLength(50)]
         public string? RentalPeriod { get; set; }
 
+        [ForeignKey("BookId")]
+        [InverseProperty("RentalTransactions")]
+        public virtual Book Book { get; set; } = null!;
         [ForeignKey("PaymentMethodId")]
         [InverseProperty("RentalTransactions")]
         public virtual PaymentMethod PaymentMethod { get; set; } = null!;

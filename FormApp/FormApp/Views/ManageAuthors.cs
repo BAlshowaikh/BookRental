@@ -53,23 +53,16 @@ namespace FormApp.Views
 
         private void RefreshAuthorsGridView()
         {
-            try 
+            try
             {
                 var authorsToShow = context.Authors.AsQueryable();
 
                 if (ddlAuthors.SelectedValue != null)
                 {
-                    dgvAuthors.DataSource = authorsToShow.Where(x => x.AuthorId == Convert.ToInt32(ddlAuthors.SelectedValue)).Select(x => new
-                    {
-                        AuthorID = x.AuthorId,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName,
-                        Email = x.Email
-                    }).ToList();
+                    authorsToShow = authorsToShow.Where(x => x.AuthorId == Convert.ToInt32(ddlAuthors.SelectedValue));
 
                 }
-                else
-                {
+              
                     dgvAuthors.DataSource = authorsToShow.Select(x => new
                     {
                         AuthorID = x.AuthorId,
@@ -78,7 +71,6 @@ namespace FormApp.Views
                         Email = x.Email
                     }).ToList();
 
-                }
             }
             catch (Exception ex)
             {
@@ -95,6 +87,30 @@ namespace FormApp.Views
         {
             ddlAuthors.SelectedItem = null;
             RefreshAuthorsGridView();
+        }
+
+        private void addBttn_Click_1(object sender, EventArgs e)
+        {
+            AddEditAuthors addEdit = new AddEditAuthors();
+            addEdit.ShowDialog();
+
+            if (addEdit.DialogResult == DialogResult.OK)
+            {
+                RefreshAuthorsGridView();
+            }
+        }
+
+        private void editBttn_Click_1(object sender, EventArgs e)
+        {
+            int selectedCell = Convert.ToInt32(dgvAuthors.SelectedCells[0].OwningRow.Cells[0].Value);
+
+            AddEditAuthors addEdit = new AddEditAuthors(selectedCell);
+            addEdit.ShowDialog();
+
+            if (addEdit.DialogResult == DialogResult.OK)
+            {
+                RefreshAuthorsGridView();
+            }
         }
     }
 }

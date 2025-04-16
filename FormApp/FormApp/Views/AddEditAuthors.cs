@@ -11,40 +11,44 @@ using System.Windows.Forms;
 
 namespace FormApp.Views
 {
-    public partial class AddEditCategory : Form
+    public partial class AddEditAuthors : Form
     {
         BookRentalDBContext context;
-        Category category;
+        Author author;
 
-        public AddEditCategory()
+        public AddEditAuthors()
         {
             InitializeComponent();
             context = new BookRentalDBContext();
-            category = new Category();
+            author = new Author();
         }
 
-        public AddEditCategory(int c1)
+        public AddEditAuthors(int authorId)
         {
             InitializeComponent();
             context = new BookRentalDBContext();
-            this.category = context.Categories.Find(c1);
+            this.author = context.Authors.Find(authorId);
         }
 
-        private void AddEditCategory_Load(object sender, EventArgs e)
+        private void AddEditAuthors_Load(object sender, EventArgs e)
         {
-            AddEditCategories();
+            AddEditAuthorsFields();
         }
 
-        private void AddEditCategories()
+        private void AddEditAuthorsFields()
         {
-            if (category.CategoryId > 0)
+            if (this.author.AuthorId > 0)
             {
-                txtCategoryID.Text = category.CategoryId.ToString();
-                txtCategoryName.Text = category.CategoryName;
+                txtAuthorID.Text = author.AuthorId.ToString();
+                txtFirstName.Text = author.FirstName;
+                txtLastName.Text = author.LastName;
+                txtEmail.Text = author.Email;
             }
             else
             {
-                txtCategoryName.Text = "";
+                txtFirstName.Text = "";
+                txtLastName.Text = "";
+                txtEmail.Text = "";
             }
         }
 
@@ -52,15 +56,17 @@ namespace FormApp.Views
         {
             try
             {
-                category.CategoryName = txtCategoryName.Text.ToString();
+                author.FirstName = txtFirstName.Text;
+                author.LastName = txtLastName.Text;
+                author.Email = txtEmail.Text;
 
-                if (category.CategoryId > 0)
+                if (author.AuthorId > 0)
                 {
-                    context.Categories.Update(category);
+                    context.Authors.Update(author);
                 }
                 else
                 {
-                    context.Categories.Add(category);
+                    context.Authors.Add(author);
                 }
 
                 context.SaveChanges();
