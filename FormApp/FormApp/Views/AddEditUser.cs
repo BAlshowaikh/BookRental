@@ -30,12 +30,10 @@ namespace FormApp.Views
         {
             InitializeComponent();
             context = new BookRentalDBContext();
-<<<<<<< HEAD
             this.user = context.Users.Find(user1);
-=======
+
             HelperFunctions.setUpFormDesign(this);
-            this.user = user1;
->>>>>>> 045711317590bf1154c69489b4643faa6f765324
+          
         }
 
         private void AddEditUser_Load(object sender, EventArgs e)

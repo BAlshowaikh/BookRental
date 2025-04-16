@@ -54,14 +54,6 @@ namespace FormApp.Views
         {
             try
             {
-<<<<<<< HEAD
-=======
-                if (int.TryParse(txtCategoryID.Text, out int categoryID))
-                {
-                    category.CategoryId = categoryID;
-                }
-
->>>>>>> 045711317590bf1154c69489b4643faa6f765324
                 category.CategoryName = txtCategoryName.Text.ToString();
 
                 if (category.CategoryId > 0)

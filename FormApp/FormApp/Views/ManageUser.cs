@@ -131,11 +131,7 @@ namespace FormApp
             }
         }
 
-<<<<<<< HEAD
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
 
-=======
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
@@ -144,7 +140,6 @@ namespace FormApp
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
->>>>>>> 045711317590bf1154c69489b4643faa6f765324
         }
     }
 }

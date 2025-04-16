@@ -54,7 +54,5 @@ namespace BookRentalObject
         public virtual ICollection<RentalRequest> RentalRequests { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<RentalTransaction> RentalTransactions { get; set; }
-
-        public String FullName { get { return FirstName + " " + LastName;} }
     }
 }
