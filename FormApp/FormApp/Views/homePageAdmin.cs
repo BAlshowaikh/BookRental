@@ -78,8 +78,8 @@ namespace FormApp
 
         private void manageRentalTransictionsBtn_Click(object sender, EventArgs e)
         {
-            //Form manageRentalTransctionsForm;
-            // There is no form yet
+            Form ViewTransactions = new ViewTransactions();
+            HelperFunctions.navigationToPage(this, ViewTransactions);
         }
 
         private void generateRecordsBtn_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,12 @@ namespace FormApp.Views
     public partial class ViewTransactions : Form
     {
         BookRentalDBContext context;
-        
+
         public ViewTransactions()
         {
             InitializeComponent();
             context = new BookRentalDBContext();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void addBttn_Click(object sender, EventArgs e)
@@ -47,14 +49,15 @@ namespace FormApp.Views
 
             if (txtTransactionID.Text != "")
             {
-               transaction = transaction.Where(x => x.TransactionId == Convert.ToInt32(txtTransactionID.Text));
+                transaction = transaction.Where(x => x.TransactionId == Convert.ToInt32(txtTransactionID.Text));
             }
             if (ddlCustomer.SelectedItem != null)
             {
                 transaction = transaction.Where(x => x.UserId == Convert.ToInt32(ddlCustomer.SelectedValue));
             }
 
-            dgvTransaction.DataSource = transaction.Select(x=> new {
+            dgvTransaction.DataSource = transaction.Select(x => new
+            {
                 TransactionID = x.TransactionId,
                 BookName = x.Book.Name,
                 CustomerName = x.User.FullName,
@@ -79,6 +82,16 @@ namespace FormApp.Views
             ddlCustomer.SelectedItem = null;
             txtTransactionID.Text = "";
             RefreshGridView();
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }
