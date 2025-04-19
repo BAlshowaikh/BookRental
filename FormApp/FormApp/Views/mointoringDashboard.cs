@@ -23,9 +23,10 @@ namespace FormApp.Views
 
         private void mointoringDashboard_Load(object sender, EventArgs e)
         {
-            LoadDashboardStats();
+            LoadDashboardStats();// Load all statistics when the dashboard opens
         }
 
+        // Method to retrieve and display statistics from the database
         private void LoadDashboardStats()
         {
             try

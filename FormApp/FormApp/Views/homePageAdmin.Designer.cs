@@ -237,6 +237,7 @@
             Margin = new Padding(2);
             Name = "homePageAdmin";
             Text = "homePageAdmin";
+            Load += homePageAdmin_Load;
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();

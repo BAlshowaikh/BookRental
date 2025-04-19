@@ -25,6 +25,7 @@ namespace FormApp
             HelperFunctions.exitBtn();
         }
 
+        // Opens the Manage User form
         private void manageUsersBtn_Click(object sender, EventArgs e)
         {
             Form manageUserForm = new ManageUser();
@@ -32,12 +33,14 @@ namespace FormApp
 
         }
 
+        // Opens the Book List form 
         private void manageBooksBtn_Click(object sender, EventArgs e)
         {
             Form bookListForm = new bookList();
             HelperFunctions.navigationToPage(this, bookListForm);
         }
 
+        // Opens the Return Records form
         private void manageRentalRecordsBtn_Click(object sender, EventArgs e)
         {
             Form returnRecordForm = new returnRecord();
@@ -45,6 +48,7 @@ namespace FormApp
 
         }
 
+        // Opens the Rental Request form
         private void manageRentalRequestBtn_Click(object sender, EventArgs e)
         {
             Form manageRentalRequestForm = new rentalRequest();
@@ -57,12 +61,15 @@ namespace FormApp
             HelperFunctions.navigationToPage(this, manageReturnRecordsForm);
         }
 
+
+        // Opens the transaction form
         private void manageRentalTransictionsBtn_Click(object sender, EventArgs e)
         {
             Form ViewTransactions = new ViewTransactions();
             HelperFunctions.navigationToPage(this, ViewTransactions);
         }
 
+        // Opens the Audit Trails form 
         private void generateRecordsBtn_Click(object sender, EventArgs e)
         {
             Form loginTrails = new Logging();
@@ -78,6 +85,11 @@ namespace FormApp
         {
             Form auditTrails = new Audit_Trails();
             HelperFunctions.navigationToPage(this, auditTrails);
+        }
+
+        private void homePageAdmin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
