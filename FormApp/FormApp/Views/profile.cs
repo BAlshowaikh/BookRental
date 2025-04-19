@@ -90,6 +90,11 @@ namespace FormApp.Views
         {
             HelperFunctions.homePageBtn(this);
         }
+
+        private void emailTxt_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

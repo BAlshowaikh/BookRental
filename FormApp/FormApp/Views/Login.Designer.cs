@@ -33,8 +33,6 @@
             label3 = new Label();
             usernameTxt = new TextBox();
             passwordTxt = new TextBox();
-            label4 = new Label();
-            linkLabel1 = new LinkLabel();
             loginBtn = new Button();
             SuspendLayout();
             // 
@@ -58,7 +56,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Britannic Bold", 14F, FontStyle.Bold);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(246, 165);
+            label2.Location = new Point(243, 183);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(146, 31);
@@ -72,7 +70,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Britannic Bold", 14F, FontStyle.Bold);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(246, 308);
+            label3.Location = new Point(243, 326);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(140, 31);
@@ -81,7 +79,7 @@
             // 
             // usernameTxt
             // 
-            usernameTxt.Location = new Point(255, 202);
+            usernameTxt.Location = new Point(252, 220);
             usernameTxt.Margin = new Padding(2);
             usernameTxt.Name = "usernameTxt";
             usernameTxt.Size = new Size(500, 31);
@@ -89,45 +87,17 @@
             // 
             // passwordTxt
             // 
-            passwordTxt.Location = new Point(255, 345);
+            passwordTxt.Location = new Point(252, 363);
             passwordTxt.Margin = new Padding(2);
             passwordTxt.Name = "passwordTxt";
             passwordTxt.Size = new Size(500, 31);
             passwordTxt.TabIndex = 5;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Britannic Bold", 11F);
-            label4.ForeColor = Color.Black;
-            label4.Location = new Point(321, 505);
-            label4.Margin = new Padding(2, 0, 2, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(238, 25);
-            label4.TabIndex = 6;
-            label4.Text = "Don't have an account?";
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.BackColor = Color.Transparent;
-            linkLabel1.Font = new Font("Tahoma", 11F);
-            linkLabel1.ForeColor = Color.SkyBlue;
-            linkLabel1.Location = new Point(563, 503);
-            linkLabel1.Margin = new Padding(2, 0, 2, 0);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(92, 27);
-            linkLabel1.TabIndex = 7;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Register";
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
-            // 
             // loginBtn
             // 
             loginBtn.BackColor = Color.Cornsilk;
             loginBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            loginBtn.Location = new Point(403, 414);
+            loginBtn.Location = new Point(400, 432);
             loginBtn.Name = "loginBtn";
             loginBtn.Size = new Size(200, 50);
             loginBtn.TabIndex = 8;
@@ -144,8 +114,6 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(loginBtn);
-            Controls.Add(linkLabel1);
-            Controls.Add(label4);
             Controls.Add(passwordTxt);
             Controls.Add(usernameTxt);
             Controls.Add(label3);
@@ -167,8 +135,6 @@
         private Label label3;
         private TextBox textBox1;
         private TextBox textBox2;
-        private Label label4;
-        private LinkLabel linkLabel1;
         private Button button1;
         private Button loginBtn;
         private TextBox usernameTxt;

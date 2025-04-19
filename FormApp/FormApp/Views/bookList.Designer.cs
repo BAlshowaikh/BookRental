@@ -33,7 +33,7 @@
             lblFilterByBookName = new Label();
             txtFilterByBookID = new TextBox();
             ddlFilterByBookName = new ComboBox();
-            btnRefresh = new Button();
+            btnReset = new Button();
             btnFilter = new Button();
             lblfilterByBookID = new Label();
             returnIcon = new PictureBox();
@@ -45,7 +45,7 @@
             btnViewDetails = new Button();
             homeIcon = new PictureBox();
             pageTitleTxt = new Label();
-            refreshBtn = new Button();
+            btnRefresh = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvBooksList).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
@@ -73,7 +73,7 @@
             groupBox1.Controls.Add(lblFilterByBookName);
             groupBox1.Controls.Add(txtFilterByBookID);
             groupBox1.Controls.Add(ddlFilterByBookName);
-            groupBox1.Controls.Add(btnRefresh);
+            groupBox1.Controls.Add(btnReset);
             groupBox1.Controls.Add(btnFilter);
             groupBox1.Controls.Add(lblfilterByBookID);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -115,19 +115,19 @@
             ddlFilterByBookName.Size = new Size(168, 32);
             ddlFilterByBookName.TabIndex = 27;
             // 
-            // btnRefresh
+            // btnReset
             // 
-            btnRefresh.BackColor = Color.Cornsilk;
-            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnRefresh.ForeColor = Color.Black;
-            btnRefresh.Location = new Point(813, 35);
-            btnRefresh.Margin = new Padding(2);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(105, 38);
-            btnRefresh.TabIndex = 20;
-            btnRefresh.Text = "Reset";
-            btnRefresh.UseVisualStyleBackColor = false;
-            btnRefresh.Click += refreshBttn_Click;
+            btnReset.BackColor = Color.Cornsilk;
+            btnReset.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnReset.ForeColor = Color.Black;
+            btnReset.Location = new Point(813, 35);
+            btnReset.Margin = new Padding(2);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(105, 38);
+            btnReset.TabIndex = 20;
+            btnReset.Text = "Reset";
+            btnReset.UseVisualStyleBackColor = false;
+            btnReset.Click += refreshBttn_Click;
             // 
             // btnFilter
             // 
@@ -274,17 +274,17 @@
             pageTitleTxt.TabIndex = 29;
             pageTitleTxt.Text = "Manage Books";
             // 
-            // refreshBtn
+            // btnRefresh
             // 
-            refreshBtn.BackColor = Color.LightGray;
-            refreshBtn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            refreshBtn.Location = new Point(840, 529);
-            refreshBtn.Name = "refreshBtn";
-            refreshBtn.Size = new Size(110, 35);
-            refreshBtn.TabIndex = 30;
-            refreshBtn.Text = "Refresh";
-            refreshBtn.UseVisualStyleBackColor = false;
-            refreshBtn.Click += refreshBtn_Click;
+            btnRefresh.BackColor = Color.LightGray;
+            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.Location = new Point(840, 529);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(110, 35);
+            btnRefresh.TabIndex = 30;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += refreshBtn_Click;
             // 
             // bookList
             // 
@@ -294,7 +294,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
-            Controls.Add(refreshBtn);
+            Controls.Add(btnRefresh);
             Controls.Add(pageTitleTxt);
             Controls.Add(homeIcon);
             Controls.Add(btnViewDetails);
@@ -333,13 +333,13 @@
         private Button btnDeleteBook;
         private Button btnEditBook;
         private Button btnAddBook;
-        private Button btnRefresh;
+        private Button btnReset;
         private ComboBox ddlFilterByBookName;
         private TextBox txtFilterByBookID;
         private Label lblFilterByBookName;
         private Button btnViewDetails;
         private PictureBox homeIcon;
         private Label pageTitleTxt;
-        private Button refreshBtn;
+        private Button btnRefresh;
     }
 }

@@ -39,6 +39,7 @@
             manageRentalRequestBtn = new Button();
             manageRentalRecordsBtn = new Button();
             generateRecordsBtn = new Button();
+            lblWelcome = new Label();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -185,6 +186,18 @@
             generateRecordsBtn.UseVisualStyleBackColor = false;
             generateRecordsBtn.Click += generateRecordsBtn_Click;
             // 
+            // lblWelcome
+            // 
+            lblWelcome.AutoSize = true;
+            lblWelcome.BackColor = Color.Transparent;
+            lblWelcome.Font = new Font("Britannic Bold", 10F);
+            lblWelcome.ForeColor = Color.Maroon;
+            lblWelcome.Location = new Point(64, 31);
+            lblWelcome.Name = "lblWelcome";
+            lblWelcome.Size = new Size(195, 22);
+            lblWelcome.TabIndex = 19;
+            lblWelcome.Text = "Welcome, username!";
+            // 
             // homePageAdmin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -193,6 +206,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(lblWelcome);
             Controls.Add(generateRecordsBtn);
             Controls.Add(manageRentalRecordsBtn);
             Controls.Add(manageRentalRequestBtn);
@@ -228,5 +242,6 @@
         private Button manageRentalRequestBtn;
         private Button manageRentalRecordsBtn;
         private Button generateRecordsBtn;
+        private Label lblWelcome;
     }
 }

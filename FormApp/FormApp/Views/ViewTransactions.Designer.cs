@@ -41,6 +41,8 @@
             refreshBttn = new Button();
             filterBttn = new Button();
             lblFilter = new Label();
+            pageTitleTxt = new Label();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -52,14 +54,14 @@
             // editBttn
             // 
             editBttn.BackColor = Color.Cornsilk;
-            editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            editBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             editBttn.ForeColor = Color.Black;
-            editBttn.Location = new Point(706, 752);
+            editBttn.Location = new Point(344, 582);
             editBttn.Margin = new Padding(2);
             editBttn.Name = "editBttn";
-            editBttn.Size = new Size(231, 50);
+            editBttn.Size = new Size(276, 50);
             editBttn.TabIndex = 42;
-            editBttn.Text = "Generate Record";
+            editBttn.Text = "Generate Return Record";
             editBttn.UseVisualStyleBackColor = false;
             // 
             // returnIcon
@@ -117,7 +119,7 @@
             dgvTransaction.BackgroundColor = SystemColors.Control;
             dgvTransaction.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTransaction.GridColor = SystemColors.ButtonFace;
-            dgvTransaction.Location = new Point(22, 240);
+            dgvTransaction.Location = new Point(22, 192);
             dgvTransaction.Margin = new Padding(2);
             dgvTransaction.Name = "dgvTransaction";
             dgvTransaction.RowHeadersWidth = 62;
@@ -135,55 +137,55 @@
             groupBox1.Controls.Add(lblFilter);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
-            groupBox1.Location = new Point(22, 93);
+            groupBox1.Location = new Point(22, 82);
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
-            groupBox1.Size = new Size(928, 127);
+            groupBox1.Size = new Size(928, 96);
             groupBox1.TabIndex = 35;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
             // 
             // txtTransactionID
             // 
-            txtTransactionID.Location = new Point(200, 38);
+            txtTransactionID.Location = new Point(211, 38);
             txtTransactionID.Margin = new Padding(4);
             txtTransactionID.Name = "txtTransactionID";
-            txtTransactionID.Size = new Size(255, 32);
+            txtTransactionID.Size = new Size(150, 32);
             txtTransactionID.TabIndex = 22;
             // 
             // ddlCustomer
             // 
             ddlCustomer.FormattingEnabled = true;
-            ddlCustomer.Location = new Point(611, 31);
+            ddlCustomer.Location = new Point(546, 38);
             ddlCustomer.Margin = new Padding(4);
             ddlCustomer.Name = "ddlCustomer";
-            ddlCustomer.Size = new Size(278, 32);
+            ddlCustomer.Size = new Size(150, 32);
             ddlCustomer.TabIndex = 21;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(479, 40);
+            label1.Location = new Point(368, 44);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(121, 27);
+            label1.Size = new Size(181, 22);
             label1.TabIndex = 20;
-            label1.Text = "Customer:";
+            label1.Text = "Filter By Customer:";
             // 
             // refreshBttn
             // 
             refreshBttn.BackColor = Color.Cornsilk;
             refreshBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             refreshBttn.ForeColor = Color.Black;
-            refreshBttn.Location = new Point(750, 88);
+            refreshBttn.Location = new Point(815, 35);
             refreshBttn.Margin = new Padding(2);
             refreshBttn.Name = "refreshBttn";
-            refreshBttn.Size = new Size(140, 38);
+            refreshBttn.Size = new Size(105, 38);
             refreshBttn.TabIndex = 19;
-            refreshBttn.Text = "Refresh";
+            refreshBttn.Text = "Reset";
             refreshBttn.UseVisualStyleBackColor = false;
             refreshBttn.Click += refreshBttn_Click;
             // 
@@ -192,10 +194,10 @@
             filterBttn.BackColor = Color.Cornsilk;
             filterBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filterBttn.ForeColor = Color.Black;
-            filterBttn.Location = new Point(598, 88);
+            filterBttn.Location = new Point(706, 35);
             filterBttn.Margin = new Padding(2);
             filterBttn.Name = "filterBttn";
-            filterBttn.Size = new Size(140, 38);
+            filterBttn.Size = new Size(105, 38);
             filterBttn.TabIndex = 10;
             filterBttn.Text = "Filter";
             filterBttn.UseVisualStyleBackColor = false;
@@ -204,14 +206,37 @@
             // lblFilter
             // 
             lblFilter.AutoSize = true;
-            lblFilter.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFilter.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblFilter.ForeColor = Color.Black;
-            lblFilter.Location = new Point(14, 40);
+            lblFilter.Location = new Point(6, 47);
             lblFilter.Margin = new Padding(2, 0, 2, 0);
             lblFilter.Name = "lblFilter";
-            lblFilter.Size = new Size(176, 27);
+            lblFilter.Size = new Size(204, 20);
             lblFilter.TabIndex = 0;
-            lblFilter.Text = "Transaction ID:";
+            lblFilter.Text = "Filter By Transaction ID:";
+            // 
+            // pageTitleTxt
+            // 
+            pageTitleTxt.AutoSize = true;
+            pageTitleTxt.BackColor = Color.Transparent;
+            pageTitleTxt.Font = new Font("Tahoma", 22F, FontStyle.Bold);
+            pageTitleTxt.ForeColor = Color.Cornsilk;
+            pageTitleTxt.Location = new Point(144, 9);
+            pageTitleTxt.Name = "pageTitleTxt";
+            pageTitleTxt.Size = new Size(646, 53);
+            pageTitleTxt.TabIndex = 43;
+            pageTitleTxt.Text = "Manage Rental Transactions";
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.LightGray;
+            button1.Font = new Font("Britannic Bold", 10F);
+            button1.Location = new Point(839, 561);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 34);
+            button1.TabIndex = 44;
+            button1.Text = "Refresh";
+            button1.UseVisualStyleBackColor = false;
             // 
             // ViewTransactions
             // 
@@ -219,7 +244,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(button1);
+            Controls.Add(pageTitleTxt);
             Controls.Add(editBttn);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
@@ -227,6 +255,7 @@
             Controls.Add(userIcon);
             Controls.Add(dgvTransaction);
             Controls.Add(groupBox1);
+            DoubleBuffered = true;
             Margin = new Padding(4);
             Name = "ViewTransactions";
             Text = "ViewTransactions";
@@ -239,6 +268,7 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -255,5 +285,7 @@
         private ComboBox ddlCustomer;
         private Label label1;
         private TextBox txtTransactionID;
+        private Label pageTitleTxt;
+        private Button button1;
     }
 }

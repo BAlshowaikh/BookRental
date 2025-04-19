@@ -45,17 +45,22 @@ namespace FormApp.Views
             {
                 var categoryToShow = context.Categories.AsQueryable();
 
-                if (ddlCategory.SelectedItem != null)
+                if (!string.IsNullOrWhiteSpace(txtCategoryID.Text))
+                {
+                    categoryToShow = categoryToShow.Where(c => c.CategoryId == Convert.ToInt32(txtCategoryID.Text));
+                }
+
+                else if (ddlCategory.SelectedItem != null)
                 {
                     categoryToShow = categoryToShow.Where(x => x.CategoryId == Convert.ToInt32(ddlCategory.SelectedValue));
                 }
-                
-                    dgvCategories.DataSource = categoryToShow.Select(x => new
-                    {
-                        CategoryID = x.CategoryId,
-                        CategoryName = x.CategoryName
-                    }).ToList();
-                
+
+                dgvCategories.DataSource = categoryToShow.Select(x => new
+                {
+                    CategoryID = x.CategoryId,
+                    CategoryName = x.CategoryName
+                }).ToList();
+
             }
             catch (Exception ex)
             {
@@ -118,6 +123,11 @@ namespace FormApp.Views
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshCategoryGridView();
         }
     }
 }

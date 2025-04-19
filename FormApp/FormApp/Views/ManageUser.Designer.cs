@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
-            refreshBttn = new Button();
+            txtUserID = new TextBox();
+            lblUserID = new Label();
+            btnReset = new Button();
             ddlUser = new ComboBox();
             filterBttn = new Button();
             label1 = new Label();
@@ -38,14 +39,13 @@
             addBttn = new Button();
             editBttn = new Button();
             deleteBttn = new Button();
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
             pageTitleTxt = new Label();
+            btnRefresh = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -54,13 +54,15 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Transparent;
-            groupBox1.Controls.Add(refreshBttn);
+            groupBox1.Controls.Add(txtUserID);
+            groupBox1.Controls.Add(lblUserID);
+            groupBox1.Controls.Add(btnReset);
             groupBox1.Controls.Add(ddlUser);
             groupBox1.Controls.Add(filterBttn);
             groupBox1.Controls.Add(label1);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = Color.Black;
-            groupBox1.Location = new Point(22, 92);
+            groupBox1.Location = new Point(22, 74);
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
@@ -69,27 +71,44 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
             // 
-            // refreshBttn
+            // txtUserID
             // 
-            refreshBttn.BackColor = Color.Cornsilk;
-            refreshBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            refreshBttn.ForeColor = Color.Black;
-            refreshBttn.Location = new Point(568, 38);
-            refreshBttn.Margin = new Padding(2);
-            refreshBttn.Name = "refreshBttn";
-            refreshBttn.Size = new Size(140, 38);
-            refreshBttn.TabIndex = 19;
-            refreshBttn.Text = "Refresh";
-            refreshBttn.UseVisualStyleBackColor = false;
-            refreshBttn.Click += refreshBttn_Click;
+            txtUserID.Location = new Point(175, 41);
+            txtUserID.Name = "txtUserID";
+            txtUserID.Size = new Size(150, 32);
+            txtUserID.TabIndex = 21;
+            // 
+            // lblUserID
+            // 
+            lblUserID.AutoSize = true;
+            lblUserID.Font = new Font("Britannic Bold", 10F);
+            lblUserID.Location = new Point(14, 45);
+            lblUserID.Name = "lblUserID";
+            lblUserID.Size = new Size(162, 22);
+            lblUserID.TabIndex = 20;
+            lblUserID.Text = "Filter By User ID:";
+            // 
+            // btnReset
+            // 
+            btnReset.BackColor = Color.Cornsilk;
+            btnReset.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnReset.ForeColor = Color.Black;
+            btnReset.Location = new Point(814, 36);
+            btnReset.Margin = new Padding(2);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(105, 38);
+            btnReset.TabIndex = 19;
+            btnReset.Text = "Reset";
+            btnReset.UseVisualStyleBackColor = false;
+            btnReset.Click += refreshBttn_Click;
             // 
             // ddlUser
             // 
             ddlUser.FormattingEnabled = true;
-            ddlUser.Location = new Point(139, 36);
+            ddlUser.Location = new Point(534, 40);
             ddlUser.Margin = new Padding(4);
             ddlUser.Name = "ddlUser";
-            ddlUser.Size = new Size(252, 32);
+            ddlUser.Size = new Size(160, 32);
             ddlUser.TabIndex = 18;
             // 
             // filterBttn
@@ -97,10 +116,10 @@
             filterBttn.BackColor = Color.Cornsilk;
             filterBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filterBttn.ForeColor = Color.Black;
-            filterBttn.Location = new Point(415, 38);
+            filterBttn.Location = new Point(702, 36);
             filterBttn.Margin = new Padding(2);
             filterBttn.Name = "filterBttn";
-            filterBttn.Size = new Size(140, 38);
+            filterBttn.Size = new Size(105, 38);
             filterBttn.TabIndex = 10;
             filterBttn.Text = "Filter";
             filterBttn.UseVisualStyleBackColor = false;
@@ -109,21 +128,21 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(18, 40);
+            label1.Location = new Point(345, 46);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(108, 27);
+            label1.Size = new Size(192, 22);
             label1.TabIndex = 0;
-            label1.Text = "Filter By:";
+            label1.Text = "Filter By User Name:";
             // 
             // dgvUsers
             // 
             dgvUsers.BackgroundColor = SystemColors.Control;
             dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsers.GridColor = SystemColors.ButtonFace;
-            dgvUsers.Location = new Point(22, 210);
+            dgvUsers.Location = new Point(22, 190);
             dgvUsers.Margin = new Padding(2);
             dgvUsers.Name = "dgvUsers";
             dgvUsers.RowHeadersWidth = 62;
@@ -135,7 +154,7 @@
             addBttn.BackColor = Color.Cornsilk;
             addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             addBttn.ForeColor = Color.Black;
-            addBttn.Location = new Point(22, 571);
+            addBttn.Location = new Point(147, 583);
             addBttn.Margin = new Padding(2);
             addBttn.Name = "addBttn";
             addBttn.Size = new Size(200, 50);
@@ -149,7 +168,7 @@
             editBttn.BackColor = Color.Cornsilk;
             editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             editBttn.ForeColor = Color.Black;
-            editBttn.Location = new Point(248, 571);
+            editBttn.Location = new Point(409, 583);
             editBttn.Margin = new Padding(2);
             editBttn.Name = "editBttn";
             editBttn.Size = new Size(200, 50);
@@ -163,7 +182,7 @@
             deleteBttn.BackColor = Color.IndianRed;
             deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             deleteBttn.ForeColor = Color.White;
-            deleteBttn.Location = new Point(471, 571);
+            deleteBttn.Location = new Point(670, 583);
             deleteBttn.Margin = new Padding(2);
             deleteBttn.Name = "deleteBttn";
             deleteBttn.Size = new Size(200, 50);
@@ -171,18 +190,6 @@
             deleteBttn.Text = "Delete User";
             deleteBttn.UseVisualStyleBackColor = false;
             deleteBttn.Click += deleteBttn_Click;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 16;
-            returnIcon.TabStop = false;
             // 
             // exitIcon
             // 
@@ -235,6 +242,18 @@
             pageTitleTxt.TabIndex = 17;
             pageTitleTxt.Text = "Manage Users";
             // 
+            // btnRefresh
+            // 
+            btnRefresh.BackColor = Color.LightGray;
+            btnRefresh.Font = new Font("Britannic Bold", 10F);
+            btnRefresh.Location = new Point(840, 535);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(112, 34);
+            btnRefresh.TabIndex = 18;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
             // ManageUser
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -243,8 +262,8 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(btnRefresh);
             Controls.Add(pageTitleTxt);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
@@ -261,7 +280,6 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -273,20 +291,20 @@
 
         private GroupBox groupBox1;
         private Button filterBttn;
-        private TextBox textBox1;
+        private TextBox txtUserID;
         private Label label1;
-        private Button button1;
+        private Button btnRefresh;
         private Button button2;
         private DataGridView dgvUsers;
         private Button addBttn;
         private Button editBttn;
         private Button deleteBttn;
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
         private ComboBox ddlUser;
-        private Button refreshBttn;
+        private Button btnReset;
         private Label pageTitleTxt;
+        private Label lblUserID;
     }
 }

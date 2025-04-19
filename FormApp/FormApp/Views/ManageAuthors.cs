@@ -57,19 +57,23 @@ namespace FormApp.Views
             {
                 var authorsToShow = context.Authors.AsQueryable();
 
-                if (ddlAuthors.SelectedValue != null)
+                if (!string.IsNullOrWhiteSpace(txtAuthorID.Text)) {
+                    authorsToShow = authorsToShow.Where(a => a.AuthorId == Convert.ToInt32(txtAuthorID.Text));
+                }
+
+                else if (ddlAuthors.SelectedValue != null)
                 {
                     authorsToShow = authorsToShow.Where(x => x.AuthorId == Convert.ToInt32(ddlAuthors.SelectedValue));
 
                 }
-              
-                    dgvAuthors.DataSource = authorsToShow.Select(x => new
-                    {
-                        AuthorID = x.AuthorId,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName,
-                        Email = x.Email
-                    }).ToList();
+
+                dgvAuthors.DataSource = authorsToShow.Select(x => new
+                {
+                    AuthorID = x.AuthorId,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email
+                }).ToList();
 
             }
             catch (Exception ex)
@@ -111,6 +115,16 @@ namespace FormApp.Views
             {
                 RefreshAuthorsGridView();
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshAuthorsGridView();
         }
     }
 }

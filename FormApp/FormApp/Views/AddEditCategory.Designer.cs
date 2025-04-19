@@ -55,7 +55,7 @@
             deleteBttn.Location = new Point(499, 446);
             deleteBttn.Margin = new Padding(2);
             deleteBttn.Name = "deleteBttn";
-            deleteBttn.Size = new Size(160, 40);
+            deleteBttn.Size = new Size(200, 50);
             deleteBttn.TabIndex = 34;
             deleteBttn.Text = "Cancel";
             deleteBttn.UseVisualStyleBackColor = false;
@@ -66,10 +66,10 @@
             addBttn.BackColor = Color.Cornsilk;
             addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             addBttn.ForeColor = Color.Black;
-            addBttn.Location = new Point(308, 446);
+            addBttn.Location = new Point(266, 446);
             addBttn.Margin = new Padding(2);
             addBttn.Name = "addBttn";
-            addBttn.Size = new Size(160, 40);
+            addBttn.Size = new Size(200, 50);
             addBttn.TabIndex = 33;
             addBttn.Text = "Save Category";
             addBttn.UseVisualStyleBackColor = false;
