@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace FormApp.Views
 {
@@ -92,6 +93,15 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void btnGenerateRecord_Click(object sender, EventArgs e)
+        {
+            int cell = Convert.ToInt32(dgvTransaction.SelectedCells[0].OwningRow.Cells[0].Value);
+            returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(cell);
+            frmreturnRecordDetails.Show();
+            this.Hide();
+
         }
     }
 }

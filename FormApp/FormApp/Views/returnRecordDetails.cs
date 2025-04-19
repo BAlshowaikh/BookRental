@@ -113,6 +113,8 @@ namespace FormApp.Views
                     context.ReturnRecords.Add(returnRecord);
                     context.SaveChanges();
                     this.DialogResult = DialogResult.OK;
+                    returnRecord frmreturnRecord = new returnRecord();
+                    frmreturnRecord.Show();
                     this.Close();
 
                 }

@@ -254,12 +254,12 @@
             pageTitleTxt.BackColor = Color.Transparent;
             pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(294, 12);
+            pageTitleTxt.Location = new Point(356, 12);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
             pageTitleTxt.Name = "pageTitleTxt";
-            pageTitleTxt.Size = new Size(396, 63);
+            pageTitleTxt.Size = new Size(263, 63);
             pageTitleTxt.TabIndex = 28;
-            pageTitleTxt.Text = "Add/Edit User";
+            pageTitleTxt.Text = "Add User";
             // 
             // AddEditUser
             // 

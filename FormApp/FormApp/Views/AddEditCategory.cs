@@ -41,8 +41,9 @@ namespace FormApp.Views
         {
             if (category.CategoryId > 0)
             {
-                txtCategoryID.Text = category.CategoryId.ToString();
-                txtCategoryName.Text = category.CategoryName;
+                    pageTitle.Text = "Edit Category";
+                    txtCategoryID.Text = category.CategoryId.ToString();
+                    txtCategoryName.Text = category.CategoryName;
             }
             else
             {
@@ -58,11 +59,17 @@ namespace FormApp.Views
 
                 if (category.CategoryId > 0)
                 {
-                    context.Categories.Update(category);
+                    if (MessageBox.Show("are you sure you want to edit category ID:" + category.CategoryId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Categories.Update(category);
+                    }
                 }
                 else
                 {
-                    context.Categories.Add(category);
+                    if (MessageBox.Show("are you sure you want to add this category? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Categories.Add(category);
+                    }
                 }
 
                 context.SaveChanges();

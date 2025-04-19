@@ -69,7 +69,7 @@ namespace FormApp.Views
                 var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
                 if (request.RentalRequestStatusId == 1)
                 {
-                    if (MessageBox.Show("are you sure you want to approve requst (" + requestID + ") ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show("are you sure you want to approve requst ID:" + requestID + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         request.RentalRequestStatusId = 2;
                         context.RentalRequests.Update(request);
@@ -105,7 +105,7 @@ namespace FormApp.Views
                 var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
                 if (request.RentalRequestStatusId == 1)
                 {
-                    if (MessageBox.Show("are you sure you want to reject requst (" + requestID + ") ", "conferm Rejection", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show("are you sure you want to reject requst ID:" + requestID + "?", "conferm Rejection", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         request.RentalRequestStatusId = 3;
                         context.RentalRequests.Update(request);
