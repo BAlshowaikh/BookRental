@@ -181,12 +181,12 @@
             pageTitle.BackColor = Color.Transparent;
             pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitle.ForeColor = Color.Cornsilk;
-            pageTitle.Location = new Point(218, 12);
+            pageTitle.Location = new Point(307, 12);
             pageTitle.Margin = new Padding(2, 0, 2, 0);
             pageTitle.Name = "pageTitle";
-            pageTitle.Size = new Size(514, 63);
+            pageTitle.Size = new Size(381, 63);
             pageTitle.TabIndex = 47;
-            pageTitle.Text = "Add/Edit Category";
+            pageTitle.Text = "Add Category";
             // 
             // AddEditCategory
             // 

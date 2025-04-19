@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            editBttn = new Button();
+            btnGenerateRecord = new Button();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
@@ -51,18 +51,19 @@
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
-            // editBttn
+            // btnGenerateRecord
             // 
-            editBttn.BackColor = Color.Cornsilk;
-            editBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            editBttn.ForeColor = Color.Black;
-            editBttn.Location = new Point(344, 582);
-            editBttn.Margin = new Padding(2);
-            editBttn.Name = "editBttn";
-            editBttn.Size = new Size(276, 50);
-            editBttn.TabIndex = 42;
-            editBttn.Text = "Generate Return Record";
-            editBttn.UseVisualStyleBackColor = false;
+            btnGenerateRecord.BackColor = Color.Cornsilk;
+            btnGenerateRecord.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnGenerateRecord.ForeColor = Color.Black;
+            btnGenerateRecord.Location = new Point(344, 582);
+            btnGenerateRecord.Margin = new Padding(2);
+            btnGenerateRecord.Name = "btnGenerateRecord";
+            btnGenerateRecord.Size = new Size(276, 50);
+            btnGenerateRecord.TabIndex = 42;
+            btnGenerateRecord.Text = "Generate Return Record";
+            btnGenerateRecord.UseVisualStyleBackColor = false;
+            btnGenerateRecord.Click += btnGenerateRecord_Click;
             // 
             // returnIcon
             // 
@@ -248,7 +249,7 @@
             ClientSize = new Size(978, 644);
             Controls.Add(button1);
             Controls.Add(pageTitleTxt);
-            Controls.Add(editBttn);
+            Controls.Add(btnGenerateRecord);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
@@ -272,7 +273,7 @@
         }
 
         #endregion
-        private Button editBttn;
+        private Button btnGenerateRecord;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;

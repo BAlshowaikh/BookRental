@@ -54,6 +54,7 @@ namespace FormApp.Views
         {
             if (this.user.UserId > 0)
             {
+                pageTitleTxt.Text = "Edit User";
                 txtUserID.Text = user.UserId.ToString();
                 txtFirstName.Text = user.FirstName;
                 txtLastName.Text = user.LastName;
@@ -78,11 +79,17 @@ namespace FormApp.Views
 
                 if (user.UserId > 0)
                 {
-                    context.Users.Update(user);
+                    if (MessageBox.Show("are you sure you want to edit user ID:" + user.UserId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Users.Update(user);
+                    }
                 }
                 else
                 {
-                    context.Users.Add(user);
+                    if (MessageBox.Show("are you sure you want to add this user? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Users.Add(user);
+                    }
                 }
                 context.SaveChanges();
 

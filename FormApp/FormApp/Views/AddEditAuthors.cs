@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,6 +40,7 @@ namespace FormApp.Views
         {
             if (this.author.AuthorId > 0)
             {
+                pageTitle.Text = "Edit Author";
                 txtAuthorID.Text = author.AuthorId.ToString();
                 txtFirstName.Text = author.FirstName;
                 txtLastName.Text = author.LastName;
@@ -62,11 +64,17 @@ namespace FormApp.Views
 
                 if (author.AuthorId > 0)
                 {
-                    context.Authors.Update(author);
+                    if (MessageBox.Show("are you sure you want to edit author ID:" + author.AuthorId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Authors.Update(author);
+                    }
                 }
                 else
                 {
-                    context.Authors.Add(author);
+                    if (MessageBox.Show("are you sure you want to add this author? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Authors.Add(author);
+                    }
                 }
 
                 context.SaveChanges();

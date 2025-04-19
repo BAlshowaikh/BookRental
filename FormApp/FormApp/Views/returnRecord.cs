@@ -14,6 +14,8 @@ using FormApp.Controllers;
 
 namespace FormApp.Views
 {
+    //this page is to view all the Return Records in the database and filter them if needed
+    //this bage include a redirection to the return record details page
     public partial class returnRecord : Form
     {
         BookRentalDBContext context = new BookRentalDBContext();
@@ -25,52 +27,78 @@ namespace FormApp.Views
 
         private void returnRecord_Load(object sender, EventArgs e)
         {
-
+            //book drop down list 
             ddlFilterBook.DataSource = context.Books.ToList(); ;
-
             ddlFilterBook.DisplayMember = "Name";
             ddlFilterBook.ValueMember = "BookId";
             ddlFilterBook.SelectedItem = null;
 
+            //refreshing the grid view
             RefreshReturnRecourdGridview();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            //refreshing the grid view
             RefreshReturnRecourdGridview();
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
+            //refreshing the grid view mainly after adding a filter 
             RefreshReturnRecourdGridview();
         }
 
         private void btnResetFilter_Click(object sender, EventArgs e)
         {
+            //remove the existing filters
             txtFilterRecordNo.Text = String.Empty;
             txtFilterRecordNo.Focus();
 
             ddlFilterBook.SelectedValue = string.Empty;
 
+            //refreshing the grid view
             RefreshReturnRecourdGridview();
+        }
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            //get the record ID
+            int cell = Convert.ToInt32(dgvReturnRecourd.SelectedCells[0].OwningRow.Cells[0].Value);
+            //get the ReturnRecord from the ID (as object)
+            ReturnRecord selected = context.ReturnRecords.Find(cell);
+
+            //sed the object to a new return record details page
+            returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(selected);
+            frmreturnRecordDetails.ShowDialog();
+
+            //DialogResult.OK means that the use changed something in the DB
+            if (frmreturnRecordDetails.DialogResult == DialogResult.OK)
+            {
+                //if so then refresh the grid view 
+                RefreshReturnRecourdGridview();
+            }
         }
 
         private void RefreshReturnRecourdGridview()
         {
             dgvReturnRecourd.DataSource = null;
+            //create a varible to hold the data needed to be shown
             var RequestToShow = context.ReturnRecords.AsQueryable();
 
+            //in case of filtering by the id
             if (txtFilterRecordNo.Text != "")
             {
                 RequestToShow = RequestToShow
                     .Where(x => x.RecordId == Convert.ToInt32(txtFilterRecordNo.Text));
             }
+            //in case of filtering by the drop down list
             else if (ddlFilterBook.SelectedValue != null)
             {
                 RequestToShow = RequestToShow
                     .Where(x => x.BookId == Convert.ToInt32(ddlFilterBook.SelectedValue.ToString()));
             }
 
+            //customize the data grid view
             dgvReturnRecourd.DataSource = RequestToShow.Select(x => new
             {
                 RecordID = x.RecordId,
@@ -94,19 +122,6 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
-        }
-
-        private void btnDetails_Click(object sender, EventArgs e)
-        {
-            int cell = Convert.ToInt32(dgvReturnRecourd.SelectedCells[0].OwningRow.Cells[0].Value);
-            ReturnRecord selected = context.ReturnRecords.Find(cell);
-
-            returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(selected);
-            frmreturnRecordDetails.ShowDialog();
-            if (frmreturnRecordDetails.DialogResult == DialogResult.OK)
-            {
-                RefreshReturnRecourdGridview();
-            }
         }
     }
 }
