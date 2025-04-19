@@ -103,6 +103,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 22;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // deleteBttn
             // 

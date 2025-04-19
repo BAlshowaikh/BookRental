@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             userIcon = new PictureBox();
-            returnIcon = new PictureBox();
             homeIcon = new PictureBox();
             exitIcon = new PictureBox();
             totalBooksGroupBox = new GroupBox();
@@ -47,7 +46,6 @@
             refreshBtn = new Button();
             pageTitleTxt = new Label();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             totalBooksGroupBox.SuspendLayout();
@@ -67,18 +65,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 14;
             userIcon.TabStop = false;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 15;
-            returnIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // homeIcon
             // 
@@ -268,13 +255,11 @@
             Controls.Add(totalBooksGroupBox);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
-            Controls.Add(returnIcon);
             Controls.Add(userIcon);
             Name = "mointoringDashboard";
             Text = "mointoringDashboard";
             Load += mointoringDashboard_Load;
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             totalBooksGroupBox.ResumeLayout(false);
@@ -291,7 +276,6 @@
 
         #endregion
         private PictureBox userIcon;
-        private PictureBox returnIcon;
         private PictureBox homeIcon;
         private PictureBox exitIcon;
         private GroupBox damagedBooksGroupBox;

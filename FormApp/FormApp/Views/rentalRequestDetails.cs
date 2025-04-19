@@ -59,7 +59,7 @@ namespace FormApp.Views
                 .Where(x => x.BookId == bookID)
                 .Select(x => x.AvailabilityStatus.AvailabilityStatus1)
                 .FirstOrDefault();
-            lblBookStatus.Text = "This Book is " + bookStatus; 
+            lblBookStatus.Text = "This Book is " + bookStatus;
 
             txtStartDate.Text = request.RentalStartDate.ToString();
             txtReturnDate.Text = request.ReturnDate.ToString();
@@ -162,5 +162,9 @@ namespace FormApp.Views
             HelperFunctions.exitBtn();
         }
 
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
     }
 }

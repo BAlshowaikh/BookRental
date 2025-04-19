@@ -36,7 +36,6 @@
             btnReset = new Button();
             btnFilter = new Button();
             lblfilterByBookID = new Label();
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             userIcon = new PictureBox();
             btnDeleteBook = new Button();
@@ -48,7 +47,6 @@
             btnRefresh = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvBooksList).BeginInit();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -155,18 +153,6 @@
             lblfilterByBookID.TabIndex = 0;
             lblfilterByBookID.Text = "Filter by book id:";
             // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 23;
-            returnIcon.TabStop = false;
-            // 
             // exitIcon
             // 
             exitIcon.BackColor = Color.Transparent;
@@ -191,6 +177,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 20;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // btnDeleteBook
             // 
@@ -301,7 +288,6 @@
             Controls.Add(btnDeleteBook);
             Controls.Add(btnEditBook);
             Controls.Add(btnAddBook);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(userIcon);
             Controls.Add(groupBox1);
@@ -314,7 +300,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvBooksList).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
@@ -327,7 +312,6 @@
         private GroupBox groupBox1;
         private Button btnFilter;
         private Label lblfilterByBookID;
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox userIcon;
         private Button btnDeleteBook;

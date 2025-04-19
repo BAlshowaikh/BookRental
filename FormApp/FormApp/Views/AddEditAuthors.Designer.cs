@@ -176,6 +176,7 @@
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 31;
             returnIcon.TabStop = false;
+            returnIcon.Click += returnIcon_Click;
             // 
             // exitIcon
             // 
@@ -212,6 +213,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 28;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // pageTitle
             // 

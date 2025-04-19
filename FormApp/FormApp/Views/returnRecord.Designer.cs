@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             pageTitleTxt = new Label();
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
@@ -43,7 +42,6 @@
             btnFilter = new Button();
             txtFilterRecordNo = new TextBox();
             FilterbyRecourdNo = new Label();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -63,18 +61,6 @@
             pageTitleTxt.Size = new Size(653, 63);
             pageTitleTxt.TabIndex = 4;
             pageTitleTxt.Text = "Manage Return Records";
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 28;
-            returnIcon.TabStop = false;
             // 
             // exitIcon
             // 
@@ -113,6 +99,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 25;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // dgvReturnRecourd
             // 
@@ -246,7 +233,6 @@
             Controls.Add(btnDetails);
             Controls.Add(btnRefresh);
             Controls.Add(dgvReturnRecourd);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
@@ -255,7 +241,6 @@
             Name = "returnRecord";
             Text = "returnRecord";
             Load += returnRecord_Load;
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -269,7 +254,6 @@
         #endregion
 
         private Label pageTitleTxt;
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;

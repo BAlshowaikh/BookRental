@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,16 @@ namespace FormApp.Views
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void returnIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.returnBtn(new bookList(), this);
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

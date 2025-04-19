@@ -33,7 +33,7 @@ namespace FormApp.Views
             this.user = context.Users.Find(user1);
 
             HelperFunctions.setUpFormDesign(this);
-          
+
         }
 
         private void AddEditUser_Load(object sender, EventArgs e)
@@ -116,6 +116,11 @@ namespace FormApp.Views
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

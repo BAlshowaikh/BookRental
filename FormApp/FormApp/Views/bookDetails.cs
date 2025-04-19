@@ -19,11 +19,11 @@ namespace FormApp
         BookRentalDBContext context;
         private int bookId;
 
-        public bookDetails(Book selectedBook) 
+        public bookDetails(Book selectedBook)
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
-            
+
             // Pass the selected book object and populate the information
             PopulateForm(selectedBook);
         }
@@ -69,6 +69,11 @@ namespace FormApp
         private void bookDetails_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

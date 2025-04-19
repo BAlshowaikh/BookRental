@@ -106,6 +106,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 23;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // lbltitle
             // 

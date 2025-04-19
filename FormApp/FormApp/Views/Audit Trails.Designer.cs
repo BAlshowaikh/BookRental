@@ -30,7 +30,6 @@
         {
             pageTitleTxt = new Label();
             dgvAuditTrail = new DataGridView();
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
@@ -43,7 +42,6 @@
             FilterbyLoginTrailsNo = new Label();
             btnRefresh = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvAuditTrail).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -73,18 +71,6 @@
             dgvAuditTrail.RowHeadersWidth = 62;
             dgvAuditTrail.Size = new Size(930, 329);
             dgvAuditTrail.TabIndex = 4;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 24;
-            returnIcon.TabStop = false;
             // 
             // exitIcon
             // 
@@ -123,6 +109,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 21;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // filterGB
             // 
@@ -227,7 +214,6 @@
             ClientSize = new Size(978, 644);
             Controls.Add(btnRefresh);
             Controls.Add(filterGB);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
@@ -239,7 +225,6 @@
             Text = "Audit_Trails";
             Load += Audit_Trails_Load;
             ((System.ComponentModel.ISupportInitialize)dgvAuditTrail).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -253,7 +238,6 @@
 
         private Label pageTitleTxt;
         private DataGridView dgvAuditTrail;
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;

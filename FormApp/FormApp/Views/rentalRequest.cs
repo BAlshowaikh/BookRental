@@ -72,10 +72,10 @@ namespace FormApp.Views
             frmrentalRequestDetails.ShowDialog();
 
             //DialogResult.OK means that the use changed something in the DB
-            if (frmrentalRequestDetails.DialogResult == DialogResult.OK) 
+            if (frmrentalRequestDetails.DialogResult == DialogResult.OK)
             {
                 //if so then refresh the grid view 
-                RefreshRentalRequestGridview();  
+                RefreshRentalRequestGridview();
             }
         }
 
@@ -117,6 +117,11 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

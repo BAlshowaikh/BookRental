@@ -35,6 +35,8 @@ namespace FormApp.Views
             userIcon = new PictureBox();
             dgvAuthors = new DataGridView();
             groupBox1 = new GroupBox();
+            txtAuthorID = new TextBox();
+            lblAuthorID = new Label();
             btnReset = new Button();
             ddlAuthors = new ComboBox();
             filterBttn = new Button();
@@ -42,8 +44,6 @@ namespace FormApp.Views
             deleteBttn = new Button();
             editBttn = new Button();
             addBttn = new Button();
-            lblAuthorID = new Label();
-            txtAuthorID = new TextBox();
             pageTitleTxt = new Label();
             btnRefresh = new Button();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
@@ -101,6 +101,7 @@ namespace FormApp.Views
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 28;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // dgvAuthors
             // 
@@ -133,6 +134,24 @@ namespace FormApp.Views
             groupBox1.TabIndex = 26;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
+            // 
+            // txtAuthorID
+            // 
+            txtAuthorID.Location = new Point(187, 42);
+            txtAuthorID.Name = "txtAuthorID";
+            txtAuthorID.Size = new Size(168, 32);
+            txtAuthorID.TabIndex = 21;
+            // 
+            // lblAuthorID
+            // 
+            lblAuthorID.AutoSize = true;
+            lblAuthorID.Font = new Font("Britannic Bold", 10F);
+            lblAuthorID.Location = new Point(10, 47);
+            lblAuthorID.Name = "lblAuthorID";
+            lblAuthorID.Size = new Size(178, 22);
+            lblAuthorID.TabIndex = 20;
+            lblAuthorID.Text = "Filter by Author ID:";
+            lblAuthorID.Click += label1_Click;
             // 
             // btnReset
             // 
@@ -223,24 +242,6 @@ namespace FormApp.Views
             addBttn.Text = "Add Authors";
             addBttn.UseVisualStyleBackColor = false;
             addBttn.Click += addBttn_Click_1;
-            // 
-            // lblAuthorID
-            // 
-            lblAuthorID.AutoSize = true;
-            lblAuthorID.Font = new Font("Britannic Bold", 10F);
-            lblAuthorID.Location = new Point(10, 47);
-            lblAuthorID.Name = "lblAuthorID";
-            lblAuthorID.Size = new Size(178, 22);
-            lblAuthorID.TabIndex = 20;
-            lblAuthorID.Text = "Filter by Author ID:";
-            lblAuthorID.Click += label1_Click;
-            // 
-            // txtAuthorID
-            // 
-            txtAuthorID.Location = new Point(187, 42);
-            txtAuthorID.Name = "txtAuthorID";
-            txtAuthorID.Size = new Size(168, 32);
-            txtAuthorID.TabIndex = 21;
             // 
             // pageTitleTxt
             // 

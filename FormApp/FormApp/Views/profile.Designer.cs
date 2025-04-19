@@ -31,7 +31,6 @@
             label1 = new Label();
             saveBtn = new Button();
             cancelBtn = new Button();
-            returnIcon = new PictureBox();
             homeIcon = new PictureBox();
             exitIcon = new PictureBox();
             emailTxt = new TextBox();
@@ -43,7 +42,6 @@
             textBox1 = new TextBox();
             lblFirstName = new Label();
             userInfoGroupBox = new GroupBox();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             userInfoGroupBox.SuspendLayout();
@@ -86,17 +84,6 @@
             cancelBtn.Text = "Cancel";
             cancelBtn.UseVisualStyleBackColor = false;
             cancelBtn.Click += cancelBtn_Click;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 11;
-            returnIcon.TabStop = false;
             // 
             // homeIcon
             // 
@@ -224,7 +211,6 @@
             Controls.Add(userInfoGroupBox);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
-            Controls.Add(returnIcon);
             Controls.Add(cancelBtn);
             Controls.Add(saveBtn);
             Controls.Add(label1);
@@ -233,7 +219,6 @@
             Name = "profile";
             Text = "profile";
             Load += profile_Load;
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             userInfoGroupBox.ResumeLayout(false);
@@ -248,7 +233,6 @@
         private TextBox textBox3;
         private Button SaveBtn;
         private Button button1;
-        private PictureBox returnIcon;
         private PictureBox homeIcon;
         private PictureBox exitIcon;
         private Button saveBtn;
