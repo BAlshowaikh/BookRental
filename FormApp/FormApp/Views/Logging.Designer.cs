@@ -67,11 +67,11 @@
             // 
             dgvLogTrail.BackgroundColor = SystemColors.Control;
             dgvLogTrail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvLogTrail.Location = new Point(93, 175);
+            dgvLogTrail.Location = new Point(31, 230);
             dgvLogTrail.Margin = new Padding(2);
             dgvLogTrail.Name = "dgvLogTrail";
             dgvLogTrail.RowHeadersWidth = 62;
-            dgvLogTrail.Size = new Size(792, 392);
+            dgvLogTrail.Size = new Size(930, 329);
             dgvLogTrail.TabIndex = 5;
             // 
             // returnIcon
@@ -126,13 +126,13 @@
             // 
             // btnRefresh
             // 
-            btnRefresh.BackColor = Color.Cornsilk;
-            btnRefresh.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.BackColor = Color.LightGray;
+            btnRefresh.Font = new Font("Britannic Bold", 10F);
             btnRefresh.ForeColor = Color.Black;
-            btnRefresh.Location = new Point(31, 576);
+            btnRefresh.Location = new Point(851, 567);
             btnRefresh.Margin = new Padding(2);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(162, 51);
+            btnRefresh.Size = new Size(110, 35);
             btnRefresh.TabIndex = 29;
             btnRefresh.Text = "Refresh";
             btnRefresh.UseVisualStyleBackColor = false;
@@ -140,31 +140,33 @@
             // 
             // filterGB
             // 
+            filterGB.BackColor = Color.Transparent;
             filterGB.Controls.Add(btnResetFilter);
             filterGB.Controls.Add(btnFilter);
             filterGB.Controls.Add(ddlFilterUser);
             filterGB.Controls.Add(FilterbyUser);
             filterGB.Controls.Add(txtFilterTrailsNo);
             filterGB.Controls.Add(FilterbyLoginTrailsNo);
-            filterGB.Location = new Point(93, 86);
+            filterGB.Font = new Font("Tahoma", 10F);
+            filterGB.Location = new Point(31, 117);
             filterGB.Name = "filterGB";
-            filterGB.Size = new Size(792, 72);
+            filterGB.Size = new Size(928, 96);
             filterGB.TabIndex = 38;
             filterGB.TabStop = false;
             filterGB.Text = "Filter";
             // 
             // btnResetFilter
             // 
-            btnResetFilter.BackColor = Color.WhiteSmoke;
+            btnResetFilter.BackColor = Color.Cornsilk;
             btnResetFilter.FlatAppearance.BorderSize = 0;
-            btnResetFilter.FlatStyle = FlatStyle.Flat;
+            btnResetFilter.Font = new Font("Britannic Bold", 10F);
             btnResetFilter.ForeColor = Color.Black;
-            btnResetFilter.Location = new Point(680, 29);
-            btnResetFilter.Margin = new Padding(4, 5, 4, 5);
+            btnResetFilter.Location = new Point(801, 34);
+            btnResetFilter.Margin = new Padding(2);
             btnResetFilter.Name = "btnResetFilter";
-            btnResetFilter.Size = new Size(105, 30);
+            btnResetFilter.Size = new Size(105, 38);
             btnResetFilter.TabIndex = 39;
-            btnResetFilter.Text = "Reset Filter";
+            btnResetFilter.Text = "Reset";
             btnResetFilter.UseVisualStyleBackColor = false;
             btnResetFilter.Click += btnResetFilter_Click;
             // 
@@ -173,10 +175,10 @@
             btnFilter.BackColor = Color.Cornsilk;
             btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnFilter.ForeColor = Color.Black;
-            btnFilter.Location = new Point(574, 29);
+            btnFilter.Location = new Point(686, 34);
             btnFilter.Margin = new Padding(2);
             btnFilter.Name = "btnFilter";
-            btnFilter.Size = new Size(105, 30);
+            btnFilter.Size = new Size(105, 38);
             btnFilter.TabIndex = 38;
             btnFilter.Text = "Filter";
             btnFilter.UseVisualStyleBackColor = false;
@@ -185,34 +187,36 @@
             // ddlFilterUser
             // 
             ddlFilterUser.FormattingEnabled = true;
-            ddlFilterUser.Location = new Point(385, 26);
+            ddlFilterUser.Location = new Point(504, 38);
             ddlFilterUser.Margin = new Padding(4, 5, 4, 5);
             ddlFilterUser.Name = "ddlFilterUser";
-            ddlFilterUser.Size = new Size(174, 33);
+            ddlFilterUser.Size = new Size(160, 32);
             ddlFilterUser.TabIndex = 38;
             // 
             // FilterbyUser
             // 
             FilterbyUser.AutoSize = true;
-            FilterbyUser.Location = new Point(259, 31);
+            FilterbyUser.Font = new Font("Britannic Bold", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FilterbyUser.Location = new Point(354, 47);
             FilterbyUser.Name = "FilterbyUser";
-            FilterbyUser.Size = new Size(119, 25);
+            FilterbyUser.Size = new Size(147, 25);
             FilterbyUser.TabIndex = 2;
             FilterbyUser.Text = "Filter by User:";
             // 
             // txtFilterTrailsNo
             // 
-            txtFilterTrailsNo.Location = new Point(169, 29);
+            txtFilterTrailsNo.Location = new Point(185, 41);
             txtFilterTrailsNo.Name = "txtFilterTrailsNo";
-            txtFilterTrailsNo.Size = new Size(68, 31);
+            txtFilterTrailsNo.Size = new Size(150, 32);
             txtFilterTrailsNo.TabIndex = 1;
             // 
             // FilterbyLoginTrailsNo
             // 
             FilterbyLoginTrailsNo.AutoSize = true;
-            FilterbyLoginTrailsNo.Location = new Point(12, 31);
+            FilterbyLoginTrailsNo.Font = new Font("Britannic Bold", 10F);
+            FilterbyLoginTrailsNo.Location = new Point(11, 48);
             FilterbyLoginTrailsNo.Name = "FilterbyLoginTrailsNo";
-            FilterbyLoginTrailsNo.Size = new Size(151, 25);
+            FilterbyLoginTrailsNo.Size = new Size(174, 22);
             FilterbyLoginTrailsNo.TabIndex = 0;
             FilterbyLoginTrailsNo.Text = "Filter by Trails No:";
             // 

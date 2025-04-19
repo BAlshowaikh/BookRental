@@ -113,7 +113,7 @@
             lbltitle.BackColor = Color.Transparent;
             lbltitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             lbltitle.ForeColor = Color.Cornsilk;
-            lbltitle.Location = new Point(147, 9);
+            lbltitle.Location = new Point(174, 9);
             lbltitle.Margin = new Padding(2, 0, 2, 0);
             lbltitle.Name = "lbltitle";
             lbltitle.Size = new Size(603, 63);
@@ -282,7 +282,7 @@
             btnGenerate.BackColor = Color.Cornsilk;
             btnGenerate.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnGenerate.ForeColor = Color.Black;
-            btnGenerate.Location = new Point(234, 565);
+            btnGenerate.Location = new Point(290, 565);
             btnGenerate.Margin = new Padding(2);
             btnGenerate.Name = "btnGenerate";
             btnGenerate.Size = new Size(200, 50);
@@ -296,7 +296,7 @@
             btnCancel.BackColor = Color.IndianRed;
             btnCancel.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(542, 565);
+            btnCancel.Location = new Point(516, 565);
             btnCancel.Margin = new Padding(2);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(200, 50);

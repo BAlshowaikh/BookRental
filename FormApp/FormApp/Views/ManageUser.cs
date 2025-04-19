@@ -51,19 +51,24 @@ namespace FormApp
             {
                 var userToShow = context.Users.AsQueryable();
 
-                if (ddlUser.SelectedItem != null)
+                if (!string.IsNullOrWhiteSpace(txtUserID.Text))
+                {
+                    userToShow = userToShow.Where(u => u.UserId == Convert.ToInt32(txtUserID.Text));
+                }
+
+                else if (ddlUser.SelectedItem != null)
                 {
                     userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
                 }
-                
-                    dgvUsers.DataSource = userToShow.Select(s => new
-                    {
-                        UserID = s.UserId,
-                        FullName = s.FullName,
-                        Email = s.Email,
-                        Role = s.UserRole.Role
-                    }).ToList();
-                
+
+                dgvUsers.DataSource = userToShow.Select(s => new
+                {
+                    UserID = s.UserId,
+                    FullName = s.FullName,
+                    Email = s.Email,
+                    Role = s.UserRole.Role
+                }).ToList();
+
             }
             catch (Exception ex)
             {
@@ -140,6 +145,11 @@ namespace FormApp
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshUsersGridView();
         }
     }
 }

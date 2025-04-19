@@ -25,34 +25,33 @@ namespace FormApp.Views
         }
         private void manageBooksBtn_Click(object sender, EventArgs e)
         {
-            bookList bookListForm = new bookList();
-            bookListForm.Show();
-            this.Hide();
+            Form bookListForm = new bookList();
+            HelperFunctions.navigationToPage(this, bookListForm);
         }
 
         private void manageRentalRequestsBtn_Click(object sender, EventArgs e)
         {
-            rentalRequest rentalRequestForm = new rentalRequest();
-            rentalRequestForm.Show();
-            this.Hide();
+            Form manageRentalRequestForm = new rentalRequest();
+            HelperFunctions.navigationToPage(this, manageRentalRequestForm);
 
         }
 
         private void ManageRentalTransactionsBtn_Click(object sender, EventArgs e)
         {
-
+            Form ViewTransactions = new ViewTransactions();
+            HelperFunctions.navigationToPage(this, ViewTransactions);
         }
 
         private void ManageReturnRecordBtn_Click(object sender, EventArgs e)
         {
-            returnRecord returnRecordForm = new returnRecord();
-            returnRecordForm.Show();
-            this.Hide();
+            Form returnRecordForm = new returnRecord();
+            HelperFunctions.navigationToPage(this, returnRecordForm);
         }
 
-        private void manageBooksBtn_Click_1(object sender, EventArgs e)
+        private void GenerateRecordBtn_Click(object sender, EventArgs e)
         {
-
+            Form auditTrails = new Audit_Trails();
+            HelperFunctions.navigationToPage(this, auditTrails);
         }
     }
 }

@@ -43,14 +43,6 @@ namespace FormApp
             RefreshAuditTrailsGridview();
         }
 
-        private void btnResetFilter_Click(object sender, EventArgs e)
-        {
-            txtFilterTrailsNo.Text = string.Empty;
-            txtFilterTrailsNo.Focus();
-
-            ddlFilterUser.SelectedValue = string.Empty;
-            RefreshAuditTrailsGridview();
-        }
 
         private void RefreshAuditTrailsGridview()
         {
@@ -68,7 +60,7 @@ namespace FormApp
                     .Where(x => x.UserId == Convert.ToInt32(ddlFilterUser.SelectedValue.ToString()));
             }
 
-            dgvAuditTrail.DataSource = TrailsToShow.Select(x=> new
+            dgvAuditTrail.DataSource = TrailsToShow.Select(x => new
             {
                 AuditID = x.AuditId,
                 x.Timestamp,
@@ -86,6 +78,25 @@ namespace FormApp
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void FilterbyUser_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRefresh_Click_1(object sender, EventArgs e)
+        {
+            txtFilterTrailsNo.Text = string.Empty;
+            txtFilterTrailsNo.Focus();
+
+            ddlFilterUser.SelectedValue = string.Empty;
+            RefreshAuditTrailsGridview();
         }
     }
 }

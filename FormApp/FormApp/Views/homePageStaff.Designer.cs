@@ -111,7 +111,7 @@
             manageBooksBtn.TabIndex = 14;
             manageBooksBtn.Text = "Manage Books";
             manageBooksBtn.UseVisualStyleBackColor = false;
-            manageBooksBtn.Click += manageBooksBtn_Click_1;
+//            manageBooksBtn.Click += manageBooksBtn_Click_1;
             // 
             // manageRentalRequestsBtn
             // 
@@ -159,6 +159,7 @@
             GenerateRecordBtn.TabIndex = 18;
             GenerateRecordBtn.Text = "Generate Record";
             GenerateRecordBtn.UseVisualStyleBackColor = false;
+            GenerateRecordBtn.Click += GenerateRecordBtn_Click;
             // 
             // homePageStaff
             // 
