@@ -97,6 +97,7 @@ namespace FormApp.Views
 
         private void btnGenerateRecord_Click(object sender, EventArgs e)
         {
+            //get the transaction ID and send it to a new returnRecordDetails form
             int cell = Convert.ToInt32(dgvTransaction.SelectedCells[0].OwningRow.Cells[0].Value);
             returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(cell);
             frmreturnRecordDetails.Show();

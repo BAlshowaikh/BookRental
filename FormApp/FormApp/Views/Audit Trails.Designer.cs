@@ -153,7 +153,7 @@
             btnReset.TabIndex = 39;
             btnReset.Text = "Reset";
             btnReset.UseVisualStyleBackColor = false;
-            btnReset.Click += button1_Click;
+            btnReset.Click += btnReset_Click;
             // 
             // btnFilter
             // 
@@ -187,7 +187,6 @@
             FilterbyUser.Size = new Size(147, 25);
             FilterbyUser.TabIndex = 2;
             FilterbyUser.Text = "Filter by User:";
-            FilterbyUser.Click += FilterbyUser_Click;
             // 
             // txtFilterTrailsNo
             // 
