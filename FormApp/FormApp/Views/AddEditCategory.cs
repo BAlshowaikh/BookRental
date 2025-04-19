@@ -41,9 +41,9 @@ namespace FormApp.Views
         {
             if (category.CategoryId > 0)
             {
-                    pageTitle.Text = "Edit Category";
-                    txtCategoryID.Text = category.CategoryId.ToString();
-                    txtCategoryName.Text = category.CategoryName;
+                pageTitle.Text = "Edit Category";
+                txtCategoryID.Text = category.CategoryId.ToString();
+                txtCategoryName.Text = category.CategoryName;
             }
             else
             {
@@ -97,6 +97,11 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

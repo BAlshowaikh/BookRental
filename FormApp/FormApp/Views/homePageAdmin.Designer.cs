@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             userIcon = new PictureBox();
-            homeIcon = new PictureBox();
             exitIcon = new PictureBox();
-            returnIcon = new PictureBox();
             welcomeTxt = new Label();
             manageUsersBtn = new Button();
             manageBooksBtn = new Button();
@@ -42,9 +40,7 @@
             lblWelcome = new Label();
             btnViewAuditTrails = new Button();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             SuspendLayout();
             // 
             // userIcon
@@ -58,19 +54,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 8;
             userIcon.TabStop = false;
-            // 
-            // homeIcon
-            // 
-            homeIcon.BackColor = Color.Transparent;
-            homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 12);
-            homeIcon.Margin = new Padding(2);
-            homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(40, 40);
-            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            homeIcon.TabIndex = 9;
-            homeIcon.TabStop = false;
-            homeIcon.Click += homeIcon_Click;
+            userIcon.Click += userIcon_Click;
             // 
             // exitIcon
             // 
@@ -84,18 +68,6 @@
             exitIcon.TabIndex = 10;
             exitIcon.TabStop = false;
             exitIcon.Click += exitIcon_Click;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 11;
-            returnIcon.TabStop = false;
             // 
             // welcomeTxt
             // 
@@ -229,9 +201,7 @@
             Controls.Add(manageBooksBtn);
             Controls.Add(manageUsersBtn);
             Controls.Add(welcomeTxt);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
-            Controls.Add(homeIcon);
             Controls.Add(userIcon);
             DoubleBuffered = true;
             Margin = new Padding(2);
@@ -239,18 +209,14 @@
             Text = "homePageAdmin";
             Load += homePageAdmin_Load;
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private PictureBox userIcon;
-        private PictureBox homeIcon;
         private PictureBox exitIcon;
-        private PictureBox returnIcon;
         private Label welcomeTxt;
         private Button manageUsersBtn;
         private Button manageBooksBtn;

@@ -104,5 +104,10 @@ namespace FormApp.Views
             this.Hide();
 
         }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
     }
 }

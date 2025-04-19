@@ -30,7 +30,6 @@
         {
             pageTitleTxt = new Label();
             dgvLogTrail = new DataGridView();
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
@@ -43,7 +42,6 @@
             txtFilterTrailsNo = new TextBox();
             FilterbyLoginTrailsNo = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvLogTrail).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -73,18 +71,6 @@
             dgvLogTrail.RowHeadersWidth = 62;
             dgvLogTrail.Size = new Size(930, 329);
             dgvLogTrail.TabIndex = 5;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 27;
-            returnIcon.TabStop = false;
             // 
             // exitIcon
             // 
@@ -123,6 +109,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 28;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // btnRefresh
             // 
@@ -230,7 +217,6 @@
             Controls.Add(filterGB);
             Controls.Add(btnRefresh);
             Controls.Add(userIcon);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(dgvLogTrail);
@@ -240,7 +226,6 @@
             Text = "Logging";
             Load += Logging_Load;
             ((System.ComponentModel.ISupportInitialize)dgvLogTrail).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -254,7 +239,6 @@
 
         private Label pageTitleTxt;
         private DataGridView dgvLogTrail;
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;

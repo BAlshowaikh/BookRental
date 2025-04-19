@@ -137,17 +137,22 @@ namespace FormApp
                 // Create a boolean controls
                 bool isTextBoxFilled = !string.IsNullOrWhiteSpace(txtFilterByBookID.Text);
                 bool isDropDownFilled = ddlFilterByBookName.SelectedValue != null;
+                var booksToShow = context.Books.AsQueryable();
 
                 // Check if both of them are filled, show an error message
                 if (isTextBoxFilled && isDropDownFilled)
                 {
-                    MessageBox.Show("Please use only one filter method (either Book ID or Book Name).", "Filter Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+
+                    int textBoxBookId = Convert.ToInt32(txtFilterByBookID.Text);
+                    int selectedBookId = Convert.ToInt32(ddlFilterByBookName.SelectedValue);
+
+                    // Apply both filters together (AND condition)
+                    booksToShow = booksToShow
+                        .Where(b => b.BookId == textBoxBookId && b.BookId == selectedBookId);
                 }
-                var booksToShow = context.Books.AsQueryable();
 
                 // Check if the text box is filled 
-                if (isTextBoxFilled)
+                else if (isTextBoxFilled)
                 {
                     booksToShow = booksToShow.Where(b => b.BookId == Convert.ToInt32(txtFilterByBookID.Text));
                 }
@@ -216,23 +221,23 @@ namespace FormApp
                 // Fetch the complete Book object from the database
                 //using (var context = new BookRentalDBContext())
                 //{
-                    var book = context.Books
-                       .Include(b => b.Author)
-                       .Include(b => b.Category)
-                       .Include(b => b.AvailabilityStatus)
-                       .Include(b => b.BookCondition)
-                       .FirstOrDefault(b => b.BookId == bookId);
+                var book = context.Books
+                   .Include(b => b.Author)
+                   .Include(b => b.Category)
+                   .Include(b => b.AvailabilityStatus)
+                   .Include(b => b.BookCondition)
+                   .FirstOrDefault(b => b.BookId == bookId);
 
-                    if (book != null)
-                    {
-                        _selectedBook = book;
-                    }
-                    else
-                    {
-                        // Handle not found case
-                        MessageBox.Show("Book not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        _selectedBook = null; // Explicitly clear previous selection
-                    }
+                if (book != null)
+                {
+                    _selectedBook = book;
+                }
+                else
+                {
+                    // Handle not found case
+                    MessageBox.Show("Book not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _selectedBook = null; // Explicitly clear previous selection
+                }
                 //}
             }
         }
@@ -290,10 +295,15 @@ namespace FormApp
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"An error occured {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

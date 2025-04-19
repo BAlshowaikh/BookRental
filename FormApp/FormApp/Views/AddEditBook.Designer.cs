@@ -72,6 +72,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 14;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // returnIcon
             // 

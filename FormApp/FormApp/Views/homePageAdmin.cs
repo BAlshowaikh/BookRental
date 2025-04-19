@@ -14,10 +14,20 @@ namespace FormApp
 {
     public partial class homePageAdmin : Form
     {
+        private static homePageAdmin _instance;
         public homePageAdmin()
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
+        }
+
+        public static homePageAdmin GetInstance()
+        {
+            if (_instance == null || _instance.IsDisposed)
+            {
+                _instance = new homePageAdmin();
+            }
+            return _instance;
         }
 
         private void exitIcon_Click(object sender, EventArgs e)
@@ -90,6 +100,11 @@ namespace FormApp
         private void homePageAdmin_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

@@ -102,6 +102,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 17;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // lblFirstName
             // 
