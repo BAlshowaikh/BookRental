@@ -65,6 +65,7 @@
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 25;
             returnIcon.TabStop = false;
+            returnIcon.Click += returnIcon_Click;
             // 
             // exitIcon
             // 

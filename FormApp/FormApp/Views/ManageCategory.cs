@@ -129,5 +129,10 @@ namespace FormApp.Views
         {
             RefreshCategoryGridView();
         }
+
+        private void returnIcon_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
