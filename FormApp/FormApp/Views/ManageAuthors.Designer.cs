@@ -29,7 +29,6 @@ namespace FormApp.Views
         /// </summary>
         private void InitializeComponent()
         {
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
@@ -46,25 +45,12 @@ namespace FormApp.Views
             addBttn = new Button();
             pageTitleTxt = new Label();
             btnRefresh = new Button();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvAuthors).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 31;
-            returnIcon.TabStop = false;
             // 
             // exitIcon
             // 
@@ -77,6 +63,7 @@ namespace FormApp.Views
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 30;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // homeIcon
             // 
@@ -89,6 +76,7 @@ namespace FormApp.Views
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 29;
             homeIcon.TabStop = false;
+            homeIcon.Click += homeIcon_Click;
             // 
             // userIcon
             // 
@@ -281,7 +269,6 @@ namespace FormApp.Views
             Controls.Add(deleteBttn);
             Controls.Add(editBttn);
             Controls.Add(addBttn);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
@@ -293,7 +280,6 @@ namespace FormApp.Views
             Name = "ManageAuthors";
             Text = "ManageAuthors";
             Load += ManageAuthors_Load;
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -324,9 +310,7 @@ namespace FormApp.Views
             throw new NotImplementedException();
         }
 
-        #endregion
-
-        private PictureBox returnIcon;
+#endregion
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
