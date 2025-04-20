@@ -20,25 +20,6 @@ namespace FormApp
             HelperFunctions.setUpFormDesign(this);
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
@@ -91,9 +72,19 @@ namespace FormApp
         // Opens the Audit Trails form 
         private void generateRecordsBtn_Click(object sender, EventArgs e)
         {
+            Form loginTrails = new Logging();
+            HelperFunctions.navigationToPage(this, loginTrails);
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void btnViewAuditTrails_Click(object sender, EventArgs e)
+        {
             Form auditTrails = new Audit_Trails();
             HelperFunctions.navigationToPage(this, auditTrails);
-
         }
 
         private void homePageAdmin_Load(object sender, EventArgs e)

@@ -219,12 +219,12 @@
             pageTitle.BackColor = Color.Transparent;
             pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitle.ForeColor = Color.Cornsilk;
-            pageTitle.Location = new Point(263, 27);
+            pageTitle.Location = new Point(322, 26);
             pageTitle.Margin = new Padding(2, 0, 2, 0);
             pageTitle.Name = "pageTitle";
-            pageTitle.Size = new Size(456, 63);
+            pageTitle.Size = new Size(323, 63);
             pageTitle.TabIndex = 47;
-            pageTitle.Text = "Add/Edit Author";
+            pageTitle.Text = "Add Author";
             // 
             // AddEditAuthors
             // 

@@ -38,8 +38,9 @@
             manageRentalTransictionsBtn = new Button();
             manageRentalRequestBtn = new Button();
             manageRentalRecordsBtn = new Button();
-            generateRecordsBtn = new Button();
+            btnViewLoginTrails = new Button();
             lblWelcome = new Label();
+            btnViewAuditTrails = new Button();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -69,7 +70,7 @@
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 9;
             homeIcon.TabStop = false;
-            homeIcon.Click += pictureBox2_Click;
+            homeIcon.Click += homeIcon_Click;
             // 
             // exitIcon
             // 
@@ -173,18 +174,18 @@
             manageRentalRecordsBtn.UseVisualStyleBackColor = false;
             manageRentalRecordsBtn.Click += manageRentalRecordsBtn_Click_1;
             // 
-            // generateRecordsBtn
+            // btnViewLoginTrails
             // 
-            generateRecordsBtn.BackColor = Color.Cornsilk;
-            generateRecordsBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            generateRecordsBtn.Location = new Point(658, 409);
-            generateRecordsBtn.Margin = new Padding(2);
-            generateRecordsBtn.Name = "generateRecordsBtn";
-            generateRecordsBtn.Size = new Size(220, 50);
-            generateRecordsBtn.TabIndex = 18;
-            generateRecordsBtn.Text = "Generate Records";
-            generateRecordsBtn.UseVisualStyleBackColor = false;
-            generateRecordsBtn.Click += generateRecordsBtn_Click;
+            btnViewLoginTrails.BackColor = Color.Cornsilk;
+            btnViewLoginTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnViewLoginTrails.Location = new Point(658, 409);
+            btnViewLoginTrails.Margin = new Padding(2);
+            btnViewLoginTrails.Name = "btnViewLoginTrails";
+            btnViewLoginTrails.Size = new Size(220, 50);
+            btnViewLoginTrails.TabIndex = 18;
+            btnViewLoginTrails.Text = "View Login Trails";
+            btnViewLoginTrails.UseVisualStyleBackColor = false;
+            btnViewLoginTrails.Click += generateRecordsBtn_Click;
             // 
             // lblWelcome
             // 
@@ -198,6 +199,19 @@
             lblWelcome.TabIndex = 19;
             lblWelcome.Text = "Welcome, username!";
             // 
+            // btnViewAuditTrails
+            // 
+            btnViewAuditTrails.BackColor = Color.Cornsilk;
+            btnViewAuditTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnViewAuditTrails.Location = new Point(388, 515);
+            btnViewAuditTrails.Margin = new Padding(2);
+            btnViewAuditTrails.Name = "btnViewAuditTrails";
+            btnViewAuditTrails.Size = new Size(220, 50);
+            btnViewAuditTrails.TabIndex = 20;
+            btnViewAuditTrails.Text = "View Audit Trails";
+            btnViewAuditTrails.UseVisualStyleBackColor = false;
+            btnViewAuditTrails.Click += btnViewAuditTrails_Click;
+            // 
             // homePageAdmin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -206,8 +220,9 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(btnViewAuditTrails);
             Controls.Add(lblWelcome);
-            Controls.Add(generateRecordsBtn);
+            Controls.Add(btnViewLoginTrails);
             Controls.Add(manageRentalRecordsBtn);
             Controls.Add(manageRentalRequestBtn);
             Controls.Add(manageRentalTransictionsBtn);
@@ -242,7 +257,8 @@
         private Button manageRentalTransictionsBtn;
         private Button manageRentalRequestBtn;
         private Button manageRentalRecordsBtn;
-        private Button generateRecordsBtn;
+        private Button btnViewLoginTrails;
         private Label lblWelcome;
+        private Button btnViewAuditTrails;
     }
 }
