@@ -81,5 +81,24 @@ namespace FormApp.Controllers
             }
         }
 
+        public static void OpenSingletonForm<T>(Form currentForm) where T : Form, new()
+        {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is T existingForm)
+                {
+                    existingForm.BringToFront();
+                    if (currentForm != existingForm)
+                        currentForm.Hide();
+                    return;
+                }
+            }
+
+            // Form not open, create new instance
+            T form = new T();
+            form.Show();
+            currentForm.Hide();
+        }
+
     }
 }

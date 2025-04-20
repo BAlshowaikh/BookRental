@@ -64,7 +64,8 @@ namespace FormApp.Views
                 CustomerName = x.User.FullName,
                 RentalStartDate = x.RentalStartDate,
                 ReturnDate = x.ReturnDate,
-                RentalFee = x.RentalFee
+                RentalFee = x.RentalFee,
+                IsReturned = x.IsReturned
             }).ToList();
         }
 

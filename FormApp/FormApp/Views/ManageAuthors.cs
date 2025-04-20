@@ -20,6 +20,7 @@ namespace FormApp.Views
         {
             InitializeComponent();
             context = new BookRentalDBContext();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void deleteBttn_Click(object sender, EventArgs e)
@@ -132,6 +133,16 @@ namespace FormApp.Views
         private void userIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }
