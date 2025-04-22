@@ -1,4 +1,5 @@
-﻿using FormApp.Controllers;
+﻿using BookRentalObject;
+using FormApp.Controllers;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -14,43 +15,41 @@ namespace FormApp.Views
 {
     public partial class profile : Form
     {
-        // Store the SQL connection and current user ID
-        private readonly SqlConnection _connection;
-        private readonly int _currentUserId;
-
-        public profile(int userId, SqlConnection existingConnection)
+        BookRentalDBContext context;
+        int userId;
+        public profile()
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
-            _currentUserId = userId;
-            _connection = existingConnection;
+
+            context = new BookRentalDBContext();
+
+            // testing user id , will remove once login page is integrated 
+            userId = 1;
+
+            this.Load += profile_Load;
         }
 
+      
 
         private void profile_Load(object sender, EventArgs e)
         {
             try
             {
-                // fetching the logged in user profile information
-                string query = "SELECT FirstName, LastName, Email FROM Users WHERE UserID = @UserID";
-                SqlCommand cmd = new SqlCommand(query, _connection);
-                cmd.Parameters.AddWithValue("@UserID", _currentUserId);
-
-                
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+                if (user != null)
                 {
-                    if (reader.Read())
-                    {
-                        // add user info to the text boxes
-                        firstNameTxt.Text = reader["FirstName"].ToString();
-                        lastNameTxt.Text = reader["LastName"].ToString();
-                        emailTxt.Text = reader["Email"].ToString();
-                    }
+                    firstNameTxt.Text = user.FirstName;
+                    lastNameTxt.Text = user.LastName;
+                    emailTxt.Text = user.Email;
+                }
+                else
+                {
+                    MessageBox.Show($"User with ID {userId} not found.");
                 }
             }
             catch (Exception ex)
             {
-                //error message if something goes wrong
                 MessageBox.Show("Error loading profile: " + ex.Message);
             }
         }
@@ -59,22 +58,19 @@ namespace FormApp.Views
         {
             try
             {
-                // updating  to save changes to the user's profile
-                string query = "UPDATE Users SET FirstName = @FirstName, LastName = @LastName, Email = @Email WHERE UserID = @UserID";
-                SqlCommand cmd = new SqlCommand(query, _connection);
+                var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+                if (user != null)
+                {
+                    user.FirstName = firstNameTxt.Text;
+                    user.LastName = lastNameTxt.Text;
+                    user.Email = emailTxt.Text;
 
-                // adding parameters from the text fields
-                cmd.Parameters.AddWithValue("@FirstName", firstNameTxt.Text);
-                cmd.Parameters.AddWithValue("@LastName", lastNameTxt.Text);
-                cmd.Parameters.AddWithValue("@Email", emailTxt.Text);
-                cmd.Parameters.AddWithValue("@UserID", _currentUserId);
-
-                int result = cmd.ExecuteNonQuery();
-                MessageBox.Show(result > 0 ? "Profile updated." : "Update failed.");
+                    context.SaveChanges();
+                    MessageBox.Show("Profile updated successfully.");
+                }
             }
             catch (Exception ex)
             {
-                // Show error message if something goes wrong
                 MessageBox.Show("Error updating profile: " + ex.Message);
             }
         }
