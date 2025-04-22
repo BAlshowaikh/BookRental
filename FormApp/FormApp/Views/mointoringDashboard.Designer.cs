@@ -227,6 +227,7 @@
             refreshBtn.TabIndex = 10;
             refreshBtn.Text = "Refresh";
             refreshBtn.UseVisualStyleBackColor = false;
+            refreshBtn.Click += refreshBtn_Click;
             // 
             // pageTitleTxt
             // 
