@@ -64,5 +64,12 @@ namespace FormApp.Views
         {
             HelperFunctions.ShowProfilePage(this);
         }
+
+        // Event handler for the Viewing Statistics form button
+        private void ViewStatsBtn_Click(object sender, EventArgs e)
+        {
+            Form monitoringDashboardForm = new mointoringDashboard();
+            HelperFunctions.navigationToPage(this, monitoringDashboardForm);
+        }
     }
 }

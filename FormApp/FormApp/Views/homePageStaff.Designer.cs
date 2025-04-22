@@ -36,6 +36,7 @@
             ManageRentalTransactionsBtn = new Button();
             ManageReturnRecordBtn = new Button();
             GenerateRecordBtn = new Button();
+            ViewStatsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             SuspendLayout();
@@ -115,7 +116,7 @@
             // 
             ManageReturnRecordBtn.BackColor = Color.Cornsilk;
             ManageReturnRecordBtn.Font = new Font("Britannic Bold", 9F);
-            ManageReturnRecordBtn.Location = new Point(202, 407);
+            ManageReturnRecordBtn.Location = new Point(104, 410);
             ManageReturnRecordBtn.Name = "ManageReturnRecordBtn";
             ManageReturnRecordBtn.Size = new Size(220, 50);
             ManageReturnRecordBtn.TabIndex = 17;
@@ -127,7 +128,7 @@
             // 
             GenerateRecordBtn.BackColor = Color.Cornsilk;
             GenerateRecordBtn.Font = new Font("Britannic Bold", 12F);
-            GenerateRecordBtn.Location = new Point(541, 407);
+            GenerateRecordBtn.Location = new Point(379, 407);
             GenerateRecordBtn.Name = "GenerateRecordBtn";
             GenerateRecordBtn.Size = new Size(220, 50);
             GenerateRecordBtn.TabIndex = 18;
@@ -135,12 +136,25 @@
             GenerateRecordBtn.UseVisualStyleBackColor = false;
             GenerateRecordBtn.Click += GenerateRecordBtn_Click;
             // 
+            // ViewStatsBtn
+            // 
+            ViewStatsBtn.BackColor = Color.Cornsilk;
+            ViewStatsBtn.Font = new Font("Britannic Bold", 8F);
+            ViewStatsBtn.Location = new Point(650, 407);
+            ViewStatsBtn.Name = "ViewStatsBtn";
+            ViewStatsBtn.Size = new Size(220, 50);
+            ViewStatsBtn.TabIndex = 19;
+            ViewStatsBtn.Text = "View Mointoring Dashboard";
+            ViewStatsBtn.UseVisualStyleBackColor = false;
+            ViewStatsBtn.Click += ViewStatsBtn_Click;
+            // 
             // homePageStaff
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(978, 644);
+            Controls.Add(ViewStatsBtn);
             Controls.Add(GenerateRecordBtn);
             Controls.Add(ManageReturnRecordBtn);
             Controls.Add(ManageRentalTransactionsBtn);
@@ -172,5 +186,7 @@
         private Button ManageRentalTransactionsBtn;
         private Button ManageReturnRecordBtn;
         private Button GenerateRecordBtn;
+        private Button button2;
+        private Button ViewStatsBtn;
     }
 }

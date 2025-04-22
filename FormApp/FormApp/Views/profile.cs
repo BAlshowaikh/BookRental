@@ -1,4 +1,5 @@
-﻿using FormApp.Controllers;
+﻿using BookRentalObject;
+using FormApp.Controllers;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -14,66 +15,64 @@ namespace FormApp.Views
 {
     public partial class profile : Form
     {
+        BookRentalDBContext context;
+        int userId;
         public profile()
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
+
+            context = new BookRentalDBContext();
+
+            // testing user id , will remove once login page is integrated 
+            userId = 1;
+
+            this.Load += profile_Load;
         }
 
-        int currentUserId;
-
-        public profile(int userId)
-        {
-            InitializeComponent();
-            currentUserId = userId;
-        }
-
+      
 
         private void profile_Load(object sender, EventArgs e)
         {
-            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookNookDB;Integrated Security=True";
-
-            SqlConnection con = new SqlConnection(connection);
-            con.Open();
-
-            string query = "SELECT firstName, lastName, email FROM Users WHERE UserID = " + currentUserId;
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            try
             {
-                firstNameTxt.Text = reader["FirstName"].ToString();
-                lastNameTxt.Text = reader["LastName"].ToString();
-                emailTxt.Text = reader["Email"].ToString();
+                var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+                if (user != null)
+                {
+                    firstNameTxt.Text = user.FirstName;
+                    lastNameTxt.Text = user.LastName;
+                    emailTxt.Text = user.Email;
+                }
+                else
+                {
+                    MessageBox.Show($"User with ID {userId} not found.");
+                }
             }
-
-            con.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading profile: " + ex.Message);
+            }
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            string firstName = firstNameTxt.Text;
-            string lastName = lastNameTxt.Text;
-            string email = emailTxt.Text;
-
-            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookNookDB;Integrated Security=True";
-            SqlConnection con = new SqlConnection(connection);
-            con.Open();
-
-            string query = "UPDATE Users Set firstName = ' " + firstName + " ', lastName = ' " + lastName + " ', Email '" + email + " ' WHERE UserID = " + currentUserId;
-            SqlCommand cmd = new SqlCommand(query, con);
-
-            int result = cmd.ExecuteNonQuery();
-
-            if (result > 0)
+            try
             {
-                MessageBox.Show("Profile updated");
+                var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+                if (user != null)
+                {
+                    user.FirstName = firstNameTxt.Text;
+                    user.LastName = lastNameTxt.Text;
+                    user.Email = emailTxt.Text;
+
+                    context.SaveChanges();
+                    MessageBox.Show("Profile updated successfully.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Update failed");
+                MessageBox.Show("Error updating profile: " + ex.Message);
             }
-            con.Close();
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)

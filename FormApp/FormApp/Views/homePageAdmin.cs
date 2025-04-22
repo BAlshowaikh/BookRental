@@ -67,6 +67,7 @@ namespace FormApp
             HelperFunctions.navigationToPage(this, manageRentalRequestForm);
         }
 
+        //Opens the Manage Rental Record form
         private void manageRentalRecordsBtn_Click_1(object sender, EventArgs e)
         {
             Form manageReturnRecordsForm = new returnRecord();
@@ -74,7 +75,7 @@ namespace FormApp
         }
 
 
-        // Opens the transaction form
+        // Opens the Manage Transactions form
         private void manageRentalTransictionsBtn_Click(object sender, EventArgs e)
         {
             Form ViewTransactions = new ViewTransactions();
