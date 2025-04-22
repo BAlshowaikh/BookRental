@@ -14,66 +14,69 @@ namespace FormApp.Views
 {
     public partial class profile : Form
     {
-        public profile()
+        // Store the SQL connection and current user ID
+        private readonly SqlConnection _connection;
+        private readonly int _currentUserId;
+
+        public profile(int userId, SqlConnection existingConnection)
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
-        }
-
-        int currentUserId;
-
-        public profile(int userId)
-        {
-            InitializeComponent();
-            currentUserId = userId;
+            _currentUserId = userId;
+            _connection = existingConnection;
         }
 
 
         private void profile_Load(object sender, EventArgs e)
         {
-            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookNookDB;Integrated Security=True";
-
-            SqlConnection con = new SqlConnection(connection);
-            con.Open();
-
-            string query = "SELECT firstName, lastName, email FROM Users WHERE UserID = " + currentUserId;
-            SqlCommand cmd = new SqlCommand(query, con);
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            try
             {
-                firstNameTxt.Text = reader["FirstName"].ToString();
-                lastNameTxt.Text = reader["LastName"].ToString();
-                emailTxt.Text = reader["Email"].ToString();
-            }
+                // fetching the logged in user profile information
+                string query = "SELECT FirstName, LastName, Email FROM Users WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(query, _connection);
+                cmd.Parameters.AddWithValue("@UserID", _currentUserId);
 
-            con.Close();
+                
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        // add user info to the text boxes
+                        firstNameTxt.Text = reader["FirstName"].ToString();
+                        lastNameTxt.Text = reader["LastName"].ToString();
+                        emailTxt.Text = reader["Email"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //error message if something goes wrong
+                MessageBox.Show("Error loading profile: " + ex.Message);
+            }
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            string firstName = firstNameTxt.Text;
-            string lastName = lastNameTxt.Text;
-            string email = emailTxt.Text;
-
-            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookNookDB;Integrated Security=True";
-            SqlConnection con = new SqlConnection(connection);
-            con.Open();
-
-            string query = "UPDATE Users Set firstName = ' " + firstName + " ', lastName = ' " + lastName + " ', Email '" + email + " ' WHERE UserID = " + currentUserId;
-            SqlCommand cmd = new SqlCommand(query, con);
-
-            int result = cmd.ExecuteNonQuery();
-
-            if (result > 0)
+            try
             {
-                MessageBox.Show("Profile updated");
+                // updating  to save changes to the user's profile
+                string query = "UPDATE Users SET FirstName = @FirstName, LastName = @LastName, Email = @Email WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(query, _connection);
+
+                // adding parameters from the text fields
+                cmd.Parameters.AddWithValue("@FirstName", firstNameTxt.Text);
+                cmd.Parameters.AddWithValue("@LastName", lastNameTxt.Text);
+                cmd.Parameters.AddWithValue("@Email", emailTxt.Text);
+                cmd.Parameters.AddWithValue("@UserID", _currentUserId);
+
+                int result = cmd.ExecuteNonQuery();
+                MessageBox.Show(result > 0 ? "Profile updated." : "Update failed.");
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Update failed");
+                // Show error message if something goes wrong
+                MessageBox.Show("Error updating profile: " + ex.Message);
             }
-            con.Close();
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
