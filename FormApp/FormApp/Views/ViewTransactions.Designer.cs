@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             btnGenerateRecord = new Button();
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
@@ -43,7 +42,6 @@
             lblFilter = new Label();
             pageTitleTxt = new Label();
             button1 = new Button();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -64,18 +62,6 @@
             btnGenerateRecord.Text = "Generate Return Record";
             btnGenerateRecord.UseVisualStyleBackColor = false;
             btnGenerateRecord.Click += btnGenerateRecord_Click;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 40;
-            returnIcon.TabStop = false;
             // 
             // exitIcon
             // 
@@ -114,6 +100,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 37;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // dgvTransaction
             // 
@@ -222,7 +209,7 @@
             pageTitleTxt.BackColor = Color.Transparent;
             pageTitleTxt.Font = new Font("Tahoma", 22F, FontStyle.Bold);
             pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(144, 9);
+            pageTitleTxt.Location = new Point(165, 9);
             pageTitleTxt.Name = "pageTitleTxt";
             pageTitleTxt.Size = new Size(646, 53);
             pageTitleTxt.TabIndex = 43;
@@ -250,7 +237,6 @@
             Controls.Add(button1);
             Controls.Add(pageTitleTxt);
             Controls.Add(btnGenerateRecord);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
@@ -261,7 +247,6 @@
             Name = "ViewTransactions";
             Text = "ViewTransactions";
             Load += ViewTransactions_Load;
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -274,7 +259,6 @@
 
         #endregion
         private Button btnGenerateRecord;
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;

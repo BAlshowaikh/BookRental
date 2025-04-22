@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
@@ -46,26 +45,12 @@
             label1 = new Label();
             label2 = new Label();
             btnRefresh = new Button();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCategories).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 25;
-            returnIcon.TabStop = false;
-            returnIcon.Click += returnIcon_Click;
             // 
             // exitIcon
             // 
@@ -78,6 +63,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 24;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // homeIcon
             // 
@@ -103,6 +89,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 22;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // deleteBttn
             // 
@@ -289,7 +276,6 @@
             ClientSize = new Size(978, 644);
             Controls.Add(btnRefresh);
             Controls.Add(label2);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
@@ -303,7 +289,6 @@
             Name = "ManageCategory";
             Text = "ManageCategory";
             Load += ManageCategory_Load;
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -315,8 +300,6 @@
         }
 
         #endregion
-
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;

@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace FormApp.Views
         {
             InitializeComponent();
             context = new BookRentalDBContext();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void deleteBttn_Click(object sender, EventArgs e)
@@ -57,7 +59,8 @@ namespace FormApp.Views
             {
                 var authorsToShow = context.Authors.AsQueryable();
 
-                if (!string.IsNullOrWhiteSpace(txtAuthorID.Text)) {
+                if (!string.IsNullOrWhiteSpace(txtAuthorID.Text))
+                {
                     authorsToShow = authorsToShow.Where(a => a.AuthorId == Convert.ToInt32(txtAuthorID.Text));
                 }
 
@@ -125,6 +128,21 @@ namespace FormApp.Views
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             RefreshAuthorsGridView();
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }

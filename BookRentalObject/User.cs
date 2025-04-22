@@ -37,7 +37,7 @@ namespace BookRentalObject
         [StringLength(50)]
         public string? ContactNo { get; set; }
 
-        public string FullName { get => FirstName + " " + LastName; }
+        public String FullName { get { return FirstName + " " + LastName; }}
 
         [ForeignKey("UserRoleId")]
         [InverseProperty("Users")]

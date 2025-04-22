@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             userIcon = new PictureBox();
-            homeIcon = new PictureBox();
             exitIcon = new PictureBox();
-            returnIcon = new PictureBox();
             welcomeTxt = new Label();
             manageUsersBtn = new Button();
             manageBooksBtn = new Button();
@@ -41,10 +39,11 @@
             btnViewLoginTrails = new Button();
             lblWelcome = new Label();
             btnViewAuditTrails = new Button();
+            manageCategoryBtn = new Button();
+            manageAuthorsBtn = new Button();
+            quickAccessLbl = new Label();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             SuspendLayout();
             // 
             // userIcon
@@ -58,19 +57,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 8;
             userIcon.TabStop = false;
-            // 
-            // homeIcon
-            // 
-            homeIcon.BackColor = Color.Transparent;
-            homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 12);
-            homeIcon.Margin = new Padding(2);
-            homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(40, 40);
-            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            homeIcon.TabIndex = 9;
-            homeIcon.TabStop = false;
-            homeIcon.Click += homeIcon_Click;
+            userIcon.Click += userIcon_Click;
             // 
             // exitIcon
             // 
@@ -85,24 +72,12 @@
             exitIcon.TabStop = false;
             exitIcon.Click += exitIcon_Click;
             // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 11;
-            returnIcon.TabStop = false;
-            // 
             // welcomeTxt
             // 
             welcomeTxt.AutoSize = true;
             welcomeTxt.BackColor = Color.Transparent;
             welcomeTxt.Font = new Font("Felix Titling", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            welcomeTxt.Location = new Point(66, 176);
+            welcomeTxt.Location = new Point(80, 133);
             welcomeTxt.Margin = new Padding(2, 0, 2, 0);
             welcomeTxt.Name = "welcomeTxt";
             welcomeTxt.Size = new Size(817, 52);
@@ -113,7 +88,7 @@
             // 
             manageUsersBtn.BackColor = Color.Cornsilk;
             manageUsersBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageUsersBtn.Location = new Point(104, 299);
+            manageUsersBtn.Location = new Point(102, 226);
             manageUsersBtn.Margin = new Padding(2);
             manageUsersBtn.Name = "manageUsersBtn";
             manageUsersBtn.Size = new Size(220, 50);
@@ -126,7 +101,7 @@
             // 
             manageBooksBtn.BackColor = Color.Cornsilk;
             manageBooksBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageBooksBtn.Location = new Point(388, 298);
+            manageBooksBtn.Location = new Point(386, 225);
             manageBooksBtn.Margin = new Padding(2);
             manageBooksBtn.Name = "manageBooksBtn";
             manageBooksBtn.Size = new Size(220, 50);
@@ -139,7 +114,7 @@
             // 
             manageRentalTransictionsBtn.BackColor = Color.Cornsilk;
             manageRentalTransictionsBtn.Font = new Font("Britannic Bold", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageRentalTransictionsBtn.Location = new Point(388, 409);
+            manageRentalTransictionsBtn.Location = new Point(661, 336);
             manageRentalTransictionsBtn.Margin = new Padding(2);
             manageRentalTransictionsBtn.Name = "manageRentalTransictionsBtn";
             manageRentalTransictionsBtn.Size = new Size(220, 50);
@@ -152,7 +127,7 @@
             // 
             manageRentalRequestBtn.BackColor = Color.Cornsilk;
             manageRentalRequestBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageRentalRequestBtn.Location = new Point(658, 298);
+            manageRentalRequestBtn.Location = new Point(386, 336);
             manageRentalRequestBtn.Margin = new Padding(2);
             manageRentalRequestBtn.Name = "manageRentalRequestBtn";
             manageRentalRequestBtn.Size = new Size(220, 50);
@@ -165,7 +140,7 @@
             // 
             manageRentalRecordsBtn.BackColor = Color.Cornsilk;
             manageRentalRecordsBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            manageRentalRecordsBtn.Location = new Point(104, 411);
+            manageRentalRecordsBtn.Location = new Point(102, 445);
             manageRentalRecordsBtn.Margin = new Padding(2);
             manageRentalRecordsBtn.Name = "manageRentalRecordsBtn";
             manageRentalRecordsBtn.Size = new Size(220, 50);
@@ -178,7 +153,7 @@
             // 
             btnViewLoginTrails.BackColor = Color.Cornsilk;
             btnViewLoginTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnViewLoginTrails.Location = new Point(658, 409);
+            btnViewLoginTrails.Location = new Point(661, 445);
             btnViewLoginTrails.Margin = new Padding(2);
             btnViewLoginTrails.Name = "btnViewLoginTrails";
             btnViewLoginTrails.Size = new Size(220, 50);
@@ -203,7 +178,7 @@
             // 
             btnViewAuditTrails.BackColor = Color.Cornsilk;
             btnViewAuditTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnViewAuditTrails.Location = new Point(388, 515);
+            btnViewAuditTrails.Location = new Point(386, 442);
             btnViewAuditTrails.Margin = new Padding(2);
             btnViewAuditTrails.Name = "btnViewAuditTrails";
             btnViewAuditTrails.Size = new Size(220, 50);
@@ -211,6 +186,48 @@
             btnViewAuditTrails.Text = "View Audit Trails";
             btnViewAuditTrails.UseVisualStyleBackColor = false;
             btnViewAuditTrails.Click += btnViewAuditTrails_Click;
+            // 
+            // manageCategoryBtn
+            // 
+            manageCategoryBtn.BackColor = Color.Cornsilk;
+            manageCategoryBtn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageCategoryBtn.Location = new Point(661, 225);
+            manageCategoryBtn.Margin = new Padding(2);
+            manageCategoryBtn.Name = "manageCategoryBtn";
+            manageCategoryBtn.Size = new Size(220, 50);
+            manageCategoryBtn.TabIndex = 21;
+            manageCategoryBtn.Text = "Manage Categories";
+            manageCategoryBtn.UseVisualStyleBackColor = false;
+            manageCategoryBtn.Click += manageCategoryBtn_Click;
+            // 
+            // manageAuthorsBtn
+            // 
+            manageAuthorsBtn.BackColor = Color.Cornsilk;
+            manageAuthorsBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageAuthorsBtn.Location = new Point(102, 333);
+            manageAuthorsBtn.Margin = new Padding(2);
+            manageAuthorsBtn.Name = "manageAuthorsBtn";
+            manageAuthorsBtn.Size = new Size(220, 50);
+            manageAuthorsBtn.TabIndex = 22;
+            manageAuthorsBtn.Text = "Manage Authors";
+            manageAuthorsBtn.UseVisualStyleBackColor = false;
+            manageAuthorsBtn.Click += manageAuthorsBtn_Click;
+            // 
+            // quickAccessLbl
+            // 
+            quickAccessLbl.BackColor = Color.Transparent;
+            quickAccessLbl.FlatStyle = FlatStyle.Flat;
+            quickAccessLbl.Font = new Font("Britannic Bold", 12F);
+            quickAccessLbl.ForeColor = Color.Maroon;
+            quickAccessLbl.Image = Properties.Resources.search1;
+            quickAccessLbl.ImageAlign = ContentAlignment.MiddleLeft;
+            quickAccessLbl.Location = new Point(650, 14);
+            quickAccessLbl.Name = "quickAccessLbl";
+            quickAccessLbl.Size = new Size(196, 39);
+            quickAccessLbl.TabIndex = 24;
+            quickAccessLbl.Text = "Quick Access";
+            quickAccessLbl.TextAlign = ContentAlignment.MiddleRight;
+            quickAccessLbl.MouseEnter += quickAccessLbl_Click;
             // 
             // homePageAdmin
             // 
@@ -220,6 +237,9 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(quickAccessLbl);
+            Controls.Add(manageAuthorsBtn);
+            Controls.Add(manageCategoryBtn);
             Controls.Add(btnViewAuditTrails);
             Controls.Add(lblWelcome);
             Controls.Add(btnViewLoginTrails);
@@ -229,9 +249,7 @@
             Controls.Add(manageBooksBtn);
             Controls.Add(manageUsersBtn);
             Controls.Add(welcomeTxt);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
-            Controls.Add(homeIcon);
             Controls.Add(userIcon);
             DoubleBuffered = true;
             Margin = new Padding(2);
@@ -239,18 +257,14 @@
             Text = "homePageAdmin";
             Load += homePageAdmin_Load;
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private PictureBox userIcon;
-        private PictureBox homeIcon;
         private PictureBox exitIcon;
-        private PictureBox returnIcon;
         private Label welcomeTxt;
         private Button manageUsersBtn;
         private Button manageBooksBtn;
@@ -260,5 +274,8 @@
         private Button btnViewLoginTrails;
         private Label lblWelcome;
         private Button btnViewAuditTrails;
+        private Button manageCategoryBtn;
+        private Button manageAuthorsBtn;
+        private Label quickAccessLbl;
     }
 }

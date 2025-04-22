@@ -59,5 +59,10 @@ namespace FormApp.Views
             Form auditTrails = new Audit_Trails();
             HelperFunctions.navigationToPage(this, auditTrails);
         }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
     }
 }

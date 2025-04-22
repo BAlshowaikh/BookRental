@@ -78,7 +78,7 @@ namespace FormApp.Views
             }
 
             //customize the data grid view
-            dgvLogTrail.DataSource = TrailsToShow.Select(x => new 
+            dgvLogTrail.DataSource = TrailsToShow.Select(x => new
             {
                 LogID = x.LogId,
                 UserName = x.User.FullName,
@@ -97,6 +97,11 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

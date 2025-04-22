@@ -55,12 +55,12 @@
             pageTitleTxt.BackColor = Color.Transparent;
             pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(264, 9);
+            pageTitleTxt.Location = new Point(186, 9);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
             pageTitleTxt.Name = "pageTitleTxt";
-            pageTitleTxt.Size = new Size(428, 63);
+            pageTitleTxt.Size = new Size(648, 63);
             pageTitleTxt.TabIndex = 4;
-            pageTitleTxt.Text = "Rental Request";
+            pageTitleTxt.Text = "Manage Rental Request";
             // 
             // dgvRentalRequest
             // 
@@ -110,6 +110,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 31;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // btnDetails
             // 

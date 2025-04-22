@@ -18,7 +18,7 @@ namespace FormApp.Views
     {
         BookRentalDBContext context;
         Book selectedBook;
-        bool isNew; 
+        bool isNew;
         public AddEditBook(BookRentalDBContext parentContext)
         {
             InitializeComponent();
@@ -117,7 +117,7 @@ namespace FormApp.Views
                 }
                 else
                 {
-                    dtpPublishedDate.Value = DateTime.Today; 
+                    dtpPublishedDate.Value = DateTime.Today;
                 }
                 txtRentalPrice.Text = selectedBook.RentalPrice.ToString();
                 ddlAvailability.Text = selectedBook.AvailabilityStatus?.AvailabilityStatus1 ?? "N/A";
@@ -156,7 +156,7 @@ namespace FormApp.Views
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Close(); 
+            this.Close();
         }
 
         private void homeIcon_Click(object sender, EventArgs e)
@@ -171,8 +171,12 @@ namespace FormApp.Views
 
         private void returnIcon_Click(object sender, EventArgs e)
         {
-           // this.Close();
-            //Parent.Show();
+            HelperFunctions.returnBtn(new bookList(), this);
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

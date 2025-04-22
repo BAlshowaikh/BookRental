@@ -159,7 +159,7 @@ namespace FormApp.Views
         {
             TimeSpan difference = expexter - actual;
 
-            Double amount = (difference.Days)*lateFee;
+            Double amount = (difference.Days) * lateFee;
 
             return amount;
         }
@@ -172,6 +172,11 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

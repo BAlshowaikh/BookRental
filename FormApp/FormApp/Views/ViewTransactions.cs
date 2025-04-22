@@ -64,7 +64,8 @@ namespace FormApp.Views
                 CustomerName = x.User.FullName,
                 RentalStartDate = x.RentalStartDate,
                 ReturnDate = x.ReturnDate,
-                RentalFee = x.RentalFee
+                RentalFee = x.RentalFee,
+                IsReturned = x.IsReturned
             }).ToList();
         }
 
@@ -103,6 +104,11 @@ namespace FormApp.Views
             frmreturnRecordDetails.Show();
             this.Hide();
 
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

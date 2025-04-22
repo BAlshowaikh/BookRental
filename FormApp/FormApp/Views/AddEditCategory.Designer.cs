@@ -174,6 +174,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 28;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // pageTitle
             // 

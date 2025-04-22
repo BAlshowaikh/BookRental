@@ -98,6 +98,9 @@ namespace FormApp
             HelperFunctions.exitBtn();
         }
 
-        
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
     }
 }
