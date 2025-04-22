@@ -100,10 +100,22 @@ namespace FormApp.Views
         {
             //get the transaction ID and send it to a new returnRecordDetails form
             int cell = Convert.ToInt32(dgvTransaction.SelectedCells[0].OwningRow.Cells[0].Value);
-            returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(cell);
-            frmreturnRecordDetails.Show();
-            this.Hide();
 
+            //check if this transaction have been returned befor
+            var t = context.RentalTransactions.Where(x => x.TransactionId == cell).FirstOrDefault().IsReturned;
+
+            //if it have not been returned than redirect the user to generate a return record
+            if (t == false)
+            {
+                returnRecordDetails frmreturnRecordDetails = new returnRecordDetails(cell);
+                frmreturnRecordDetails.Show();
+                this.Hide();
+            }
+            else
+            //if it have been returnd show a message to inform the user
+            {
+                MessageBox.Show("This transaction have been return, you cannot create another return record");
+            }
         }
 
         private void userIcon_Click(object sender, EventArgs e)

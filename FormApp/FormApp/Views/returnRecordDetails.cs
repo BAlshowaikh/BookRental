@@ -11,6 +11,8 @@ using System.Windows.Forms;
 
 using BookRentalObject;
 using FormApp.Controllers;
+using Sprache;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FormApp.Views
 {
@@ -53,7 +55,8 @@ namespace FormApp.Views
         private void returnRecordDetails_Load(object sender, EventArgs e)
         {
             //populate the drop down list
-            ddlBookCondition.DataSource = context.BookConditions.ToList();
+            //the "New" condition for the book is removed becouse as soon as book is rentend it is no longer new
+            ddlBookCondition.DataSource = context.BookConditions.Where(x => x.BookConditionId != 1).ToList();
             ddlBookCondition.DisplayMember = "ReturnCondition";
             ddlBookCondition.ValueMember = "BookConditionId";
             ddlBookCondition.SelectedItem = null;
@@ -82,7 +85,7 @@ namespace FormApp.Views
                 txtLateReturnFee.Text = returnRecord.LateReturnFee.ToString();
                 txtLateReturnFee.ReadOnly = true;
 
-                txtTotalCost.Text = returnRecord.TotalAdditionalCharges.ToString();
+                txtExtraCharges.Text = returnRecord.TotalAdditionalCharges.ToString();
 
                 //hide the buttons
                 btnGenerate.Hide();
@@ -101,7 +104,11 @@ namespace FormApp.Views
 
                 txtExpectedReturnDate.Text = transaction.ReturnDate.ToString();
 
-                txtTotalCost.Text = "Not Calculated";
+
+                /*adding event handler to calculate the total cost of the extra charges as soon as any changes happen
+                in the date and book condition*/
+                dtpActualReturnDate.ValueChanged += DatePickerHandler;
+                ddlBookCondition.SelectedIndexChanged += BookConditionHandler;
             }
         }
 
@@ -109,27 +116,26 @@ namespace FormApp.Views
         {
             try
             {
-                //variables used more than one time
-                var ExpectedReturnDate = (DateTime)transaction.ReturnDate;
-                var ActualReturnDate = dtpActualReturnDate.Value;
-                var LateReturnFee = double.Parse(txtLateReturnFee.Text.Trim());
-
                 //set the returnRecord attributes 
                 returnRecord.TransactionId = transaction.TransactionId;
                 returnRecord.BookId = transaction.BookId;
+
                 returnRecord.BookConditionId = Convert.ToInt32(ddlBookCondition.SelectedValue.ToString());
+                returnRecord.ExpectedReturnDate = (DateTime)transaction.ReturnDate;
+                returnRecord.ActualReturnDate = dtpActualReturnDate.Value;
 
-                returnRecord.ExpectedReturnDate = ExpectedReturnDate;
-                returnRecord.ActualReturnDate = ActualReturnDate;
-                returnRecord.LateReturnFee = LateReturnFee;
+                returnRecord.LateReturnFee = calculateLateReturnFee();
+                returnRecord.TotalAdditionalCharges = getExtraChargeRate();
 
-                //calls the calculateTotalCharges method
-                returnRecord.TotalAdditionalCharges =
-                    calculateTotalCharges(ExpectedReturnDate, ActualReturnDate, LateReturnFee);
+                //change the value so the user cannot generate another record for the same transaction
+                transaction.IsReturned = true;
 
-                if (MessageBox.Show("are you sure you want to generate a return record?" + "\nThe amount of the total additional charges is" + returnRecord.TotalAdditionalCharges, "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                var totalCost  = calculateLateReturnFee() + getExtraChargeRate();
+                if (MessageBox.Show("are you sure you want to generate a return record?" + "\nThe amount of the total additional charges is" + totalCost, "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     context.ReturnRecords.Add(returnRecord);
+                    //save the updated value
+                    context.RentalTransactions.Update(transaction);
                     context.SaveChanges();
 
                     //set the DialogResult as OK to indecate the change in the database
@@ -154,16 +160,63 @@ namespace FormApp.Views
             this.Close();
         }
 
-        //this method calculate the Total Additional Charges and returns the amount
-        private Double calculateTotalCharges(DateTime expexter, DateTime actual, Double lateFee)
+        //this method handles the changes in the date picker 
+        private void DatePickerHandler(object sender, EventArgs e)
         {
-            TimeSpan difference = expexter - actual;
-
-            Double amount = (difference.Days) * lateFee;
-
-            return amount;
+            txtLateReturnFee.Text = calculateLateReturnFee().ToString();
         }
 
+        //this method handles the changes in the book condition drop down list
+        private void BookConditionHandler(object sender, EventArgs e)
+        {
+            txtExtraCharges.Text = getExtraChargeRate().ToString();
+        }
+
+        //this method calculate the Total Additional Charges and returns the amount
+        private double calculateLateReturnFee() {
+            //the daily rate of lateFee is fixed
+            var lateFee = 0.8;
+            var expexter = (DateTime)transaction.ReturnDate;
+            var actual = dtpActualReturnDate.Value;
+
+            //ge defrence between the expected and actual return dates
+            TimeSpan difference = actual - expexter;
+            //calculate the Late Return Fee amount
+            Double LateReturnFee = (difference.Days) * lateFee;
+            if (LateReturnFee < 0) {
+                return 0;
+            }
+            else
+            {
+                return LateReturnFee;
+            }
+        }
+        private double getExtraChargeRate() { 
+            //if the user selected a book condition
+            //the Extra Charge Rate defult amout is zero 
+            Double ExtraChargeRate = 0;
+            if (ddlBookCondition.SelectedValue != null)
+            {
+                switch (ddlBookCondition.SelectedValue)
+                {
+                    //based on the book condition we get the ExtraChargeRate 
+                    case 2:
+                        ExtraChargeRate = 0;
+                        break;
+                    case 3:
+                        ExtraChargeRate = Convert.ToDouble(context.ExtraCharges.Where(x => x.ExtraChargesId == 1).FirstOrDefault().ExtraChargeRate.ToString());
+                        break;
+                    case 1002:
+                        ExtraChargeRate = Convert.ToDouble(context.ExtraCharges.Where(x => x.ExtraChargesId == 1).FirstOrDefault().ExtraChargeRate.ToString());
+                        break;
+                    case 1006:
+                        ExtraChargeRate = Convert.ToDouble(context.ExtraCharges.Where(x => x.ExtraChargesId == 4).FirstOrDefault().ExtraChargeRate.ToString());
+                        break;
+                }
+            }
+            //returns both the LateReturnFee and ExtraChargeRate
+            return ExtraChargeRate;
+        }
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
