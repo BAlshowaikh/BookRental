@@ -15,12 +15,13 @@ namespace FormApp.Views
     public partial class ViewTransactions : Form
     {
         BookRentalDBContext context;
-        
+
         public ViewTransactions()
         {
             InitializeComponent();
             context = new BookRentalDBContext();
         }
+
 
         private void addBttn_Click(object sender, EventArgs e)
         {
@@ -35,33 +36,55 @@ namespace FormApp.Views
 
         private void PopulateCustomerDDL()
         {
-            ddlCustomer.DataSource = context.Users.Where(x => x.UserRole.Role == "Customer").ToList();
-            ddlCustomer.DisplayMember = "FullName";
-            ddlCustomer.ValueMember = "userId";
-            ddlCustomer.SelectedItem = null;
+            try
+            {
+                //Set the data source of the drop down to the list of customers
+                ddlCustomer.DataSource = context.Users.Where(x => x.UserRole.Role == "Customer").ToList();
+                ddlCustomer.DisplayMember = "FullName"; // Set which property to display in the dropdown
+                ddlCustomer.ValueMember = "userId"; // Set the value property for each dropdown item
+                ddlCustomer.SelectedItem = null; // Clear any pre-selected item
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void RefreshGridView()
         {
-            var transaction = context.RentalTransactions.AsQueryable();
-
-            if (txtTransactionID.Text != "")
+            try
             {
-               transaction = transaction.Where(x => x.TransactionId == Convert.ToInt32(txtTransactionID.Text));
-            }
-            if (ddlCustomer.SelectedItem != null)
-            {
-                transaction = transaction.Where(x => x.UserId == Convert.ToInt32(ddlCustomer.SelectedValue));
-            }
+                var transaction = context.RentalTransactions.AsQueryable();
 
-            dgvTransaction.DataSource = transaction.Select(x=> new {
-                TransactionID = x.TransactionId,
-                BookName = x.Book.Name,
-                CustomerName = x.User.FullName,
-                RentalStartDate = x.RentalStartDate,
-                ReturnDate = x.ReturnDate,
-                RentalFee = x.RentalFee
-            }).ToList();
+                // If a Transaction ID is entered, filter the transactions by the specified ID
+                if (txtTransactionID.Text != "")
+                {
+                    transaction = transaction.Where(x => x.TransactionId == Convert.ToInt32(txtTransactionID.Text));
+                }
+
+                // If a customer is selected in the dropdown, filter the transactions by the selected customer ID
+                if (ddlCustomer.SelectedItem != null)
+                {
+                    transaction = transaction.Where(x => x.UserId == Convert.ToInt32(ddlCustomer.SelectedValue));
+                }
+
+                //Project the filtered transaction into an anonymous type, then convert the result to a list and bind it to the data grid view.
+                dgvTransaction.DataSource = transaction.Select(x => new
+                {
+                    TransactionID = x.TransactionId,
+                    BookName = x.Book.Name,
+                    CustomerName = x.User.FullName,
+                    RentalStartDate = x.RentalStartDate,
+                    ReturnDate = x.ReturnDate,
+                    RentalFee = x.RentalFee,
+                    PaymentMethod = x.PaymentMethod.PaymentMethod1,
+                    PaymentStatus = x.PaymentStatus.Status
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -71,14 +94,43 @@ namespace FormApp.Views
 
         private void filterBttn_Click(object sender, EventArgs e)
         {
-            RefreshGridView();
+            RefreshGridView(); //Call the method to filter if any filters were applied
         }
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
-            ddlCustomer.SelectedItem = null;
-            txtTransactionID.Text = "";
-            RefreshGridView();
+            ddlCustomer.SelectedItem = null; // Clear any pre-selected item
+            txtTransactionID.Text = ""; // Clear the text box
+            RefreshGridView(); //Refresh the view to remove the filters
+        }
+
+        private void generateRecordBttn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editBttn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvTransaction.SelectedCells.Count > 0)
+                {
+                    int selectedCell = Convert.ToInt32(dgvTransaction.SelectedCells[0].OwningRow.Cells[0].Value);
+
+                    EditTransaction editTransaction = new EditTransaction(selectedCell, true);
+                    editTransaction.StartPosition = FormStartPosition.CenterScreen;
+                    editTransaction.ShowDialog();
+
+                    if (editTransaction.DialogResult == DialogResult.OK)
+                    {
+                        RefreshGridView();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

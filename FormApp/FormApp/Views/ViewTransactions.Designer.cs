@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            editBttn = new Button();
+            generateRecordBttn = new Button();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
             dgvTransaction = new DataGridView();
             groupBox1 = new GroupBox();
+            txtTransactionID = new TextBox();
             ddlCustomer = new ComboBox();
             label1 = new Label();
             refreshBttn = new Button();
             filterBttn = new Button();
             lblFilter = new Label();
-            txtTransactionID = new TextBox();
+            pageTitle = new Label();
+            editBttn = new Button();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -49,18 +51,19 @@
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
-            // editBttn
+            // generateRecordBttn
             // 
-            editBttn.BackColor = Color.Cornsilk;
-            editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            editBttn.ForeColor = Color.Black;
-            editBttn.Location = new Point(565, 602);
-            editBttn.Margin = new Padding(2);
-            editBttn.Name = "editBttn";
-            editBttn.Size = new Size(185, 40);
-            editBttn.TabIndex = 42;
-            editBttn.Text = "Generate Record";
-            editBttn.UseVisualStyleBackColor = false;
+            generateRecordBttn.BackColor = Color.Cornsilk;
+            generateRecordBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            generateRecordBttn.ForeColor = Color.Black;
+            generateRecordBttn.Location = new Point(590, 602);
+            generateRecordBttn.Margin = new Padding(2);
+            generateRecordBttn.Name = "generateRecordBttn";
+            generateRecordBttn.Size = new Size(185, 40);
+            generateRecordBttn.TabIndex = 42;
+            generateRecordBttn.Text = "Generate Record";
+            generateRecordBttn.UseVisualStyleBackColor = false;
+            generateRecordBttn.Click += generateRecordBttn_Click;
             // 
             // returnIcon
             // 
@@ -142,6 +145,13 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
             // 
+            // txtTransactionID
+            // 
+            txtTransactionID.Location = new Point(160, 30);
+            txtTransactionID.Name = "txtTransactionID";
+            txtTransactionID.Size = new Size(205, 28);
+            txtTransactionID.TabIndex = 22;
+            // 
             // ddlCustomer
             // 
             ddlCustomer.FormattingEnabled = true;
@@ -202,12 +212,32 @@
             lblFilter.TabIndex = 0;
             lblFilter.Text = "Transaction ID:";
             // 
-            // txtTransactionID
+            // pageTitle
             // 
-            txtTransactionID.Location = new Point(160, 30);
-            txtTransactionID.Name = "txtTransactionID";
-            txtTransactionID.Size = new Size(205, 28);
-            txtTransactionID.TabIndex = 22;
+            pageTitle.AutoSize = true;
+            pageTitle.BackColor = Color.Transparent;
+            pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitle.ForeColor = Color.Cornsilk;
+            pageTitle.Location = new Point(218, 12);
+            pageTitle.Margin = new Padding(2, 0, 2, 0);
+            pageTitle.Name = "pageTitle";
+            pageTitle.Size = new Size(425, 53);
+            pageTitle.TabIndex = 48;
+            pageTitle.Text = "View Transactions";
+            // 
+            // editBttn
+            // 
+            editBttn.BackColor = Color.Cornsilk;
+            editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            editBttn.ForeColor = Color.Black;
+            editBttn.Location = new Point(392, 602);
+            editBttn.Margin = new Padding(2);
+            editBttn.Name = "editBttn";
+            editBttn.Size = new Size(171, 40);
+            editBttn.TabIndex = 51;
+            editBttn.Text = "Edit Transaction";
+            editBttn.UseVisualStyleBackColor = false;
+            editBttn.Click += editBttn_Click;
             // 
             // ViewTransactions
             // 
@@ -217,6 +247,8 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(982, 653);
             Controls.Add(editBttn);
+            Controls.Add(pageTitle);
+            Controls.Add(generateRecordBttn);
             Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
@@ -234,10 +266,11 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-        private Button editBttn;
+        private Button generateRecordBttn;
         private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
@@ -250,5 +283,7 @@
         private ComboBox ddlCustomer;
         private Label label1;
         private TextBox txtTransactionID;
+        private Label pageTitle;
+        private Button editBttn;
     }
 }

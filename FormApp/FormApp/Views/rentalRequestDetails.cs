@@ -78,7 +78,9 @@ namespace FormApp.Views
 
                         this.DialogResult = DialogResult.OK;
                         this.Close();
-                        //GeneratedRransaction generatedRransaction = new GeneratedRransaction();
+
+                        EditTransaction editTransaction = new EditTransaction(requestID);
+                        editTransaction.ShowDialog();
                     }
 
                 }

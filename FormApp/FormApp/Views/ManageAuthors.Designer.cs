@@ -42,6 +42,7 @@ namespace FormApp.Views
             deleteBttn = new Button();
             editBttn = new Button();
             addBttn = new Button();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -218,6 +219,19 @@ namespace FormApp.Views
             addBttn.UseVisualStyleBackColor = false;
             addBttn.Click += addBttn_Click_1;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            label2.ForeColor = Color.Cornsilk;
+            label2.Location = new Point(232, 7);
+            label2.Margin = new Padding(2, 0, 2, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(382, 53);
+            label2.TabIndex = 35;
+            label2.Text = "Manage Authors";
+            // 
             // ManageAuthors
             // 
             AutoScaleDimensions = new SizeF(11F, 22F);
@@ -225,6 +239,7 @@ namespace FormApp.Views
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(982, 653);
+            Controls.Add(label2);
             Controls.Add(deleteBttn);
             Controls.Add(editBttn);
             Controls.Add(addBttn);
@@ -247,6 +262,7 @@ namespace FormApp.Views
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         private void addBttn_Click(object sender, EventArgs e)
@@ -284,5 +300,6 @@ namespace FormApp.Views
         private Button deleteBttn;
         private Button editBttn;
         private Button addBttn;
+        private Label label2;
     }
 }

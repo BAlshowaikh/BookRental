@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            deleteBttn = new Button();
+            cancelBttn = new Button();
             addBttn = new Button();
             grpboxAuthorInfo = new GroupBox();
             txtAuthorID = new TextBox();
@@ -43,6 +43,7 @@
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
+            pageTitleTxt = new Label();
             grpboxAuthorInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -50,26 +51,26 @@
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             SuspendLayout();
             // 
-            // deleteBttn
+            // cancelBttn
             // 
-            deleteBttn.BackColor = Color.IndianRed;
-            deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            deleteBttn.ForeColor = Color.White;
-            deleteBttn.Location = new Point(549, 433);
-            deleteBttn.Margin = new Padding(2);
-            deleteBttn.Name = "deleteBttn";
-            deleteBttn.Size = new Size(160, 40);
-            deleteBttn.TabIndex = 34;
-            deleteBttn.Text = "Cancel";
-            deleteBttn.UseVisualStyleBackColor = false;
-            deleteBttn.Click += deleteBttn_Click;
+            cancelBttn.BackColor = Color.IndianRed;
+            cancelBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cancelBttn.ForeColor = Color.White;
+            cancelBttn.Location = new Point(549, 470);
+            cancelBttn.Margin = new Padding(2);
+            cancelBttn.Name = "cancelBttn";
+            cancelBttn.Size = new Size(160, 40);
+            cancelBttn.TabIndex = 34;
+            cancelBttn.Text = "Cancel";
+            cancelBttn.UseVisualStyleBackColor = false;
+            cancelBttn.Click += cancelBttn_Click;
             // 
             // addBttn
             // 
             addBttn.BackColor = Color.Cornsilk;
             addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             addBttn.ForeColor = Color.Black;
-            addBttn.Location = new Point(43, 433);
+            addBttn.Location = new Point(43, 470);
             addBttn.Margin = new Padding(2);
             addBttn.Name = "addBttn";
             addBttn.Size = new Size(160, 40);
@@ -90,7 +91,7 @@
             grpboxAuthorInfo.Controls.Add(lblLastName);
             grpboxAuthorInfo.Controls.Add(lblEmail);
             grpboxAuthorInfo.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            grpboxAuthorInfo.Location = new Point(12, 71);
+            grpboxAuthorInfo.Location = new Point(12, 108);
             grpboxAuthorInfo.Name = "grpboxAuthorInfo";
             grpboxAuthorInfo.Size = new Size(697, 321);
             grpboxAuthorInfo.TabIndex = 32;
@@ -212,6 +213,19 @@
             userIcon.TabIndex = 28;
             userIcon.TabStop = false;
             // 
+            // pageTitleTxt
+            // 
+            pageTitleTxt.AutoSize = true;
+            pageTitleTxt.BackColor = Color.Transparent;
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.ForeColor = Color.Cornsilk;
+            pageTitleTxt.Location = new Point(235, 10);
+            pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
+            pageTitleTxt.Name = "pageTitleTxt";
+            pageTitleTxt.Size = new Size(383, 53);
+            pageTitleTxt.TabIndex = 35;
+            pageTitleTxt.Text = "Add/Edit Author";
+            // 
             // AddEditAuthors
             // 
             AutoScaleDimensions = new SizeF(11F, 22F);
@@ -219,7 +233,8 @@
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(982, 653);
-            Controls.Add(deleteBttn);
+            Controls.Add(pageTitleTxt);
+            Controls.Add(cancelBttn);
             Controls.Add(addBttn);
             Controls.Add(grpboxAuthorInfo);
             Controls.Add(returnIcon);
@@ -238,11 +253,12 @@
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Button deleteBttn;
+        private Button cancelBttn;
         private Button addBttn;
         private GroupBox grpboxAuthorInfo;
         private TextBox txtAuthorID;
@@ -257,5 +273,6 @@
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
+        private Label pageTitleTxt;
     }
 }

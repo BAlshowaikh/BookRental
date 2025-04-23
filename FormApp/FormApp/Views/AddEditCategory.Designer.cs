@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            deleteBttn = new Button();
+            cancelBttn = new Button();
             addBttn = new Button();
             grpboxCategoryInfo = new GroupBox();
             txtCategoryID = new TextBox();
@@ -47,19 +47,19 @@
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             SuspendLayout();
             // 
-            // deleteBttn
+            // cancelBttn
             // 
-            deleteBttn.BackColor = Color.IndianRed;
-            deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            deleteBttn.ForeColor = Color.White;
-            deleteBttn.Location = new Point(499, 446);
-            deleteBttn.Margin = new Padding(2);
-            deleteBttn.Name = "deleteBttn";
-            deleteBttn.Size = new Size(160, 40);
-            deleteBttn.TabIndex = 34;
-            deleteBttn.Text = "Cancel";
-            deleteBttn.UseVisualStyleBackColor = false;
-            deleteBttn.Click += deleteBttn_Click;
+            cancelBttn.BackColor = Color.IndianRed;
+            cancelBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cancelBttn.ForeColor = Color.White;
+            cancelBttn.Location = new Point(499, 446);
+            cancelBttn.Margin = new Padding(2);
+            cancelBttn.Name = "cancelBttn";
+            cancelBttn.Size = new Size(160, 40);
+            cancelBttn.TabIndex = 34;
+            cancelBttn.Text = "Cancel";
+            cancelBttn.UseVisualStyleBackColor = false;
+            cancelBttn.Click += cancelBttn_Click;
             // 
             // addBttn
             // 
@@ -95,7 +95,7 @@
             txtCategoryID.Location = new Point(272, 93);
             txtCategoryID.Name = "txtCategoryID";
             txtCategoryID.ReadOnly = true;
-            txtCategoryID.Size = new Size(261, 34);
+            txtCategoryID.Size = new Size(261, 30);
             txtCategoryID.TabIndex = 30;
             // 
             // lblCategoryID
@@ -104,7 +104,7 @@
             lblCategoryID.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblCategoryID.Location = new Point(50, 100);
             lblCategoryID.Name = "lblCategoryID";
-            lblCategoryID.Size = new Size(143, 27);
+            lblCategoryID.Size = new Size(120, 22);
             lblCategoryID.TabIndex = 29;
             lblCategoryID.Text = "Category ID:";
             // 
@@ -112,7 +112,7 @@
             // 
             txtCategoryName.Location = new Point(272, 162);
             txtCategoryName.Name = "txtCategoryName";
-            txtCategoryName.Size = new Size(261, 34);
+            txtCategoryName.Size = new Size(261, 30);
             txtCategoryName.TabIndex = 25;
             // 
             // lblCategoryName
@@ -121,7 +121,7 @@
             lblCategoryName.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblCategoryName.Location = new Point(50, 169);
             lblCategoryName.Name = "lblCategoryName";
-            lblCategoryName.Size = new Size(179, 27);
+            lblCategoryName.Size = new Size(150, 22);
             lblCategoryName.TabIndex = 21;
             lblCategoryName.Text = "Category Name:";
             // 
@@ -184,19 +184,19 @@
             pageTitle.Location = new Point(218, 12);
             pageTitle.Margin = new Padding(2, 0, 2, 0);
             pageTitle.Name = "pageTitle";
-            pageTitle.Size = new Size(514, 63);
+            pageTitle.Size = new Size(431, 53);
             pageTitle.TabIndex = 47;
             pageTitle.Text = "Add/Edit Category";
             // 
             // AddEditCategory
             // 
-            AutoScaleDimensions = new SizeF(13F, 27F);
+            AutoScaleDimensions = new SizeF(11F, 22F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(978, 644);
             Controls.Add(pageTitle);
-            Controls.Add(deleteBttn);
+            Controls.Add(cancelBttn);
             Controls.Add(addBttn);
             Controls.Add(grpboxCategoryInfo);
             Controls.Add(returnIcon);
@@ -220,7 +220,7 @@
 
         #endregion
 
-        private Button deleteBttn;
+        private Button cancelBttn;
         private Button addBttn;
         private GroupBox grpboxCategoryInfo;
         private TextBox txtCategoryID;
