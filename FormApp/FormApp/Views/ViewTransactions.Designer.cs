@@ -55,10 +55,10 @@
             btnGenerateRecord.BackColor = Color.Cornsilk;
             btnGenerateRecord.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnGenerateRecord.ForeColor = Color.Black;
-            btnGenerateRecord.Location = new Point(344, 582);
+            btnGenerateRecord.Location = new Point(217, 584);
             btnGenerateRecord.Margin = new Padding(2);
             btnGenerateRecord.Name = "btnGenerateRecord";
-            btnGenerateRecord.Size = new Size(276, 50);
+            btnGenerateRecord.Size = new Size(276, 40);
             btnGenerateRecord.TabIndex = 42;
             btnGenerateRecord.Text = "Generate Return Record";
             btnGenerateRecord.UseVisualStyleBackColor = false;
@@ -204,7 +204,7 @@
             lblFilter.TabIndex = 0;
             lblFilter.Text = "Filter By Transaction ID:";
             // 
-            // pageTitle
+            // pageTitleTxt
             // 
             pageTitleTxt.AutoSize = true;
             pageTitleTxt.BackColor = Color.Transparent;
@@ -221,7 +221,7 @@
             editBttn.BackColor = Color.Cornsilk;
             editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             editBttn.ForeColor = Color.Black;
-            editBttn.Location = new Point(392, 602);
+            editBttn.Location = new Point(518, 584);
             editBttn.Margin = new Padding(2);
             editBttn.Name = "editBttn";
             editBttn.Size = new Size(171, 40);

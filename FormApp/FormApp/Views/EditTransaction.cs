@@ -35,6 +35,7 @@ namespace FormApp.Views
             this.transaction = context.RentalTransactions.Include(x => x.User).Include(x => x.Book).Where(x => x.TransactionId == transactionID).FirstOrDefault();
             this.edit = edit;
             LoadTransactionData();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         public EditTransaction(int requestID)
@@ -230,6 +231,11 @@ namespace FormApp.Views
             // Close the form and return Cancel 
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void exitIcon_Click_1(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }
