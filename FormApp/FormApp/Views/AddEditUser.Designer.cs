@@ -44,7 +44,7 @@
             txtEmail = new TextBox();
             txtFirstName = new TextBox();
             addBttn = new Button();
-            deleteBttn = new Button();
+            cancelBttn = new Button();
             pageTitleTxt = new Label();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -57,10 +57,10 @@
             // 
             returnIcon.BackColor = Color.Transparent;
             returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
+            returnIcon.Location = new Point(664, 10);
             returnIcon.Margin = new Padding(2);
             returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
+            returnIcon.Size = new Size(32, 32);
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 20;
             returnIcon.TabStop = false;
@@ -69,10 +69,10 @@
             // 
             exitIcon.BackColor = Color.Transparent;
             exitIcon.Image = Properties.Resources.exit_icon;
-            exitIcon.Location = new Point(930, 12);
+            exitIcon.Location = new Point(744, 10);
             exitIcon.Margin = new Padding(2);
             exitIcon.Name = "exitIcon";
-            exitIcon.Size = new Size(40, 40);
+            exitIcon.Size = new Size(32, 32);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 19;
             exitIcon.TabStop = false;
@@ -82,10 +82,10 @@
             // 
             homeIcon.BackColor = Color.Transparent;
             homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 12);
+            homeIcon.Location = new Point(704, 10);
             homeIcon.Margin = new Padding(2);
             homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(40, 40);
+            homeIcon.Size = new Size(32, 32);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 18;
             homeIcon.TabStop = false;
@@ -95,10 +95,10 @@
             // 
             userIcon.BackColor = Color.Transparent;
             userIcon.Image = Properties.Resources.user;
-            userIcon.Location = new Point(19, 12);
+            userIcon.Location = new Point(15, 10);
             userIcon.Margin = new Padding(2);
             userIcon.Name = "userIcon";
-            userIcon.Size = new Size(40, 40);
+            userIcon.Size = new Size(32, 32);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 17;
             userIcon.TabStop = false;
@@ -108,40 +108,36 @@
             // 
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblFirstName.Location = new Point(39, 120);
-            lblFirstName.Margin = new Padding(4, 0, 4, 0);
+            lblFirstName.Location = new Point(31, 96);
             lblFirstName.Name = "lblFirstName";
-            lblFirstName.Size = new Size(133, 27);
+            lblFirstName.Size = new Size(112, 22);
             lblFirstName.TabIndex = 21;
             lblFirstName.Text = "First Name:";
             // 
             // lblLastName
             // 
             lblLastName.AutoSize = true;
-            lblLastName.Location = new Point(39, 189);
-            lblLastName.Margin = new Padding(4, 0, 4, 0);
+            lblLastName.Location = new Point(31, 151);
             lblLastName.Name = "lblLastName";
-            lblLastName.Size = new Size(129, 27);
+            lblLastName.Size = new Size(108, 22);
             lblLastName.TabIndex = 22;
             lblLastName.Text = "Last Name:";
             // 
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(39, 261);
-            lblEmail.Margin = new Padding(4, 0, 4, 0);
+            lblEmail.Location = new Point(31, 209);
             lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(79, 27);
+            lblEmail.Size = new Size(65, 22);
             lblEmail.TabIndex = 23;
             lblEmail.Text = "Email:";
             // 
             // lblRole
             // 
             lblRole.AutoSize = true;
-            lblRole.Location = new Point(39, 334);
-            lblRole.Margin = new Padding(4, 0, 4, 0);
+            lblRole.Location = new Point(31, 267);
             lblRole.Name = "lblRole";
-            lblRole.Size = new Size(66, 27);
+            lblRole.Size = new Size(55, 22);
             lblRole.TabIndex = 24;
             lblRole.Text = "Role:";
             // 
@@ -159,66 +155,58 @@
             grpboxUserInfo.Controls.Add(lblLastName);
             grpboxUserInfo.Controls.Add(lblEmail);
             grpboxUserInfo.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            grpboxUserInfo.Location = new Point(163, 126);
-            grpboxUserInfo.Margin = new Padding(4);
+            grpboxUserInfo.Location = new Point(130, 101);
             grpboxUserInfo.Name = "grpboxUserInfo";
-            grpboxUserInfo.Padding = new Padding(4);
-            grpboxUserInfo.Size = new Size(652, 401);
+            grpboxUserInfo.Size = new Size(522, 321);
             grpboxUserInfo.TabIndex = 25;
             grpboxUserInfo.TabStop = false;
             grpboxUserInfo.Text = "User Info";
             // 
             // txtUserID
             // 
-            txtUserID.Location = new Point(228, 45);
-            txtUserID.Margin = new Padding(4);
+            txtUserID.Location = new Point(182, 36);
             txtUserID.Name = "txtUserID";
             txtUserID.ReadOnly = true;
-            txtUserID.Size = new Size(325, 34);
+            txtUserID.Size = new Size(261, 30);
             txtUserID.TabIndex = 30;
             // 
             // lblUserID
             // 
             lblUserID.AutoSize = true;
             lblUserID.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblUserID.Location = new Point(39, 54);
-            lblUserID.Margin = new Padding(4, 0, 4, 0);
+            lblUserID.Location = new Point(31, 43);
             lblUserID.Name = "lblUserID";
-            lblUserID.Size = new Size(97, 27);
+            lblUserID.Size = new Size(82, 22);
             lblUserID.TabIndex = 29;
             lblUserID.Text = "User ID:";
             // 
             // ddlRole
             // 
             ddlRole.FormattingEnabled = true;
-            ddlRole.Location = new Point(228, 324);
-            ddlRole.Margin = new Padding(4);
+            ddlRole.Location = new Point(182, 259);
             ddlRole.Name = "ddlRole";
-            ddlRole.Size = new Size(325, 35);
+            ddlRole.Size = new Size(261, 30);
             ddlRole.TabIndex = 28;
             // 
             // txtLastName
             // 
-            txtLastName.Location = new Point(228, 180);
-            txtLastName.Margin = new Padding(4);
+            txtLastName.Location = new Point(182, 144);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(325, 34);
+            txtLastName.Size = new Size(261, 30);
             txtLastName.TabIndex = 27;
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(228, 252);
-            txtEmail.Margin = new Padding(4);
+            txtEmail.Location = new Point(182, 202);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(325, 34);
+            txtEmail.Size = new Size(261, 30);
             txtEmail.TabIndex = 26;
             // 
             // txtFirstName
             // 
-            txtFirstName.Location = new Point(228, 111);
-            txtFirstName.Margin = new Padding(4);
+            txtFirstName.Location = new Point(182, 89);
             txtFirstName.Name = "txtFirstName";
-            txtFirstName.Size = new Size(325, 34);
+            txtFirstName.Size = new Size(261, 30);
             txtFirstName.TabIndex = 25;
             // 
             // addBttn
@@ -226,28 +214,28 @@
             addBttn.BackColor = Color.Cornsilk;
             addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             addBttn.ForeColor = Color.Black;
-            addBttn.Location = new Point(275, 542);
+            addBttn.Location = new Point(220, 434);
             addBttn.Margin = new Padding(2);
             addBttn.Name = "addBttn";
-            addBttn.Size = new Size(200, 50);
+            addBttn.Size = new Size(160, 40);
             addBttn.TabIndex = 26;
             addBttn.Text = "Save User";
             addBttn.UseVisualStyleBackColor = false;
             addBttn.Click += addBttn_Click;
             // 
-            // deleteBttn
+            // cancelBttn
             // 
-            deleteBttn.BackColor = Color.IndianRed;
-            deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            deleteBttn.ForeColor = Color.White;
-            deleteBttn.Location = new Point(516, 542);
-            deleteBttn.Margin = new Padding(2);
-            deleteBttn.Name = "deleteBttn";
-            deleteBttn.Size = new Size(200, 50);
-            deleteBttn.TabIndex = 27;
-            deleteBttn.Text = "Cancel";
-            deleteBttn.UseVisualStyleBackColor = false;
-            deleteBttn.Click += deleteBttn_Click;
+            cancelBttn.BackColor = Color.IndianRed;
+            cancelBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cancelBttn.ForeColor = Color.White;
+            cancelBttn.Location = new Point(413, 434);
+            cancelBttn.Margin = new Padding(2);
+            cancelBttn.Name = "cancelBttn";
+            cancelBttn.Size = new Size(160, 40);
+            cancelBttn.TabIndex = 27;
+            cancelBttn.Text = "Cancel";
+            cancelBttn.UseVisualStyleBackColor = false;
+            cancelBttn.Click += cancelBttn_Click;
             // 
             // pageTitleTxt
             // 
@@ -264,14 +252,14 @@
             // 
             // AddEditUser
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(978, 644);
+            ClientSize = new Size(782, 515);
             Controls.Add(pageTitleTxt);
-            Controls.Add(deleteBttn);
+            Controls.Add(cancelBttn);
             Controls.Add(addBttn);
             Controls.Add(grpboxUserInfo);
             Controls.Add(returnIcon);
@@ -280,7 +268,6 @@
             Controls.Add(userIcon);
             Cursor = Cursors.IBeam;
             DoubleBuffered = true;
-            Margin = new Padding(4);
             Name = "AddEditUser";
             Text = "AddEditUser";
             Load += AddEditUser_Load;
@@ -310,7 +297,7 @@
         private TextBox txtFirstName;
         private ComboBox ddlRole;
         private Button addBttn;
-        private Button deleteBttn;
+        private Button cancelBttn;
         private TextBox txtUserID;
         private Label lblUserID;
         private Label pageTitleTxt;

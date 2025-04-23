@@ -25,32 +25,42 @@ namespace FormApp.Views
 
         private void deleteBttn_Click(object sender, EventArgs e)
         {
+            //Get the selected cell within the grid view
             int selectedCell = Convert.ToInt32(dgvAuthors.SelectedCells[0].OwningRow.Cells[0].Value);
 
+            //Retrieve the author object of the selected id
             Author author = context.Authors.Where(x => x.AuthorId == selectedCell).FirstOrDefault();
 
             if (MessageBox.Show("Are you sure you want to delete the author with the id - (" + author.AuthorId + ")?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                context.Authors.Remove(author);
+                context.Authors.Remove(author); //Delete the author with the specified ID
 
-                context.SaveChanges();
+                context.SaveChanges(); //Execute the changes against the Database
 
-                RefreshAuthorsGridView();
+                RefreshAuthorsGridView(); //Call refresh grid view to view the changes
             }
         }
 
         private void ManageAuthors_Load(object sender, EventArgs e)
         {
-            LoadAuthors();
+            LoadAuthors(); 
             RefreshAuthorsGridView();
         }
 
         private void LoadAuthors()
         {
-            ddlAuthors.DataSource = context.Authors.ToList();
-            ddlAuthors.DisplayMember = "FullName";
-            ddlAuthors.ValueMember = "authorId";
-            ddlAuthors.SelectedItem = null;
+            try
+            {
+                //Set the data source of the drop down list to a list of authors from the database
+                ddlAuthors.DataSource = context.Authors.ToList(); 
+                ddlAuthors.DisplayMember = "FullName"; //Set the Property to display in the drop down list
+                ddlAuthors.ValueMember = "authorId"; //Set the value associated with each item 
+                ddlAuthors.SelectedItem = null; //Clear Pre-selected value
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void RefreshAuthorsGridView()
@@ -69,7 +79,8 @@ namespace FormApp.Views
                     authorsToShow = authorsToShow.Where(x => x.AuthorId == Convert.ToInt32(ddlAuthors.SelectedValue));
 
                 }
-
+              
+                //Project the filtered authors into an anonymous type, then convert the result to a list and bind it to the data grid view.
                 dgvAuthors.DataSource = authorsToShow.Select(x => new
                 {
                     AuthorID = x.AuthorId,
@@ -87,13 +98,13 @@ namespace FormApp.Views
 
         private void filterBttn_Click(object sender, EventArgs e)
         {
-            RefreshAuthorsGridView();
+            RefreshAuthorsGridView(); //Call the method to filter if any filters were applied
         }
 
         private void refreshBttn_Click_1(object sender, EventArgs e)
         {
-            ddlAuthors.SelectedItem = null;
-            RefreshAuthorsGridView();
+            ddlAuthors.SelectedItem = null; //Clear Pre-selected value
+            RefreshAuthorsGridView(); //Refresh the view to remove the filters
         }
 
         private void addBttn_Click_1(object sender, EventArgs e)
@@ -101,6 +112,7 @@ namespace FormApp.Views
             AddEditAuthors addEdit = new AddEditAuthors();
             addEdit.ShowDialog();
 
+            //If the dialog result was ok, refresh the authors grid view to show the new data
             if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshAuthorsGridView();
@@ -109,11 +121,13 @@ namespace FormApp.Views
 
         private void editBttn_Click_1(object sender, EventArgs e)
         {
+            //Get the author ID from the first selected cell
             int selectedCell = Convert.ToInt32(dgvAuthors.SelectedCells[0].OwningRow.Cells[0].Value);
 
             AddEditAuthors addEdit = new AddEditAuthors(selectedCell);
             addEdit.ShowDialog();
 
+            //if the dialog result was ok, refresh the grid view to reflect the updates
             if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshAuthorsGridView();

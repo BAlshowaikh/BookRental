@@ -32,17 +32,26 @@ namespace FormApp
 
         private void populateUserComboBox()
         {
-            ddlUser.DataSource = context.Users.ToList();
-            ddlUser.DisplayMember = "FullName";
-            ddlUser.ValueMember = "userId";
-            ddlUser.SelectedItem = null;
+            try
+            {
+                //Set the data source of the drop down to the list of users 
+                ddlUser.DataSource = context.Users.ToList();
+                ddlUser.DisplayMember = "FullName"; // Set which property to display in the dropdown
+                ddlUser.ValueMember = "userId"; // Set the value property for each dropdown item
+                ddlUser.SelectedItem = null; // Clear any pre-selected item
 
-            RefreshUsersGridView();
+                // Refresh the grid view to show the latest users
+                RefreshUsersGridView(); 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void filterBttn_Click(object sender, EventArgs e)
         {
-            RefreshUsersGridView();
+            RefreshUsersGridView(); //Call the method to filter if any filters were applied
         }
 
         private void RefreshUsersGridView()
@@ -55,12 +64,13 @@ namespace FormApp
                 {
                     userToShow = userToShow.Where(u => u.UserId == Convert.ToInt32(txtUserID.Text));
                 }
-
+                //if a user is selected, filter by that category 
                 else if (ddlUser.SelectedItem != null)
                 {
                     userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
                 }
 
+                //Project the filtered user into an anonymous type, then convert the result to a list and bind it to the data grid view.
                 dgvUsers.DataSource = userToShow.Select(s => new
                 {
                     UserID = s.UserId,
@@ -68,7 +78,6 @@ namespace FormApp
                     Email = s.Email,
                     Role = s.UserRole.Role
                 }).ToList();
-
             }
             catch (Exception ex)
             {
@@ -78,9 +87,9 @@ namespace FormApp
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
-            ddlUser.SelectedItem = null;
+            ddlUser.SelectedItem = null; // Clear any pre-selected item
 
-            RefreshUsersGridView();
+            RefreshUsersGridView(); //Refresh the view to remove the filters
         }
 
         private void addBttn_Click(object sender, EventArgs e)
@@ -89,6 +98,7 @@ namespace FormApp
             addEdit.StartPosition = FormStartPosition.CenterScreen;
             addEdit.ShowDialog();
 
+            //If the dialog result was ok, refresh the authors grid view to show the new data
             if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshUsersGridView();
@@ -98,12 +108,14 @@ namespace FormApp
 
         private void editBttn_Click(object sender, EventArgs e)
         {
+            //Get the author ID from the first selected cell
             int selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
 
             AddEditUser addEdit = new AddEditUser(selectedCell);
             addEdit.StartPosition = FormStartPosition.CenterScreen;
             addEdit.ShowDialog();
 
+            //if the dialog result was ok, refresh the grid view to reflect the updates
             if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshUsersGridView();
@@ -114,19 +126,22 @@ namespace FormApp
         {
             try
             {
+                //check if at least one cell is selected
                 if (dgvUsers.SelectedCells.Count > 0)
                 {
+                    //Get the selected cell within the grid view
                     int selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
 
+                    //Retrieve the user object of the selected id
                     User u1 = context.Users.Single(x => x.UserId == selectedCell);
 
                     if (MessageBox.Show("Are you sure you want to delete the user - (" + u1.UserId + ")?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        context.Users.Remove(u1);
+                        context.Users.Remove(u1); //Delete the user with the specified ID
 
-                        context.SaveChanges();
+                        context.SaveChanges(); //Execute the changes against the Database
 
-                        RefreshUsersGridView();
+                        RefreshUsersGridView(); //Call refresh grid view to view the changes
                     }
                 }
             }

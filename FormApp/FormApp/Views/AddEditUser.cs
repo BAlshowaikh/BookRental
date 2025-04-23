@@ -24,6 +24,7 @@ namespace FormApp.Views
             HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
             user = new User();
+            pageTitleTxt.Text = "Add User";
         }
 
         public AddEditUser(int user1)
@@ -33,7 +34,7 @@ namespace FormApp.Views
             this.user = context.Users.Find(user1);
 
             HelperFunctions.setUpFormDesign(this);
-
+            pageTitleTxt.Text = "Edit User";
         }
 
         private void AddEditUser_Load(object sender, EventArgs e)
@@ -44,27 +45,44 @@ namespace FormApp.Views
 
         private void PopulateUserRoleComboBox()
         {
-            ddlRole.DataSource = context.UserRoles.ToList();
-            ddlRole.DisplayMember = "role";
-            ddlRole.ValueMember = "userRoleId";
-            ddlRole.SelectedItem = null;
+            try
+            {
+                //Set the data source of the drop down to the list of roles
+                ddlRole.DataSource = context.UserRoles.ToList();
+                ddlRole.DisplayMember = "role"; // Set which property to display in the dropdown
+                ddlRole.ValueMember = "userRoleId"; // Set the value property for each dropdown item
+                ddlRole.SelectedItem = null; // Clear any pre-selected item
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void AddEditUserDetails()
         {
-            if (this.user.UserId > 0)
+            try
             {
-                pageTitleTxt.Text = "Edit User";
-                txtUserID.Text = user.UserId.ToString();
-                txtFirstName.Text = user.FirstName;
-                txtLastName.Text = user.LastName;
-                txtEmail.Text = user.Email;
-                ddlRole.SelectedValue = user.UserRoleId;
-                ddlRole.Enabled = false;
+                //check if it's an existing user
+                if (this.user.UserId > 0)
+                {
+                    // Populate form fields with the user's data
+                    txtUserID.Text = user.UserId.ToString();
+                    txtFirstName.Text = user.FirstName;
+                    txtLastName.Text = user.LastName;
+                    txtEmail.Text = user.Email;
+                    ddlRole.SelectedValue = user.UserRoleId;
+                    //ddlRole.Enabled = false;
+                }
+                else
+                {
+                    // If this is a new user, clear the role selection
+                    ddlRole.SelectedValue = "";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ddlRole.SelectedValue = "";
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -72,11 +90,13 @@ namespace FormApp.Views
         {
             try
             {
+                // Assign values to the user object
                 user.FirstName = txtFirstName.Text;
                 user.LastName = txtLastName.Text;
                 user.Email = txtEmail.Text;
                 user.UserRoleId = Convert.ToInt32(ddlRole.SelectedValue);
 
+                // If the user has an existing ID, update the record
                 if (user.UserId > 0)
                 {
                     if (MessageBox.Show("are you sure you want to edit user ID:" + user.UserId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -84,15 +104,18 @@ namespace FormApp.Views
                         context.Users.Update(user);
                     }
                 }
-                else
+                else // add a new user
                 {
                     if (MessageBox.Show("are you sure you want to add this user? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         context.Users.Add(user);
                     }
                 }
+
+                // Save changes to the database
                 context.SaveChanges();
 
+                // Close the form and return OK result
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -104,8 +127,7 @@ namespace FormApp.Views
 
         private void deleteBttn_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            
         }
 
         private void exitIcon_Click(object sender, EventArgs e)
@@ -116,6 +138,13 @@ namespace FormApp.Views
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
+        }
+
+        private void cancelBttn_Click(object sender, EventArgs e)
+        {
+            // Close the form and return Cancel 
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         private void userIcon_Click(object sender, EventArgs e)

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            deleteBttn = new Button();
+            cancelBttn = new Button();
             addBttn = new Button();
             grpboxAuthorInfo = new GroupBox();
             txtAuthorID = new TextBox();
@@ -51,19 +51,19 @@
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             SuspendLayout();
             // 
-            // deleteBttn
+            // cancelBttn
             // 
-            deleteBttn.BackColor = Color.IndianRed;
-            deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            deleteBttn.ForeColor = Color.White;
-            deleteBttn.Location = new Point(524, 495);
-            deleteBttn.Margin = new Padding(2);
-            deleteBttn.Name = "deleteBttn";
-            deleteBttn.Size = new Size(200, 50);
-            deleteBttn.TabIndex = 34;
-            deleteBttn.Text = "Cancel";
-            deleteBttn.UseVisualStyleBackColor = false;
-            deleteBttn.Click += deleteBttn_Click;
+            cancelBttn.BackColor = Color.IndianRed;
+            cancelBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cancelBttn.ForeColor = Color.White;
+            cancelBttn.Location = new Point(549, 495);
+            cancelBttn.Margin = new Padding(2);
+            cancelBttn.Name = "cancelBttn";
+            cancelBttn.Size = new Size(200, 50);
+            cancelBttn.TabIndex = 34;
+            cancelBttn.Text = "Cancel";
+            cancelBttn.UseVisualStyleBackColor = false;
+            cancelBttn.Click += cancelBttn_Click;
             // 
             // addBttn
             // 
@@ -236,7 +236,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(978, 644);
             Controls.Add(pageTitle);
-            Controls.Add(deleteBttn);
+            Controls.Add(cancelBttn);
             Controls.Add(addBttn);
             Controls.Add(grpboxAuthorInfo);
             Controls.Add(returnIcon);
@@ -260,7 +260,7 @@
 
         #endregion
 
-        private Button deleteBttn;
+        private Button cancelBttn;
         private Button addBttn;
         private GroupBox grpboxAuthorInfo;
         private TextBox txtAuthorID;

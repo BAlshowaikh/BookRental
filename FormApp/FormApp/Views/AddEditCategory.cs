@@ -23,6 +23,7 @@ namespace FormApp.Views
             HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
             category = new Category();
+            pageTitle.Text = "Add Category";
         }
 
         public AddEditCategory(int c1)
@@ -30,6 +31,7 @@ namespace FormApp.Views
             InitializeComponent();
             context = new BookRentalDBContext();
             this.category = context.Categories.Find(c1);
+            pageTitle.Text = "Edit Category";
         }
 
         private void AddEditCategory_Load(object sender, EventArgs e)
@@ -39,15 +41,24 @@ namespace FormApp.Views
 
         private void AddEditCategories()
         {
-            if (category.CategoryId > 0)
+            try
             {
-                pageTitle.Text = "Edit Category";
-                txtCategoryID.Text = category.CategoryId.ToString();
-                txtCategoryName.Text = category.CategoryName;
+                //check if it's an existing category
+                if (category.CategoryId > 0)
+                {
+                    // Populate form fields with the category data
+                    txtCategoryID.Text = category.CategoryId.ToString();
+                    txtCategoryName.Text = category.CategoryName;
+                }
+                else
+                {
+                    // If this is a new category, clear the category name
+                    txtCategoryName.Text = "";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                txtCategoryName.Text = "";
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -57,6 +68,7 @@ namespace FormApp.Views
             {
                 category.CategoryName = txtCategoryName.Text.ToString();
 
+                // If the category has an existing ID, update the record
                 if (category.CategoryId > 0)
                 {
                     if (MessageBox.Show("are you sure you want to edit category ID:" + category.CategoryId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -64,7 +76,7 @@ namespace FormApp.Views
                         context.Categories.Update(category);
                     }
                 }
-                else
+                else // add a new user
                 {
                     if (MessageBox.Show("are you sure you want to add this category? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
@@ -72,8 +84,10 @@ namespace FormApp.Views
                     }
                 }
 
+                // Save changes to the database
                 context.SaveChanges();
 
+                // Close the form and return OK result
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -85,8 +99,7 @@ namespace FormApp.Views
 
         private void deleteBttn_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+
         }
 
         private void homeIcon_Click(object sender, EventArgs e)
@@ -97,6 +110,13 @@ namespace FormApp.Views
         private void exitIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.exitBtn();
+        }
+
+        private void cancelBttn_Click(object sender, EventArgs e)
+        {
+            // Close the form and return Cancel 
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         private void userIcon_Click(object sender, EventArgs e)

@@ -41,6 +41,7 @@
             filterBttn = new Button();
             lblFilter = new Label();
             pageTitleTxt = new Label();
+            editBttn = new Button();
             button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -203,7 +204,7 @@
             lblFilter.TabIndex = 0;
             lblFilter.Text = "Filter By Transaction ID:";
             // 
-            // pageTitleTxt
+            // pageTitle
             // 
             pageTitleTxt.AutoSize = true;
             pageTitleTxt.BackColor = Color.Transparent;
@@ -214,6 +215,20 @@
             pageTitleTxt.Size = new Size(646, 53);
             pageTitleTxt.TabIndex = 43;
             pageTitleTxt.Text = "Manage Rental Transactions";
+            // 
+            // editBttn
+            // 
+            editBttn.BackColor = Color.Cornsilk;
+            editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            editBttn.ForeColor = Color.Black;
+            editBttn.Location = new Point(392, 602);
+            editBttn.Margin = new Padding(2);
+            editBttn.Name = "editBttn";
+            editBttn.Size = new Size(171, 40);
+            editBttn.TabIndex = 51;
+            editBttn.Text = "Edit Transaction";
+            editBttn.UseVisualStyleBackColor = false;
+            editBttn.Click += editBttn_Click;
             // 
             // button1
             // 
@@ -235,6 +250,7 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
             Controls.Add(button1);
+            Controls.Add(editBttn);
             Controls.Add(pageTitleTxt);
             Controls.Add(btnGenerateRecord);
             Controls.Add(exitIcon);
@@ -271,6 +287,7 @@
         private Label label1;
         private TextBox txtTransactionID;
         private Label pageTitleTxt;
+        private Button editBttn;
         private Button button1;
     }
 }

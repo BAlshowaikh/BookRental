@@ -66,7 +66,7 @@
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
-            groupBox1.Size = new Size(928, 96);
+            groupBox1.Size = new Size(742, 77);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
@@ -146,7 +146,7 @@
             dgvUsers.Margin = new Padding(2);
             dgvUsers.Name = "dgvUsers";
             dgvUsers.RowHeadersWidth = 62;
-            dgvUsers.Size = new Size(930, 340);
+            dgvUsers.Size = new Size(744, 272);
             dgvUsers.TabIndex = 1;
             // 
             // addBttn
@@ -157,7 +157,7 @@
             addBttn.Location = new Point(147, 583);
             addBttn.Margin = new Padding(2);
             addBttn.Name = "addBttn";
-            addBttn.Size = new Size(200, 50);
+            addBttn.Size = new Size(160, 40);
             addBttn.TabIndex = 10;
             addBttn.Text = "Add User";
             addBttn.UseVisualStyleBackColor = false;
@@ -171,7 +171,7 @@
             editBttn.Location = new Point(409, 583);
             editBttn.Margin = new Padding(2);
             editBttn.Name = "editBttn";
-            editBttn.Size = new Size(200, 50);
+            editBttn.Size = new Size(160, 40);
             editBttn.TabIndex = 11;
             editBttn.Text = "Edit User";
             editBttn.UseVisualStyleBackColor = false;
@@ -185,7 +185,7 @@
             deleteBttn.Location = new Point(670, 583);
             deleteBttn.Margin = new Padding(2);
             deleteBttn.Name = "deleteBttn";
-            deleteBttn.Size = new Size(200, 50);
+            deleteBttn.Size = new Size(160, 40);
             deleteBttn.TabIndex = 12;
             deleteBttn.Text = "Delete User";
             deleteBttn.UseVisualStyleBackColor = false;
@@ -195,10 +195,10 @@
             // 
             exitIcon.BackColor = Color.Transparent;
             exitIcon.Image = Properties.Resources.exit_icon;
-            exitIcon.Location = new Point(930, 12);
+            exitIcon.Location = new Point(744, 10);
             exitIcon.Margin = new Padding(2);
             exitIcon.Name = "exitIcon";
-            exitIcon.Size = new Size(40, 40);
+            exitIcon.Size = new Size(32, 32);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 15;
             exitIcon.TabStop = false;
@@ -208,10 +208,10 @@
             // 
             homeIcon.BackColor = Color.Transparent;
             homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 12);
+            homeIcon.Location = new Point(704, 10);
             homeIcon.Margin = new Padding(2);
             homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(40, 40);
+            homeIcon.Size = new Size(32, 32);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 14;
             homeIcon.TabStop = false;
@@ -221,10 +221,10 @@
             // 
             userIcon.BackColor = Color.Transparent;
             userIcon.Image = Properties.Resources.user;
-            userIcon.Location = new Point(19, 12);
+            userIcon.Location = new Point(15, 10);
             userIcon.Margin = new Padding(2);
             userIcon.Name = "userIcon";
-            userIcon.Size = new Size(40, 40);
+            userIcon.Size = new Size(32, 32);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 13;
             userIcon.TabStop = false;
@@ -236,10 +236,10 @@
             pageTitleTxt.BackColor = Color.Transparent;
             pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(290, 9);
+            pageTitleTxt.Location = new Point(232, 7);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
             pageTitleTxt.Name = "pageTitleTxt";
-            pageTitleTxt.Size = new Size(393, 63);
+            pageTitleTxt.Size = new Size(333, 53);
             pageTitleTxt.TabIndex = 17;
             pageTitleTxt.Text = "Manage Users";
             // 
@@ -257,7 +257,7 @@
             // 
             // ManageUser
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
@@ -274,7 +274,6 @@
             Controls.Add(dgvUsers);
             Controls.Add(groupBox1);
             DoubleBuffered = true;
-            Margin = new Padding(4);
             Name = "ManageUser";
             Text = "ManageUser";
             Load += ManageUser_Load;

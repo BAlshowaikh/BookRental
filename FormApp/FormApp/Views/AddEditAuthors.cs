@@ -23,6 +23,7 @@ namespace FormApp.Views
             InitializeComponent();
             context = new BookRentalDBContext();
             author = new Author();
+            pageTitle.Text = "Add Author";
         }
 
         public AddEditAuthors(int authorId)
@@ -30,6 +31,7 @@ namespace FormApp.Views
             InitializeComponent();
             context = new BookRentalDBContext();
             this.author = context.Authors.Find(authorId);
+            pageTitle.Text = "Edit Author";
         }
 
         private void AddEditAuthors_Load(object sender, EventArgs e)
@@ -39,19 +41,28 @@ namespace FormApp.Views
 
         private void AddEditAuthorsFields()
         {
-            if (this.author.AuthorId > 0)
+            try
             {
-                pageTitle.Text = "Edit Author";
-                txtAuthorID.Text = author.AuthorId.ToString();
-                txtFirstName.Text = author.FirstName;
-                txtLastName.Text = author.LastName;
-                txtEmail.Text = author.Email;
+                //check if it's an existing author
+                if (this.author.AuthorId > 0)
+                {
+                    // Populate form fields with the author data
+                    txtAuthorID.Text = author.AuthorId.ToString();
+                    txtFirstName.Text = author.FirstName;
+                    txtLastName.Text = author.LastName;
+                    txtEmail.Text = author.Email;
+                }
+                else
+                {
+                    // If this is a new author, clear the first name, last name and email
+                    txtFirstName.Text = "";
+                    txtLastName.Text = "";
+                    txtEmail.Text = "";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                txtFirstName.Text = "";
-                txtLastName.Text = "";
-                txtEmail.Text = "";
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -63,6 +74,7 @@ namespace FormApp.Views
                 author.LastName = txtLastName.Text;
                 author.Email = txtEmail.Text;
 
+                // If the author has an existing ID, update the record
                 if (author.AuthorId > 0)
                 {
                     if (MessageBox.Show("are you sure you want to edit author ID:" + author.AuthorId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -70,7 +82,7 @@ namespace FormApp.Views
                         context.Authors.Update(author);
                     }
                 }
-                else
+                else // add a new user
                 {
                     if (MessageBox.Show("are you sure you want to add this author? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
@@ -78,8 +90,10 @@ namespace FormApp.Views
                     }
                 }
 
+                // Save changes to the database
                 context.SaveChanges();
 
+                // Close the form and return OK result
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -91,6 +105,12 @@ namespace FormApp.Views
 
         private void deleteBttn_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void cancelBttn_Click(object sender, EventArgs e)
+        {
+            // Close the form and return Cancel
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }

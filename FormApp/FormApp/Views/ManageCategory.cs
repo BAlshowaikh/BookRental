@@ -31,12 +31,21 @@ namespace FormApp.Views
         }
         private void populateCategory()
         {
-            ddlCategory.DataSource = context.Categories.ToList();
-            ddlCategory.DisplayMember = "categoryName";
-            ddlCategory.ValueMember = "categoryId";
-            ddlCategory.SelectedItem = null;
+            try
+            {
+                //Set the data source of the drop down to the list of categories 
+                ddlCategory.DataSource = context.Categories.ToList();
+                ddlCategory.DisplayMember = "categoryName";  // Set which property to display in the dropdown
+                ddlCategory.ValueMember = "categoryId"; // Set the value property for each dropdown item
+                ddlCategory.SelectedItem = null; // Clear any pre-selected item
 
-            RefreshCategoryGridView();
+                // Refresh the grid view to show the latest categories
+                RefreshCategoryGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void RefreshCategoryGridView()
@@ -55,12 +64,12 @@ namespace FormApp.Views
                     categoryToShow = categoryToShow.Where(x => x.CategoryId == Convert.ToInt32(ddlCategory.SelectedValue));
                 }
 
+                //Project the filtered category into an anonymous type, then convert the result to a list and bind it to the data grid view.
                 dgvCategories.DataSource = categoryToShow.Select(x => new
                 {
                     CategoryID = x.CategoryId,
                     CategoryName = x.CategoryName
                 }).ToList();
-
             }
             catch (Exception ex)
             {
@@ -70,28 +79,30 @@ namespace FormApp.Views
 
         private void filterBttn_Click(object sender, EventArgs e)
         {
-            RefreshCategoryGridView();
+            RefreshCategoryGridView(); //Call the method to filter if any filters were applied
         }
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
-            ddlCategory.SelectedItem = null;
-            RefreshCategoryGridView();
+            ddlCategory.SelectedItem = null; // Clear any pre-selected item
+            RefreshCategoryGridView(); //Refresh the view to remove the filters
         }
 
         private void deleteBttn_Click(object sender, EventArgs e)
         {
+            //Get the selected cell within the grid view
             int selectedCell = Convert.ToInt32(dgvCategories.SelectedCells[0].OwningRow.Cells[0].Value);
 
+            //Retrieve the category object of the selected id
             Category category = context.Categories.Where(x => x.CategoryId == selectedCell).FirstOrDefault();
 
             if (MessageBox.Show("Are you sure you want to delete the category with the id - (" + category.CategoryId + ")?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                context.Categories.Remove(category);
+                context.Categories.Remove(category); //Delete the category with the specified ID
 
-                context.SaveChanges();
+                context.SaveChanges(); //Execute the changes against the Database
 
-                RefreshCategoryGridView();
+                RefreshCategoryGridView(); //Call refresh grid view to view the changes
             }
         }
 
@@ -100,6 +111,7 @@ namespace FormApp.Views
             AddEditCategory addEdit = new AddEditCategory();
             addEdit.ShowDialog();
 
+            //If the dialog result was ok, refresh the authors grid view to show the new data
             if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshCategoryGridView();
@@ -108,11 +120,13 @@ namespace FormApp.Views
 
         private void editBttn_Click(object sender, EventArgs e)
         {
+            //Get the category ID from the first selected cell
             int selectedCell = Convert.ToInt32(dgvCategories.SelectedCells[0].OwningRow.Cells[0].Value);
 
             AddEditCategory addEdit = new AddEditCategory(selectedCell);
             addEdit.ShowDialog();
 
+            //if the dialog result was ok, refresh the grid view to reflect the updates
             if (addEdit.DialogResult == DialogResult.OK)
             {
                 RefreshCategoryGridView();
