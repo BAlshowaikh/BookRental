@@ -135,6 +135,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 13;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // txtPublishDate
             // 

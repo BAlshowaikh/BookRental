@@ -23,9 +23,10 @@ namespace FormApp.Views
 
         private void mointoringDashboard_Load(object sender, EventArgs e)
         {
-            LoadDashboardStats();
+            LoadDashboardStats();// Load all statistics when the dashboard opens
         }
 
+        // Method to retrieve and display statistics from the database
         private void LoadDashboardStats()
         {
             try
@@ -45,7 +46,7 @@ namespace FormApp.Views
 
                     //counting the damaged books 
                     SqlCommand cmdDamaged = new SqlCommand("SELECT COUNT(*) FROM Books WHERE Status = 'Damaged' ", con);
-                    lblDamgedBooks.Text = cmdAvailable.ExecuteScalar().ToString();
+                    lblDamgedBooks.Text = cmdDamaged.ExecuteScalar().ToString();
 
                     //counting the rental requests
                     SqlCommand cmdRequests = new SqlCommand("SELECT COUNT(*) From RentalRequests", con);
@@ -66,6 +67,16 @@ namespace FormApp.Views
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            LoadDashboardStats(); //Re-load the dashboard statistics when refresh is clicked
         }
     }
 }

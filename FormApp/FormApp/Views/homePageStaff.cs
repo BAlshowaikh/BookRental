@@ -23,36 +23,53 @@ namespace FormApp.Views
         {
 
         }
+
+        // Event handler for the Manage Books button
         private void manageBooksBtn_Click(object sender, EventArgs e)
         {
-            bookList bookListForm = new bookList();
-            bookListForm.Show();
-            this.Hide();
+            Form bookListForm = new bookList();
+            HelperFunctions.navigationToPage(this, bookListForm);
         }
 
+        // Event handler for the Rental Requests button
         private void manageRentalRequestsBtn_Click(object sender, EventArgs e)
         {
-            rentalRequest rentalRequestForm = new rentalRequest();
-            rentalRequestForm.Show();
-            this.Hide();
+            Form manageRentalRequestForm = new rentalRequest();
+            HelperFunctions.navigationToPage(this, manageRentalRequestForm);
 
         }
 
+        // Event handler for the Manage Rental Transactions button
         private void ManageRentalTransactionsBtn_Click(object sender, EventArgs e)
         {
-
+            Form ViewTransactions = new ViewTransactions();
+            HelperFunctions.navigationToPage(this, ViewTransactions);
         }
 
+        // Event handler for the Manage Return Record button
         private void ManageReturnRecordBtn_Click(object sender, EventArgs e)
         {
-            returnRecord returnRecordForm = new returnRecord();
-            returnRecordForm.Show();
-            this.Hide();
+            Form returnRecordForm = new returnRecord();
+            HelperFunctions.navigationToPage(this, returnRecordForm);
         }
 
-        private void manageBooksBtn_Click_1(object sender, EventArgs e)
+        // Event handler for the Generating Book Record form button
+        private void GenerateRecordBtn_Click(object sender, EventArgs e)
         {
+            Form auditTrails = new Audit_Trails();
+            HelperFunctions.navigationToPage(this, auditTrails);
+        }
 
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
+
+        // Event handler for the Viewing Statistics form button
+        private void ViewStatsBtn_Click(object sender, EventArgs e)
+        {
+            Form monitoringDashboardForm = new mointoringDashboard();
+            HelperFunctions.navigationToPage(this, monitoringDashboardForm);
         }
     }
 }

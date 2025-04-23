@@ -35,7 +35,7 @@
             lbltitle = new Label();
             lblLateReturnFee = new Label();
             lblActualReturnDate = new Label();
-            lblTotalCost = new Label();
+            lblExtraCharges = new Label();
             lblExpectedReturnDate = new Label();
             txtExpectedReturnDate = new TextBox();
             txtBookName = new TextBox();
@@ -43,7 +43,7 @@
             txtRecordID = new TextBox();
             lblRecordID = new Label();
             txtLateReturnFee = new TextBox();
-            txtTotalCost = new TextBox();
+            txtExtraCharges = new TextBox();
             txtTransactionID = new TextBox();
             lblBookName = new Label();
             lblBookCondition = new Label();
@@ -106,6 +106,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 23;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // lbltitle
             // 
@@ -113,7 +114,7 @@
             lbltitle.BackColor = Color.Transparent;
             lbltitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             lbltitle.ForeColor = Color.Cornsilk;
-            lbltitle.Location = new Point(147, 9);
+            lbltitle.Location = new Point(174, 9);
             lbltitle.Margin = new Padding(2, 0, 2, 0);
             lbltitle.Name = "lbltitle";
             lbltitle.Size = new Size(603, 63);
@@ -146,18 +147,18 @@
             lblActualReturnDate.TabIndex = 64;
             lblActualReturnDate.Text = "Actual Return Date";
             // 
-            // lblTotalCost
+            // lblExtraCharges
             // 
-            lblTotalCost.AutoSize = true;
-            lblTotalCost.BackColor = Color.Transparent;
-            lblTotalCost.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotalCost.ForeColor = Color.Black;
-            lblTotalCost.Location = new Point(542, 467);
-            lblTotalCost.Margin = new Padding(2, 0, 2, 0);
-            lblTotalCost.Name = "lblTotalCost";
-            lblTotalCost.Size = new Size(134, 29);
-            lblTotalCost.TabIndex = 63;
-            lblTotalCost.Text = "Total Cost";
+            lblExtraCharges.AutoSize = true;
+            lblExtraCharges.BackColor = Color.Transparent;
+            lblExtraCharges.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblExtraCharges.ForeColor = Color.Black;
+            lblExtraCharges.Location = new Point(503, 467);
+            lblExtraCharges.Margin = new Padding(2, 0, 2, 0);
+            lblExtraCharges.Name = "lblExtraCharges";
+            lblExtraCharges.Size = new Size(180, 29);
+            lblExtraCharges.TabIndex = 63;
+            lblExtraCharges.Text = "Extra Charges";
             // 
             // lblExpectedReturnDate
             // 
@@ -230,17 +231,18 @@
             txtLateReturnFee.Location = new Point(240, 465);
             txtLateReturnFee.Margin = new Padding(2);
             txtLateReturnFee.Name = "txtLateReturnFee";
+            txtLateReturnFee.ReadOnly = true;
             txtLateReturnFee.Size = new Size(250, 31);
             txtLateReturnFee.TabIndex = 55;
             // 
-            // txtTotalCost
+            // txtExtraCharges
             // 
-            txtTotalCost.Location = new Point(710, 465);
-            txtTotalCost.Margin = new Padding(2);
-            txtTotalCost.Name = "txtTotalCost";
-            txtTotalCost.ReadOnly = true;
-            txtTotalCost.Size = new Size(250, 31);
-            txtTotalCost.TabIndex = 54;
+            txtExtraCharges.Location = new Point(710, 465);
+            txtExtraCharges.Margin = new Padding(2);
+            txtExtraCharges.Name = "txtExtraCharges";
+            txtExtraCharges.ReadOnly = true;
+            txtExtraCharges.Size = new Size(250, 31);
+            txtExtraCharges.TabIndex = 54;
             // 
             // txtTransactionID
             // 
@@ -282,7 +284,7 @@
             btnGenerate.BackColor = Color.Cornsilk;
             btnGenerate.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnGenerate.ForeColor = Color.Black;
-            btnGenerate.Location = new Point(234, 565);
+            btnGenerate.Location = new Point(290, 565);
             btnGenerate.Margin = new Padding(2);
             btnGenerate.Name = "btnGenerate";
             btnGenerate.Size = new Size(200, 50);
@@ -296,7 +298,7 @@
             btnCancel.BackColor = Color.IndianRed;
             btnCancel.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(542, 565);
+            btnCancel.Location = new Point(516, 565);
             btnCancel.Margin = new Padding(2);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(200, 50);
@@ -335,7 +337,7 @@
             Controls.Add(btnGenerate);
             Controls.Add(lblLateReturnFee);
             Controls.Add(lblActualReturnDate);
-            Controls.Add(lblTotalCost);
+            Controls.Add(lblExtraCharges);
             Controls.Add(lblExpectedReturnDate);
             Controls.Add(txtExpectedReturnDate);
             Controls.Add(txtBookName);
@@ -343,7 +345,7 @@
             Controls.Add(txtRecordID);
             Controls.Add(lblRecordID);
             Controls.Add(txtLateReturnFee);
-            Controls.Add(txtTotalCost);
+            Controls.Add(txtExtraCharges);
             Controls.Add(txtTransactionID);
             Controls.Add(lblBookName);
             Controls.Add(lblBookCondition);
@@ -373,7 +375,7 @@
         private Label lbltitle;
         private Label lblLateReturnFee;
         private Label lblActualReturnDate;
-        private Label lblTotalCost;
+        private Label lblExtraCharges;
         private Label lblExpectedReturnDate;
         private TextBox txtExpectedReturnDate;
         private TextBox txtBookName;
@@ -381,7 +383,7 @@
         private TextBox txtRecordID;
         private Label lblRecordID;
         private TextBox txtLateReturnFee;
-        private TextBox txtTotalCost;
+        private TextBox txtExtraCharges;
         private TextBox txtTransactionID;
         private Label lblBookName;
         private Label lblBookCondition;

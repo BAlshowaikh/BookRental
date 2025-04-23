@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             userIcon = new PictureBox();
-            returnIcon = new PictureBox();
-            homeIcon = new PictureBox();
             exitIcon = new PictureBox();
             welcomeTxt = new Label();
             manageBooksBtn = new Button();
@@ -38,9 +36,8 @@
             ManageRentalTransactionsBtn = new Button();
             ManageReturnRecordBtn = new Button();
             GenerateRecordBtn = new Button();
+            ViewStatsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             SuspendLayout();
             // 
@@ -55,28 +52,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 9;
             userIcon.TabStop = false;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 10;
-            returnIcon.TabStop = false;
-            // 
-            // homeIcon
-            // 
-            homeIcon.BackColor = Color.Transparent;
-            homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(880, 12);
-            homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(40, 40);
-            homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            homeIcon.TabIndex = 11;
-            homeIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // exitIcon
             // 
@@ -111,7 +87,6 @@
             manageBooksBtn.TabIndex = 14;
             manageBooksBtn.Text = "Manage Books";
             manageBooksBtn.UseVisualStyleBackColor = false;
-            manageBooksBtn.Click += manageBooksBtn_Click_1;
             // 
             // manageRentalRequestsBtn
             // 
@@ -141,7 +116,7 @@
             // 
             ManageReturnRecordBtn.BackColor = Color.Cornsilk;
             ManageReturnRecordBtn.Font = new Font("Britannic Bold", 9F);
-            ManageReturnRecordBtn.Location = new Point(202, 407);
+            ManageReturnRecordBtn.Location = new Point(104, 410);
             ManageReturnRecordBtn.Name = "ManageReturnRecordBtn";
             ManageReturnRecordBtn.Size = new Size(220, 50);
             ManageReturnRecordBtn.TabIndex = 17;
@@ -153,12 +128,25 @@
             // 
             GenerateRecordBtn.BackColor = Color.Cornsilk;
             GenerateRecordBtn.Font = new Font("Britannic Bold", 12F);
-            GenerateRecordBtn.Location = new Point(541, 407);
+            GenerateRecordBtn.Location = new Point(379, 407);
             GenerateRecordBtn.Name = "GenerateRecordBtn";
             GenerateRecordBtn.Size = new Size(220, 50);
             GenerateRecordBtn.TabIndex = 18;
             GenerateRecordBtn.Text = "Generate Record";
             GenerateRecordBtn.UseVisualStyleBackColor = false;
+            GenerateRecordBtn.Click += GenerateRecordBtn_Click;
+            // 
+            // ViewStatsBtn
+            // 
+            ViewStatsBtn.BackColor = Color.Cornsilk;
+            ViewStatsBtn.Font = new Font("Britannic Bold", 8F);
+            ViewStatsBtn.Location = new Point(650, 407);
+            ViewStatsBtn.Name = "ViewStatsBtn";
+            ViewStatsBtn.Size = new Size(220, 50);
+            ViewStatsBtn.TabIndex = 19;
+            ViewStatsBtn.Text = "View Mointoring Dashboard";
+            ViewStatsBtn.UseVisualStyleBackColor = false;
+            ViewStatsBtn.Click += ViewStatsBtn_Click;
             // 
             // homePageStaff
             // 
@@ -166,6 +154,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Book_trans_bg;
             ClientSize = new Size(978, 644);
+            Controls.Add(ViewStatsBtn);
             Controls.Add(GenerateRecordBtn);
             Controls.Add(ManageReturnRecordBtn);
             Controls.Add(ManageRentalTransactionsBtn);
@@ -173,15 +162,11 @@
             Controls.Add(manageBooksBtn);
             Controls.Add(welcomeTxt);
             Controls.Add(exitIcon);
-            Controls.Add(homeIcon);
-            Controls.Add(returnIcon);
             Controls.Add(userIcon);
             Name = "homePageStaff";
             Text = "homePageStaff";
             Load += homePageStaff_Load;
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -194,8 +179,6 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
         private Label welcomeTxt;
-        private PictureBox returnIcon;
-        private PictureBox homeIcon;
         private PictureBox exitIcon;
         private Button button1;
         private Button manageBooksBtn;
@@ -203,5 +186,7 @@
         private Button ManageRentalTransactionsBtn;
         private Button ManageReturnRecordBtn;
         private Button GenerateRecordBtn;
+        private Button button2;
+        private Button ViewStatsBtn;
     }
 }

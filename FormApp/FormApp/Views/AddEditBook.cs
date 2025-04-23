@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,7 +18,7 @@ namespace FormApp.Views
     {
         BookRentalDBContext context;
         Book selectedBook;
-        bool isNew; 
+        bool isNew;
         public AddEditBook(BookRentalDBContext parentContext)
         {
             InitializeComponent();
@@ -58,24 +59,30 @@ namespace FormApp.Views
 
                 if (selectedBook.BookId > 0)
                 {
-                    context.Entry(selectedBook).State = EntityState.Modified;
-                    context.Books.Update(selectedBook);
-                    context.SaveChanges();
+                    if (MessageBox.Show("are you sure you want to edit book ID:" + selectedBook.BookId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Entry(selectedBook).State = EntityState.Modified;
+                        context.Books.Update(selectedBook);
+                        context.SaveChanges();
 
-                    MessageBox.Show($"Book updated successfully! ID: {selectedBook.BookId}",
+                        MessageBox.Show($"Book updated successfully! ID: {selectedBook.BookId}",
                                    "Success",
                                    MessageBoxButtons.OK,
                                    MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
-                    context.Books.Add(selectedBook);
-                    context.SaveChanges();
+                    if (MessageBox.Show("are you sure you want to add this book? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Books.Add(selectedBook);
+                        context.SaveChanges();
 
-                    MessageBox.Show($"Book added successfully! ID: {selectedBook.BookId}",
-                                   "Success",
-                                   MessageBoxButtons.OK,
-                                   MessageBoxIcon.Information);
+                        MessageBox.Show($"Book added successfully! ID: {selectedBook.BookId}",
+                                       "Success",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Information);
+                    }
                 }
 
                 //txtBookId.Text = newBook.BookId.ToString();
@@ -99,6 +106,7 @@ namespace FormApp.Views
             //In case the user is editing a book
             if (isNew == false)
             {
+                pageTitle.Text = "Edit Book";
                 txtBookId.Text = selectedBook.BookId.ToString();
                 txtBookName.Text = selectedBook.Name;
                 txtBookISBN.Text = selectedBook.Isbn;
@@ -109,7 +117,7 @@ namespace FormApp.Views
                 }
                 else
                 {
-                    dtpPublishedDate.Value = DateTime.Today; 
+                    dtpPublishedDate.Value = DateTime.Today;
                 }
                 txtRentalPrice.Text = selectedBook.RentalPrice.ToString();
                 ddlAvailability.Text = selectedBook.AvailabilityStatus?.AvailabilityStatus1 ?? "N/A";
@@ -148,7 +156,7 @@ namespace FormApp.Views
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Close(); 
+            this.Close();
         }
 
         private void homeIcon_Click(object sender, EventArgs e)
@@ -163,8 +171,12 @@ namespace FormApp.Views
 
         private void returnIcon_Click(object sender, EventArgs e)
         {
-           // this.Close();
-            //Parent.Show();
+            HelperFunctions.returnBtn(new bookList(), this);
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

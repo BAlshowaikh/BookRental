@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
+using FormApp.Views;
 
 namespace FormApp.Controllers
 {
@@ -17,6 +18,7 @@ namespace FormApp.Controllers
             // Remove default controls and set the the screen to be in the center
             form.ControlBox = false;
             form.StartPosition = FormStartPosition.CenterScreen;
+            form.Text = string.Empty;
 
 
             // Adjust the form size
@@ -34,16 +36,17 @@ namespace FormApp.Controllers
             Application.Exit();
         }
 
-        public static void homePageBtn(Form form)
+        public static void homePageBtn(Form currentForm)
         {
-            homePageAdmin homePageAdmin = new homePageAdmin();
-            homePageAdmin.Show();
-            form.Close();
+            homePageAdmin homePage = homePageAdmin.GetInstance();
+            homePage.Show();
+            currentForm.Close();
         }
 
-        public static void returnBtn(Form form)
+        public static void returnBtn(Form mainForm, Form subForm)
         {
-
+            mainForm.Show();
+            subForm.Close();
         }
 
         public static void navigationToPage(Form currentForm, Form newForm)
@@ -58,6 +61,43 @@ namespace FormApp.Controllers
             parentForm.Hide();
             childForm.FormClosed += (s, args) => parentForm.Show();
             childForm.Show();
+        }
+
+        // Function to go for the profile form
+        public static void ShowProfilePage(Form currentForm)
+        {
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to go to your Profile page?\nThis will close the current page.",
+                "Confirm Navigation",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.OK)
+            {
+                Form profileForm = new profile(); 
+                profileForm.Show();
+                currentForm.Close(); 
+            }
+        }
+
+        public static void OpenSingletonForm<T>(Form currentForm) where T : Form, new()
+        {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is T existingForm)
+                {
+                    existingForm.BringToFront();
+                    if (currentForm != existingForm)
+                        currentForm.Hide();
+                    return;
+                }
+            }
+
+            // Form not open, create new instance
+            T form = new T();
+            form.Show();
+            currentForm.Hide();
         }
 
     }

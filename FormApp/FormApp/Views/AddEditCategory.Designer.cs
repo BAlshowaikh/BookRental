@@ -55,7 +55,7 @@
             cancelBttn.Location = new Point(499, 446);
             cancelBttn.Margin = new Padding(2);
             cancelBttn.Name = "cancelBttn";
-            cancelBttn.Size = new Size(160, 40);
+            cancelBttn.Size = new Size(200, 50);
             cancelBttn.TabIndex = 34;
             cancelBttn.Text = "Cancel";
             cancelBttn.UseVisualStyleBackColor = false;
@@ -66,10 +66,10 @@
             addBttn.BackColor = Color.Cornsilk;
             addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             addBttn.ForeColor = Color.Black;
-            addBttn.Location = new Point(308, 446);
+            addBttn.Location = new Point(266, 446);
             addBttn.Margin = new Padding(2);
             addBttn.Name = "addBttn";
-            addBttn.Size = new Size(160, 40);
+            addBttn.Size = new Size(200, 50);
             addBttn.TabIndex = 33;
             addBttn.Text = "Save Category";
             addBttn.UseVisualStyleBackColor = false;
@@ -174,6 +174,7 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 28;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // pageTitle
             // 
@@ -181,12 +182,12 @@
             pageTitle.BackColor = Color.Transparent;
             pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitle.ForeColor = Color.Cornsilk;
-            pageTitle.Location = new Point(218, 12);
+            pageTitle.Location = new Point(307, 12);
             pageTitle.Margin = new Padding(2, 0, 2, 0);
             pageTitle.Name = "pageTitle";
-            pageTitle.Size = new Size(431, 53);
+            pageTitle.Size = new Size(381, 63);
             pageTitle.TabIndex = 47;
-            pageTitle.Text = "Add/Edit Category";
+            pageTitle.Text = "Add Category";
             // 
             // AddEditCategory
             // 

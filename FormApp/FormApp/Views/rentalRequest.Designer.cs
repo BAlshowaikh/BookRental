@@ -30,7 +30,6 @@
         {
             pageTitleTxt = new Label();
             dgvRentalRequest = new DataGridView();
-            returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
@@ -44,7 +43,6 @@
             txtFilterRequestNo = new TextBox();
             FilterbyRequestNo = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvRentalRequest).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -57,35 +55,23 @@
             pageTitleTxt.BackColor = Color.Transparent;
             pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
             pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(264, 9);
+            pageTitleTxt.Location = new Point(186, 9);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
             pageTitleTxt.Name = "pageTitleTxt";
-            pageTitleTxt.Size = new Size(428, 63);
+            pageTitleTxt.Size = new Size(648, 63);
             pageTitleTxt.TabIndex = 4;
-            pageTitleTxt.Text = "Rental Request";
+            pageTitleTxt.Text = "Manage Rental Request";
             // 
             // dgvRentalRequest
             // 
             dgvRentalRequest.BackgroundColor = SystemColors.Control;
             dgvRentalRequest.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRentalRequest.Location = new Point(93, 175);
+            dgvRentalRequest.Location = new Point(25, 208);
             dgvRentalRequest.Margin = new Padding(2);
             dgvRentalRequest.Name = "dgvRentalRequest";
             dgvRentalRequest.RowHeadersWidth = 62;
-            dgvRentalRequest.Size = new Size(792, 392);
+            dgvRentalRequest.Size = new Size(930, 329);
             dgvRentalRequest.TabIndex = 30;
-            // 
-            // returnIcon
-            // 
-            returnIcon.BackColor = Color.Transparent;
-            returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(830, 12);
-            returnIcon.Margin = new Padding(2);
-            returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(40, 40);
-            returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
-            returnIcon.TabIndex = 34;
-            returnIcon.TabStop = false;
             // 
             // exitIcon
             // 
@@ -124,13 +110,14 @@
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 31;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
             // btnDetails
             // 
             btnDetails.BackColor = Color.Cornsilk;
             btnDetails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnDetails.ForeColor = Color.Black;
-            btnDetails.Location = new Point(208, 576);
+            btnDetails.Location = new Point(423, 582);
             btnDetails.Margin = new Padding(2);
             btnDetails.Name = "btnDetails";
             btnDetails.Size = new Size(162, 51);
@@ -141,13 +128,13 @@
             // 
             // btnRefresh
             // 
-            btnRefresh.BackColor = Color.Cornsilk;
-            btnRefresh.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.BackColor = Color.LightGray;
+            btnRefresh.Font = new Font("Britannic Bold", 10F);
             btnRefresh.ForeColor = Color.Black;
-            btnRefresh.Location = new Point(31, 576);
+            btnRefresh.Location = new Point(845, 550);
             btnRefresh.Margin = new Padding(2);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(162, 51);
+            btnRefresh.Size = new Size(110, 35);
             btnRefresh.TabIndex = 35;
             btnRefresh.Text = "Refresh";
             btnRefresh.UseVisualStyleBackColor = false;
@@ -155,31 +142,32 @@
             // 
             // filterGB
             // 
+            filterGB.BackColor = Color.Transparent;
             filterGB.Controls.Add(btnResetFilter);
             filterGB.Controls.Add(btnFilter);
             filterGB.Controls.Add(ddlFilterUser);
             filterGB.Controls.Add(FilterbyUser);
             filterGB.Controls.Add(txtFilterRequestNo);
             filterGB.Controls.Add(FilterbyRequestNo);
-            filterGB.Location = new Point(93, 86);
+            filterGB.Location = new Point(25, 101);
             filterGB.Name = "filterGB";
-            filterGB.Size = new Size(792, 72);
+            filterGB.Size = new Size(928, 96);
             filterGB.TabIndex = 37;
             filterGB.TabStop = false;
             filterGB.Text = "Filter";
             // 
             // btnResetFilter
             // 
-            btnResetFilter.BackColor = Color.WhiteSmoke;
+            btnResetFilter.BackColor = Color.Cornsilk;
             btnResetFilter.FlatAppearance.BorderSize = 0;
-            btnResetFilter.FlatStyle = FlatStyle.Flat;
+            btnResetFilter.Font = new Font("Britannic Bold", 10F);
             btnResetFilter.ForeColor = Color.Black;
-            btnResetFilter.Location = new Point(680, 29);
+            btnResetFilter.Location = new Point(816, 38);
             btnResetFilter.Margin = new Padding(4, 5, 4, 5);
             btnResetFilter.Name = "btnResetFilter";
-            btnResetFilter.Size = new Size(105, 30);
+            btnResetFilter.Size = new Size(105, 38);
             btnResetFilter.TabIndex = 39;
-            btnResetFilter.Text = "Reset Filter";
+            btnResetFilter.Text = "Reset";
             btnResetFilter.UseVisualStyleBackColor = false;
             btnResetFilter.Click += btnResetFilter_Click;
             // 
@@ -188,10 +176,10 @@
             btnFilter.BackColor = Color.Cornsilk;
             btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnFilter.ForeColor = Color.Black;
-            btnFilter.Location = new Point(574, 29);
+            btnFilter.Location = new Point(704, 38);
             btnFilter.Margin = new Padding(2);
             btnFilter.Name = "btnFilter";
-            btnFilter.Size = new Size(105, 30);
+            btnFilter.Size = new Size(105, 38);
             btnFilter.TabIndex = 38;
             btnFilter.Text = "Filter";
             btnFilter.UseVisualStyleBackColor = false;
@@ -200,34 +188,36 @@
             // ddlFilterUser
             // 
             ddlFilterUser.FormattingEnabled = true;
-            ddlFilterUser.Location = new Point(394, 26);
+            ddlFilterUser.Location = new Point(524, 39);
             ddlFilterUser.Margin = new Padding(4, 5, 4, 5);
             ddlFilterUser.Name = "ddlFilterUser";
-            ddlFilterUser.Size = new Size(174, 33);
+            ddlFilterUser.Size = new Size(168, 33);
             ddlFilterUser.TabIndex = 38;
             // 
             // FilterbyUser
             // 
             FilterbyUser.AutoSize = true;
-            FilterbyUser.Location = new Point(268, 31);
+            FilterbyUser.Font = new Font("Britannic Bold", 10F);
+            FilterbyUser.Location = new Point(387, 46);
             FilterbyUser.Name = "FilterbyUser";
-            FilterbyUser.Size = new Size(119, 25);
+            FilterbyUser.Size = new Size(135, 22);
             FilterbyUser.TabIndex = 2;
             FilterbyUser.Text = "Filter by User:";
             // 
             // txtFilterRequestNo
             // 
-            txtFilterRequestNo.Location = new Point(194, 29);
+            txtFilterRequestNo.Location = new Point(206, 42);
             txtFilterRequestNo.Name = "txtFilterRequestNo";
-            txtFilterRequestNo.Size = new Size(68, 31);
+            txtFilterRequestNo.Size = new Size(168, 31);
             txtFilterRequestNo.TabIndex = 1;
             // 
             // FilterbyRequestNo
             // 
             FilterbyRequestNo.AutoSize = true;
-            FilterbyRequestNo.Location = new Point(12, 31);
+            FilterbyRequestNo.Font = new Font("Britannic Bold", 10F);
+            FilterbyRequestNo.Location = new Point(12, 46);
             FilterbyRequestNo.Name = "FilterbyRequestNo";
-            FilterbyRequestNo.Size = new Size(176, 25);
+            FilterbyRequestNo.Size = new Size(194, 22);
             FilterbyRequestNo.TabIndex = 0;
             FilterbyRequestNo.Text = "Filter by Request No:";
             // 
@@ -241,7 +231,6 @@
             Controls.Add(filterGB);
             Controls.Add(btnDetails);
             Controls.Add(btnRefresh);
-            Controls.Add(returnIcon);
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
@@ -252,7 +241,6 @@
             Text = "rentalRequest";
             Load += rentalRequest_Load;
             ((System.ComponentModel.ISupportInitialize)dgvRentalRequest).EndInit();
-            ((System.ComponentModel.ISupportInitialize)returnIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).EndInit();
@@ -266,7 +254,6 @@
 
         private Label pageTitleTxt;
         private DataGridView dgvRentalRequest;
-        private PictureBox returnIcon;
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;

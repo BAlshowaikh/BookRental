@@ -1,4 +1,5 @@
-﻿using FormApp.Controllers;
+﻿using BookRentalObject;
+using FormApp.Controllers;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,14 @@ namespace FormApp
 {
     public partial class Login : Form
     {
+        BookRentalDBContext context;
         public Login()
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
+
+            BookRentalDBContext context = new BookRentalDBContext();
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -32,37 +37,26 @@ namespace FormApp
 
         private void loginBtn_Click(object sender, EventArgs e)
         {
-            string username = usernameTxt.Text;
-            string password = passwordTxt.Text;
+        //    string email = usernameTxt.Text.Trim();    
+        //    string password = passwordTxt.Text.Trim();
 
-            string connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookNookDB;Integrated Security=True";
+        //    var user = context.Users
+        //                      //.FirstOrDefault(u => u.Email == email && u.password == password);
 
-            SqlConnection con = new SqlConnection(connection);
-            con.Open();
+        //    if (user != null)
+        //    {
+        //        MessageBox.Show("Login Successful!");
 
-            string query = "SELECT * FROM Users WHERE Username = '" + username + "' AND Password = '" + password + "'";
-
-            SqlCommand cmd = new SqlCommand(query, con);
-
-            SqlDataReader reader = reader = cmd.ExecuteReader();
-
-            if (reader.Read())
-            {
-                MessageBox.Show("Login Sucessful!");
-
-                homePageAdmin home = new homePageAdmin();
-                home.Show();
-
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Incorrect username or password");
-            }
-            con.Close();
-
-
+        //        homePageAdmin home = new homePageAdmin(context, user.UserId);
+        //        home.Show();
+        //        this.Hide();
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Incorrect email or password.");
+        //    }
         }
+
 
         private void label1_Click(object sender, EventArgs e)
         {

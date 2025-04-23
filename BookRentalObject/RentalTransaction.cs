@@ -35,6 +35,8 @@ namespace BookRentalObject
         [Column("rentalPeriod")]
         [StringLength(50)]
         public string? RentalPeriod { get; set; }
+        [Column("isReturned")]
+        public bool IsReturned { get; set; }
 
         [ForeignKey("BookId")]
         [InverseProperty("RentalTransactions")]

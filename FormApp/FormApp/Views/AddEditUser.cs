@@ -24,6 +24,7 @@ namespace FormApp.Views
             HelperFunctions.setUpFormDesign(this);
             context = new BookRentalDBContext();
             user = new User();
+            pageTitleTxt.Text = "Add User";
         }
 
         public AddEditUser(int user1)
@@ -33,7 +34,7 @@ namespace FormApp.Views
             this.user = context.Users.Find(user1);
 
             HelperFunctions.setUpFormDesign(this);
-
+            pageTitleTxt.Text = "Edit User";
         }
 
         private void AddEditUser_Load(object sender, EventArgs e)
@@ -98,11 +99,17 @@ namespace FormApp.Views
                 // If the user has an existing ID, update the record
                 if (user.UserId > 0)
                 {
-                    context.Users.Update(user);
+                    if (MessageBox.Show("are you sure you want to edit user ID:" + user.UserId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Users.Update(user);
+                    }
                 }
                 else // add a new user
                 {
-                    context.Users.Add(user);
+                    if (MessageBox.Show("are you sure you want to add this user? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Users.Add(user);
+                    }
                 }
 
                 // Save changes to the database
@@ -138,6 +145,11 @@ namespace FormApp.Views
             // Close the form and return Cancel 
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }

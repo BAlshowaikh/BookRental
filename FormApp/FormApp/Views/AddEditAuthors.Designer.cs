@@ -43,7 +43,7 @@
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
-            pageTitleTxt = new Label();
+            pageTitle = new Label();
             grpboxAuthorInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -56,10 +56,10 @@
             cancelBttn.BackColor = Color.IndianRed;
             cancelBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cancelBttn.ForeColor = Color.White;
-            cancelBttn.Location = new Point(549, 470);
+            cancelBttn.Location = new Point(549, 495);
             cancelBttn.Margin = new Padding(2);
             cancelBttn.Name = "cancelBttn";
-            cancelBttn.Size = new Size(160, 40);
+            cancelBttn.Size = new Size(200, 50);
             cancelBttn.TabIndex = 34;
             cancelBttn.Text = "Cancel";
             cancelBttn.UseVisualStyleBackColor = false;
@@ -70,12 +70,12 @@
             addBttn.BackColor = Color.Cornsilk;
             addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             addBttn.ForeColor = Color.Black;
-            addBttn.Location = new Point(43, 470);
+            addBttn.Location = new Point(287, 495);
             addBttn.Margin = new Padding(2);
             addBttn.Name = "addBttn";
-            addBttn.Size = new Size(160, 40);
+            addBttn.Size = new Size(200, 50);
             addBttn.TabIndex = 33;
-            addBttn.Text = "Save User";
+            addBttn.Text = "Save Author";
             addBttn.UseVisualStyleBackColor = false;
             addBttn.Click += addBttn_Click;
             // 
@@ -91,77 +91,77 @@
             grpboxAuthorInfo.Controls.Add(lblLastName);
             grpboxAuthorInfo.Controls.Add(lblEmail);
             grpboxAuthorInfo.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            grpboxAuthorInfo.Location = new Point(12, 108);
+            grpboxAuthorInfo.Location = new Point(215, 145);
             grpboxAuthorInfo.Name = "grpboxAuthorInfo";
-            grpboxAuthorInfo.Size = new Size(697, 321);
+            grpboxAuthorInfo.Size = new Size(560, 321);
             grpboxAuthorInfo.TabIndex = 32;
             grpboxAuthorInfo.TabStop = false;
             grpboxAuthorInfo.Text = "Author Info";
             // 
             // txtAuthorID
             // 
-            txtAuthorID.Location = new Point(182, 57);
+            txtAuthorID.Location = new Point(226, 66);
             txtAuthorID.Name = "txtAuthorID";
             txtAuthorID.ReadOnly = true;
-            txtAuthorID.Size = new Size(261, 30);
+            txtAuthorID.Size = new Size(261, 34);
             txtAuthorID.TabIndex = 30;
             // 
             // lblAuthorID
             // 
             lblAuthorID.AutoSize = true;
             lblAuthorID.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblAuthorID.Location = new Point(31, 64);
+            lblAuthorID.Location = new Point(75, 73);
             lblAuthorID.Name = "lblAuthorID";
-            lblAuthorID.Size = new Size(100, 22);
+            lblAuthorID.Size = new Size(121, 27);
             lblAuthorID.TabIndex = 29;
             lblAuthorID.Text = "Author ID:";
             // 
             // txtLastName
             // 
-            txtLastName.Location = new Point(182, 165);
+            txtLastName.Location = new Point(226, 174);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(261, 30);
+            txtLastName.Size = new Size(261, 34);
             txtLastName.TabIndex = 27;
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(182, 223);
+            txtEmail.Location = new Point(226, 232);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(261, 30);
+            txtEmail.Size = new Size(261, 34);
             txtEmail.TabIndex = 26;
             // 
             // txtFirstName
             // 
-            txtFirstName.Location = new Point(182, 110);
+            txtFirstName.Location = new Point(226, 119);
             txtFirstName.Name = "txtFirstName";
-            txtFirstName.Size = new Size(261, 30);
+            txtFirstName.Size = new Size(261, 34);
             txtFirstName.TabIndex = 25;
             // 
             // lblFirstName
             // 
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblFirstName.Location = new Point(31, 117);
+            lblFirstName.Location = new Point(75, 126);
             lblFirstName.Name = "lblFirstName";
-            lblFirstName.Size = new Size(112, 22);
+            lblFirstName.Size = new Size(133, 27);
             lblFirstName.TabIndex = 21;
             lblFirstName.Text = "First Name:";
             // 
             // lblLastName
             // 
             lblLastName.AutoSize = true;
-            lblLastName.Location = new Point(31, 172);
+            lblLastName.Location = new Point(75, 181);
             lblLastName.Name = "lblLastName";
-            lblLastName.Size = new Size(108, 22);
+            lblLastName.Size = new Size(129, 27);
             lblLastName.TabIndex = 22;
             lblLastName.Text = "Last Name:";
             // 
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(31, 230);
+            lblEmail.Location = new Point(75, 239);
             lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(65, 22);
+            lblEmail.Size = new Size(79, 27);
             lblEmail.TabIndex = 23;
             lblEmail.Text = "Email:";
             // 
@@ -169,22 +169,23 @@
             // 
             returnIcon.BackColor = Color.Transparent;
             returnIcon.Image = Properties.Resources._return;
-            returnIcon.Location = new Point(859, 11);
+            returnIcon.Location = new Point(830, 12);
             returnIcon.Margin = new Padding(2);
             returnIcon.Name = "returnIcon";
-            returnIcon.Size = new Size(32, 32);
+            returnIcon.Size = new Size(40, 40);
             returnIcon.SizeMode = PictureBoxSizeMode.Zoom;
             returnIcon.TabIndex = 31;
             returnIcon.TabStop = false;
+            returnIcon.Click += returnIcon_Click;
             // 
             // exitIcon
             // 
             exitIcon.BackColor = Color.Transparent;
             exitIcon.Image = Properties.Resources.exit_icon;
-            exitIcon.Location = new Point(939, 11);
+            exitIcon.Location = new Point(930, 12);
             exitIcon.Margin = new Padding(2);
             exitIcon.Name = "exitIcon";
-            exitIcon.Size = new Size(32, 32);
+            exitIcon.Size = new Size(40, 40);
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 30;
             exitIcon.TabStop = false;
@@ -193,10 +194,10 @@
             // 
             homeIcon.BackColor = Color.Transparent;
             homeIcon.Image = Properties.Resources.home__2_;
-            homeIcon.Location = new Point(899, 11);
+            homeIcon.Location = new Point(880, 12);
             homeIcon.Margin = new Padding(2);
             homeIcon.Name = "homeIcon";
-            homeIcon.Size = new Size(32, 32);
+            homeIcon.Size = new Size(40, 40);
             homeIcon.SizeMode = PictureBoxSizeMode.Zoom;
             homeIcon.TabIndex = 29;
             homeIcon.TabStop = false;
@@ -205,35 +206,36 @@
             // 
             userIcon.BackColor = Color.Transparent;
             userIcon.Image = Properties.Resources.user;
-            userIcon.Location = new Point(11, 11);
+            userIcon.Location = new Point(19, 12);
             userIcon.Margin = new Padding(2);
             userIcon.Name = "userIcon";
-            userIcon.Size = new Size(32, 32);
+            userIcon.Size = new Size(40, 40);
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.TabIndex = 28;
             userIcon.TabStop = false;
+            userIcon.Click += userIcon_Click;
             // 
-            // pageTitleTxt
+            // pageTitle
             // 
-            pageTitleTxt.AutoSize = true;
-            pageTitleTxt.BackColor = Color.Transparent;
-            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
-            pageTitleTxt.ForeColor = Color.Cornsilk;
-            pageTitleTxt.Location = new Point(235, 10);
-            pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
-            pageTitleTxt.Name = "pageTitleTxt";
-            pageTitleTxt.Size = new Size(383, 53);
-            pageTitleTxt.TabIndex = 35;
-            pageTitleTxt.Text = "Add/Edit Author";
+            pageTitle.AutoSize = true;
+            pageTitle.BackColor = Color.Transparent;
+            pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitle.ForeColor = Color.Cornsilk;
+            pageTitle.Location = new Point(322, 26);
+            pageTitle.Margin = new Padding(2, 0, 2, 0);
+            pageTitle.Name = "pageTitle";
+            pageTitle.Size = new Size(323, 63);
+            pageTitle.TabIndex = 47;
+            pageTitle.Text = "Add Author";
             // 
             // AddEditAuthors
             // 
-            AutoScaleDimensions = new SizeF(11F, 22F);
+            AutoScaleDimensions = new SizeF(13F, 27F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
-            ClientSize = new Size(982, 653);
-            Controls.Add(pageTitleTxt);
+            ClientSize = new Size(978, 644);
+            Controls.Add(pageTitle);
             Controls.Add(cancelBttn);
             Controls.Add(addBttn);
             Controls.Add(grpboxAuthorInfo);
@@ -273,6 +275,6 @@
         private PictureBox exitIcon;
         private PictureBox homeIcon;
         private PictureBox userIcon;
-        private Label pageTitleTxt;
+        private Label pageTitle;
     }
 }

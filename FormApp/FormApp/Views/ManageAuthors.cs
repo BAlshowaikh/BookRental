@@ -1,4 +1,5 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace FormApp.Views
         {
             InitializeComponent();
             context = new BookRentalDBContext();
+            HelperFunctions.setUpFormDesign(this);
         }
 
         private void deleteBttn_Click(object sender, EventArgs e)
@@ -67,8 +69,12 @@ namespace FormApp.Views
             {
                 var authorsToShow = context.Authors.AsQueryable();
 
-                //if an author is selected, filter by that author
-                if (ddlAuthors.SelectedValue != null)
+                if (!string.IsNullOrWhiteSpace(txtAuthorID.Text))
+                {
+                    authorsToShow = authorsToShow.Where(a => a.AuthorId == Convert.ToInt32(txtAuthorID.Text));
+                }
+
+                else if (ddlAuthors.SelectedValue != null)
                 {
                     authorsToShow = authorsToShow.Where(x => x.AuthorId == Convert.ToInt32(ddlAuthors.SelectedValue));
 
@@ -126,6 +132,31 @@ namespace FormApp.Views
             {
                 RefreshAuthorsGridView();
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshAuthorsGridView();
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void homeIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.homePageBtn(this);
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }

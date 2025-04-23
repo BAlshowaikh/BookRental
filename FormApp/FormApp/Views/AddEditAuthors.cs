@@ -1,4 +1,6 @@
 ﻿using BookRentalObject;
+using FormApp.Controllers;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +23,7 @@ namespace FormApp.Views
             InitializeComponent();
             context = new BookRentalDBContext();
             author = new Author();
+            pageTitle.Text = "Add Author";
         }
 
         public AddEditAuthors(int authorId)
@@ -28,6 +31,7 @@ namespace FormApp.Views
             InitializeComponent();
             context = new BookRentalDBContext();
             this.author = context.Authors.Find(authorId);
+            pageTitle.Text = "Edit Author";
         }
 
         private void AddEditAuthors_Load(object sender, EventArgs e)
@@ -73,11 +77,17 @@ namespace FormApp.Views
                 // If the author has an existing ID, update the record
                 if (author.AuthorId > 0)
                 {
-                    context.Authors.Update(author);
+                    if (MessageBox.Show("are you sure you want to edit author ID:" + author.AuthorId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Authors.Update(author);
+                    }
                 }
                 else // add a new user
                 {
-                    context.Authors.Add(author);
+                    if (MessageBox.Show("are you sure you want to add this author? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        context.Authors.Add(author);
+                    }
                 }
 
                 // Save changes to the database
@@ -103,6 +113,16 @@ namespace FormApp.Views
             // Close the form and return Cancel
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void returnIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.returnBtn(new bookList(), this);
+        }
+
+        private void userIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.ShowProfilePage(this);
         }
     }
 }
