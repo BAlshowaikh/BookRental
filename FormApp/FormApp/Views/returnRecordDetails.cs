@@ -207,7 +207,7 @@ namespace FormApp.Views
                         ExtraChargeRate = Convert.ToDouble(context.ExtraCharges.Where(x => x.ExtraChargesId == 1).FirstOrDefault().ExtraChargeRate.ToString());
                         break;
                     case 1002:
-                        ExtraChargeRate = Convert.ToDouble(context.ExtraCharges.Where(x => x.ExtraChargesId == 1).FirstOrDefault().ExtraChargeRate.ToString());
+                        ExtraChargeRate = Convert.ToDouble(context.ExtraCharges.Where(x => x.ExtraChargesId == 7).FirstOrDefault().ExtraChargeRate.ToString());
                         break;
                     case 1006:
                         ExtraChargeRate = Convert.ToDouble(context.ExtraCharges.Where(x => x.ExtraChargesId == 4).FirstOrDefault().ExtraChargeRate.ToString());

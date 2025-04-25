@@ -14,11 +14,7 @@ namespace FormApp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-<<<<<<< HEAD
-            Application.Run(new ViewTransactions());
-=======
             Application.Run(new homePageAdmin());
->>>>>>> 6f807689b52fcc50769e98269e9124e41d93ba22
         }
     }
 }

@@ -95,6 +95,7 @@ namespace FormApp.Views
 
                         EditTransaction editTransaction = new EditTransaction(requestID);
                         editTransaction.ShowDialog();
+                        //GeneratedRransaction generatedRransaction = new GeneratedRransaction();
                     }
 
                 }
