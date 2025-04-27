@@ -1,15 +1,19 @@
 ﻿using BookRentalObject;
 using FormApp.Controllers;
 using FormApp.Views;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace FormApp
 {
@@ -26,8 +30,23 @@ namespace FormApp
 
         private void ManageUser_Load(object sender, EventArgs e)
         {
-            populateUserComboBox();
+            //populateUserComboBox();
             RefreshUsersGridView();
+            LoadAttributesCmbBox();
+        }
+
+        private void LoadAttributesCmbBox()
+        {
+            var properties = typeof(BookRentalObject.User).GetProperties()
+                .Where(p => p.Name != "UserId")
+                .Where(p => p.Name != "UserRoleId")
+                .Where(p => p.Name != "FirstName")
+                .Where(p => p.Name != "LastName")
+                .Where(p => p.PropertyType == typeof(string) || p.PropertyType.IsValueType)
+                .Select(p => p.Name).ToList();
+
+            ddlAttributesNames.DataSource = properties;
+            ddlAttributesNames.SelectedItem = null;
         }
 
         private void populateUserComboBox()
@@ -41,7 +60,7 @@ namespace FormApp
                 ddlUser.SelectedItem = null; // Clear any pre-selected item
 
                 // Refresh the grid view to show the latest users
-                RefreshUsersGridView(); 
+                RefreshUsersGridView();
             }
             catch (Exception ex)
             {
@@ -58,16 +77,36 @@ namespace FormApp
         {
             try
             {
-                var userToShow = context.Users.AsQueryable();
+                var userToShow = context.Users.Include(x => x.UserRole).AsQueryable();
 
                 if (!string.IsNullOrWhiteSpace(txtUserID.Text))
                 {
                     userToShow = userToShow.Where(u => u.UserId == Convert.ToInt32(txtUserID.Text));
                 }
                 //if a user is selected, filter by that category 
-                else if (ddlUser.SelectedItem != null)
+                else if (ddlAttributesNames.SelectedItem != null && ddlUser.SelectedItem != null)
                 {
-                    userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
+                    string selectedAttribute = ddlAttributesNames.SelectedItem.ToString();
+                    string selectedValue = ddlUser.SelectedItem.ToString();
+
+                    var propInfo = typeof(BookRentalObject.User).GetProperty(selectedAttribute);
+                    if (propInfo != null)
+                    {
+                        // Load all users into memory 
+                        var userList = userToShow.ToList();
+
+                        // Filter manually using reflection
+                        userToShow = userList
+                            .Where(u =>
+                            {
+                                var value = propInfo.GetValue(u, null);
+                                return value != null && value.ToString() == selectedValue;
+                            })
+                            .AsQueryable(); 
+                    }
+
+
+                    //userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
                 }
 
                 //Project the filtered user into an anonymous type, then convert the result to a list and bind it to the data grid view.
@@ -76,6 +115,7 @@ namespace FormApp
                     UserID = s.UserId,
                     FullName = s.FullName,
                     Email = s.Email,
+                    ContactNumber = s.ContactNo,
                     Role = s.UserRole.Role
                 }).ToList();
             }
@@ -87,6 +127,7 @@ namespace FormApp
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
+            ddlAttributesNames.SelectedItem = null;
             ddlUser.SelectedItem = null; // Clear any pre-selected item
 
             RefreshUsersGridView(); //Refresh the view to remove the filters
@@ -133,7 +174,7 @@ namespace FormApp
                     int selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
 
                     //Retrieve the user object of the selected id
-                    User u1 = context.Users.Single(x => x.UserId == selectedCell);
+                    BookRentalObject.User u1 = context.Users.Single(x => x.UserId == selectedCell);
 
                     if (MessageBox.Show("Are you sure you want to delete the user - (" + u1.UserId + ")?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
@@ -170,6 +211,36 @@ namespace FormApp
         private void userIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void ddlAttributesNames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedProp = ddlAttributesNames.SelectedItem?.ToString();
+
+            if (string.IsNullOrEmpty(selectedProp)) return;
+
+            // Get property info safely
+            PropertyInfo propInfo = typeof(BookRentalObject.User).GetProperty(selectedProp);
+            if (propInfo == null) return;
+
+            using (var context = new BookRentalDBContext())
+            {
+                // Pull all users into memory first
+                var users = context.Users.ToList();
+
+                // Then reflect over the selected property
+                var values = users
+                    .Select(b => propInfo.GetValue(b, null))
+                    .Where(val => val != null)
+                    .Distinct()
+                    .ToList();
+
+
+                ddlUser.DataSource = values;
+                ddlUser.SelectedItem = null;
+            }
+
+           
         }
     }
 }
