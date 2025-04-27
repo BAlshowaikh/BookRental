@@ -44,6 +44,7 @@
             userIcon = new PictureBox();
             pageTitleTxt = new Label();
             btnRefresh = new Button();
+            ddlAttributesNames = new ComboBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -66,7 +67,7 @@
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
-            groupBox1.Size = new Size(742, 77);
+            groupBox1.Size = new Size(930, 77);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter";
@@ -75,7 +76,7 @@
             // 
             txtUserID.Location = new Point(175, 41);
             txtUserID.Name = "txtUserID";
-            txtUserID.Size = new Size(150, 32);
+            txtUserID.Size = new Size(150, 28);
             txtUserID.TabIndex = 21;
             // 
             // lblUserID
@@ -84,7 +85,7 @@
             lblUserID.Font = new Font("Britannic Bold", 10F);
             lblUserID.Location = new Point(14, 45);
             lblUserID.Name = "lblUserID";
-            lblUserID.Size = new Size(162, 22);
+            lblUserID.Size = new Size(135, 19);
             lblUserID.TabIndex = 20;
             lblUserID.Text = "Filter By User ID:";
             // 
@@ -108,7 +109,7 @@
             ddlUser.Location = new Point(534, 40);
             ddlUser.Margin = new Padding(4);
             ddlUser.Name = "ddlUser";
-            ddlUser.Size = new Size(160, 32);
+            ddlUser.Size = new Size(160, 29);
             ddlUser.TabIndex = 18;
             // 
             // filterBttn
@@ -133,7 +134,7 @@
             label1.Location = new Point(345, 46);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(192, 22);
+            label1.Size = new Size(160, 19);
             label1.TabIndex = 0;
             label1.Text = "Filter By User Name:";
             // 
@@ -255,6 +256,16 @@
             btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += btnRefresh_Click;
             // 
+            // ddlAttributesNames
+            // 
+            ddlAttributesNames.FormattingEnabled = true;
+            ddlAttributesNames.Location = new Point(328, 155);
+            ddlAttributesNames.Margin = new Padding(4);
+            ddlAttributesNames.Name = "ddlAttributesNames";
+            ddlAttributesNames.Size = new Size(160, 28);
+            ddlAttributesNames.TabIndex = 22;
+            ddlAttributesNames.SelectedIndexChanged += ddlAttributesNames_SelectedIndexChanged;
+            // 
             // ManageUser
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -263,6 +274,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(ddlAttributesNames);
             Controls.Add(btnRefresh);
             Controls.Add(pageTitleTxt);
             Controls.Add(exitIcon);
@@ -306,5 +318,6 @@
         private Button btnReset;
         private Label pageTitleTxt;
         private Label lblUserID;
+        private ComboBox ddlAttributesNames;
     }
 }
