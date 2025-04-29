@@ -130,12 +130,18 @@ namespace FormApp.Views
                 //change the value so the user cannot generate another record for the same transaction
                 transaction.IsReturned = true;
 
+                //change the AvailabilityStatusId
+                Book book = context.Books.Find(transaction.BookId);
+                book.AvailabilityStatusId = 1;
+
                 var totalCost  = calculateLateReturnFee() + getExtraChargeRate();
                 if (MessageBox.Show("are you sure you want to generate a return record?" + "\nThe amount of the total additional charges is" + totalCost, "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     context.ReturnRecords.Add(returnRecord);
                     //save the updated value
                     context.RentalTransactions.Update(transaction);
+                    context.Books.Update(book);
+
                     context.SaveChanges();
 
                     //set the DialogResult as OK to indecate the change in the database
