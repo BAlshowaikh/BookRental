@@ -19,7 +19,7 @@ namespace BookRentalObject
         public int PaymentMethodId { get; set; }
         [Column("paymentMethod")]
         [StringLength(50)]
-        public string? PaymentMethod1 { get; set; }
+        public string PaymentMethod1 { get; set; } = null!;
 
         [InverseProperty("PaymentMethod")]
         public virtual ICollection<RentalTransaction> RentalTransactions { get; set; }

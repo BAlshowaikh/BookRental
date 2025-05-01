@@ -20,7 +20,7 @@ namespace BookRentalObject
         public int BookConditionId { get; set; }
         [Column("returnCondition")]
         [StringLength(100)]
-        public string? ReturnCondition { get; set; }
+        public string ReturnCondition { get; set; } = null!;
 
         [InverseProperty("BookCondition")]
         public virtual ICollection<Book> Books { get; set; }

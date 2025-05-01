@@ -23,20 +23,21 @@ namespace BookRentalObject
         [Column("userId")]
         public int UserId { get; set; }
         [Column("rentalStartDate", TypeName = "datetime")]
-        public DateTime? RentalStartDate { get; set; }
+        public DateTime RentalStartDate { get; set; }
         [Column("returnDate", TypeName = "datetime")]
-        public DateTime? ReturnDate { get; set; }
+        public DateTime ReturnDate { get; set; }
         [Column("rentalFee")]
-        public double? RentalFee { get; set; }
+        public double RentalFee { get; set; }
         [Column("paymentMethodId")]
         public int PaymentMethodId { get; set; }
         [Column("paymentStatusId")]
         public int PaymentStatusId { get; set; }
         [Column("rentalPeriod")]
-        [StringLength(50)]
-        public string? RentalPeriod { get; set; }
+        public int RentalPeriod { get; set; }
         [Column("isReturned")]
         public bool IsReturned { get; set; }
+        [Column("rentalRequestId")]
+        public int RentalRequestId { get; set; }
 
         [ForeignKey("BookId")]
         [InverseProperty("RentalTransactions")]

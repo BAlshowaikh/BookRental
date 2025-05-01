@@ -15,16 +15,16 @@ namespace BookRentalObject
         [Column("userId")]
         public int UserId { get; set; }
         [Column("timestamp", TypeName = "datetime")]
-        public DateTime? Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
         [Column("affectedData")]
         [StringLength(100)]
-        public string? AffectedData { get; set; }
+        public string AffectedData { get; set; } = null!;
         [Column("source")]
         [StringLength(100)]
-        public string? Source { get; set; }
+        public string Source { get; set; } = null!;
         [Column("exceptions")]
         [StringLength(100)]
-        public string? Exceptions { get; set; }
+        public string Exceptions { get; set; } = null!;
 
         [ForeignKey("UserId")]
         [InverseProperty("Logs")]

@@ -19,7 +19,7 @@ namespace BookRentalObject
         public int RentalRequestStatusId { get; set; }
         [Column("status")]
         [StringLength(50)]
-        public string? Status { get; set; }
+        public string Status { get; set; } = null!;
 
         [InverseProperty("RentalRequestStatus")]
         public virtual ICollection<RentalRequest> RentalRequests { get; set; }

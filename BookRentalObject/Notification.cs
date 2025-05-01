@@ -12,14 +12,16 @@ namespace BookRentalObject
         [Key]
         [Column("notificationId")]
         public int NotificationId { get; set; }
-        [Column("userId")]
-        public int UserId { get; set; }
+        [Column("subject")]
+        [StringLength(50)]
+        public string Subject { get; set; } = null!;
         [Column("message")]
         [StringLength(100)]
-        public string? Message { get; set; }
+        public string Message { get; set; } = null!;
         [Column("status")]
-        [StringLength(50)]
-        public string? Status { get; set; }
+        public bool Status { get; set; }
+        [Column("userId")]
+        public int UserId { get; set; }
 
         [ForeignKey("UserId")]
         [InverseProperty("Notifications")]

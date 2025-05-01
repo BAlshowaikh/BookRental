@@ -19,7 +19,7 @@ namespace BookRentalObject
         public int UserRoleId { get; set; }
         [Column("role")]
         [StringLength(50)]
-        public string? Role { get; set; }
+        public string Role { get; set; } = null!;
 
         [InverseProperty("UserRole")]
         public virtual ICollection<User> Users { get; set; }
