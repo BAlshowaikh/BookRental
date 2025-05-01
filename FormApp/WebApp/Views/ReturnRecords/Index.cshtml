@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BookRentalObject.ReturnRecord>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpectedReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAdditionalCharges)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LateReturnFee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookCondition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExtraCharges)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAdditionalCharges)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LateReturnFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Isbn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookCondition.ReturnCondition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExtraCharges.ExtraChargeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Transaction.TransactionId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RecordId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecordId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RecordId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
