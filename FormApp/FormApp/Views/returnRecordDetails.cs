@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using BookRentalObject;
 using FormApp.Controllers;
 using Sprache;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+//using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FormApp.Views
 {

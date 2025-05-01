@@ -1,0 +1,47 @@
+﻿
+    <nav class="navbar navbar-expand navbar-dark bg-primary border-bottom shadow-sm mb-4">
+        <div class="container-fluid">
+            <!-- Store Icon Logo -->
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-book-half fs-2"></i> <!-- Book Icon -->
+            </a>
+
+            <!-- Navigation Links -->
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Book" asp-action="Index">Book List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="RentalRequest" asp-action="Index">Rental Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="RentalTransaction" asp-action="Index">Rental Transactions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="ReturnRecord" asp-action="Index">Return Records</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Home" asp-action="AboutUs">About Us</a>
+                </li>
+            </ul>
+
+            <!-- Right Side Icons -->
+            <ul class="navbar-nav">
+                <li class="nav-item me-3">
+                    <a class="nav-link text-white" href="#">
+                        <i class="bi bi-bell-fill fs-3"></i> <!-- Notification Icon -->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Account" asp-action="Profile">
+                        <i class="bi bi-person-circle fs-3"></i> <!-- Profile Icon -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+

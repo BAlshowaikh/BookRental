@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Journal.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <meta charset="utf-8" />
+</head>
+<body>
+    <header>
+        @{
+            int userId = 2;
+            if (userId == 1)
+            {
+                @await Html.PartialAsync("~/Views/Shared/NavigationBars/_AdminNavBar.cshtml")
+            }
+            else if (userId == 2)
+            {
+                @await Html.PartialAsync("~/Views/Shared/NavigationBars/_ManagerNavBar.cshtml")
+            }
+            else
+            {
+                @await Html.PartialAsync("~/Views/Shared/NavigationBars/_CustomerNavBar.cshtml")
+            }
+        }
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+
+    <footer class="footer bg-white border-top">
+        <div class="container d-flex justify-content-center align-items-center text-dark" style="height: 30px;">
+            &copy; 2025 - Book Nook Store
+        </div>
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
