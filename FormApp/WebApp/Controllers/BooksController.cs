@@ -19,9 +19,37 @@ namespace WebApp.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString, string SearchCategory)
         {
-            var bookRentalDBContext = _context.Books.Include(b => b.Author).Include(b => b.AvailabilityStatus).Include(b => b.BookCondition).Include(b => b.Category).Include(b => b.Image);
+            // Logic for the search and filter
+
+            var categories = await _context.Categories.ToListAsync();
+
+            // Populate ViewBag.catlist with a SelectList for categories
+            ViewBag.catlist = new SelectList(categories, "CategoryId", "CategoryName");
+
+            // Fetch books along with their relationships
+            var bookRentalDBContext = _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.AvailabilityStatus)
+                .Include(b => b.BookCondition)
+                .Include(b => b.Category)
+                .Include(b => b.Image)
+                .AsQueryable();
+
+            // Apply filtering by search string if provided
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(b => b.Name.Contains(SearchString));
+            }
+
+            // Apply filtering by selected category if provided
+            if (!string.IsNullOrEmpty(SearchCategory))
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(b => b.Category.CategoryId.ToString() == SearchCategory);
+            }
+
+            // Execute the query and return the view with the filtered books
             return View(await bookRentalDBContext.ToListAsync());
         }
 
@@ -178,14 +206,29 @@ namespace WebApp.Controllers
             {
                 _context.Books.Remove(book);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-          return (_context.Books?.Any(e => e.BookId == id)).GetValueOrDefault();
+            return (_context.Books?.Any(e => e.BookId == id)).GetValueOrDefault();
         }
+
+        // Method to autocompletion for the Book name search
+        [HttpGet]
+        public IActionResult SearchBooks(string term)
+        {
+            var bookNames = _context.Books
+                .Where(b => b.Name.Contains(term))
+                .Select(b => b.Name)
+                .Take(5)
+                .ToList();
+
+            return Json(bookNames);
+        }
+
+
     }
 }
