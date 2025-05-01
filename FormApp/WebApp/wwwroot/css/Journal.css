@@ -199,6 +199,7 @@
 }
 
 body {
+    padding-top: 100px;
     margin: 0;
     font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
@@ -13497,6 +13498,8 @@ textarea.form-control-lg {
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     border: 1px solid #ddd;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    cursor: pointer;
 }
 
     .second-card:hover {
@@ -13570,6 +13573,40 @@ textarea.form-control-lg {
 .btn-close-white {
     filter: invert(100%);
 }
+
+/* code for the book name search suggestion*/
+.list-group {
+    display: block;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-left: 0;
+    margin-top: 2px;
+}
+
+.list-group-item {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
 
 
 

@@ -5,92 +5,126 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="text-dark text-center">Explore the books</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RentalPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PublishDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Isbn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvailabilityStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookCondition)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RentalPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublishDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Isbn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvailabilityStatus.AvailabilityStatus1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookCondition.ReturnCondition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image.ImageName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<!-- Search and filter div-->
+<div class="row py-3">
+    <div class="col-12">
+        <form asp-controller="Books" asp-action="Index" method="get" class="row gx-2 align-items-center" autocomplete="off">
+            <!-- Book Name -->
+            <label class="form-label px-2 ms-3" style="width: 9.5%">Book Name:</label>
+            <div class="col-auto">
+                <input type="text" name="SearchString" id="SearchString" value="@Context.Request.Query["SearchString"].ToString()" class="form-control" placeholder="Type book's name" />
+                <ul id="bookSuggestions" class="list-group" style="display: none;"></ul>
+            </div>
+
+            <!-- Category -->
+            <div class="col-auto">
+                <label class="form-label ms-3">Category:</label>
+            </div>
+            <div class="col-auto">
+                <select name="SearchCategory" asp-items="ViewBag.catlist" class="form-select">
+                    <option value="">All</option>
+                </select>
+            </div>
+
+            <!-- Space to push buttons right -->
+            <div class="col"></div>
+
+            <!-- Buttons - now aligned to far right -->
+            <div class="col-auto">
+                <input type="submit" value="Search" class="btn btn-primary mx-3" />
+            </div>
+            <div class="col-auto">
+                <a asp-controller="Books" asp-action="Index" class="btn btn-outline-danger">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Books cards -->
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4">
+                <div class="second-card" style="font-weight:bold">
+                    <a asp-action="Details" asp-route-id="@book.BookId" class="stretched-link" title="Click to view book details"></a>
+                    <div class="col-5 d-flex align-items-center">
+                    </div>
+                    <div class="card-info">
+                        <h5 class="text-dark">@book.Name</h5>
+                        <p>ID: @book.BookId</p>
+                        <p >Category: @book.Category.CategoryName</p>
+                        <p>Author: @book.Author.FullName</p>
+                        <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
+                            <a asp-controller="RentalRequests" asp-action="Rent" asp-route-id="@book.BookId" class="btn btn-sm btn-light">Rent</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-center">No books available.</p>
+    }
+</div>
+
+
+<!-- JavaScript to handle the autocompletion for the book name field-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        console.log("Autocomplete script loaded");
+
+        // When the user types in the book name input field
+        $("#SearchString").on("input", function () {
+            var query = $(this).val();  // Get the value typed by the user
+
+            if (query.length >= 2) {  // Start searching after 2 characters
+                $.ajax({
+                    url: '@Url.Action("SearchBooks", "Books")',  // The URL to call
+                    data: { term: query },  // Pass the typed text as "term"
+                    success: function (data) {
+                        var suggestions = data;
+
+                        // Clear any existing suggestions
+                        $("#bookSuggestions").empty().hide();
+
+                        if (suggestions.length > 0) {
+                            // Show suggestions
+                            $.each(suggestions, function (index, bookName) {
+                                // Add each book name as a list item
+                                $("#bookSuggestions").append('<li class="list-group-item list-group-item-action">' + bookName + '</li>');
+                            });
+                            $("#bookSuggestions").show();  // Show the suggestion list
+                        }
+                    },
+                    error: function () {
+                        // Handle errors if needed
+                    }
+                });
+            } else {
+                // Hide suggestions if query is too short
+                $("#bookSuggestions").empty().hide();
+            }
+        });
+
+        // When the user selects a suggestion, fill it in the input field
+        $(document).on("click", "#bookSuggestions li", function () {
+            var selectedBook = $(this).text();
+            $("#SearchString").val(selectedBook);  // Set the selected book name in the input
+            $("#bookSuggestions").empty().hide();  // Hide the suggestions
+        });
+
+        // Optionally, hide suggestions when the user clicks outside
+        $(document).click(function (e) {
+            if (!$(e.target).closest('#SearchString').length) {
+                $("#bookSuggestions").empty().hide();
+            }
+        });
+    });
+</script>
