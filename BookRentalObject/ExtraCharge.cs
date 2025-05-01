@@ -9,6 +9,11 @@ namespace BookRentalObject
     [Table("Extra Charges")]
     public partial class ExtraCharge
     {
+        public ExtraCharge()
+        {
+            ReturnRecords = new HashSet<ReturnRecord>();
+        }
+
         [Key]
         [Column("extraChargesId")]
         public int ExtraChargesId { get; set; }
@@ -17,11 +22,8 @@ namespace BookRentalObject
         public string ExtraChargeName { get; set; } = null!;
         [Column("Extra_charge_rate")]
         public double ExtraChargeRate { get; set; }
-        [Column("recordId")]
-        public int? RecordId { get; set; }
 
-        [ForeignKey("RecordId")]
         [InverseProperty("ExtraCharges")]
-        public virtual ReturnRecord? Record { get; set; }
+        public virtual ICollection<ReturnRecord> ReturnRecords { get; set; }
     }
 }

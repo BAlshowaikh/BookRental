@@ -41,6 +41,10 @@ namespace BookRentalObject
         [Column("ISBN")]
         [StringLength(50)]
         public string Isbn { get; set; } = null!;
+        [Column("isActive")]
+        public bool IsActive { get; set; }
+        [Column("imageID")]
+        public int? ImageId { get; set; }
 
         [ForeignKey("AuthorId")]
         [InverseProperty("Books")]
@@ -54,6 +58,9 @@ namespace BookRentalObject
         [ForeignKey("CategoryId")]
         [InverseProperty("Books")]
         public virtual Category Category { get; set; } = null!;
+        [ForeignKey("ImageId")]
+        [InverseProperty("Books")]
+        public virtual Image? Image { get; set; }
         [InverseProperty("Book")]
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         [InverseProperty("Book")]

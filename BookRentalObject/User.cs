@@ -24,20 +24,20 @@ namespace BookRentalObject
         public int UserId { get; set; }
         [Column("firstName")]
         [StringLength(50)]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; } = null!;
         [Column("lastName")]
         [StringLength(50)]
-        public string? LastName { get; set; }
+        public string LastName { get; set; } = null!;
         [Column("email")]
         [StringLength(100)]
         public string? Email { get; set; }
         [Column("userRoleId")]
         public int UserRoleId { get; set; }
         [Column("contactNo")]
-        [StringLength(50)]
+        [StringLength(10)]
         public string? ContactNo { get; set; }
-
-        public String FullName { get { return FirstName + " " + LastName; }}
+        [Column("isActive")]
+        public bool IsActive { get; set; }
 
         [ForeignKey("UserRoleId")]
         [InverseProperty("Users")]
@@ -54,5 +54,7 @@ namespace BookRentalObject
         public virtual ICollection<RentalRequest> RentalRequests { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<RentalTransaction> RentalTransactions { get; set; }
+
+        public String FullName { get { return FirstName + " " + LastName;}}
     }
 }
