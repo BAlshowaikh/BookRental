@@ -88,7 +88,7 @@
 		}
 		else
 		{
-			foreach (var fb in Model.Feedbacks.Where(f => !f.IsHidden))
+			foreach (var fb in Model.Feedbacks)
 			{
 				<div class="mb-4" id="feedback-@fb.FeedbackId">
 					<div class="fw-bold fs-5">Username: <span class="fw-normal">@fb.Transaction.User.FullName</span></div>
@@ -112,11 +112,11 @@
 					<div class="text-center mt-2">
 						@if (fb.IsHidden)
 						{
-							<i class="bi bi-eye-slash text-danger" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, false)"></i> <!-- Hidden -->
+							<i class="bi bi-eye-slash toggle-visibility text-danger" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, false)"></i> <!-- Hidden -->
 						}
 						else
 						{
-							<i class="bi bi-eye text-primary" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, true)"></i> <!-- Visible -->
+							<i class="bi bi-eye toggle-visibility text-primary" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, true)"></i> <!-- Visible -->
 						}
 					</div>
 					<hr class="w-50 mx-auto mt-4" />
@@ -125,49 +125,53 @@
 		}
 	</div>
 
-
-
 	<!-- JavaScript to toggle feedback visibility -->
-	<script>
-		// Toggle the feedback panel
-		document.getElementById('toggleFeedback')
-			.addEventListener('click', function () {
-				const panel = document.getElementById('feedbackContainer');
-				const isHidden = panel.style.display === 'none';
-				panel.style.display = isHidden ? 'block' : 'none';
-				this.textContent = isHidden ? 'Hide feedbacks' : 'Show feedbacks';
-			});
+	@section Scripts {
+		<script>
+			// Toggle the feedback panel
+			document.getElementById('toggleFeedback')
+				.addEventListener('click', function () {
+					const panel = document.getElementById('feedbackContainer');
+					const isHidden = panel.style.display === 'none';
+					panel.style.display = isHidden ? 'block' : 'none';
+					this.textContent = isHidden ? 'Hide feedbacks' : 'Show feedbacks';
+				});
 
-		// Toggle a specific feedback's visibility on the server
-		function toggleFeedbackVisibility(feedbackId, shouldHide) {
-			$.ajax({
-				url: '/Controllers/Feedbacks/ToggleVisibility',
-				type: 'POST',
-				data: {
-					feedbackId: feedbackId,
-					isHidden: shouldHide
-				},
-				success: function () {
-					const icon = $('#feedback-' + feedbackId).find('.toggle-visibility');
+			// Toggle a specific feedback's visibility on the server
+			function toggleFeedbackVisibility(feedbackId, shouldHide) {
+				$.ajax({
+					url: '@Url.Action("ToggleVisibility", "Feedbacks")',
+					type: 'POST',
+					data: {
+						feedbackId: feedbackId,
+						isHidden: shouldHide
+					},
+					success: function () {
+						const icon = $('#feedback-' + feedbackId).find('.toggle-visibility');
 
-					if (shouldHide) {
-						icon
-							.removeClass('bi-eye text-primary')
-							.addClass('bi-eye-slash text-danger')
-							.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, false)`);
-					} else {
-						icon
-							.removeClass('bi-eye-slash text-danger')
-							.addClass('bi-eye text-primary')
-							.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, true)`);
+						if (shouldHide) {
+							icon
+								.removeClass('bi-eye text-primary')
+								.addClass('bi-eye-slash text-danger')
+								.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, true)`);
+											console.log("Calling showSuccessMessage1");
+						} else {
+							icon
+								.removeClass('bi-eye-slash text-danger')
+								.addClass('bi-eye text-primary')
+								.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, false)`);
+											console.log("Calling showSuccessMessage2");
+						}
+						showSuccessMessage("Feedback visibility updated successfully!");
+					},
+					error: function () {
+						showErrorMessage("Failed to update feedback visibility.");
 					}
-				},
-				error: function () {
-					alert("An error occurred while toggling feedback visibility.");
-				}
-			});
-		}
-	</script>
+				});
+			}
+		</script>
+	}
+
 
 
 
