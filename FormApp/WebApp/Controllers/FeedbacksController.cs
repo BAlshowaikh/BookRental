@@ -171,7 +171,6 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ToggleVisibility(int feedbackId, bool isHidden)
         {
             var feedback = await _context.Feedbacks.FindAsync(feedbackId);
@@ -180,7 +179,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            feedback.IsHidden = !isHidden;  // Toggle the visibility
+            feedback.IsHidden = isHidden;  // Toggle the visibility
             _context.Update(feedback);
             await _context.SaveChangesAsync();
 
