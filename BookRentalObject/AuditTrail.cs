@@ -16,10 +16,10 @@ namespace BookRentalObject
         public DateTime Timestamp { get; set; }
         [Column("oldValue")]
         [StringLength(100)]
-        public string? OldValue { get; set; }
+        public string OldValue { get; set; } = null!;
         [Column("newValue")]
         [StringLength(100)]
-        public string? NewValue { get; set; }
+        public string NewValue { get; set; } = null!;
         [Column("userId")]
         public int UserId { get; set; }
 

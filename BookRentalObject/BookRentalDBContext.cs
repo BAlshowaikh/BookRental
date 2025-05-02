@@ -23,9 +23,9 @@ namespace BookRentalObject
         public virtual DbSet<BookCondition> BookConditions { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Document> Documents { get; set; } = null!;
-        public virtual DbSet<DocumentType> DocumentTypes { get; set; } = null!;
         public virtual DbSet<ExtraCharge> ExtraCharges { get; set; } = null!;
         public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
+        public virtual DbSet<Image> Images { get; set; } = null!;
         public virtual DbSet<Log> Logs { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
@@ -85,16 +85,15 @@ namespace BookRentalObject
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Book_Category");
+
+                entity.HasOne(d => d.Image)
+                    .WithMany(p => p.Books)
+                    .HasForeignKey(d => d.ImageId)
+                    .HasConstraintName("FK_Book_Image");
             });
 
             modelBuilder.Entity<Document>(entity =>
             {
-                entity.HasOne(d => d.DocumentType)
-                    .WithMany(p => p.Documents)
-                    .HasForeignKey(d => d.DocumentTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Document_Document Type");
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Documents)
                     .HasForeignKey(d => d.UserId)
@@ -102,19 +101,12 @@ namespace BookRentalObject
                     .HasConstraintName("FK_Document_User");
             });
 
-            modelBuilder.Entity<ExtraCharge>(entity =>
-            {
-                entity.HasOne(d => d.Record)
-                    .WithMany(p => p.ExtraCharges)
-                    .HasForeignKey(d => d.RecordId)
-                    .HasConstraintName("FK_Extra Charges_Return Records");
-            });
-
             modelBuilder.Entity<Feedback>(entity =>
             {
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.BookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_Book");
 
                 entity.HasOne(d => d.Transaction)
@@ -203,6 +195,11 @@ namespace BookRentalObject
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Return Records_Equipment");
+
+                entity.HasOne(d => d.ExtraCharges)
+                    .WithMany(p => p.ReturnRecords)
+                    .HasForeignKey(d => d.ExtraChargesId)
+                    .HasConstraintName("FK_Return Records_Extra Charges");
 
                 entity.HasOne(d => d.Transaction)
                     .WithMany(p => p.ReturnRecords)

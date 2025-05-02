@@ -110,10 +110,10 @@ namespace FormApp.Views
                     txtTransactionID.Text = "New";
                     txtCustomerName.Text = request.User.FullName;
                     txtBookName.Text = request.Book.Name;
-                    dtpRentalStartDate.Value = request.RentalStartDate.Value;
-                    dtpReturnDate.Value = request.ReturnDate.Value;
+                    dtpRentalStartDate.Value = request.RentalStartDate;
+                    dtpReturnDate.Value = request.ReturnDate;
                     txtRentalFee.Text = request.TotalCost.ToString();
-                    txtRentalPeriod.Text = CalculateRentalPeriod(request.RentalStartDate, request.ReturnDate);
+                    txtRentalPeriod.Text = CalculateRentalPeriod(request.RentalStartDate, request.ReturnDate).ToString();
 
                     txtRentalPeriod.Enabled = false;
                 }
@@ -135,11 +135,11 @@ namespace FormApp.Views
                     txtCustomerName.Text = transaction.User.FullName;
                     txtBookName.Text = transaction.Book.Name;
                     txtRentalFee.Text = transaction.RentalFee.ToString();
-                    txtRentalPeriod.Text = CalculateRentalPeriod(transaction.RentalStartDate, transaction.ReturnDate);
+                    txtRentalPeriod.Text = CalculateRentalPeriod(transaction.RentalStartDate, transaction.ReturnDate).ToString();
                     ddlPaymentMethod.SelectedValue = transaction.PaymentMethodId;
                     ddlPaymentStatus.SelectedValue = transaction.PaymentStatusId;
-                    dtpRentalStartDate.Value = transaction.RentalStartDate.Value;
-                    dtpReturnDate.Value = transaction.ReturnDate.Value;
+                    dtpRentalStartDate.Value = transaction.RentalStartDate;
+                    dtpReturnDate.Value = transaction.ReturnDate;
 
                     txtRentalPeriod.Enabled = false;
                 }
@@ -150,20 +150,13 @@ namespace FormApp.Views
             }
         }
 
-        private string CalculateRentalPeriod(DateTime? startDate, DateTime? returnDate)
+        private int CalculateRentalPeriod(DateTime? startDate, DateTime? returnDate)
         {
-            //check ig both dates are provided
             if (startDate.HasValue && returnDate.HasValue)
             {
-                //calculate the number of days
-                int days = (returnDate.Value - startDate.Value).Days;
-
-                //Return a rental period string
-                return days == 1 ? "1 day" : $"{days} days";
+                return (returnDate.Value - startDate.Value).Days;
             }
-
-            //if either date is missing 
-            return "N/A";
+            return 0; // or -1 to indicate missing dates
         }
 
         private void saveBttn_Click(object sender, EventArgs e)
@@ -213,7 +206,7 @@ namespace FormApp.Views
         private void UpdateRentalPeriod()
         {
             // Updates the rental period text field
-            txtRentalPeriod.Text = CalculateRentalPeriod(dtpRentalStartDate.Value, dtpReturnDate.Value);
+            txtRentalPeriod.Text = CalculateRentalPeriod(dtpRentalStartDate.Value, dtpReturnDate.Value).ToString();
         }
 
         private void dtpRentalStartDate_ValueChanged(object sender, EventArgs e)

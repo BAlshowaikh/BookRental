@@ -29,5 +29,7 @@ namespace BookRentalObject
 
         [InverseProperty("Author")]
         public virtual ICollection<Book> Books { get; set; }
+
+        public String FullName { get { return FirstName + " " + LastName; } }
     }
 }

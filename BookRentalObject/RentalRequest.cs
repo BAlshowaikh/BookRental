@@ -19,11 +19,11 @@ namespace BookRentalObject
         [Column("bookId")]
         public int BookId { get; set; }
         [Column("rentalStartDate", TypeName = "datetime")]
-        public DateTime? RentalStartDate { get; set; }
+        public DateTime RentalStartDate { get; set; }
         [Column("totalCost")]
-        public double? TotalCost { get; set; }
+        public double TotalCost { get; set; }
         [Column("returnDate", TypeName = "datetime")]
-        public DateTime? ReturnDate { get; set; }
+        public DateTime ReturnDate { get; set; }
 
         [ForeignKey("BookId")]
         [InverseProperty("RentalRequests")]

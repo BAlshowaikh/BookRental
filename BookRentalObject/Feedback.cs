@@ -20,13 +20,15 @@ namespace BookRentalObject
         [Column("transactionId")]
         public int TransactionId { get; set; }
         [Column("rate")]
-        public int? Rate { get; set; }
+        public int Rate { get; set; }
         [Column("bookId")]
-        public int? BookId { get; set; }
+        public int BookId { get; set; }
+        [Column("isHidden")]
+        public bool IsHidden { get; set; }
 
         [ForeignKey("BookId")]
         [InverseProperty("Feedbacks")]
-        public virtual Book? Book { get; set; }
+        public virtual Book Book { get; set; } = null!;
         [ForeignKey("TransactionId")]
         [InverseProperty("Feedbacks")]
         public virtual RentalTransaction Transaction { get; set; } = null!;

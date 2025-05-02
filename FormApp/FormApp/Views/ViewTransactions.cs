@@ -81,7 +81,7 @@ namespace FormApp.Views
                     ReturnDate = x.ReturnDate,
                     RentalFee = x.RentalFee,
                     PaymentMethod = x.PaymentMethod.PaymentMethod1,
-                    PaymentStatus = x.PaymentStatus.Status
+                    PaymentStatus = x.PaymentStatus.PaymentStatus1
                 }).ToList();
             }
             catch (Exception ex)

@@ -19,7 +19,9 @@ namespace BookRentalObject
         public int CategoryId { get; set; }
         [Column("categoryName")]
         [StringLength(100)]
-        public string? CategoryName { get; set; }
+        public string CategoryName { get; set; } = null!;
+        [Column("isActive")]
+        public bool IsActive { get; set; }
 
         [InverseProperty("Category")]
         public virtual ICollection<Book> Books { get; set; }

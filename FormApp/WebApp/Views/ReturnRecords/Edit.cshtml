@@ -1,0 +1,67 @@
+﻿@model BookRentalObject.ReturnRecord
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ReturnRecord</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RecordId" />
+            <div class="form-group">
+                <label asp-for="ExpectedReturnDate" class="control-label"></label>
+                <input asp-for="ExpectedReturnDate" class="form-control" />
+                <span asp-validation-for="ExpectedReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActualReturnDate" class="control-label"></label>
+                <input asp-for="ActualReturnDate" class="form-control" />
+                <span asp-validation-for="ActualReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAdditionalCharges" class="control-label"></label>
+                <input asp-for="TotalAdditionalCharges" class="form-control" />
+                <span asp-validation-for="TotalAdditionalCharges" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LateReturnFee" class="control-label"></label>
+                <input asp-for="LateReturnFee" class="form-control" />
+                <span asp-validation-for="LateReturnFee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookId" class="control-label"></label>
+                <select asp-for="BookId" class="form-control" asp-items="ViewBag.BookId"></select>
+                <span asp-validation-for="BookId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookConditionId" class="control-label"></label>
+                <select asp-for="BookConditionId" class="form-control" asp-items="ViewBag.BookConditionId"></select>
+                <span asp-validation-for="BookConditionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionId" class="control-label"></label>
+                <select asp-for="TransactionId" class="form-control" asp-items="ViewBag.TransactionId"></select>
+                <span asp-validation-for="TransactionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExtraChargesId" class="control-label"></label>
+                <select asp-for="ExtraChargesId" class="form-control" asp-items="ViewBag.ExtraChargesId"></select>
+                <span asp-validation-for="ExtraChargesId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,185 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using BookRentalObject;
+
+namespace WebApp.Controllers
+{
+    public class ReturnRecordsController : Controller
+    {
+        private readonly BookRentalDBContext _context;
+
+        public ReturnRecordsController(BookRentalDBContext context)
+        {
+            _context = context;
+        }
+
+        // GET: ReturnRecords
+        public async Task<IActionResult> Index()
+        {
+            var bookRentalDBContext = _context.ReturnRecords.Include(r => r.Book).Include(r => r.BookCondition).Include(r => r.ExtraCharges).Include(r => r.Transaction);
+            return View(await bookRentalDBContext.ToListAsync());
+        }
+
+        // GET: ReturnRecords/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.ReturnRecords == null)
+            {
+                return NotFound();
+            }
+
+            var returnRecord = await _context.ReturnRecords
+                .Include(r => r.Book)
+                .Include(r => r.BookCondition)
+                .Include(r => r.ExtraCharges)
+                .Include(r => r.Transaction)
+                .FirstOrDefaultAsync(m => m.RecordId == id);
+            if (returnRecord == null)
+            {
+                return NotFound();
+            }
+
+            return View(returnRecord);
+        }
+
+        // GET: ReturnRecords/Create
+        public IActionResult Create()
+        {
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn");
+            ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition");
+            ViewData["ExtraChargesId"] = new SelectList(_context.ExtraCharges, "ExtraChargesId", "ExtraChargeName");
+            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId");
+            return View();
+        }
+
+        // POST: ReturnRecords/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("RecordId,ExpectedReturnDate,ActualReturnDate,TotalAdditionalCharges,LateReturnFee,BookId,BookConditionId,TransactionId,ExtraChargesId")] ReturnRecord returnRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(returnRecord);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", returnRecord.BookId);
+            ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
+            ViewData["ExtraChargesId"] = new SelectList(_context.ExtraCharges, "ExtraChargesId", "ExtraChargeName", returnRecord.ExtraChargesId);
+            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId", returnRecord.TransactionId);
+            return View(returnRecord);
+        }
+
+        // GET: ReturnRecords/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.ReturnRecords == null)
+            {
+                return NotFound();
+            }
+
+            var returnRecord = await _context.ReturnRecords.FindAsync(id);
+            if (returnRecord == null)
+            {
+                return NotFound();
+            }
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", returnRecord.BookId);
+            ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
+            ViewData["ExtraChargesId"] = new SelectList(_context.ExtraCharges, "ExtraChargesId", "ExtraChargeName", returnRecord.ExtraChargesId);
+            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId", returnRecord.TransactionId);
+            return View(returnRecord);
+        }
+
+        // POST: ReturnRecords/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("RecordId,ExpectedReturnDate,ActualReturnDate,TotalAdditionalCharges,LateReturnFee,BookId,BookConditionId,TransactionId,ExtraChargesId")] ReturnRecord returnRecord)
+        {
+            if (id != returnRecord.RecordId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(returnRecord);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ReturnRecordExists(returnRecord.RecordId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", returnRecord.BookId);
+            ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
+            ViewData["ExtraChargesId"] = new SelectList(_context.ExtraCharges, "ExtraChargesId", "ExtraChargeName", returnRecord.ExtraChargesId);
+            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId", returnRecord.TransactionId);
+            return View(returnRecord);
+        }
+
+        // GET: ReturnRecords/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.ReturnRecords == null)
+            {
+                return NotFound();
+            }
+
+            var returnRecord = await _context.ReturnRecords
+                .Include(r => r.Book)
+                .Include(r => r.BookCondition)
+                .Include(r => r.ExtraCharges)
+                .Include(r => r.Transaction)
+                .FirstOrDefaultAsync(m => m.RecordId == id);
+            if (returnRecord == null)
+            {
+                return NotFound();
+            }
+
+            return View(returnRecord);
+        }
+
+        // POST: ReturnRecords/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.ReturnRecords == null)
+            {
+                return Problem("Entity set 'BookRentalDBContext.ReturnRecords'  is null.");
+            }
+            var returnRecord = await _context.ReturnRecords.FindAsync(id);
+            if (returnRecord != null)
+            {
+                _context.ReturnRecords.Remove(returnRecord);
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool ReturnRecordExists(int id)
+        {
+          return (_context.ReturnRecords?.Any(e => e.RecordId == id)).GetValueOrDefault();
+        }
+    }
+}
