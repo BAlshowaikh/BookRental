@@ -1,85 +1,174 @@
 ﻿@model BookRentalObject.Book
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Details";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RentalPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RentalPrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PublishDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Isbn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Isbn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Author.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AvailabilityStatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AvailabilityStatus.AvailabilityStatus1)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BookCondition)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookCondition.ReturnCondition)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image.ImageName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.BookId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<div class="container">
+	<!-- Title and Book ID -->
+	<h1 class="display-4 fw-bold text-dark">Book Details</h1>
+	<p class="fs-4 text-muted">Book ID: @Model.BookId</p>
+
+
+	<!-- Back Link (Moved below HR) -->
+	<a asp-action="Index" class="btn btn-outline-secondary mb-3 text-dark">← Back to book list</a>
+
+	<!-- Divider -->
+	<hr class="mt-1 mb-4" />
+
+
+	<!-- Main Content: Image Left, Details Right -->
+	<div class="row">
+		<!-- Book Image -->
+		<div class="col-md-4 text-center">
+			@if (Model.Image != null)
+			{
+				<img src="@Url.Action("GetImage", "Image", new { id = Model.Image.ImageId })"
+					 class="img-fluid rounded shadow"
+					 alt="Book Image"
+					 style="max-height: 400px;"
+					 onerror="this.style.display='none'; document.getElementById('noImageMsg').style.display = 'block';" />
+			}
+
+			<div id="noImageMsg" class="text-muted fst-italic" style="display: @(Model.Image == null ? "block" : "none")">
+				No image available
+			</div>
+		</div>
+
+		<!-- Book Details -->
+		<div class="col-md-8">
+			<h2 class="text-primary">@Model.Name</h2>
+			<dl class="row fs-5">
+				<!-- Increased font size -->
+				<dt class="col-sm-4">Description</dt>
+				<dd class="col-sm-8">@Model.Description</dd>
+
+				<dt class="col-sm-4">Rental Price</dt>
+				<dd class="col-sm-8">@Model.RentalPrice</dd>
+
+				<dt class="col-sm-4">Publish Date</dt>
+				<dd class="col-sm-8">@Model.PublishDate?.ToShortDateString()</dd>
+
+				<dt class="col-sm-4">ISBN</dt>
+				<dd class="col-sm-8">@Model.Isbn</dd>
+
+				<dt class="col-sm-4">Is Active</dt>
+				<dd class="col-sm-8">@(Model.IsActive ? "Yes" : "No")</dd>
+
+				<dt class="col-sm-4">Author</dt>
+				<dd class="col-sm-8">@Model.Author?.FullName</dd>
+
+				<dt class="col-sm-4">Availability Status</dt>
+				<dd class="col-sm-8">@Model.AvailabilityStatus?.AvailabilityStatus1</dd>
+
+				<dt class="col-sm-4">Book Condition</dt>
+				<dd class="col-sm-8">@Model.BookCondition?.ReturnCondition</dd>
+
+				<dt class="col-sm-4">Category</dt>
+				<dd class="col-sm-8">@Model.Category?.CategoryName</dd>
+			</dl>
+		</div>
+	</div>
+
+	<!-- The following code is for handleing the feedback functionality-->
+	<!-- Button to show/hide feedbacks -->
+	<div class="text-center mt-4">
+		<button id="toggleFeedback" class="btn btn-primary">
+			Show feedbacks
+		</button>
+	</div>
+
+	<!-- Container for feedbacks (hidden by default) -->
+	<div id="feedbackContainer" class="container" style="display: none;">
+		@if (!Model.Feedbacks.Any(f => !f.IsHidden))
+		{
+			<div class="text-center text-muted fst-italic my-3">No feedbacks available</div>
+		}
+		else
+		{
+			foreach (var fb in Model.Feedbacks.Where(f => !f.IsHidden))
+			{
+				<div class="mb-4" id="feedback-@fb.FeedbackId">
+					<div class="fw-bold fs-5">Username: <span class="fw-normal">@fb.Transaction.User.FullName</span></div>
+					<div class="ms-3 mt-2"><strong>Comment:</strong><br />@fb.Comment</div>
+					<div class="ms-3 mt-2">
+						<strong>Rating:</strong><br />
+						@for (int i = 1; i <= 5; i++)
+						{
+							if (i <= fb.Rate)
+							{
+								<i class="bi bi-star-fill text-warning"></i>
+							}
+							else
+							{
+								<i class="bi bi-star text-secondary"></i>
+							}
+						}
+					</div>
+
+					<!-- Eye icon to toggle feedback visibility -->
+					<div class="text-center mt-2">
+						@if (fb.IsHidden)
+						{
+							<i class="bi bi-eye-slash text-danger" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, false)"></i> <!-- Hidden -->
+						}
+						else
+						{
+							<i class="bi bi-eye text-primary" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, true)"></i> <!-- Visible -->
+						}
+					</div>
+					<hr class="w-50 mx-auto mt-4" />
+				</div>
+			}
+		}
+	</div>
+
+
+
+	<!-- JavaScript to toggle feedback visibility -->
+	<script>
+		// Toggle the feedback panel
+		document.getElementById('toggleFeedback')
+			.addEventListener('click', function () {
+				const panel = document.getElementById('feedbackContainer');
+				const isHidden = panel.style.display === 'none';
+				panel.style.display = isHidden ? 'block' : 'none';
+				this.textContent = isHidden ? 'Hide feedbacks' : 'Show feedbacks';
+			});
+
+		// Toggle a specific feedback's visibility on the server
+		function toggleFeedbackVisibility(feedbackId, shouldHide) {
+			$.ajax({
+				url: '/Controllers/Feedbacks/ToggleVisibility',
+				type: 'POST',
+				data: {
+					feedbackId: feedbackId,
+					isHidden: shouldHide
+				},
+				success: function () {
+					const icon = $('#feedback-' + feedbackId).find('.toggle-visibility');
+
+					if (shouldHide) {
+						icon
+							.removeClass('bi-eye text-primary')
+							.addClass('bi-eye-slash text-danger')
+							.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, false)`);
+					} else {
+						icon
+							.removeClass('bi-eye-slash text-danger')
+							.addClass('bi-eye text-primary')
+							.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, true)`);
+					}
+				},
+				error: function () {
+					alert("An error occurred while toggling feedback visibility.");
+				}
+			});
+		}
+	</script>
+
+
+
+

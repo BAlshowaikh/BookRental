@@ -5338,8 +5338,13 @@ textarea.form-control-lg {
     --bs-list-group-active-color: #fff;
     --bs-list-group-active-bg: #eb6864;
     --bs-list-group-active-border-color: #eb6864;
-    display: flex;
-    flex-direction: column;
+    display: inline-block; /* Instead of flex */
+    position: absolute; /* Allows positioning next to the input */
+    white-space: nowrap; /* Prevents items from wrapping */
+    width: auto; /* Shrinks to fit content */
+    min-width: 100%; /* At least as wide as the input */
+    max-width: max-content; /* Grows to longest item */
+    z-index: 1000;
     padding-left: 0;
     margin-bottom: 0;
     border-radius: var(--bs-list-group-border-radius)
