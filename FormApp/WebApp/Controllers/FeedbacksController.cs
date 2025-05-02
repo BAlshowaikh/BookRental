@@ -169,5 +169,22 @@ namespace WebApp.Controllers
         {
           return (_context.Feedbacks?.Any(e => e.FeedbackId == id)).GetValueOrDefault();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleVisibility(int feedbackId, bool isHidden)
+        {
+            var feedback = await _context.Feedbacks.FindAsync(feedbackId);
+            if (feedback == null)
+            {
+                return NotFound();
+            }
+
+            feedback.IsHidden = !isHidden;  // Toggle the visibility
+            _context.Update(feedback);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

@@ -22,7 +22,6 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index(string SearchString, string SearchCategory)
         {
             // Logic for the search and filter
-
             var categories = await _context.Categories.ToListAsync();
 
             // Populate ViewBag.catlist with a SelectList for categories
@@ -67,7 +66,11 @@ namespace WebApp.Controllers
                 .Include(b => b.BookCondition)
                 .Include(b => b.Category)
                 .Include(b => b.Image)
+                .Include(b => b.Feedbacks)                
+                    .ThenInclude(f => f.Transaction)       
+                    .ThenInclude(t => t.User)              
                 .FirstOrDefaultAsync(m => m.BookId == id);
+
             if (book == null)
             {
                 return NotFound();
