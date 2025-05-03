@@ -82,7 +82,7 @@ namespace WebApp.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName");
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName");
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1");
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition");
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
@@ -95,20 +95,35 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book)
+        public async Task<IActionResult> Create([Bind("Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(book);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Book added successfully!";
+                    /*return RedirectToAction(nameof(Index));*/
+                }
+                catch (Exception)
+                {
+                    TempData["ErrorMessage"] = "An error occurred while saving the book.";
+                }
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
+            else
+            {
+                TempData["ErrorMessage"] = "Please correct the errors and try again.";
+            }
+
+            // Re-populate dropdowns if returning to Create view
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName", book.AuthorId);
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
             ViewData["ImageId"] = new SelectList(_context.Images, "ImageId", "ImageName", book.ImageId);
-            return View(book);
+
+            return View(book); 
         }
 
         // GET: Books/Edit/5
