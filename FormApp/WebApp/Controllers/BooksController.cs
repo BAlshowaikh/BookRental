@@ -248,6 +248,20 @@ namespace WebApp.Controllers
             return Json(bookNames);
         }
 
+        // Method to show/hide book button in the Index
+        [HttpPost]
+        public async Task<IActionResult> BookVisibility(int bookId, bool isActive)
+        {
+            Console.WriteLine("This is from books controller");
+            var book = await _context.Books.FindAsync(bookId);
+            if (book == null)
+                return NotFound();
+
+            book.IsActive = isActive;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
 
     }
 }
