@@ -139,7 +139,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName", book.AuthorId);
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
@@ -156,7 +156,8 @@ namespace WebApp.Controllers
         {
             if (id != book.BookId)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "The book doesn't exist.";
+                 return View(book);   
             }
 
             if (ModelState.IsValid)
@@ -165,21 +166,21 @@ namespace WebApp.Controllers
                 {
                     _context.Update(book);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Book edited successfully!";
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!BookExists(book.BookId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                        TempData["ErrorMessage"] = "An error occurred while editing the book.";
+                    
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
+            else
+            {
+                TempData["ErrorMessage"] = "Please correct the errors and try again.";
+            }
+
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName", book.AuthorId);
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
