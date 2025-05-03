@@ -19,31 +19,43 @@ namespace BookRentalObject
 
         [Key]
         [Column("bookId")]
+        [Display(Name = "Book ID")]
         public int BookId { get; set; }
         [Column("name")]
         [StringLength(100)]
+        [Display(Name = "Book Name")]
         public string Name { get; set; } = null!;
         [Column("description")]
         [StringLength(100)]
+        [Display(Name = "Description")]
         public string? Description { get; set; }
         [Column("categoryId")]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
         [Column("rentalPrice")]
+        [Display(Name = "Rental Price (in BHD)")]
         public double RentalPrice { get; set; }
         [Column("bookConditionId")]
+        [Display(Name = "Book Condition")]
         public int BookConditionId { get; set; }
         [Column("availabilityStatusId")]
+        [Display(Name = "Availability Status")]
         public int AvailabilityStatusId { get; set; }
         [Column("authorId")]
+        [Display(Name = "Author Fullname")]
         public int AuthorId { get; set; }
         [Column("publishDate", TypeName = "datetime")]
+        [Display(Name = "Publish Date")]
         public DateTime? PublishDate { get; set; }
         [Column("ISBN")]
         [StringLength(50)]
+        [Display(Name = "ISBN")]
         public string Isbn { get; set; } = null!;
         [Column("isActive")]
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         [Column("imageID")]
+        [Display(Name = "Book Image")]
         public int? ImageId { get; set; }
 
         [ForeignKey("AuthorId")]

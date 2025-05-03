@@ -82,7 +82,7 @@ namespace WebApp.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName");
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName");
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1");
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition");
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");

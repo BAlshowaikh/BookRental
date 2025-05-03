@@ -124,53 +124,51 @@
 			}
 		}
 	</div>
+</div>
+<!-- JavaScript to toggle feedback visibility -->
+@section Scripts {
+	<script>
+		// Toggle the feedback panel
+		document.getElementById('toggleFeedback')
+			.addEventListener('click', function () {
+				const panel = document.getElementById('feedbackContainer');
+				const isHidden = panel.style.display === 'none';
+				panel.style.display = isHidden ? 'block' : 'none';
+				this.textContent = isHidden ? 'Hide feedbacks' : 'Show feedbacks';
+			});
 
-	<!-- JavaScript to toggle feedback visibility -->
-	@section Scripts {
-		<script>
-			// Toggle the feedback panel
-			document.getElementById('toggleFeedback')
-				.addEventListener('click', function () {
-					const panel = document.getElementById('feedbackContainer');
-					const isHidden = panel.style.display === 'none';
-					panel.style.display = isHidden ? 'block' : 'none';
-					this.textContent = isHidden ? 'Hide feedbacks' : 'Show feedbacks';
-				});
+		// Toggle a specific feedback's visibility on the server
+		function toggleFeedbackVisibility(feedbackId, shouldHide) {
+			$.ajax({
+				url: '@Url.Action("ToggleVisibility", "Feedbacks")',
+				type: 'POST',
+				data: {
+					feedbackId: feedbackId,
+					isHidden: shouldHide
+				},
+				success: function () {
+					const icon = $('#feedback-' + feedbackId).find('.toggle-visibility');
 
-			// Toggle a specific feedback's visibility on the server
-			function toggleFeedbackVisibility(feedbackId, shouldHide) {
-				$.ajax({
-					url: '@Url.Action("ToggleVisibility", "Feedbacks")',
-					type: 'POST',
-					data: {
-						feedbackId: feedbackId,
-						isHidden: shouldHide
-					},
-					success: function () {
-						const icon = $('#feedback-' + feedbackId).find('.toggle-visibility');
-
-						if (shouldHide) {
-							icon
-								.removeClass('bi-eye text-primary')
-								.addClass('bi-eye-slash text-danger')
-								.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, true)`);
-											console.log("Calling showSuccessMessage1");
-						} else {
-							icon
-								.removeClass('bi-eye-slash text-danger')
-								.addClass('bi-eye text-primary')
-								.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, false)`);
-											console.log("Calling showSuccessMessage2");
-						}
-						showSuccessMessage("Feedback visibility updated successfully!");
-					},
-					error: function () {
-						showErrorMessage("Failed to update feedback visibility.");
+					if (shouldHide) {
+						icon
+							.removeClass('bi-eye text-primary')
+							.addClass('bi-eye-slash text-danger')
+							.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, true)`);
+					} else {
+						icon
+							.removeClass('bi-eye-slash text-danger')
+							.addClass('bi-eye text-primary')
+							.attr('onclick', `toggleFeedbackVisibility(${feedbackId}, false)`);
 					}
-				});
-			}
-		</script>
-	}
+					showSuccessMessage("Feedback visibility updated successfully!");
+				},
+				error: function () {
+					showErrorMessage("Failed to update feedback visibility.");
+				}
+			});
+		}
+	</script>
+}
 
 
 

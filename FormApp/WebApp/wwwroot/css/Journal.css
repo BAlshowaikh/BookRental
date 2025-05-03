@@ -13620,6 +13620,20 @@ textarea.form-control-lg {
     z-index: 2;
 }
 
+/* Class to be used in input boxes (Ex. Create a new thing, edit the new thing*/
+.input-border {
+    background-color: transparent !important;
+    border: 1px solid black !important;
+}
+
+.image-upload-box {
+    width: 250px;
+    height: 250px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+
 
 
 
