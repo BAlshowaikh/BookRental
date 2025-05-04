@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,50 +20,69 @@ namespace BookRentalObject
 
         [Key]
         [Column("bookId")]
+        [Display(Name = "Book ID")]
         public int BookId { get; set; }
-        [Required]
         [Column("name")]
         [StringLength(100)]
-        public string Name { get; set; }
+        [Display(Name = "Book Name")]
+        [Required(ErrorMessage = "Book name is required")]
+        public string Name { get; set; } = null!;
         [Column("description")]
-        [StringLength(100)]
-        public string Description { get; set; }
+        [StringLength(100, MinimumLength = 10, ErrorMessage = "Description must be at least 10 characters")]
+        [Display(Name = "Description")]
+
+        public string? Description { get; set; }
         [Column("categoryId")]
+        [Display(Name = "Category")]
+        [Required(ErrorMessage = "Category is required")]
         public int CategoryId { get; set; }
         [Column("rentalPrice")]
+        [Display(Name = "Rental Price (in BHD)")]
+        [Required(ErrorMessage = "Rental price is required")]
+        [Range(0.1, 50, ErrorMessage = "Price must be between 0.1 and 50 BHD")]
         public double RentalPrice { get; set; }
         [Column("bookConditionId")]
+        [Display(Name = "Book Condition")]
         public int BookConditionId { get; set; }
         [Column("availabilityStatusId")]
+        [Display(Name = "Availability Status")]
+        [Required(ErrorMessage = "Book Condition is required")]
         public int AvailabilityStatusId { get; set; }
         [Column("authorId")]
+        [Display(Name = "Author Fullname")]
+        [Required(ErrorMessage = "Author Name is required")]
         public int AuthorId { get; set; }
         [Column("publishDate", TypeName = "datetime")]
+        [Display(Name = "Publish Date")]
+        [Required(ErrorMessage = "Publish Date is required")]
         public DateTime? PublishDate { get; set; }
-        [Required]
         [Column("ISBN")]
         [StringLength(50)]
-        public string Isbn { get; set; }
+        [Display(Name = "ISBN")]
+        [Required(ErrorMessage = "ISBN is required")]
+        public string Isbn { get; set; } = null!;
         [Column("isActive")]
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         [Column("imageID")]
+        [Display(Name = "Book Image")]
         public int? ImageId { get; set; }
 
         [ForeignKey("AuthorId")]
         [InverseProperty("Books")]
-        public virtual Author Author { get; set; }
+        public virtual Author Author { get; set; } = null!;
         [ForeignKey("AvailabilityStatusId")]
         [InverseProperty("Books")]
-        public virtual AvailabilityStatus AvailabilityStatus { get; set; }
+        public virtual AvailabilityStatus AvailabilityStatus { get; set; } = null!;
         [ForeignKey("BookConditionId")]
         [InverseProperty("Books")]
-        public virtual BookCondition BookCondition { get; set; }
+        public virtual BookCondition BookCondition { get; set; } = null!;
         [ForeignKey("CategoryId")]
         [InverseProperty("Books")]
-        public virtual Category Category { get; set; }
+        public virtual Category Category { get; set; } = null!;
         [ForeignKey("ImageId")]
         [InverseProperty("Books")]
-        public virtual Image Image { get; set; }
+        public virtual Image? Image { get; set; }
         [InverseProperty("Book")]
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         [InverseProperty("Book")]

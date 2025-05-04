@@ -71,7 +71,7 @@
                         <p>Author: @book.Author.FullName</p>
                         <p>Availability: @book.AvailabilityStatus.AvailabilityStatus1</p>
                         <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
-                            <a asp-controller="RentalRequests" asp-action="Create" asp-route-id="@book.BookId" class="btn btn-sm btn-light  prevent-stretch">Rent</a>
+                            <a asp-controller="RentalRequests" asp-action="Create" asp-route-bookId="@book.BookId" class="btn btn-sm btn-light prevent-stretch">Rent</a>
                             <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-light  prevent-stretch">Edit</a>
                             <button type="button"
                                     id="toggle-btn-@book.BookId"

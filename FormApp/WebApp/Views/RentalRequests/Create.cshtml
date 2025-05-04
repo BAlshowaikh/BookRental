@@ -5,6 +5,8 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+
 <div class="container mt-2">
     <h1 class="display-5 fw-bold text-dark mb-3">Rent a Book</h1>
     <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
@@ -58,23 +60,61 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         const rentalPrice = @ViewBag.RentalPrice;
 
-        document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
-        document.getElementById('returnDate').addEventListener('change', calculateCost);
+            function calculateCost() {
+                const start = new Date(document.getElementById('rentalStartDate').value);
+                const end = new Date(document.getElementById('returnDate').value);
 
-        function calculateCost() {
-            const start = new Date(document.getElementById('rentalStartDate').value);
-            const end = new Date(document.getElementById('returnDate').value);
-
-            if (start && end && end > start) {
-                const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-                const totalCost = (days * rentalPrice).toFixed(2);
-                document.getElementById('totalCost').value = totalCost;
-            } else {
-                document.getElementById('totalCost').value = '';
+                if (start && end && end > start) {
+                    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                    const totalCost = (days * rentalPrice).toFixed(2);
+                    document.getElementById('totalCost').value = totalCost;
+                } else {
+                    document.getElementById('totalCost').value = '';
+                }
             }
-        }
+
+            const rentedRanges = @Html.Raw(ViewBag.RentedRanges);
+
+            function isDateInRange(dateStr, fromStr, toStr) {
+                const date = new Date(dateStr);
+                const from = new Date(fromStr);
+                const to = new Date(toStr);
+                return date >= from && date <= to;
+            }
+
+            const disableBookedDates = (input) => {
+                flatpickr(input, {
+                    dateFormat: "Y-m-d",
+                    disable: rentedRanges.map(r => ({
+                        from: r.RentalStartDate,
+                        to: r.ReturnDate
+                    })),
+                    onDayCreate: function(dObj, dStr, fp, dayElem) {
+                        const dateStr = dayElem.dateObj.toISOString().split('T')[0];
+                        rentedRanges.forEach(r => {
+                            if (isDateInRange(dateStr, r.RentalStartDate, r.ReturnDate)) {
+                                dayElem.style.border = "2px solid red";
+                                dayElem.style.borderRadius = "50%";
+                                dayElem.style.boxSizing = "border-box";
+                                dayElem.setAttribute("title", "Rented on this date");
+                            }
+                        });
+                    }
+                });
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                disableBookedDates(document.getElementById('rentalStartDate'));
+                disableBookedDates(document.getElementById('returnDate'));
+
+                document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
+                document.getElementById('returnDate').addEventListener('change', calculateCost);
+
+        });
+
     </script>
 }

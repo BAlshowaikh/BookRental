@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using System.Net;
+using System.Text.Json;
 
 namespace WebApp.Controllers
 {
@@ -62,17 +63,20 @@ namespace WebApp.Controllers
             }
 
             // Assume you're retrieving the current user's info (UserId + Name)
-           // var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-
+            // var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             ViewBag.BookId = book.BookId;
             ViewBag.BookName = book.Name;
             ViewBag.RentalPrice = book.RentalPrice;
-
+            ViewBag.RentalRequestStatus = "Pending";
             //ViewBag.UserId = currentUser?.UserId;
             //ViewBag.UserFullName = currentUser?.FirstName + " " + currentUser?.LastName;
+            ViewBag.RentalRequestStatus = "Pending"; var rentedDates = _context.RentalTransactions
+                    .Where(rt => rt.BookId == bookId)
+                    .Select(rt => new { rt.RentalStartDate, rt.ReturnDate })
+                    .ToList();
 
-            // Set Rental Request Status to "Pending" by default (you can fetch the ID for "Pending" status)
-            ViewBag.RentalRequestStatus = "Pending";
+            ViewBag.RentedRanges = JsonSerializer.Serialize(rentedDates);
+
 
             return View();
         }
@@ -188,14 +192,14 @@ namespace WebApp.Controllers
             {
                 _context.RentalRequests.Remove(rentalRequest);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RentalRequestExists(int id)
         {
-          return (_context.RentalRequests?.Any(e => e.RequestId == id)).GetValueOrDefault();
+            return (_context.RentalRequests?.Any(e => e.RequestId == id)).GetValueOrDefault();
         }
     }
 }
