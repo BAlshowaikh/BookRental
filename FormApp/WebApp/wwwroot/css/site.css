@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+input.form-check-input {
+    border: 2px solid #8B5E3C; /* for check box in manage category, add new category */
+    border-radius: 0.25rem;
+    width: 1.2em;
+    height: 1.2em;
+}
