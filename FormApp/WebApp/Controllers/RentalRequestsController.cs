@@ -62,21 +62,19 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            // Assume you're retrieving the current user's info (UserId + Name)
             // var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            //ViewBag.UserFullName = currentUser?.FirstName + " " + currentUser?.LastName;
+
             ViewBag.BookId = book.BookId;
             ViewBag.BookName = book.Name;
             ViewBag.RentalPrice = book.RentalPrice;
             ViewBag.RentalRequestStatus = "Pending";
-            //ViewBag.UserId = currentUser?.UserId;
-            //ViewBag.UserFullName = currentUser?.FirstName + " " + currentUser?.LastName;
-            ViewBag.RentalRequestStatus = "Pending"; var rentedDates = _context.RentalTransactions
+            var rentedDates = _context.RentalTransactions
                     .Where(rt => rt.BookId == bookId)
                     .Select(rt => new { rt.RentalStartDate, rt.ReturnDate })
                     .ToList();
 
             ViewBag.RentedRanges = JsonSerializer.Serialize(rentedDates);
-
 
             return View();
         }
@@ -84,21 +82,47 @@ namespace WebApp.Controllers
         // POST: RentalRequests/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: RentalRequests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RequestId,UserId,RentalRequestStatusId,BookId,RentalStartDate,TotalCost,ReturnDate")] RentalRequest rentalRequest)
         {
+            // Server-side validation: ensure rental period does not exceed 30 days
+            if ((rentalRequest.ReturnDate - rentalRequest.RentalStartDate).TotalDays > 30)
+            {
+                TempData["ErrorMessage"] = ("", "Rental period should not exceed 30 days.");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(rentalRequest);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(rentalRequest);
+                    await _context.SaveChangesAsync();
+                    ViewBag.EditedBookId = rentalRequest.RequestId;
+                    TempData["SuccessMessage"] = "Rental request submitted successfully!";
+                    //return View(rentalRequest);
+                }
+                catch (Exception)
+                {
+                    TempData["ErrorMessage"] = "An error occurred while saving the rental request.";
+                }
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", rentalRequest.BookId);
-            ViewData["RentalRequestStatusId"] = new SelectList(_context.RentalRequestStatuses, "RentalRequestStatusId", "Status", rentalRequest.RentalRequestStatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName", rentalRequest.UserId);
+            else
+            {
+                TempData["ErrorMessage"] = "Please correct the errors and try again.";
+            }
+
+            // Ensure that necessary data is repopulated in the ViewBag for the form
+            var book = _context.Books.Find(rentalRequest.BookId);
+            ViewBag.BookId = book?.BookId;
+            ViewBag.BookName = book?.Name;
+            ViewBag.RentalPrice = book?.RentalPrice;
+            ViewBag.RentalRequestStatus = "Pending";
+
             return View(rentalRequest);
         }
+
 
         // GET: RentalRequests/Edit/5
         public async Task<IActionResult> Edit(int? id)
