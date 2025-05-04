@@ -3031,6 +3031,13 @@ textarea.form-control-lg {
     background-position: top calc(.375em + .1875rem) right calc(.375em + .1875rem)
 }
 
+input.form-check-input {
+    border: 2px solid #8B5E3C; /* for check box in manage category, add new category */
+    border-radius: 0.25rem;
+    width: 1.2em;
+    height: 1.2em;
+}
+
 .form-select.is-valid, .was-validated .form-select:valid {
     border-color: var(--bs-form-valid-border-color)
 }

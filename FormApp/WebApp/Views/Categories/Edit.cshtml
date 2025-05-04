@@ -1,37 +1,40 @@
 ﻿@model BookRentalObject.Category
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Use layout only if NOT loaded via AJAX
+    Layout = Context.Request.Headers["X-Requested-With"] == "XMLHttpRequest" ? null : "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<h1>Edit</h1>
+@if (Layout != null)
+{
+    <h1>Edit</h1>
+    <h4>Category</h4>
+    <hr />
+}
 
-<h4>Category</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-12">
+        <form asp-action="Edit" method="post" id="editForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
             <input type="hidden" asp-for="CategoryId" />
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="CategoryName" class="form-label fw-semibold"></label>
+                <input asp-for="CategoryName" class="form-control border border-secondary shadow-sm bg-light" />
                 <span asp-validation-for="CategoryName" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
+
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="IsActive" />
+                <label class="form-check-label" asp-for="IsActive"></label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
+
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

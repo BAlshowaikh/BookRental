@@ -1,42 +1,201 @@
 ﻿@model IEnumerable<BookRentalObject.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Manage Categories";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
+    <h2 class="mb-4 fw-bold text-dark">Manage Categories</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-            </td>
-        </tr>
+    <div class="mb-3 text-end">
+        <div class="mb-3 text-end">
+            <a href="javascript:void(0);" class="btn btn-success rounded-pill px-4" onclick="openCreateModal()">
+                + Add New Category
+            </a>
+        </div>
+
+    </div>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                    <th>@Html.DisplayNameFor(model => model.IsActive)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a href="javascript:void(0);" onclick="openEditModal(@item.CategoryId)" class="btn btn-sm btn-warning me-1">
+                                Edit
+                            </a>
+                            <!---<a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-sm btn-info text-white me-1">
+                                Details
+                            </a>-->
+                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"
+                               onclick="openDeleteModal(@item.CategoryId, '@item.CategoryName')">Delete</a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Edit Category Modal -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header bg-light border-bottom-0">
+                <h5 class="modal-title fw-bold">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" id="editModalContent">
+                <!-- AJAX form loads here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title fw-bold">Delete Category</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete <strong id="deleteCategoryName"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    <input type="hidden" name="id" id="deleteCategoryId" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Category Modal -->
+<div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header bg-light border-bottom-0">
+                <h5 class="modal-title fw-bold" id="createCategoryLabel">Add a new category</h5>
+                <button type="button" class="btn-close btn-close-brown" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" id="createModalContent">
+                <!-- The form gets loaded here via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function openEditModal(id) {
+            $.ajax({
+                url: '/Categories/Edit/' + id,
+                type: 'GET',
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+                success: function (response) {
+                    $('#editModalContent').html(response);
+                    $('#editCategoryModal').modal('show');
+                }
+            });
+        }
+
+        $(document).on('submit', '#editForm', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function () {
+                    $('#editCategoryModal').modal('hide');
+                    location.reload();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function openDeleteModal(id, name) {
+            $('#deleteCategoryId').val(id);
+            $('#deleteCategoryName').text(name);
+            $('#deleteCategoryModal').modal('show');
+        }
+
+        // Handle delete form submission
+        $(document).on('submit', '#deleteForm', function (e) {
+            e.preventDefault();
+            var id = $('#deleteCategoryId').val();
+
+            $.ajax({
+                url: '/Categories/Delete/' + id,
+                type: 'POST',
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                success: function () {
+                    $('#deleteCategoryModal').modal('hide');
+                    location.reload();
+                },
+                error: function () {
+                    alert('Error deleting category.');
+                }
+            });
+        });
+
+
+         function openCreateModal() {
+            $.ajax({
+                url: '/Categories/Create',
+                type: 'GET',
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+                success: function (response) {
+                    $('#createModalContent').html(response);
+                    $('#createCategoryModal').modal('show');
+                }
+            });
+        }
+
+        $(document).on('submit', '#createForm', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function () {
+                    $('#createCategoryModal').modal('hide');
+                    location.reload();
+                }
+            });
+        });
+
+
+    </script>
+
+
+
 }
-    </tbody>
-</table>
