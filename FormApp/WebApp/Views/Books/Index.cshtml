@@ -15,7 +15,8 @@
             <label class="form-label px-2 ms-3" style="width: 9.5%">Book Name:</label>
             <div class="col-auto">
                 <input type="text" name="SearchString" id="SearchString" data-url="@Url.Action("SearchBooks", "Books")" value="@Context.Request.Query["SearchString"].ToString()" class="form-control" placeholder="Type book's name" />
-                <ul id="bookSuggestions" class="list-group" style="display: none;"></ul>
+                <ul id="bookSuggestions"
+                    class="list-group position-absolute">
             </div>
 
             <!-- Category -->
@@ -40,6 +41,15 @@
             </div>
         </form>
     </div>
+    <a href="/Books/Create"
+       class="rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center"
+       style="width: 40px; height: 40px; bottom: 20px; right: 20px; z-index: 1030; background-color:#79A87C; color:white;"
+       data-bs-toggle="tooltip"
+       data-bs-placement="left"
+       title="Add new book">
+        <i class="bi bi-plus-lg fs-4"></i>
+    </a>
+
 </div>
 
 <!-- Books cards -->
@@ -62,6 +72,14 @@
                         <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
                             <a asp-controller="RentalRequest" asp-action="Rent" asp-route-id="@book.BookId" class="btn btn-sm btn-light  prevent-stretch">Rent</a>
                             <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-light  prevent-stretch">Edit</a>
+                            <button type="button"
+                                    id="toggle-btn-@book.BookId"
+                                    class="btn btn-sm btn-light prevent-stretch toggle-visibility"
+                                    title="Show/hide Book"
+                                    onclick="toggleBookVisibility(@book.BookId, @(book.IsActive ? "true" : "false"))">
+                                <i class="bi @(book.IsActive ? "bi-eye text-success" : "bi-eye-slash text-danger")" id="toggle-icon-@book.BookId"></i>
+                            </button>
+
                         </div>
 					</div>
                     <a asp-action="Details" asp-route-id="@book.BookId" class="stretched-link" title="Click to view book details"></a>
@@ -77,19 +95,45 @@
 
 
 <!-- JavaScript to handle the autocompletion for the book name field-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/js/Helpers.js"></script>
+@section Scripts{
 <script>
-    $(document).ready(function () {
-        // Initialize the autocomplete
+        $(document).ready(function () {
             setupAutocomplete("#SearchString", "#bookSuggestions", "@Url.Action("SearchBooks", "Books")");
+            preventStretchedLinkClick();
+        });
 
-        // Initialize the prevent stretched link click functionality
-        preventStretchedLinkClick();
-    });
+        function toggleBookVisibility(bookId, currentStatus) {
+            const newStatus = !currentStatus;
+
+            $.ajax({
+                url: '@Url.Action("BookVisibility", "Books")',
+                type: 'POST',
+                data: {
+                    bookId: bookId,
+                    isActive: newStatus
+                },
+                success: function () {
+                    const icon = $('#toggle-icon-' + bookId);
+
+                    if (newStatus) {
+                        icon
+                            .removeClass('bi-eye-slash text-danger')
+                            .addClass('bi-eye text-success');
+                    } else {
+                        icon
+                            .removeClass('bi-eye text-success')
+                            .addClass('bi-eye-slash text-danger');
+                    }
+
+                    // Also update the onclick with the new state
+                    $('#toggle-btn-' + bookId).attr('onclick', `toggleBookVisibility(${bookId}, ${newStatus})`);
+
+                    showSuccessMessage("Book visibility updated successfully!");
+                },
+                error: function () {
+                    showErrorMessage("Failed to update book visibility.");
+                }
+            });
+        }
 </script>
-
-
-
-
-
+}

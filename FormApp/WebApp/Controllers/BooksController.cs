@@ -22,7 +22,6 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index(string SearchString, string SearchCategory)
         {
             // Logic for the search and filter
-
             var categories = await _context.Categories.ToListAsync();
 
             // Populate ViewBag.catlist with a SelectList for categories
@@ -67,7 +66,11 @@ namespace WebApp.Controllers
                 .Include(b => b.BookCondition)
                 .Include(b => b.Category)
                 .Include(b => b.Image)
+                .Include(b => b.Feedbacks)                
+                    .ThenInclude(f => f.Transaction)       
+                    .ThenInclude(t => t.User)              
                 .FirstOrDefaultAsync(m => m.BookId == id);
+
             if (book == null)
             {
                 return NotFound();
@@ -79,7 +82,7 @@ namespace WebApp.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName");
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName");
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1");
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition");
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
@@ -92,20 +95,35 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book)
+        public async Task<IActionResult> Create([Bind("Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(book);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Book added successfully!";
+                    /*return RedirectToAction(nameof(Index));*/
+                }
+                catch (Exception)
+                {
+                    TempData["ErrorMessage"] = "An error occurred while saving the book.";
+                }
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
+            else
+            {
+                TempData["ErrorMessage"] = "Please correct the errors and try again.";
+            }
+
+            // Re-populate dropdowns if returning to Create view
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName", book.AuthorId);
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
             ViewData["ImageId"] = new SelectList(_context.Images, "ImageId", "ImageName", book.ImageId);
-            return View(book);
+
+            return View(book); 
         }
 
         // GET: Books/Edit/5
@@ -121,7 +139,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName", book.AuthorId);
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
@@ -138,7 +156,8 @@ namespace WebApp.Controllers
         {
             if (id != book.BookId)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "The book doesn't exist.";
+                 return View(book);   
             }
 
             if (ModelState.IsValid)
@@ -147,21 +166,21 @@ namespace WebApp.Controllers
                 {
                     _context.Update(book);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Book edited successfully!";
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!BookExists(book.BookId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                        TempData["ErrorMessage"] = "An error occurred while editing the book.";
+                    
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
+            else
+            {
+                TempData["ErrorMessage"] = "Please correct the errors and try again.";
+            }
+
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName", book.AuthorId);
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
@@ -229,6 +248,20 @@ namespace WebApp.Controllers
             return Json(bookNames);
         }
 
+        // Method to show/hide book button in the Index
+        [HttpPost]
+        public async Task<IActionResult> BookVisibility(int bookId, bool isActive)
+        {
+            Console.WriteLine("This is from books controller");
+            var book = await _context.Books.FindAsync(bookId);
+            if (book == null)
+                return NotFound();
+
+            book.IsActive = isActive;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
 
     }
 }
