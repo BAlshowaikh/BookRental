@@ -17,9 +17,10 @@ namespace BookRentalObject
         [Key]
         [Column("categoryId")]
         public int CategoryId { get; set; }
+        [Required]
         [Column("categoryName")]
         [StringLength(100)]
-        public string CategoryName { get; set; } = null!;
+        public string CategoryName { get; set; }
         [Column("isActive")]
         public bool IsActive { get; set; }
 

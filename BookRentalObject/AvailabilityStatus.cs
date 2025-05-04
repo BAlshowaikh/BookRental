@@ -17,9 +17,10 @@ namespace BookRentalObject
         [Key]
         [Column("availabiltyStatusId")]
         public int AvailabiltyStatusId { get; set; }
+        [Required]
         [Column("availabilityStatus")]
         [StringLength(50)]
-        public string AvailabilityStatus1 { get; set; } = null!;
+        public string AvailabilityStatus1 { get; set; }
 
         [InverseProperty("AvailabilityStatus")]
         public virtual ICollection<Book> Books { get; set; }

@@ -108,12 +108,18 @@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
-            var errorMessage = '@TempData["ErrorMessage"]';
+            var editedBookId = '@ViewBag.EditedBookId';
 
             if (successMessage) {
                 showSuccessMessage(successMessage);
+
+                // Redirect to details page after a short delay
+        setTimeout(function () {
+            window.location.href = '/Books/Details/' + editedBookId ;
+        }, 1000);
             }
 
+            var errorMessage = '@TempData["ErrorMessage"]';
             if (errorMessage) {
                 showErrorMessage(errorMessage);
             }

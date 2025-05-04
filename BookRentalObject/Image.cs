@@ -17,14 +17,17 @@ namespace BookRentalObject
         [Key]
         [Column("imageID")]
         public int ImageId { get; set; }
+        [Required]
         [Column("imageName")]
         [StringLength(50)]
-        public string ImageName { get; set; } = null!;
+        public string ImageName { get; set; }
+        [Required]
         [Column("BLOB")]
-        public byte[] Blob { get; set; } = null!;
+        public byte[] Blob { get; set; }
+        [Required]
         [Column("imageType")]
         [StringLength(50)]
-        public string ImageType { get; set; } = null!;
+        public string ImageType { get; set; }
 
         [InverseProperty("Image")]
         public virtual ICollection<Book> Books { get; set; }

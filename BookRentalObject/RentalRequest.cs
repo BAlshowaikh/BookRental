@@ -27,12 +27,12 @@ namespace BookRentalObject
 
         [ForeignKey("BookId")]
         [InverseProperty("RentalRequests")]
-        public virtual Book Book { get; set; } = null!;
+        public virtual Book Book { get; set; }
         [ForeignKey("RentalRequestStatusId")]
         [InverseProperty("RentalRequests")]
-        public virtual RentalRequestStatus RentalRequestStatus { get; set; } = null!;
+        public virtual RentalRequestStatus RentalRequestStatus { get; set; }
         [ForeignKey("UserId")]
         [InverseProperty("RentalRequests")]
-        public virtual User User { get; set; } = null!;
+        public virtual User User { get; set; }
     }
 }

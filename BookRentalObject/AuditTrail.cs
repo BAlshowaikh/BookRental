@@ -14,17 +14,19 @@ namespace BookRentalObject
         public int AuditId { get; set; }
         [Column("timestamp", TypeName = "datetime")]
         public DateTime Timestamp { get; set; }
+        [Required]
         [Column("oldValue")]
         [StringLength(100)]
-        public string OldValue { get; set; } = null!;
+        public string OldValue { get; set; }
+        [Required]
         [Column("newValue")]
         [StringLength(100)]
-        public string NewValue { get; set; } = null!;
+        public string NewValue { get; set; }
         [Column("userId")]
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
         [InverseProperty("AuditTrails")]
-        public virtual User User { get; set; } = null!;
+        public virtual User User { get; set; }
     }
 }

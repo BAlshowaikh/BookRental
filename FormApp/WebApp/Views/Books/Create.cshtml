@@ -5,7 +5,7 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4">
+<div class="container mt-2">
     <h1 class="display-5 fw-bold text-dark mb-3">Add a New Book</h1>
     <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
     <hr class="mb-4" />
@@ -17,7 +17,7 @@
                 <div class="border rounded w-100 text-center image-upload-box p-4" style="height: 400px; background-color: #f8f9fa; cursor: pointer;">
                     <i class="bi bi-cloud-upload fs-1 text-secondary"></i>
                     <p class="text-muted">Click to upload image</p>
-                    <input type="file" asp-for="ImageId" hidden />
+                    <input type="file" id="ImageFile" name="ImageFile" accept="image/*" />
                 </div>
             </div>
 
@@ -104,16 +104,48 @@
     <script>
         $(document).ready(function () {
             var successMessage = '@TempData["SuccessMessage"]';
-            var errorMessage = '@TempData["ErrorMessage"]';
+            var newBookId = '@ViewBag.NewBookId';
 
             if (successMessage) {
                 showSuccessMessage(successMessage);
+
+                // Redirect to details page after a short delay
+                setTimeout(function () {
+                    window.location.href = '/Books/Details/' + newBookId;
+                }, 1000); 
             }
 
+            var errorMessage = '@TempData["ErrorMessage"]';
             if (errorMessage) {
                 showErrorMessage(errorMessage);
             }
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const imageInput = document.getElementById('ImageFile');
+            const uploadBox = document.querySelector('.image-upload-box');
+
+            imageInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        uploadBox.style.backgroundImage = `url('${event.target.result}')`;
+                        uploadBox.style.backgroundSize = 'cover';
+                        uploadBox.style.backgroundPosition = 'center';
+                       uploadBox.innerHTML = ''; // Remove icon and text
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Make the whole box clickable
+            uploadBox.addEventListener('click', function () {
+                imageInput.click();
+            });
+        });
+
     </script>
 }
+
 

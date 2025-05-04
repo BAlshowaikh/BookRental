@@ -17,19 +17,21 @@ namespace BookRentalObject
         [Key]
         [Column("authorId")]
         public int AuthorId { get; set; }
+        [Required]
         [Column("firstName")]
         [StringLength(100)]
-        public string FirstName { get; set; } = null!;
+        public string FirstName { get; set; }
+        [Required]
         [Column("lastName")]
         [StringLength(100)]
-        public string LastName { get; set; } = null!;
+        public string LastName { get; set; }
         [Column("email")]
         [StringLength(100)]
-        public string? Email { get; set; }
+        public string Email { get; set; }
+
+        public String FullName { get { return FirstName + " " + LastName; } }
 
         [InverseProperty("Author")]
         public virtual ICollection<Book> Books { get; set; }
-
-        public String FullName { get { return FirstName + " " + LastName; } }
     }
 }
