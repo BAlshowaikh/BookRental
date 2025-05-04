@@ -8,61 +8,67 @@
 <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
 
 <div class="container mt-2">
-    <h1 class="display-5 fw-bold text-dark mb-3">Rent a Book</h1>
-    <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
+    <h1 class="display-5 fw-bold text-dark mb-3">Create Rental Request</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to rental requests</a>
     <hr class="mb-4" />
 
-    <form asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
+        <!-- Read-only Display Fields -->
         <div class="form-group mb-3">
-            <label class="control-label">Book ID</label>
-            <input class="form-control" value="@ViewBag.BookId" readonly />
+            <label class="form-label">Book Name</label>
+            <input class="form-control" value="@ViewBag.BookName" readonly />
             <input type="hidden" asp-for="BookId" value="@ViewBag.BookId" />
         </div>
 
         <div class="form-group mb-3">
-            <label class="control-label">Book Name</label>
-            <input class="form-control" value="@ViewBag.BookName" readonly />
+            <label class="form-label">User ID</label>
+            <input class="form-control" value="1" readonly />
+            <input type="hidden" asp-for="UserId" value="1" /> 
         </div>
 
         <div class="form-group mb-3">
-            <label class="control-label">User Name</label>
-            <input class="form-control" value="Test user" readonly />
-            <!--<input type="hidden" asp-for="UserId" value="@ViewBag.UserId" />-->
-        </div>
-
-        <div class="form-group mb-3">
-            <label class="control-label">Rental Request Status</label>
+            <label class="form-label">Request Status</label>
             <input class="form-control" value="@ViewBag.RentalRequestStatus" readonly />
-            <input type="hidden" asp-for="RentalRequestStatusId" value="@* Pending Status ID *@" />
+            <input type="hidden" asp-for="RentalRequestStatusId" value="1" />
         </div>
 
+        <!-- User Input Fields -->
         <div class="form-group mb-3">
-            <label asp-for="RentalStartDate" class="control-label"></label>
-            <input asp-for="RentalStartDate" type="date" class="form-control" id="rentalStartDate" />
+            <label asp-for="RentalStartDate" class="form-label"></label>
+            <input asp-for="RentalStartDate" type="text" class="form-control input-border" id="rentalStartDate" />
             <span asp-validation-for="RentalStartDate" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-3">
-            <label asp-for="ReturnDate" class="control-label"></label>
-            <input asp-for="ReturnDate" type="date" class="form-control" id="returnDate" />
+            <label asp-for="ReturnDate" class="form-label"></label>
+            <input asp-for="ReturnDate" type="text" class="form-control input-border" id="returnDate" />
             <span asp-validation-for="ReturnDate" class="text-danger"></span>
         </div>
 
+
         <div class="form-group mb-3">
-            <label asp-for="TotalCost" class="control-label"></label>
-            <input asp-for="TotalCost" class="form-control" id="totalCost" readonly />
+            <label class="form-label">Total Cost</label>
+            <input asp-for="TotalCost" class="form-control input-border" readonly id="totalCost" />
+            <span asp-validation-for="TotalCost" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-success">Submit Rental Request</button>
+        <div class="form-group mb-3 text-danger d-none" id="dateWarning">
+            Rental period should not exceed 30 days.
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Submit Request" class="btn btn-success w-100" />
+        </div>
     </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        const rentalPrice = @ViewBag.RentalPrice;
+        <script>
+            const rentalPrice = @ViewBag.RentalPrice;
 
             function calculateCost() {
                 const start = new Date(document.getElementById('rentalStartDate').value);
@@ -73,11 +79,11 @@
                     const totalCost = (days * rentalPrice).toFixed(2);
                     document.getElementById('totalCost').value = totalCost;
                 } else {
-                    document.getElementById('totalCost').value = '';
+                    document.getElementById('totalCost').value = '';  // If no valid dates, clear the total cost
                 }
             }
 
-            const rentedRanges = @Html.Raw(ViewBag.RentedRanges);
+            const rentedRanges = @Html.Raw(ViewBag.RentedRanges ?? "[]");
 
             function isDateInRange(dateStr, fromStr, toStr) {
                 const date = new Date(dateStr);
@@ -99,7 +105,6 @@
                             if (isDateInRange(dateStr, r.RentalStartDate, r.ReturnDate)) {
                                 dayElem.style.border = "2px solid red";
                                 dayElem.style.borderRadius = "50%";
-                                dayElem.style.boxSizing = "border-box";
                                 dayElem.setAttribute("title", "Rented on this date");
                             }
                         });
@@ -107,13 +112,31 @@
                 });
             };
 
-            document.addEventListener('DOMContentLoaded', () => {
-                disableBookedDates(document.getElementById('rentalStartDate'));
-                disableBookedDates(document.getElementById('returnDate'));
+                                $(document).ready(function () {
+            // Disable booked dates
+            disableBookedDates(document.getElementById('rentalStartDate'));
+            disableBookedDates(document.getElementById('returnDate'));
 
-                document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
-                document.getElementById('returnDate').addEventListener('change', calculateCost);
+            // Calculate cost on date change
+            document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
+            document.getElementById('returnDate').addEventListener('change', calculateCost);
 
+            // Show success message and redirect if applicable
+            var successMessage = '@TempData["SuccessMessage"]';
+            var newRequestId = '@ViewBag.EditedBookId';
+            if (successMessage) {
+                showSuccessMessage(successMessage);
+
+        setTimeout(function () {
+            window.location.href = '/RentalRequests/Details/' + newRequestId;
+        }, 1000);
+            }
+
+            // Show error message if applicable
+            var errorMessage = '@TempData["ErrorMessage"]';
+            if (errorMessage) {
+                showErrorMessage(errorMessage);
+            }
         });
 
     </script>
