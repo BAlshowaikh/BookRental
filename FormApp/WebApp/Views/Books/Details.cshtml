@@ -91,7 +91,7 @@
 			foreach (var fb in Model.Feedbacks)
 			{
 				<div class="mb-4" id="feedback-@fb.FeedbackId">
-					<div class="fw-bold fs-5">Username: <span class="fw-normal">@fb.Transaction.User.FullName</span></div>
+					<div class="fw-bold fs-5">Username: <span class="fw-normal">@fb.ReturnRecord.Transaction.User.FullName</span></div>
 					<div class="ms-3 mt-2"><strong>Comment:</strong><br />@fb.Comment</div>
 					<div class="ms-3 mt-2">
 						<strong>Rating:</strong><br />

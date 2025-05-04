@@ -66,8 +66,9 @@ namespace WebApp.Controllers
                 .Include(b => b.BookCondition)
                 .Include(b => b.Category)
                 .Include(b => b.Image)
-                .Include(b => b.Feedbacks)                
-                    .ThenInclude(f => f.Transaction)       
+                .Include(b => b.Feedbacks)
+                    .ThenInclude(f => f.ReturnRecord)    
+                    .ThenInclude(r => r.Transaction)
                     .ThenInclude(t => t.User)              
                 .FirstOrDefaultAsync(m => m.BookId == id);
 
@@ -104,7 +105,8 @@ namespace WebApp.Controllers
                     _context.Add(book);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Book added successfully!";
-                    /*return RedirectToAction(nameof(Index));*/
+                    ViewBag.NewBookId = book.BookId;
+                    return View(book); // do NOT redirect here
                 }
                 catch (Exception)
                 {
@@ -157,7 +159,7 @@ namespace WebApp.Controllers
             if (id != book.BookId)
             {
                 TempData["ErrorMessage"] = "The book doesn't exist.";
-                 return View(book);   
+                return View(book);   
             }
 
             if (ModelState.IsValid)
@@ -167,6 +169,8 @@ namespace WebApp.Controllers
                     _context.Update(book);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Book edited successfully!";
+                    ViewBag.EditedBookId = book.BookId;
+                    return View(book); // do NOT redirect here
                 }
                 catch (Exception)
                 {

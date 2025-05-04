@@ -1,53 +1,80 @@
 ﻿@model BookRentalObject.RentalRequest
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="container mt-2">
+    <h1 class="display-5 fw-bold text-dark mb-3">Rent a Book</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
+    <hr class="mb-4" />
 
-<h4>RentalRequest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="RentalRequestStatusId" class="control-label"></label>
-                <select asp-for="RentalRequestStatusId" class ="form-control" asp-items="ViewBag.RentalRequestStatusId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="BookId" class="control-label"></label>
-                <select asp-for="BookId" class ="form-control" asp-items="ViewBag.BookId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="RentalStartDate" class="control-label"></label>
-                <input asp-for="RentalStartDate" class="form-control" />
-                <span asp-validation-for="RentalStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalCost" class="control-label"></label>
-                <input asp-for="TotalCost" class="form-control" />
-                <span asp-validation-for="TotalCost" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReturnDate" class="control-label"></label>
-                <input asp-for="ReturnDate" class="form-control" />
-                <span asp-validation-for="ReturnDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group mb-3">
+            <label class="control-label">Book ID</label>
+            <input class="form-control" value="@ViewBag.BookId" readonly />
+            <input type="hidden" asp-for="BookId" value="@ViewBag.BookId" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="control-label">Book Name</label>
+            <input class="form-control" value="@ViewBag.BookName" readonly />
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="control-label">User Name</label>
+            <input class="form-control" value="Test user" readonly />
+            <!--<input type="hidden" asp-for="UserId" value="@ViewBag.UserId" />-->
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="control-label">Rental Request Status</label>
+            <input class="form-control" value="@ViewBag.RentalRequestStatus" readonly />
+            <input type="hidden" asp-for="RentalRequestStatusId" value="@* Pending Status ID *@" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="RentalStartDate" class="control-label"></label>
+            <input asp-for="RentalStartDate" type="date" class="form-control" id="rentalStartDate" />
+            <span asp-validation-for="RentalStartDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="ReturnDate" class="control-label"></label>
+            <input asp-for="ReturnDate" type="date" class="form-control" id="returnDate" />
+            <span asp-validation-for="ReturnDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="TotalCost" class="control-label"></label>
+            <input asp-for="TotalCost" class="form-control" id="totalCost" readonly />
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit Rental Request</button>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    <script>
+        const rentalPrice = @ViewBag.RentalPrice;
 
+        document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
+        document.getElementById('returnDate').addEventListener('change', calculateCost);
+
+        function calculateCost() {
+            const start = new Date(document.getElementById('rentalStartDate').value);
+            const end = new Date(document.getElementById('returnDate').value);
+
+            if (start && end && end > start) {
+                const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                const totalCost = (days * rentalPrice).toFixed(2);
+                document.getElementById('totalCost').value = totalCost;
+            } else {
+                document.getElementById('totalCost').value = '';
+            }
+        }
+    </script>
+}

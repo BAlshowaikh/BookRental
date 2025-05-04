@@ -18,9 +18,10 @@ namespace BookRentalObject
         [Key]
         [Column("bookConditionId")]
         public int BookConditionId { get; set; }
+        [Required]
         [Column("returnCondition")]
         [StringLength(100)]
-        public string ReturnCondition { get; set; } = null!;
+        public string ReturnCondition { get; set; }
 
         [InverseProperty("BookCondition")]
         public virtual ICollection<Book> Books { get; set; }

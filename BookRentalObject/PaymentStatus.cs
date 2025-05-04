@@ -17,9 +17,10 @@ namespace BookRentalObject
         [Key]
         [Column("paymentId")]
         public int PaymentId { get; set; }
+        [Required]
         [Column("paymentStatus")]
         [StringLength(50)]
-        public string PaymentStatus1 { get; set; } = null!;
+        public string PaymentStatus1 { get; set; }
 
         [InverseProperty("PaymentStatus")]
         public virtual ICollection<RentalTransaction> RentalTransactions { get; set; }
