@@ -247,10 +247,8 @@ namespace WebApp.Controllers
             request.Book.AvailabilityStatusId = 2;
 
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Request approved successfully.";
-
-            // Redirect to Create with route values
-            return RedirectToAction("Create", "RentalTransactions", new
+            TempData["ApproveSuccess"] = "Request approved successfully.";
+            TempData["RedirectToTransaction"] = JsonSerializer.Serialize(new
             {
                 rentalRequestId = request.RequestId,
                 bookId = request.BookId,
@@ -259,6 +257,8 @@ namespace WebApp.Controllers
                 returnDate = request.ReturnDate.ToString("yyyy-MM-dd"),
                 totalCost = request.TotalCost
             });
+
+            return RedirectToAction("Index");
         }
 
         // In case the "Reject" button is clicked
@@ -276,10 +276,10 @@ namespace WebApp.Controllers
             // Set status to Rejected (3)
             request.RentalRequestStatusId = 3;
 
+            TempData["RejectSuccess"] = "Request rejected successfully.";
             await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
 
-            // Optionally redirect to index or details
-            return View("Index"); 
         }
     }
 } 

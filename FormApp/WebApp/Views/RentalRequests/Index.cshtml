@@ -87,19 +87,29 @@
 	<script>
 		$(document).ready(function () {
 			preventStretchedLinkClick();
-		});
-		var successMessage = '@TempData["SuccessMessage"]';
-		var errorMessage = '@TempData["ErrorMessage"]';
-		if (successMessage) {
-			showSuccessMessage(successMessage);
-					setTimeout(function () {
-			window.location.href = '/RentalRequests/Details/' + newRequestId;
-		}, 1000);
-			}
-		}
-		if (errorMessage) {
-				showErrorMessage(errorMessage);
-		}
 
+			var approveSuccess = '@TempData["ApproveSuccess"]';
+			var redirectData = '@TempData["RedirectToTransaction"]';
+			var rejectSuccess = '@TempData["RejectSuccess"]';
+			var successMessage = '@TempData["SuccessMessage"]';
+			var errorMessage = '@TempData["ErrorMessage"]';
+
+			if (approveSuccess) {
+				showSuccessMessage(approveSuccess);
+
+				// Delay before redirect
+				if (redirectData) {
+					setTimeout(function () {
+						var data = JSON.parse(redirectData.replace(/&quot;/g, '"'));
+						var url = `/RentalTransactions/Create?rentalRequestId=${data.rentalRequestId}&bookId=${data.bookId}&userId=${data.userId}&rentalStartDate=${data.rentalStartDate}&returnDate=${data.returnDate}&totalCost=${data.totalCost}`;
+						window.location.href = url;
+					}, 1500); // Wait 1.5 seconds
+				}
+			}
+
+			if (rejectSuccess) {
+				showSuccessMessage(rejectSuccess);
+			}
+		});
 	</script>
 }
