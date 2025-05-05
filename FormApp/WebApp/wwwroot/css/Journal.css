@@ -13650,6 +13650,12 @@ input.form-check-input {
     height: 1.2em;
 }
 
+/* Hover through the plus icon in the Books/Index*/
+.add-book-btn:hover {
+    transform: scale(1.2); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 
 
 
