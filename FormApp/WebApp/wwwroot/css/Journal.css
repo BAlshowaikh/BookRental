@@ -3031,6 +3031,13 @@ textarea.form-control-lg {
     background-position: top calc(.375em + .1875rem) right calc(.375em + .1875rem)
 }
 
+input.form-check-input {
+    border: 2px solid #8B5E3C; /* for check box in manage category, add new category */
+    border-radius: 0.25rem;
+    width: 1.2em;
+    height: 1.2em;
+}
+
 .form-select.is-valid, .was-validated .form-select:valid {
     border-color: var(--bs-form-valid-border-color)
 }
@@ -13489,9 +13496,15 @@ textarea.form-control-lg {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    border: 1px solid #ddd;
+    /*border: 1px solid #ddd;*/
     height: 180px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+    .main-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
 
 .second-card {
     display: flex;
@@ -13508,8 +13521,8 @@ textarea.form-control-lg {
 }
 
     .second-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        transform: scale(1.03);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
     }
 
 .card-image {

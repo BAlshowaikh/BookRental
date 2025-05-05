@@ -12,21 +12,24 @@ namespace BookRentalObject
         [Key]
         [Column("documentId")]
         public int DocumentId { get; set; }
+        [Required]
         [Column("filename")]
         [StringLength(100)]
-        public string Filename { get; set; } = null!;
+        public string Filename { get; set; }
         [Column("uploadDate", TypeName = "datetime")]
         public DateTime UploadDate { get; set; }
+        [Required]
         [Column("fileType")]
         [StringLength(50)]
-        public string FileType { get; set; } = null!;
+        public string FileType { get; set; }
+        [Required]
         [Column("BLOB")]
-        public byte[] Blob { get; set; } = null!;
+        public byte[] Blob { get; set; }
         [Column("userId")]
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
         [InverseProperty("Documents")]
-        public virtual User User { get; set; } = null!;
+        public virtual User User { get; set; }
     }
 }

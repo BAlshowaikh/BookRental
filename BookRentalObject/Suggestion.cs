@@ -6,27 +6,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookRentalObject
 {
-    [Table("Notification")]
-    public partial class Notification
+    [Table("Suggestion")]
+    public partial class Suggestion
     {
         [Key]
-        [Column("notificationId")]
-        public int NotificationId { get; set; }
+        [Column("suggestionId")]
+        public int SuggestionId { get; set; }
+        [Column("userId")]
+        public int UserId { get; set; }
         [Required]
         [Column("subject")]
-        [StringLength(50)]
+        [StringLength(100)]
         public string Subject { get; set; }
         [Required]
         [Column("message")]
-        [StringLength(100)]
         public string Message { get; set; }
-        [Column("status")]
-        public bool Status { get; set; }
-        [Column("userId")]
-        public int UserId { get; set; }
 
         [ForeignKey("UserId")]
-        [InverseProperty("Notifications")]
+        [InverseProperty("Suggestions")]
         public virtual User User { get; set; }
     }
 }

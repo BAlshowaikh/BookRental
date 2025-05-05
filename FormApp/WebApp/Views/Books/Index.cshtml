@@ -41,9 +41,10 @@
             </div>
         </form>
     </div>
+
     <a href="/Books/Create"
        class="rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center"
-       style="width: 40px; height: 40px; bottom: 20px; right: 20px; z-index: 1030; background-color:#79A87C; color:white;"
+       style="width: 60px; height: 60px; bottom: 20px; right: 20px; z-index: 1030; background-color:#79A87C; color:white;"
        data-bs-toggle="tooltip"
        data-bs-placement="left"
        title="Add new book">
@@ -70,7 +71,7 @@
                         <p>Author: @book.Author.FullName</p>
                         <p>Availability: @book.AvailabilityStatus.AvailabilityStatus1</p>
                         <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
-                            <a asp-controller="RentalRequest" asp-action="Rent" asp-route-id="@book.BookId" class="btn btn-sm btn-light  prevent-stretch">Rent</a>
+                            <a asp-controller="RentalRequests" asp-action="Create" asp-route-bookId="@book.BookId" class="btn btn-sm btn-light prevent-stretch">Rent</a>
                             <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-light  prevent-stretch">Edit</a>
                             <button type="button"
                                     id="toggle-btn-@book.BookId"

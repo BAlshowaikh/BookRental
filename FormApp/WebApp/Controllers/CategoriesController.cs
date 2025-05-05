@@ -45,10 +45,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Categories/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+       
 
         // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -66,6 +63,16 @@ namespace WebApp.Controllers
             return View(category);
         }
 
+        public IActionResult Create()
+        {
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("Create", new Category());
+            }
+
+            return View(new Category());
+        }
+
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -79,8 +86,16 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+
+            // Proper AJAX partial return
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("Edit", category);
+            }
+
             return View(category);
         }
+
 
         // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -133,6 +148,17 @@ namespace WebApp.Controllers
             }
 
             return View(category);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+            }
+            return Ok(); // Return success for AJAX
         }
 
         // POST: Categories/Delete/5

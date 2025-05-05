@@ -9,6 +9,11 @@ namespace BookRentalObject
     [Table("Return Records")]
     public partial class ReturnRecord
     {
+        public ReturnRecord()
+        {
+            Feedbacks = new HashSet<Feedback>();
+        }
+
         [Key]
         [Column("recordId")]
         public int RecordId { get; set; }
@@ -31,15 +36,17 @@ namespace BookRentalObject
 
         [ForeignKey("BookId")]
         [InverseProperty("ReturnRecords")]
-        public virtual Book Book { get; set; } = null!;
+        public virtual Book Book { get; set; }
         [ForeignKey("BookConditionId")]
         [InverseProperty("ReturnRecords")]
-        public virtual BookCondition BookCondition { get; set; } = null!;
+        public virtual BookCondition BookCondition { get; set; }
         [ForeignKey("ExtraChargesId")]
         [InverseProperty("ReturnRecords")]
-        public virtual ExtraCharge? ExtraCharges { get; set; }
+        public virtual ExtraCharge ExtraCharges { get; set; }
         [ForeignKey("TransactionId")]
         [InverseProperty("ReturnRecords")]
-        public virtual RentalTransaction Transaction { get; set; } = null!;
+        public virtual RentalTransaction Transaction { get; set; }
+        [InverseProperty("ReturnRecord")]
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
     }
 }

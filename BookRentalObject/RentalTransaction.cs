@@ -11,7 +11,6 @@ namespace BookRentalObject
     {
         public RentalTransaction()
         {
-            Feedbacks = new HashSet<Feedback>();
             ReturnRecords = new HashSet<ReturnRecord>();
         }
 
@@ -41,18 +40,16 @@ namespace BookRentalObject
 
         [ForeignKey("BookId")]
         [InverseProperty("RentalTransactions")]
-        public virtual Book Book { get; set; } = null!;
+        public virtual Book Book { get; set; }
         [ForeignKey("PaymentMethodId")]
         [InverseProperty("RentalTransactions")]
-        public virtual PaymentMethod PaymentMethod { get; set; } = null!;
+        public virtual PaymentMethod PaymentMethod { get; set; }
         [ForeignKey("PaymentStatusId")]
         [InverseProperty("RentalTransactions")]
-        public virtual PaymentStatus PaymentStatus { get; set; } = null!;
+        public virtual PaymentStatus PaymentStatus { get; set; }
         [ForeignKey("UserId")]
         [InverseProperty("RentalTransactions")]
-        public virtual User User { get; set; } = null!;
-        [InverseProperty("Transaction")]
-        public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual User User { get; set; }
         [InverseProperty("Transaction")]
         public virtual ICollection<ReturnRecord> ReturnRecords { get; set; }
     }

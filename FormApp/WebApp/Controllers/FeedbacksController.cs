@@ -21,7 +21,12 @@ namespace WebApp.Controllers
         // GET: Feedbacks
         public async Task<IActionResult> Index()
         {
-            var bookRentalDBContext = _context.Feedbacks.Include(f => f.Book).Include(f => f.Transaction);
+            var bookRentalDBContext = _context.Feedbacks
+                .Include(f => f.Book)                          
+                .Include(f => f.ReturnRecord)                   
+                    .ThenInclude(r => r.Transaction)            
+                    .ThenInclude(t => t.User);                  
+
             return View(await bookRentalDBContext.ToListAsync());
         }
 
@@ -34,9 +39,11 @@ namespace WebApp.Controllers
             }
 
             var feedback = await _context.Feedbacks
-                .Include(f => f.Book)
-                .Include(f => f.Transaction)
-                .FirstOrDefaultAsync(m => m.FeedbackId == id);
+        .Include(f => f.Book)                          
+        .Include(f => f.ReturnRecord)                   
+            .ThenInclude(r => r.Transaction)            
+            .ThenInclude(t => t.User)                  
+        .FirstOrDefaultAsync(m => m.FeedbackId == id);
             if (feedback == null)
             {
                 return NotFound();
@@ -67,7 +74,13 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", feedback.BookId);
-            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId", feedback.TransactionId);
+            ViewData["TransactionId"] = new SelectList(
+                _context.ReturnRecords.Select(r => r.Transaction).Distinct(),  // Select unique Transactions from ReturnRecords
+                "TransactionId",           // The field you want to use for the option's value
+                "TransactionId",           // The field you want to display in the select list
+                feedback.ReturnRecord?.TransactionId // Set the selected value (if any) from the associated ReturnRecord's TransactionId
+            );
+
             return View(feedback);
         }
 
@@ -85,7 +98,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
             ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", feedback.BookId);
-            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId", feedback.TransactionId);
+            // instead of TransactionId
+            ViewData["ReturnRecordId"] = new SelectList(
+                _context.ReturnRecords,
+                "recordId",         
+                "recordId",          
+                feedback.ReturnRecordId  
+            );
+
             return View(feedback);
         }
 
@@ -122,7 +142,12 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", feedback.BookId);
-            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId", feedback.TransactionId);
+            ViewData["ReturnRecordId"] = new SelectList(
+                _context.ReturnRecords,
+                "recordId",          // the PK of your Return Records table
+                "recordId",          // what to display in the dropdown (you could swap this for some descriptive field)
+                feedback.ReturnRecordId  // the current value, if any
+            );
             return View(feedback);
         }
 
@@ -136,7 +161,7 @@ namespace WebApp.Controllers
 
             var feedback = await _context.Feedbacks
                 .Include(f => f.Book)
-                .Include(f => f.Transaction)
+                .Include(f => f.ReturnRecord)
                 .FirstOrDefaultAsync(m => m.FeedbackId == id);
             if (feedback == null)
             {

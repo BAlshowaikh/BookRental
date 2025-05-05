@@ -16,18 +16,21 @@ namespace BookRentalObject
         public int UserId { get; set; }
         [Column("timestamp", TypeName = "datetime")]
         public DateTime Timestamp { get; set; }
+        [Required]
         [Column("affectedData")]
         [StringLength(100)]
-        public string AffectedData { get; set; } = null!;
+        public string AffectedData { get; set; }
+        [Required]
         [Column("source")]
         [StringLength(100)]
-        public string Source { get; set; } = null!;
+        public string Source { get; set; }
+        [Required]
         [Column("exceptions")]
         [StringLength(100)]
-        public string Exceptions { get; set; } = null!;
+        public string Exceptions { get; set; }
 
         [ForeignKey("UserId")]
         [InverseProperty("Logs")]
-        public virtual User User { get; set; } = null!;
+        public virtual User User { get; set; }
     }
 }

@@ -16,26 +16,27 @@ namespace BookRentalObject
         {
         }
 
-        public virtual DbSet<AuditTrail> AuditTrails { get; set; } = null!;
-        public virtual DbSet<Author> Authors { get; set; } = null!;
-        public virtual DbSet<AvailabilityStatus> AvailabilityStatuses { get; set; } = null!;
-        public virtual DbSet<Book> Books { get; set; } = null!;
-        public virtual DbSet<BookCondition> BookConditions { get; set; } = null!;
-        public virtual DbSet<Category> Categories { get; set; } = null!;
-        public virtual DbSet<Document> Documents { get; set; } = null!;
-        public virtual DbSet<ExtraCharge> ExtraCharges { get; set; } = null!;
-        public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
-        public virtual DbSet<Image> Images { get; set; } = null!;
-        public virtual DbSet<Log> Logs { get; set; } = null!;
-        public virtual DbSet<Notification> Notifications { get; set; } = null!;
-        public virtual DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
-        public virtual DbSet<PaymentStatus> PaymentStatuses { get; set; } = null!;
-        public virtual DbSet<RentalRequest> RentalRequests { get; set; } = null!;
-        public virtual DbSet<RentalRequestStatus> RentalRequestStatuses { get; set; } = null!;
-        public virtual DbSet<RentalTransaction> RentalTransactions { get; set; } = null!;
-        public virtual DbSet<ReturnRecord> ReturnRecords { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
+        public virtual DbSet<AuditTrail> AuditTrails { get; set; }
+        public virtual DbSet<Author> Authors { get; set; }
+        public virtual DbSet<AvailabilityStatus> AvailabilityStatuses { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<BookCondition> BookConditions { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Document> Documents { get; set; }
+        public virtual DbSet<ExtraCharge> ExtraCharges { get; set; }
+        public virtual DbSet<Feedback> Feedbacks { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public virtual DbSet<PaymentStatus> PaymentStatuses { get; set; }
+        public virtual DbSet<RentalRequest> RentalRequests { get; set; }
+        public virtual DbSet<RentalRequestStatus> RentalRequestStatuses { get; set; }
+        public virtual DbSet<RentalTransaction> RentalTransactions { get; set; }
+        public virtual DbSet<ReturnRecord> ReturnRecords { get; set; }
+        public virtual DbSet<Suggestion> Suggestions { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -109,11 +110,10 @@ namespace BookRentalObject
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_Book");
 
-                entity.HasOne(d => d.Transaction)
+                entity.HasOne(d => d.ReturnRecord)
                     .WithMany(p => p.Feedbacks)
-                    .HasForeignKey(d => d.TransactionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Feedback_Rental Transaction");
+                    .HasForeignKey(d => d.ReturnRecordId)
+                    .HasConstraintName("FK_Feedback_ReturnRecords");
             });
 
             modelBuilder.Entity<Log>(entity =>
@@ -206,6 +206,15 @@ namespace BookRentalObject
                     .HasForeignKey(d => d.TransactionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Return Records_Rental Transaction");
+            });
+
+            modelBuilder.Entity<Suggestion>(entity =>
+            {
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Suggestions)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Suggestion_User");
             });
 
             modelBuilder.Entity<User>(entity =>

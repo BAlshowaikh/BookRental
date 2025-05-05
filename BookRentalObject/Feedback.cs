@@ -16,21 +16,21 @@ namespace BookRentalObject
         public DateTime Timestamp { get; set; }
         [Column("comment")]
         [StringLength(100)]
-        public string? Comment { get; set; }
-        [Column("transactionId")]
-        public int TransactionId { get; set; }
+        public string Comment { get; set; }
         [Column("rate")]
         public int Rate { get; set; }
         [Column("bookId")]
         public int BookId { get; set; }
         [Column("isHidden")]
         public bool IsHidden { get; set; }
+        [Column("returnRecordId")]
+        public int? ReturnRecordId { get; set; }
 
         [ForeignKey("BookId")]
         [InverseProperty("Feedbacks")]
-        public virtual Book Book { get; set; } = null!;
-        [ForeignKey("TransactionId")]
+        public virtual Book Book { get; set; }
+        [ForeignKey("ReturnRecordId")]
         [InverseProperty("Feedbacks")]
-        public virtual RentalTransaction Transaction { get; set; } = null!;
+        public virtual ReturnRecord ReturnRecord { get; set; }
     }
 }
