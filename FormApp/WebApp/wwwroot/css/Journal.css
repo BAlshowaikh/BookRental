@@ -3031,12 +3031,6 @@ textarea.form-control-lg {
     background-position: top calc(.375em + .1875rem) right calc(.375em + .1875rem)
 }
 
-input.form-check-input {
-    border: 2px solid #8B5E3C; /* for check box in manage category, add new category */
-    border-radius: 0.25rem;
-    width: 1.2em;
-    height: 1.2em;
-}
 
 .form-select.is-valid, .was-validated .form-select:valid {
     border-color: var(--bs-form-valid-border-color)
@@ -3278,7 +3272,7 @@ input.form-check-input {
 }
 
 .btn-secondary {
-    --bs-btn-color: var(--bs-dark);
+    --bs-btn-color: var(--bs-light);
     --bs-btn-bg: var(--bs-secondary);
     --bs-btn-border-color: var(--bs-secondary);
     --bs-btn-hover-color: var(--bs-light);
@@ -3294,17 +3288,17 @@ input.form-check-input {
 }
 
 .btn-success {
-    --bs-btn-color: var(--bs-dark);
+    --bs-btn-color: var(--bs-light);
     --bs-btn-bg: var(--bs-success);
     --bs-btn-border-color: var(--bs-success);
-    --bs-btn-hover-color: var(--bs-dark);
+    --bs-btn-hover-color: var(--bs-light);
     --bs-btn-hover-bg: var(--bs-success-text-emphasis);
     --bs-btn-hover-border-color: var(--bs-success-text-emphasis);
     --bs-btn-focus-shadow-rgb: var(--bs-success-rgb);
-    --bs-btn-active-color: var(--bs-dark);
+    --bs-btn-active-color: var(--bs-light);
     --bs-btn-active-bg: var(--bs-success-border-subtle);
     --bs-btn-active-border-color: var(--bs-success-border-subtle);
-    --bs-btn-disabled-color: var(--bs-dark);
+    --bs-btn-disabled-color: var(--bs-light);
     --bs-btn-disabled-bg: var(--bs-success);
     --bs-btn-disabled-border-color: var(--bs-success);
 }
@@ -13499,6 +13493,8 @@ input.form-check-input {
     /*border: 1px solid #ddd;*/
     height: 180px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-style: solid !important; 
+    border-width: 4px !important; 
 }
 
     .main-card:hover {
@@ -13644,6 +13640,14 @@ input.form-check-input {
     height: 250px;
     background-color: #f8f9fa;
     cursor: pointer;
+}
+
+/* styling */
+input.form-check-input {
+    border: 2px solid #8B5E3C; /* for check box in manage category, add new category */
+    border-radius: 0.25rem;
+    width: 1.2em;
+    height: 1.2em;
 }
 
 

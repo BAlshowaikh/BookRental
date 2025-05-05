@@ -225,5 +225,61 @@ namespace WebApp.Controllers
         {
             return (_context.RentalRequests?.Any(e => e.RequestId == id)).GetValueOrDefault();
         }
+
+        // In case the "Approve" button is clicked
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var request = await _context.RentalRequests
+                .Include(r => r.Book)
+                .FirstOrDefaultAsync(r => r.RequestId == id);
+
+            if (request == null)
+            {
+                TempData["ErrorMessage"] = "Request not found.";
+                return RedirectToAction("Index");
+            }
+
+            // Update rental request status to Approved (2)
+            request.RentalRequestStatusId = 2;
+
+            // Update book availability status to Rented (2)
+            request.Book.AvailabilityStatusId = 2;
+
+            await _context.SaveChangesAsync();
+            TempData["ApproveSuccess"] = "Request approved successfully.";
+            TempData["RedirectToTransaction"] = JsonSerializer.Serialize(new
+            {
+                rentalRequestId = request.RequestId,
+                bookId = request.BookId,
+                userId = request.UserId,
+                rentalStartDate = request.RentalStartDate.ToString("yyyy-MM-dd"),
+                returnDate = request.ReturnDate.ToString("yyyy-MM-dd"),
+                totalCost = request.TotalCost
+            });
+
+            return RedirectToAction("Index");
+        }
+
+        // In case the "Reject" button is clicked
+        [HttpPost]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var request = await _context.RentalRequests.FindAsync(id);
+
+            if (request == null)
+            {
+                TempData["ErrorMessage"] = "Request not found.";
+                return View();
+            }
+
+            // Set status to Rejected (3)
+            request.RentalRequestStatusId = 3;
+
+            TempData["RejectSuccess"] = "Request rejected successfully.";
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+
+        }
     }
-}
+} 
