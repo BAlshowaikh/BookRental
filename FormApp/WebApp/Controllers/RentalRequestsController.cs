@@ -9,6 +9,7 @@ using BookRentalObject;
 using System.Net;
 using System.Text.Json;
 
+
 namespace WebApp.Controllers
 {
     public class RentalRequestsController : Controller
@@ -132,14 +133,27 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var rentalRequest = await _context.RentalRequests.FindAsync(id);
+            var rentalRequest = await _context.RentalRequests
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .Include(r => r.RentalRequestStatus)
+                .FirstOrDefaultAsync(r => r.RequestId == id);
+
             if (rentalRequest == null)
             {
                 return NotFound();
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", rentalRequest.BookId);
-            ViewData["RentalRequestStatusId"] = new SelectList(_context.RentalRequestStatuses, "RentalRequestStatusId", "Status", rentalRequest.RentalRequestStatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName", rentalRequest.UserId);
+
+            ViewBag.BookName = rentalRequest.Book?.Name ?? "Unknown Book";
+            ViewBag.UserFullName = rentalRequest.User?.FullName ?? "Unknown User";
+            ViewBag.RentalRequestStatus = rentalRequest.RentalRequestStatus?.Status ?? "Unknown Status";
+            ViewBag.BookId = rentalRequest.BookId;
+            ViewBag.RentalPrice = rentalRequest.Book?.RentalPrice ?? 0;
+            ViewBag.RentedRanges = Newtonsoft.Json.JsonConvert.SerializeObject(await _context.RentalRequests
+                .Where(r => r.BookId == rentalRequest.BookId && r.RequestId != rentalRequest.RequestId)
+                .Select(r => new { r.RentalStartDate, r.ReturnDate })
+                .ToListAsync());
+
             return View(rentalRequest);
         }
 
@@ -161,23 +175,21 @@ namespace WebApp.Controllers
                 {
                     _context.Update(rentalRequest);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Rental request updated successfully!";
+                    return RedirectToAction(nameof(Edit), new { id = rentalRequest.RequestId });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RentalRequestExists(rentalRequest.RequestId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    TempData["ErrorMessage"] = "An error occurred while editing the rental request.";
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", rentalRequest.BookId);
+            else
+            {
+                TempData["ErrorMessage"] = "Please correct the errors and try again.";
+            }
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Name", rentalRequest.BookId);
             ViewData["RentalRequestStatusId"] = new SelectList(_context.RentalRequestStatuses, "RentalRequestStatusId", "Status", rentalRequest.RentalRequestStatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName", rentalRequest.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FullName", rentalRequest.UserId);
             return View(rentalRequest);
         }
 
