@@ -61,9 +61,17 @@
         {
             <div class="col-md-4">
                 <div class="second-card" style="font-weight:bold">
-                    
-                    <div class="col-5 d-flex align-items-center">
+
+                    <div class="col-5 d-flex justify-content-center align-items-center" style="height: 100%; min-height: 200px;">
+                        @if (book.ImageId != null)
+                        {
+                            <img src="@Url.Action("GetImage", "Images", new { id = book.ImageId })"
+                                 alt="@book.Name"
+                                 class="img-fluid rounded shadow-sm"
+                                 style="height: 180px; width: auto; object-fit: contain;" />
+                        }
                     </div>
+
                     <div class="card-info">
                         <h5 class="text-dark">@book.Name</h5>
                         <p>ID: @book.BookId</p>
