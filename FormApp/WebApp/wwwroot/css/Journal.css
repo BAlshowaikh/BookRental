@@ -3031,12 +3031,6 @@ textarea.form-control-lg {
     background-position: top calc(.375em + .1875rem) right calc(.375em + .1875rem)
 }
 
-input.form-check-input {
-    border: 2px solid #8B5E3C; /* for check box in manage category, add new category */
-    border-radius: 0.25rem;
-    width: 1.2em;
-    height: 1.2em;
-}
 
 .form-select.is-valid, .was-validated .form-select:valid {
     border-color: var(--bs-form-valid-border-color)
@@ -3278,7 +3272,7 @@ input.form-check-input {
 }
 
 .btn-secondary {
-    --bs-btn-color: var(--bs-dark);
+    --bs-btn-color: var(--bs-light);
     --bs-btn-bg: var(--bs-secondary);
     --bs-btn-border-color: var(--bs-secondary);
     --bs-btn-hover-color: var(--bs-light);
@@ -3294,17 +3288,17 @@ input.form-check-input {
 }
 
 .btn-success {
-    --bs-btn-color: var(--bs-dark);
+    --bs-btn-color: var(--bs-light);
     --bs-btn-bg: var(--bs-success);
     --bs-btn-border-color: var(--bs-success);
-    --bs-btn-hover-color: var(--bs-dark);
+    --bs-btn-hover-color: var(--bs-light);
     --bs-btn-hover-bg: var(--bs-success-text-emphasis);
     --bs-btn-hover-border-color: var(--bs-success-text-emphasis);
     --bs-btn-focus-shadow-rgb: var(--bs-success-rgb);
-    --bs-btn-active-color: var(--bs-dark);
+    --bs-btn-active-color: var(--bs-light);
     --bs-btn-active-bg: var(--bs-success-border-subtle);
     --bs-btn-active-border-color: var(--bs-success-border-subtle);
-    --bs-btn-disabled-color: var(--bs-dark);
+    --bs-btn-disabled-color: var(--bs-light);
     --bs-btn-disabled-bg: var(--bs-success);
     --bs-btn-disabled-border-color: var(--bs-success);
 }
@@ -13499,6 +13493,8 @@ input.form-check-input {
     /*border: 1px solid #ddd;*/
     height: 180px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-style: solid !important; 
+    border-width: 4px !important; 
 }
 
     .main-card:hover {
@@ -13645,6 +13641,48 @@ input.form-check-input {
     background-color: #f8f9fa;
     cursor: pointer;
 }
+
+/* styling */
+input.form-check-input {
+    border: 2px solid #8B5E3C; /* for check box in manage category, add new category */
+    border-radius: 0.25rem;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+/* Hover through the plus icon in the Books/Index*/
+.add-book-btn:hover {
+    transform: scale(1.2); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.status-badge { /* for manage categories, active or inactive status*/
+    font-size: 0.9rem;
+    padding: 0.4em 0.75em;
+    border-radius: 1rem;
+    font-weight: 600;
+    color: white; /* important for visibility */
+    display: inline-block;
+}
+
+.bg-active { /* for manage categories, active or inactive status*/
+    background-color: #2e7d32 !important; /* deep green */
+}
+
+.bg-inactive { /* for manage categories, active or inactive status*/
+    background-color: #c0392b !important; /* bold red */
+}
+
+.custom-brown {
+    background-color: #8B5E3C; /* modal brown color */
+}
+
+.btn-close-brown {
+    filter: none; /* modal brown color */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M2.146 2.146a.5.5 0 011 0L8 6.293l4.854-4.853a.5.5 0 11.708.708L8.707 7l4.855 4.854a.5.5 0 01-.708.708L8 7.707l-4.854 4.855a.5.5 0 01-.708-.708L7.293 7 2.146 2.854a.5.5 0 010-.708z'/%3E%3C/svg%3E");
+}
+
 
 
 

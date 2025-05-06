@@ -8,136 +8,173 @@
 <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
 
 <div class="container mt-2">
-    <h1 class="display-5 fw-bold text-dark mb-3">Create Rental Request</h1>
-    <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to rental requests</a>
-    <hr class="mb-4" />
+	<h1 class="display-5 fw-bold text-dark mb-3">Create Rental Request</h1>
+	<a asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
+	<hr class="mb-4" />
 
-    <form asp-action="Create" method="post">
-        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+	<form asp-action="Create" method="post">
+		<div asp-validation-summary="All" class="text-danger mb-3"></div>
+		<input type="hidden" asp-for="BookId" value="@ViewBag.BookId" />
 
-        <!-- Read-only Display Fields -->
-        <div class="form-group mb-3">
-            <label class="form-label">Book Name</label>
-            <input class="form-control" value="@ViewBag.BookName" readonly />
-            <input type="hidden" asp-for="BookId" value="@ViewBag.BookId" />
-        </div>
+		<!-- Read-only Display Fields -->
+		<div class="form-group mb-3">
+			<label class="form-label">Book Name</label>
+			<input class="form-control" value="@ViewBag.BookName" readonly />
 
-        <div class="form-group mb-3">
-            <label class="form-label">User ID</label>
-            <input class="form-control" value="1" readonly />
-            <input type="hidden" asp-for="UserId" value="1" /> 
-        </div>
+		</div>
 
-        <div class="form-group mb-3">
-            <label class="form-label">Request Status</label>
-            <input class="form-control" value="@ViewBag.RentalRequestStatus" readonly />
-            <input type="hidden" asp-for="RentalRequestStatusId" value="1" />
-        </div>
+		<div class="form-group mb-3">
+			<label class="form-label">User ID</label>
+			<input class="form-control" value="1" readonly />
+			<input type="hidden" asp-for="UserId" value="1" />
+		</div>
 
-        <!-- User Input Fields -->
-        <div class="form-group mb-3">
-            <label asp-for="RentalStartDate" class="form-label"></label>
-            <input asp-for="RentalStartDate" type="text" class="form-control input-border" id="rentalStartDate" />
-            <span asp-validation-for="RentalStartDate" class="text-danger"></span>
-        </div>
+		<div class="form-group mb-3">
+			<label class="form-label">Request Status</label>
+			<input class="form-control" value="@ViewBag.RentalRequestStatus" readonly />
+			<input type="hidden" asp-for="RentalRequestStatusId" value="1" />
+		</div>
 
-        <div class="form-group mb-3">
-            <label asp-for="ReturnDate" class="form-label"></label>
-            <input asp-for="ReturnDate" type="text" class="form-control input-border" id="returnDate" />
-            <span asp-validation-for="ReturnDate" class="text-danger"></span>
-        </div>
+		<!-- User Input Fields -->
+		<div class="form-group mb-3">
+			<label asp-for="RentalStartDate" class="form-label"></label>
+			<input asp-for="RentalStartDate" type="text" class="form-control input-border" id="rentalStartDate" />
+			<span asp-validation-for="RentalStartDate" class="text-danger"></span>
+		</div>
 
+		<div class="form-group mb-3">
+			<label asp-for="ReturnDate" class="form-label"></label>
+			<input asp-for="ReturnDate" type="text" class="form-control input-border" id="returnDate" />
+			<span asp-validation-for="ReturnDate" class="text-danger"></span>
+		</div>
 
-        <div class="form-group mb-3">
-            <label class="form-label">Total Cost</label>
-            <input asp-for="TotalCost" class="form-control input-border" readonly id="totalCost" />
-            <span asp-validation-for="TotalCost" class="text-danger"></span>
-        </div>
+		<div class="form-group mb-1 text-danger d-none" id="dateWarning">
+			Rental period should not exceed 30 days.
+		</div>
 
-        <div class="form-group mb-3 text-danger d-none" id="dateWarning">
-            Rental period should not exceed 30 days.
-        </div>
+		<div class="form-group mb-3">
+			<label class="form-label">Total Cost</label>
+			<input asp-for="TotalCost" class="form-control input-border" readonly id="totalCost" />
+			<span asp-validation-for="TotalCost" class="text-danger"></span>
+		</div>
 
-        <div class="form-group">
-            <input type="submit" value="Submit Request" class="btn btn-success w-100" />
-        </div>
-    </form>
+		<div class="form-group mb-3 text-danger d-none" id="dateWarning">
+			Rental period should not exceed 30 days.
+		</div>
+
+		<div class="form-group">
+			<input type="submit" value="Submit Request" class="btn btn-success w-100" />
+		</div>
+	</form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 @section Scripts {
-        <script>
-            const rentalPrice = @ViewBag.RentalPrice;
+	<script>
+		const rentalPrice = @ViewBag.RentalPrice;
 
-            function calculateCost() {
-                const start = new Date(document.getElementById('rentalStartDate').value);
-                const end = new Date(document.getElementById('returnDate').value);
+		function calculateCost() {
+			const startInput = document.getElementById('rentalStartDate');
+			const endInput = document.getElementById('returnDate');
+			const start = new Date(startInput.value);
+			const end = new Date(endInput.value);
+			const dateWarning = document.getElementById('dateWarning');
+			const submitButton = document.querySelector('input[type="submit"]');
 
-                if (start && end && end > start) {
-                    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-                    const totalCost = (days * rentalPrice).toFixed(2);
-                    document.getElementById('totalCost').value = totalCost;
-                } else {
-                    document.getElementById('totalCost').value = '';  // If no valid dates, clear the total cost
-                }
-            }
+			if (start && end) {
+				// Calculate the difference in days
+				const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
 
-            const rentedRanges = @Html.Raw(ViewBag.RentedRanges ?? "[]");
+				// Check if return date is before rental start date
+				if (end < start) {
+					dateWarning.textContent = "Return date cannot be before rental start date.";
+					dateWarning.classList.remove('d-none');
+					submitButton.disabled = true;
+					document.getElementById('totalCost').value = '';
+				}
+				// Check if rental period exceeds 30 days
+				else if (days > 30) {
+					dateWarning.textContent = "Rental period should not exceed 30 days.";
+					dateWarning.classList.remove('d-none');
+					submitButton.disabled = true;
+					document.getElementById('totalCost').value = '';
+				}
+				// Check if rental start date is equal to return date
+				else if (start.getDate() === end.getDate()) {
+					dateWarning.textContent = "Rental start date cannot be the same as return date.";
+					dateWarning.classList.remove('d-none');
+					submitButton.disabled = true;
+					document.getElementById('totalCost').value = '';
+				}
+				// If the date is valid, calculate the cost
+				else {
+					dateWarning.classList.add('d-none');
+					submitButton.disabled = false;
+					const totalCost = (days * rentalPrice).toFixed(2);
+					document.getElementById('totalCost').value = totalCost;
+				}
+			} else {
+				// If dates are empty, reset everything
+				dateWarning.classList.add('d-none');
+				submitButton.disabled = false;
+				document.getElementById('totalCost').value = '';
+			}
+		}
 
-            function isDateInRange(dateStr, fromStr, toStr) {
-                const date = new Date(dateStr);
-                const from = new Date(fromStr);
-                const to = new Date(toStr);
-                return date >= from && date <= to;
-            }
+		const rentedRanges = @Html.Raw(ViewBag.RentedRanges ?? "[]");
 
-            const disableBookedDates = (input) => {
-                flatpickr(input, {
-                    dateFormat: "Y-m-d",
-                    disable: rentedRanges.map(r => ({
-                        from: r.RentalStartDate,
-                        to: r.ReturnDate
-                    })),
-                    onDayCreate: function(dObj, dStr, fp, dayElem) {
-                        const dateStr = dayElem.dateObj.toISOString().split('T')[0];
-                        rentedRanges.forEach(r => {
-                            if (isDateInRange(dateStr, r.RentalStartDate, r.ReturnDate)) {
-                                dayElem.style.border = "2px solid red";
-                                dayElem.style.borderRadius = "50%";
-                                dayElem.setAttribute("title", "Rented on this date");
-                            }
-                        });
-                    }
-                });
-            };
+		function isDateInRange(dateStr, fromStr, toStr) {
+			const date = new Date(dateStr);
+			const from = new Date(fromStr);
+			const to = new Date(toStr);
+			return date >= from && date <= to;
+		}
 
-                                $(document).ready(function () {
-            // Disable booked dates
-            disableBookedDates(document.getElementById('rentalStartDate'));
-            disableBookedDates(document.getElementById('returnDate'));
+		const disableBookedDates = (input) => {
+			flatpickr(input, {
+				dateFormat: "Y-m-d",
+				disable: rentedRanges.map(r => ({
+					from: r.RentalStartDate,
+					to: r.ReturnDate
+				})),
+				onDayCreate: function(dObj, dStr, fp, dayElem) {
+					const dateStr = dayElem.dateObj.toISOString().split('T')[0];
+					rentedRanges.forEach(r => {
+						if (isDateInRange(dateStr, r.RentalStartDate, r.ReturnDate)) {
+							dayElem.style.border = "2px solid red";
+							dayElem.style.borderRadius = "50%";
+							dayElem.setAttribute("title", "Rented on this date");
+						}
+					});
+				}
+			});
+		};
 
-            // Calculate cost on date change
-            document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
-            document.getElementById('returnDate').addEventListener('change', calculateCost);
+		$(document).ready(function () {
+			// Disable booked dates
+			disableBookedDates(document.getElementById('rentalStartDate'));
+			disableBookedDates(document.getElementById('returnDate'));
 
-            // Show success message and redirect if applicable
-            var successMessage = '@TempData["SuccessMessage"]';
-            var newRequestId = '@ViewBag.EditedBookId';
-            if (successMessage) {
-                showSuccessMessage(successMessage);
+			// Calculate cost on date change
+			document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
+			document.getElementById('returnDate').addEventListener('change', calculateCost);
 
-        setTimeout(function () {
-            window.location.href = '/RentalRequests/Details/' + newRequestId;
-        }, 1000);
-            }
+			// Show success message and redirect if applicable
+			var successMessage = '@TempData["SuccessMessage"]';
+			if (successMessage) {
+				showSuccessMessage(successMessage);
 
-            // Show error message if applicable
-            var errorMessage = '@TempData["ErrorMessage"]';
-            if (errorMessage) {
-                showErrorMessage(errorMessage);
-            }
-        });
+				setTimeout(function () {
+					window.location.href = '/RentalRequests';
+				}, 1000);
+			}
 
-    </script>
+			// Show error message if applicable
+			var errorMessage = '@TempData["ErrorMessage"]';
+			if (errorMessage) {
+				showErrorMessage(errorMessage);
+			}
+		});
+	</script>
 }

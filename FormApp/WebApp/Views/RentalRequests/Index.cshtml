@@ -13,13 +13,13 @@
 		{
 			var borderClass = request.RentalRequestStatus.RentalRequestStatusId switch
 			{
-				1 => "border-2 border-secondary", // gray
-				2 => "border-2 border-success",   // green
-				3 => "border-2 border-danger",    // red
-				_ => "border-2 border-dark"       // fallback
+				1 => "border border-2 border-dark border-opacity-100", // gray
+				2 => "border border-2 border-success border-opacity-100",   // green
+				3 => "border border-2 border-danger border-opacity-100",    // red
+				_ => "border border-2 border-dark border-opacity-100"       // fallback
 			};
 
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="main-card mb-4 card-clickable @borderClass"
 					 data-bs-toggle="modal"
 					 data-bs-target="#detailsModal-@request.RequestId"
@@ -29,14 +29,22 @@
 						<h3 class="text-dark">Request ID: @request.RequestId</h3>
 						<h5>Book Name: @request.Book.Name</h5>
 						<h5>Request Status: @request.RentalRequestStatus.Status</h5>
-						<div class="mt-3">
+
+						<div class="mt-3 d-flex flex-wrap gap-2">
+							<a asp-action="Edit"
+							   asp-route-id="@request.RequestId"
+							   class="btn btn-sm btn-light">
+								Edit
+							</a>
+
 							@if (request.RentalRequestStatus.Status == "Pending")
 							{
-								<a asp-action="Edit"
-								   asp-route-id="@request.RequestId"
-								   class="btn btn-light btn-sm prevent-stretch">
-									Update
-								</a>
+								<form asp-action="Approve" asp-route-id="@request.RequestId" method="post">
+									<button type="submit" class="btn btn-sm btn-success text-light">Approve</button>
+								</form>
+								<form asp-action="Reject" asp-route-id="@request.RequestId" method="post">
+									<button type="submit" class="btn btn-sm btn-danger">Reject</button>
+								</form>
 							}
 						</div>
 					</div>
@@ -79,6 +87,29 @@
 	<script>
 		$(document).ready(function () {
 			preventStretchedLinkClick();
+
+			var approveSuccess = '@TempData["ApproveSuccess"]';
+			var redirectData = '@TempData["RedirectToTransaction"]';
+			var rejectSuccess = '@TempData["RejectSuccess"]';
+			var successMessage = '@TempData["SuccessMessage"]';
+			var errorMessage = '@TempData["ErrorMessage"]';
+
+			if (approveSuccess) {
+				showSuccessMessage(approveSuccess);
+
+				// Delay before redirect
+				if (redirectData) {
+					setTimeout(function () {
+						var data = JSON.parse(redirectData.replace(/&quot;/g, '"'));
+						var url = `/RentalTransactions/Create?rentalRequestId=${data.rentalRequestId}&bookId=${data.bookId}&userId=${data.userId}&rentalStartDate=${data.rentalStartDate}&returnDate=${data.returnDate}&totalCost=${data.totalCost}`;
+						window.location.href = url;
+					}, 1500); // Wait 1.5 seconds
+				}
+			}
+
+			if (rejectSuccess) {
+				showSuccessMessage(rejectSuccess);
+			}
 		});
 	</script>
 }
