@@ -259,7 +259,7 @@ namespace WebApp.Controllers
             request.Book.AvailabilityStatusId = 2;
 
             await _context.SaveChangesAsync();
-            TempData["ApproveSuccess"] = "Request approved successfully.";
+            TempData["ApproveSuccess"] = "Request approved successfully! You will be redirected to the Rental Transaction page.";
             TempData["RedirectToTransaction"] = JsonSerializer.Serialize(new
             {
                 rentalRequestId = request.RequestId,

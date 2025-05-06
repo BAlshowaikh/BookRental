@@ -21,9 +21,9 @@
 
 			<div class="col-md-4">
 				<div class="main-card mb-4 card-clickable @borderClass"
-					 data-bs-toggle="modal"
-					 data-bs-target="#detailsModal-@request.RequestId"
+					 data-modal-id="detailsModal-@request.RequestId"
 					 style="cursor: pointer;">
+
 
 					<div class="card-info">
 						<h3 class="text-dark">Request ID: @request.RequestId</h3>
@@ -39,10 +39,10 @@
 
 							@if (request.RentalRequestStatus.Status == "Pending")
 							{
-								<form asp-action="Approve" asp-route-id="@request.RequestId" method="post">
+								<form asp-action="Approve" asp-route-id="@request.RequestId" method="post" class="prevent-stretch">
 									<button type="submit" class="btn btn-sm btn-success text-light">Approve</button>
 								</form>
-								<form asp-action="Reject" asp-route-id="@request.RequestId" method="post">
+								<form asp-action="Reject" asp-route-id="@request.RequestId" method="post" class="prevent-stretch">
 									<button type="submit" class="btn btn-sm btn-danger">Reject</button>
 								</form>
 							}
@@ -91,8 +91,19 @@
 			var approveSuccess = '@TempData["ApproveSuccess"]';
 			var redirectData = '@TempData["RedirectToTransaction"]';
 			var rejectSuccess = '@TempData["RejectSuccess"]';
-			var successMessage = '@TempData["SuccessMessage"]';
-			var errorMessage = '@TempData["ErrorMessage"]';
+			//var successMessage = '@TempData["SuccessMessage"]';
+			//var errorMessage = '@TempData["ErrorMessage"]';
+
+					// Manually open modal on card click
+		$('.card-clickable').on('click', function () {
+			const modalId = $(this).data('modal-id');
+			const modal = document.getElementById(modalId);
+
+			if (modal) {
+				const bsModal = new bootstrap.Modal(modal);
+				bsModal.show();
+			}
+		});
 
 			if (approveSuccess) {
 				showSuccessMessage(approveSuccess);
@@ -103,7 +114,7 @@
 						var data = JSON.parse(redirectData.replace(/&quot;/g, '"'));
 						var url = `/RentalTransactions/Create?rentalRequestId=${data.rentalRequestId}&bookId=${data.bookId}&userId=${data.userId}&rentalStartDate=${data.rentalStartDate}&returnDate=${data.returnDate}&totalCost=${data.totalCost}`;
 						window.location.href = url;
-					}, 1500); // Wait 1.5 seconds
+					}, 2000); 
 				}
 			}
 
