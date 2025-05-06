@@ -25,7 +25,7 @@
 		<div class="col-md-4 text-center">
 			@if (Model.Image != null)
 			{
-				<img src="@Url.Action("GetImage", "Image", new { id = Model.Image.ImageId })"
+				<img src="@Url.Action("GetImage", "Images", new { id = Model.Image.ImageId })"
 					 class="img-fluid rounded shadow"
 					 alt="Book Image"
 					 style="max-height: 400px;"
