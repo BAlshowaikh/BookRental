@@ -6,7 +6,7 @@
 }
 
 <div class="container mt-4">
-    <h2 class="mb-4 fw-bold text-dark">Manage Categories</h2>
+    <h1 class="text-dark text-center">Manage Categories</h2>
 
     <div class="mb-3 text-end">
         <div class="mb-3 text-end">
@@ -31,16 +31,18 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
-                        <td>
-                            @if (item.IsActive)
-                            {
-                                <span class="badge bg-success">Active</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">Inactive</span>
-                            }
+                         <td>
+                             @if (item.IsActive)
+                                {
+                                    <span class="status-badge bg-active">Active</span>
+                                }
+                              else
+                                {
+                                    <span class="status-badge bg-inactive">Inactive</span>
+                                }
                         </td>
+
+
                         <td class="text-center">
                             <a href="javascript:void(0);" onclick="openEditModal(@item.CategoryId)" class="btn btn-sm btn-warning me-1">
                                 Edit
@@ -63,7 +65,7 @@
 <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">
-            <div class="modal-header bg-light border-bottom-0">
+            <div class="modal-header custom-brown text-white border-bottom-0">
                 <h5 class="modal-title fw-bold">Edit Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -100,8 +102,8 @@
 <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">
-            <div class="modal-header bg-light border-bottom-0">
-                <h5 class="modal-title fw-bold" id="createCategoryLabel">Add a new category</h5>
+            <div class="modal-header custom-brown text-white border-bottom-0">
+                <h5 class="modal-title fw-bold">Add a new category</h5>
                 <button type="button" class="btn-close btn-close-brown" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4" id="createModalContent">
