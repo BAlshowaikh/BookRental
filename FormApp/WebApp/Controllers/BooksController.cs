@@ -198,8 +198,14 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    // Preserve the original ImageId
+                    var originalImageId = existingBook.ImageId;
+
                     // Update scalar properties (book details)
                     _context.Entry(existingBook).CurrentValues.SetValues(book);
+
+                    // Restore original ImageId
+                    existingBook.ImageId = originalImageId;
 
                     // Handle new image upload
                     if (ImageFile != null && ImageFile.Length > 0)
@@ -207,15 +213,21 @@ namespace WebApp.Controllers
                         using var memoryStream = new MemoryStream();
                         await ImageFile.CopyToAsync(memoryStream);
 
-                        if (existingBook.ImageId != null)
+                        if (existingBook.ImageId != null) // Check if there is an associated image
                         {
-                            // Update the existing image record
-                            existingBook.Image.ImageName = Path.GetFileName(ImageFile.FileName);
-                            existingBook.Image.ImageType = ImageFile.ContentType;
-                            existingBook.Image.Blob = memoryStream.ToArray();
+                            // Retrieve the existing image directly from the database
+                            var existingImage = await _context.Images.FindAsync(existingBook.ImageId);
 
-                            // We update the existing image record instead of adding a new one
-                            _context.Images.Update(existingBook.Image);
+                            if (existingImage != null)
+                            {
+                                // Update the existing image record
+                                existingImage.ImageName = Path.GetFileName(ImageFile.FileName);
+                                existingImage.ImageType = ImageFile.ContentType;
+                                existingImage.Blob = memoryStream.ToArray();
+
+                                // Mark the image entity as modified
+                                _context.Images.Update(existingImage);
+                            }
                         }
                         else
                         {
@@ -264,7 +276,7 @@ namespace WebApp.Controllers
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
-            ViewData["ImageId"] = new SelectList(_context.Images, "ImageId", "ImageName", book.ImageId);
+           // ViewData["ImageId"] = new SelectList(_context.Images, "ImageId", "ImageName", book.ImageId);
 
             var fullBookOnError = await _context.Books
                 .Include(b => b.Image)
@@ -272,7 +284,6 @@ namespace WebApp.Controllers
 
             return View(fullBookOnError);
         }
-
 
 
         // GET: Books/Delete/5

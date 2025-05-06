@@ -26,6 +26,11 @@
 					background-position: center;
             @(Model.Image != null ? $"background-image: url('{Url.Action("GetImage", "Images", new { id = Model.Image.ImageId })}');" : "")">
 
+					<!-- Image preview div that JS updates -->
+					<div id="uploadPreview" class="w-100 h-100 position-absolute top-0 start-0 d-none"
+						 style="background-size: cover; background-position: center;">
+					</div>
+
 					<!-- File Input (invisible but clickable) -->
 					<input type="file" id="ImageFile" name="ImageFile" accept="image/*"
 						   class="form-control position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" />
