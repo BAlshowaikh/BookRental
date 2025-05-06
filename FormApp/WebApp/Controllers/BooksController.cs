@@ -67,9 +67,9 @@ namespace WebApp.Controllers
                 .Include(b => b.Category)
                 .Include(b => b.Image)
                 .Include(b => b.Feedbacks)
-                    .ThenInclude(f => f.ReturnRecord)    
+                    .ThenInclude(f => f.ReturnRecord)
                     .ThenInclude(r => r.Transaction)
-                    .ThenInclude(t => t.User)              
+                    .ThenInclude(t => t.User)
                 .FirstOrDefaultAsync(m => m.BookId == id);
 
             if (book == null)
@@ -144,7 +144,7 @@ namespace WebApp.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
             ViewData["ImageId"] = new SelectList(_context.Images, "ImageId", "ImageName", book.ImageId);
 
-            return View(book); 
+            return View(book);
         }
 
         // GET: Books/Edit/5
@@ -155,7 +155,10 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books
+                 .Include(b => b.Image)
+                 .FirstOrDefaultAsync(b => b.BookId == id);
+
             if (book == null)
             {
                 return NotFound();
@@ -178,59 +181,99 @@ namespace WebApp.Controllers
             if (id != book.BookId)
             {
                 TempData["ErrorMessage"] = "The book doesn't exist.";
-                return View(book);   
+                return RedirectToAction("Index");
+            }
+
+            var existingBook = await _context.Books
+                .Include(b => b.Image) // Make sure to include Image in the query
+                .FirstOrDefaultAsync(b => b.BookId == id);
+
+            if (existingBook == null)
+            {
+                TempData["ErrorMessage"] = "Book not found.";
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Handle image upload if a new image is selected
-                    if (ImageFile != null)
+                    // Update scalar properties (book details)
+                    _context.Entry(existingBook).CurrentValues.SetValues(book);
+
+                    // Handle new image upload
+                    if (ImageFile != null && ImageFile.Length > 0)
                     {
                         using var memoryStream = new MemoryStream();
                         await ImageFile.CopyToAsync(memoryStream);
 
-                        // Assuming you have an Image entity to save the image in the database
-                        var image = new Image
+                        if (existingBook.ImageId != null)
                         {
-                            ImageName = Path.GetFileName(ImageFile.FileName),
-                            ImageType = ImageFile.ContentType,
-                            Blob = memoryStream.ToArray()
-                        };
+                            // Update the existing image record
+                            existingBook.Image.ImageName = Path.GetFileName(ImageFile.FileName);
+                            existingBook.Image.ImageType = ImageFile.ContentType;
+                            existingBook.Image.Blob = memoryStream.ToArray();
 
-                        // Add image to the database
-                        _context.Images.Add(image);
-                        await _context.SaveChangesAsync();
+                            // We update the existing image record instead of adding a new one
+                            _context.Images.Update(existingBook.Image);
+                        }
+                        else
+                        {
+                            // If no image exists, create a new one
+                            var newImage = new Image
+                            {
+                                ImageName = Path.GetFileName(ImageFile.FileName),
+                                ImageType = ImageFile.ContentType,
+                                Blob = memoryStream.ToArray()
+                            };
 
-                        // Set the image for the book
-                        book.ImageId = image.ImageId;
+                            // Add the new image to the database and assign it to the book
+                            _context.Images.Add(newImage);
+                            await _context.SaveChangesAsync(); // Save to get the new image ID
+
+                            // Update the book with the new image ID
+                            existingBook.ImageId = newImage.ImageId;
+                        }
                     }
-                    _context.Update(book);
+
+                    // Save all changes (book and image)
                     await _context.SaveChangesAsync();
+
                     TempData["SuccessMessage"] = "Book edited successfully!";
-                    ViewBag.EditedBookId = book.BookId;
-                    return View(book); // do NOT redirect here
+                    ViewBag.EditedBookId = existingBook.BookId;
+
+                    // Return the updated book view
+                    var fullBook = await _context.Books
+                        .Include(b => b.Image) // Include the image in the updated book
+                        .FirstOrDefaultAsync(b => b.BookId == id);
+
+                    return View(fullBook);
                 }
                 catch (Exception)
                 {
-                        TempData["ErrorMessage"] = "An error occurred while editing the book.";
-                    
+                    TempData["ErrorMessage"] = "An error occurred while editing the book.";
                 }
-                //return RedirectToAction(nameof(Index));
             }
             else
             {
                 TempData["ErrorMessage"] = "Please correct the errors and try again.";
             }
 
+            // If model is invalid, reload the necessary data for the form
             ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName", book.AuthorId);
             ViewData["AvailabilityStatusId"] = new SelectList(_context.AvailabilityStatuses, "AvailabiltyStatusId", "AvailabilityStatus1", book.AvailabilityStatusId);
             ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", book.BookConditionId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", book.CategoryId);
             ViewData["ImageId"] = new SelectList(_context.Images, "ImageId", "ImageName", book.ImageId);
-            return View(book);
+
+            var fullBookOnError = await _context.Books
+                .Include(b => b.Image)
+                .FirstOrDefaultAsync(b => b.BookId == id);
+
+            return View(fullBookOnError);
         }
+
+
 
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
