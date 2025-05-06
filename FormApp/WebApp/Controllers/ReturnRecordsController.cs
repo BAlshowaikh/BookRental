@@ -48,12 +48,33 @@ namespace WebApp.Controllers
         }
 
         // GET: ReturnRecords/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn");
-            ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition");
-            ViewData["ExtraChargesId"] = new SelectList(_context.ExtraCharges, "ExtraChargesId", "ExtraChargeName");
-            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId");
+            var transaction = _context.RentalTransactions
+            .Include(t => t.Book)
+            .FirstOrDefault(t => t.TransactionId == id);
+
+            ViewData["BookConditionId"] = new SelectList(_context.BookConditions.Where(x => x.BookConditionId != 1), "BookConditionId", "ReturnCondition");
+            ViewData["TransactionId"] = id;
+            ViewData["BookId"] = transaction.BookId;
+            ViewData["ExpextedDate"] = transaction.ReturnDate;
+
+            var chargeMap = new Dictionary<int, int>
+            {
+                { 2, 0 }, // Good → no charge
+                { 3, 1 },
+                { 4, 3 }, 
+                { 5, 2 }  // Lost book id = 5→ loost book fee id = 2
+            };
+
+            var charges = _context.ExtraCharges
+                .ToDictionary(e => e.ExtraChargesId, e => (double)e.ExtraChargeRate);
+
+            var conditionToRate = chargeMap.ToDictionary(
+                pair => pair.Key,
+                pair => charges.ContainsKey(pair.Value) ? charges[pair.Value] : 0.0
+            );
+            ViewData["ChargeRates"] = conditionToRate;
             return View();
         }
 
@@ -71,9 +92,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", returnRecord.BookId);
-            ViewData["BookConditionId"] = new SelectList(_context.BookConditions, "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
-            ViewData["ExtraChargesId"] = new SelectList(_context.ExtraCharges, "ExtraChargesId", "ExtraChargeName", returnRecord.ExtraChargesId);
-            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId", returnRecord.TransactionId);
+            ViewData["BookConditionId"] = new SelectList(_context.BookConditions.Where(x=>x.BookConditionId != 1), "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
             return View(returnRecord);
         }
 

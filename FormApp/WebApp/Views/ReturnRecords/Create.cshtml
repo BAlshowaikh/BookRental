@@ -4,59 +4,88 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>ReturnRecord</h4>
+<h4>Generate Return Record</h4>
+<a asp-action="Index" class="btn btn-outline-secondary mb-2 text-dark">← Back to book list</a>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ExpectedReturnDate" class="control-label"></label>
-                <input asp-for="ExpectedReturnDate" class="form-control" />
-                <span asp-validation-for="ExpectedReturnDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ActualReturnDate" class="control-label"></label>
-                <input asp-for="ActualReturnDate" class="form-control" />
-                <span asp-validation-for="ActualReturnDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalAdditionalCharges" class="control-label"></label>
-                <input asp-for="TotalAdditionalCharges" class="form-control" />
-                <span asp-validation-for="TotalAdditionalCharges" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LateReturnFee" class="control-label"></label>
-                <input asp-for="LateReturnFee" class="form-control" />
-                <span asp-validation-for="LateReturnFee" class="text-danger"></span>
+                <label asp-for="TransactionId" class="control-label"></label>
+                <input asp-for="TransactionId" type="text" class="form-control" value="@ViewBag.TransactionId" readonly />
             </div>
             <div class="form-group">
                 <label asp-for="BookId" class="control-label"></label>
-                <select asp-for="BookId" class ="form-control" asp-items="ViewBag.BookId"></select>
+                <input asp-for="BookId" type="text" class="form-control" value="@ViewBag.BookId" readonly />
             </div>
             <div class="form-group">
-                <label asp-for="BookConditionId" class="control-label"></label>
-                <select asp-for="BookConditionId" class ="form-control" asp-items="ViewBag.BookConditionId"></select>
+                <label asp-for="BookCondition.ReturnCondition" class="control-label"></label>
+                <select asp-for="BookConditionId" class="form-control" asp-items="ViewBag.BookConditionId" id="bookCon"></select>
             </div>
             <div class="form-group">
-                <label asp-for="TransactionId" class="control-label"></label>
-                <select asp-for="TransactionId" class ="form-control" asp-items="ViewBag.TransactionId"></select>
+                <label asp-for="ExtraCharges.ExtraChargeRate" class="control-label"></label>
+                <input asp-for="ExtraCharges.ExtraChargeRate" type="text" class="form-control" id="extraCharge" readonly />
             </div>
             <div class="form-group">
-                <label asp-for="ExtraChargesId" class="control-label"></label>
-                <select asp-for="ExtraChargesId" class ="form-control" asp-items="ViewBag.ExtraChargesId"></select>
+                <label asp-for="ExpectedReturnDate" class="control-label"></label>
+                <input asp-for="ExpectedReturnDate" type="text" class="form-control" value="@ViewBag.ExpextedDate" id="expectedDate" readonly />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="ActualReturnDate" class="control-label"></label>
+                <input asp-for="ActualReturnDate" class="form-control" id="actualDate" />
+                <span asp-validation-for="ActualReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LateReturnFee" class="control-label"></label>
+                <input asp-for="LateReturnFee" type="text" class="form-control" id="lateReturnFee" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAdditionalCharges" class="control-label"></label>
+                <input asp-for="TotalAdditionalCharges" type="text" class="form-control" id="totalCharges" readonly />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary mt-2" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const bookCon = document.getElementById("bookCon");
+            const extraCharge = document.getElementById("extraCharge");
+            const expectedDateInput = document.getElementById("expectedDate");
+            const actualDateInput = document.getElementById("actualDate");
+            const lateReturnFee = document.getElementById("lateReturnFee");
+            const totalCharges = document.getElementById("totalCharges");
 
+            const chargeRates = @Html.Raw(Json.Serialize(ViewBag.ChargeRates));
+
+            function calculateTotalCharge() {
+                const conditionId = parseInt(bookCon.value);
+                const extra = chargeRates[conditionId] || 0;
+                extraCharge.value = extra.toFixed(2);
+
+                const expectedDate = new Date(expectedDateInput.value);
+                const actualDate = new Date(actualDateInput.value);
+
+                let lateFee = 0;
+
+                if (!isNaN(expectedDate.getTime()) && !isNaN(actualDate.getTime())) {
+                    if (actualDate > expectedDate) {
+                        const diffDays = Math.ceil((actualDate - expectedDate) / (1000 * 60 * 60 * 24));
+                        lateFee = diffDays * 1; 
+                    }
+                }
+
+                lateReturnFee.value = lateFee.toFixed(2);
+                totalCharges.value = (lateFee + extra).toFixed(2);
+            }
+
+            bookCon.addEventListener('change', calculateTotalCharge);
+            actualDateInput.addEventListener('change', calculateTotalCharge);
+        });
+    </script>
+}

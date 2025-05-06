@@ -181,7 +181,7 @@ namespace FormApp.Views
         //this method calculate the Total Additional Charges and returns the amount
         private double calculateLateReturnFee() {
             //the daily rate of lateFee is fixed
-            var lateFee = 0.8;
+            var lateFee = 1;
             var expexter = (DateTime)transaction.ReturnDate;
             var actual = dtpActualReturnDate.Value;
 
