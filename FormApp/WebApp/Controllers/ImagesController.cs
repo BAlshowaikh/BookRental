@@ -159,16 +159,20 @@ namespace WebApp.Controllers
           return (_context.Images?.Any(e => e.ImageId == id)).GetValueOrDefault();
         }
 
-        // Method to retrieve an image
-        public IActionResult GetImage(int id)
+        // Function to get the image as a byte stream
+        public async Task<IActionResult> GetImage(int id)
         {
-            var image = _context.Images.FirstOrDefault(i => i.ImageId == id);
-            if (image == null || image.Blob == null)
-                return NoContent(); // Just skips showing the image, does not return 404
+            // Retrieve the image from the database
+            var image = await _context.Images.FirstOrDefaultAsync(i => i.ImageId == id);
 
-            return File(image.Blob, image.ImageType); // Use the stored MIME type
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            // Return the image as a file with the appropriate MIME type
+            return File(image.Blob, image.ImageType);
         }
-
 
     }
 }

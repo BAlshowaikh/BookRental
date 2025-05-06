@@ -10,14 +10,23 @@
     <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
     <hr class="mb-4" />
 
-    <form asp-action="Create" method="post">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
         <div class="row">
             <!-- Left: Image Upload -->
             <div class="col-md-6 d-flex justify-content-center">
-                <div class="border rounded w-100 text-center image-upload-box p-4" style="height: 400px; background-color: #f8f9fa; cursor: pointer;">
-                    <i class="bi bi-cloud-upload fs-1 text-secondary"></i>
-                    <p class="text-muted">Click to upload image</p>
-                    <input type="file" id="ImageFile" name="ImageFile" accept="image/*" />
+                <div id="uploadBox" class="border rounded w-100 text-center image-upload-box p-4 d-flex flex-column justify-content-center align-items-center position-relative bg-light cursor-pointer" style="height: 400px;">
+
+                    <input type="file" id="ImageFile" name="ImageFile" accept="image/*"
+                           class="form-control position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" />
+
+                    <!-- Placeholder -->
+                    <div id="uploadPlaceholder" class="upload-placeholder">
+                        <i class="bi bi-cloud-upload fs-1 text-secondary"></i>
+                        <p class="text-muted">Click or drag image here to upload</p>
+                    </div>
+
+                    <!-- Preview -->
+                    <div id="uploadPreview" class="position-absolute top-0 start-0 w-100 h-100 d-none bg-cover bg-center rounded"></div>
                 </div>
             </div>
 
@@ -100,6 +109,7 @@
 
 <!-- Code to handle the click on the Create button-->
 @section Scripts {
+    <script src="~/js/ImageUpload.js"></script>
     <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
@@ -119,30 +129,6 @@
             if (errorMessage) {
                 showErrorMessage(errorMessage);
             }
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const imageInput = document.getElementById('ImageFile');
-            const uploadBox = document.querySelector('.image-upload-box');
-
-            imageInput.addEventListener('change', function (e) {
-                const file = e.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (event) {
-                        uploadBox.style.backgroundImage = `url('${event.target.result}')`;
-                        uploadBox.style.backgroundSize = 'cover';
-                        uploadBox.style.backgroundPosition = 'center';
-                       uploadBox.innerHTML = ''; // Remove icon and text
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            // Make the whole box clickable
-            uploadBox.addEventListener('click', function () {
-                imageInput.click();
-            });
         });
 
     </script>

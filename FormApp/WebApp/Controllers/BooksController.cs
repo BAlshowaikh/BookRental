@@ -96,12 +96,31 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book)
+        public async Task<IActionResult> Create([Bind("Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Handle image upload
+                    if (ImageFile != null && ImageFile.Length > 0)
+                    {
+                        using var memoryStream = new MemoryStream();
+                        await ImageFile.CopyToAsync(memoryStream);
+
+                        var image = new Image
+                        {
+                            ImageName = Path.GetFileName(ImageFile.FileName),
+                            ImageType = ImageFile.ContentType,
+                            Blob = memoryStream.ToArray()
+                        };
+
+                        _context.Images.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        book.ImageId = image.ImageId; // Assign FK
+                    }
+
                     _context.Add(book);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Book added successfully!";
@@ -154,7 +173,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book, IFormFile ImageFile)
         {
             if (id != book.BookId)
             {
@@ -166,6 +185,27 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    // Handle image upload if a new image is selected
+                    if (ImageFile != null)
+                    {
+                        using var memoryStream = new MemoryStream();
+                        await ImageFile.CopyToAsync(memoryStream);
+
+                        // Assuming you have an Image entity to save the image in the database
+                        var image = new Image
+                        {
+                            ImageName = Path.GetFileName(ImageFile.FileName),
+                            ImageType = ImageFile.ContentType,
+                            Blob = memoryStream.ToArray()
+                        };
+
+                        // Add image to the database
+                        _context.Images.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        // Set the image for the book
+                        book.ImageId = image.ImageId;
+                    }
                     _context.Update(book);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Book edited successfully!";
