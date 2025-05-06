@@ -4,75 +4,72 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h1 class="text-dark text-center">Rental Requests</h1>
 
-<h1>Index</h1>
+<div class="container my-4">
+	<div class="row">
+		@if (Model != null && Model.Any())
+		{
+			@foreach (var record in Model)
+			{
+				<div class="col-md-4">
+					<div class="second-card mb-4 card-clickable"
+						 data-bs-toggle="modal"
+						 data-bs-target="#detailsModal-@record.RecordId"
+						 style="cursor: pointer; height: 160px;">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpectedReturnDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActualReturnDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalAdditionalCharges)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LateReturnFee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Book)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookCondition)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExtraCharges)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Transaction)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpectedReturnDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActualReturnDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalAdditionalCharges)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LateReturnFee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Isbn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookCondition.ReturnCondition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExtraCharges.ExtraChargeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Transaction.TransactionId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RecordId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RecordId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RecordId">Delete</a>
-            </td>
-        </tr>
+						<div class="card-info">
+							<h5 class="text-dark">ID: @record.RecordId</h5>
+							<p>User: @record.Transaction.UserId</p>
+							<p>Book: @record.Book.Name</p>
+							<p>Book Return Condition: @record.BookCondition.ReturnCondition</p>
+							<p>Total Extra Charges: @record.TotalAdditionalCharges</p>
+						</div>
+					</div>
+
+					<!-- Modal for each request details -->
+					<div class="modal fade fade-scale" id="detailsModal-@record.RecordId" tabindex="-1" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content shadow-lg rounded-3">
+								<div class="modal-header bg-secondary text-white border-0">
+									<h5 class="modal-title w-100 text-center">
+										<i class="bi bi-info-circle me-2"></i>
+										Return Record Details
+									</h5>
+									<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="info-group mb-3">
+										<p class="mb-1"><strong>Record ID:</strong> @record.RecordId</p>
+										<p class="mb-1"><strong>Transaction ID:</strong> @record.TransactionId</p>
+										<p class="mb-1"><strong>User ID:</strong> @record.Transaction.UserId</p>
+										<p class="mb-1"><strong>Book Name:</strong> @record.Book.Name</p>
+										<p class="mb-1"><strong>Return Condition:</strong> @record.BookCondition.ReturnCondition</p>
+										<p class="mb-1"><strong>Expected Return Date:</strong> @record.ExpectedReturnDate</p>
+										<p class="mb-1"><strong>Actual Return Date:</strong> @record.ActualReturnDate</p>
+										<p class="mb-1"><strong>Extra Charges:</strong> @(record.ExtraCharges?.ExtraChargeName ?? "None")</p>
+										<p class="mb-1"><strong>Extra Charges Rate:</strong> @(record.ExtraCharges?.ExtraChargeRate ?? 0) BHD</p>
+										<p class="mb-1"><strong>Late Return Fee:</strong> @record.LateReturnFee BHD</p>
+										<p class="mb-1"><strong>Total Additional Charges:</strong> @record.TotalAdditionalCharges BHD</p>
+									</div>
+									<div class="text-center">
+										<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			preventStretchedLinkClick();
+		});
+	</script>
 }
-    </tbody>
-</table>
+
