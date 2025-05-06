@@ -13622,6 +13622,14 @@ textarea.form-control-lg {
         background-color: #f8f9fa;
     }
 
+#bookSuggestions {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    display: block !important;
+}
+
+
 
 /* For buttons that maybe inside a clickable card*/
 .prevent-stretch {
