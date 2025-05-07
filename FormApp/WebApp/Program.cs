@@ -1,5 +1,7 @@
 using BookRentalObject;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using BookRentalWebIdentity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +10,18 @@ builder.Services.AddControllersWithViews();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<BookRentalDBContext>(options => options.UseSqlServer(
    builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+// Add the Identity context connection
+builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(
+   builder.Configuration.GetConnectionString("IdentityContextConnection")
+    ));
+
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<IdentityContext>();
 
 var app = builder.Build();
 
@@ -22,11 +33,14 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

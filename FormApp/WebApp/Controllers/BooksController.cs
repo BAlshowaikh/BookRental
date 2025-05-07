@@ -118,7 +118,7 @@ namespace WebApp.Controllers
                         _context.Images.Add(image);
                         await _context.SaveChangesAsync();
 
-                        book.ImageId = image.ImageId; // Assign FK
+                        book.ImageId = image.ImageId; 
                     }
 
                     _context.Add(book);

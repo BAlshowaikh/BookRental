@@ -13553,8 +13553,17 @@ textarea.form-control-lg {
 }
 
     .nav-link:hover {
-        transform: translateY(-3px);       
+        transform: translateY(-3px);
     }
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 12px; /* Adjust spacing here */
+}
 
 
 /* The following styling could be used for "Details"*/
