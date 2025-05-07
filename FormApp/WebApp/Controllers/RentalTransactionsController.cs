@@ -19,10 +19,27 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalTransactions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString, string SearchCustomer)
         {
-            var bookRentalDBContext = _context.RentalTransactions.Include(r => r.Book).Include(r => r.PaymentMethod).Include(r => r.PaymentStatus).Include(r => r.User);
-            return View(await bookRentalDBContext.ToListAsync());
+            IQueryable<RentalTransaction> bookRentalDBContext = _context.RentalTransactions.Include(r => r.Book).Include(r => r.PaymentMethod).Include(r => r.PaymentStatus).Include(r => r.User).Where(x => x.User.UserRole.Role == "Customer");
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(x => x.TransactionId == Convert.ToInt32(SearchString));
+            }
+
+            if (!String.IsNullOrEmpty(SearchCustomer))
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(x => x.User.UserId.ToString() == SearchCustomer);
+            }
+
+            //if (User.IsInRole("Customer"))
+            //{
+                var custList = new SelectList(_context.Users.Where(x => x.UserRole.Role == "Customer"), "UserId", "FullName", SearchString);
+                ViewBag.CustList = custList;
+            //}
+
+            return View(bookRentalDBContext);
         }
 
         // GET: RentalTransactions/Details/5
