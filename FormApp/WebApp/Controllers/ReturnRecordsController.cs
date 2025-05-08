@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Drawing.Printing;
 
 namespace WebApp.Controllers
 {
@@ -19,9 +21,57 @@ namespace WebApp.Controllers
         }
 
         // GET: ReturnRecords
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString, string SearchCon, int page = 1, int pageSize = 9)
         {
-            var bookRentalDBContext = _context.ReturnRecords.Include(r => r.Book).Include(r => r.BookCondition).Include(r => r.ExtraCharges).Include(r => r.Transaction);
+            // Start with base query including all relationships
+            var bookRentalDBContext = _context.ReturnRecords
+                .Include(r => r.Book)
+                .Include(r => r.BookCondition)
+                .Include(r => r.ExtraCharges)
+                .Include(r => r.Transaction)
+                .AsQueryable();
+
+            // Apply Record ID filter
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                if (int.TryParse(SearchString, out int recordId))
+                {
+                    bookRentalDBContext = bookRentalDBContext.Where(x => x.RecordId == recordId);
+                }
+                else
+                {
+                    ModelState.AddModelError("SearchString", "Please enter a valid numeric ID");
+                }
+            }
+
+            // Apply Book Condition filter
+            if (!string.IsNullOrEmpty(SearchCon))
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(x => x.BookCondition != null &&
+                                       x.BookCondition.BookConditionId.ToString() == SearchCon);
+            }
+
+            // Populate dropdown with current selection preserved
+            ViewBag.conList = new SelectList(
+                await _context.BookConditions.ToListAsync(),
+                "BookConditionId",
+                "ReturnCondition",
+                SearchCon);
+
+            // Total count before pagination
+            var totalrecords = await bookRentalDBContext.CountAsync();
+
+            // Apply pagination
+            var records = await bookRentalDBContext
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Pass pagination data to view
+            ViewBag.TotalPages = (int)Math.Ceiling(totalrecords / (double)pageSize);
+            ViewBag.CurrentPage = page;
+
+
             return View(await bookRentalDBContext.ToListAsync());
         }
 
@@ -61,10 +111,10 @@ namespace WebApp.Controllers
 
             var chargeMap = new Dictionary<int, int>
             {
-                { 2, 0 }, // Good → no charge
+                { 2, 0 }, // Good > no charge
                 { 3, 1 },
                 { 4, 3 }, 
-                { 5, 2 }  // Lost book id = 5→ loost book fee id = 2
+                { 5, 2 }  // Lost book id = 5 > loost book fee id = 2
             };
 
             var charges = _context.ExtraCharges
