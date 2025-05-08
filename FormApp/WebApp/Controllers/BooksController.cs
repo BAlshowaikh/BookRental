@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Drawing.Printing;
 
 namespace WebApp.Controllers
 {
@@ -19,7 +21,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index(string SearchString, string SearchCategory)
+        public async Task<IActionResult> Index(string SearchString, string SearchCategory, int page = 1, int pageSize = 9)
         {
             // Logic for the search and filter
             var categories = await _context.Categories.ToListAsync();
@@ -48,8 +50,26 @@ namespace WebApp.Controllers
                 bookRentalDBContext = bookRentalDBContext.Where(b => b.Category.CategoryId.ToString() == SearchCategory);
             }
 
+            //Pagination
+
+            // Total count before pagination
+            var totalBooks = await bookRentalDBContext.CountAsync();
+
+            // Apply pagination
+            var books = await bookRentalDBContext
+            .OrderBy(b => b.Name)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Pass pagination data to view
+            ViewBag.TotalPages = (int)Math.Ceiling(totalBooks / (double)pageSize);
+            ViewBag.CurrentPage = page;
+
+            return View(books);
+
             // Execute the query and return the view with the filtered books
-            return View(await bookRentalDBContext.ToListAsync());
+            // return View(await bookRentalDBContext.ToListAsync());
         }
 
         // GET: Books/Details/5
