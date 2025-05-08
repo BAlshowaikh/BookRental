@@ -95,11 +95,11 @@ namespace BookRentalObject
 
             modelBuilder.Entity<Document>(entity =>
             {
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.RentalRequest)
                     .WithMany(p => p.Documents)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.RentalRequestId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Document_User");
+                    .HasConstraintName("FK_Document_RentalRequest2");
             });
 
             modelBuilder.Entity<Feedback>(entity =>

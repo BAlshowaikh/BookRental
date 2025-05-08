@@ -100,6 +100,24 @@
         <p class="text-center">No books available.</p>
     }
 </div>
+<div class="row mt-4">
+    <div class="col text-center">
+        @if (ViewBag.TotalPages > 1)
+        {
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i, SearchString = Context.Request.Query["SearchString"], SearchCategory = Context.Request.Query["SearchCategory"] })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+
 
 
 <!-- JavaScript to handle the autocompletion for the book name field-->

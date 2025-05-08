@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookRentalObject
@@ -13,7 +12,6 @@ namespace BookRentalObject
         public User()
         {
             AuditTrails = new HashSet<AuditTrail>();
-            Documents = new HashSet<Document>();
             Logs = new HashSet<Log>();
             Notifications = new HashSet<Notification>();
             RentalRequests = new HashSet<RentalRequest>();
@@ -43,17 +41,16 @@ namespace BookRentalObject
         [Column("isActive")]
         public bool IsActive { get; set; }
         [Column("hasLibraryCard")]
-
-        public String FullName { get { return FirstName + " " + LastName; } }
         public bool HasLibraryCard { get; set; }
 
         [ForeignKey("UserRoleId")]
         [InverseProperty("Users")]
         public virtual UserRole UserRole { get; set; }
         [InverseProperty("User")]
+
+        public String FullName { get { return FirstName + " " + LastName; } }
+
         public virtual ICollection<AuditTrail> AuditTrails { get; set; }
-        [InverseProperty("User")]
-        public virtual ICollection<Document> Documents { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<Log> Logs { get; set; }
         [InverseProperty("User")]

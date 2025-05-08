@@ -12,24 +12,16 @@ namespace BookRentalObject
         [Key]
         [Column("documentId")]
         public int DocumentId { get; set; }
-        [Required]
-        [Column("filename")]
-        [StringLength(100)]
-        public string Filename { get; set; }
         [Column("uploadDate", TypeName = "datetime")]
         public DateTime UploadDate { get; set; }
         [Required]
-        [Column("fileType")]
-        [StringLength(50)]
-        public string FileType { get; set; }
-        [Required]
         [Column("BLOB")]
         public byte[] Blob { get; set; }
-        [Column("userId")]
-        public int UserId { get; set; }
+        [Column("rentalRequestId")]
+        public int RentalRequestId { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey("RentalRequestId")]
         [InverseProperty("Documents")]
-        public virtual User User { get; set; }
+        public virtual RentalRequest RentalRequest { get; set; }
     }
 }
