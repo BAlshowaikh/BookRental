@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using System.Text.Json;
+using WebApp.ViewModel;
 
 namespace WebApp.Controllers
 {
@@ -86,12 +88,11 @@ namespace WebApp.Controllers
                 _context.Add(rentalTransaction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", rentalTransaction.BookId);
-            ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", rentalTransaction.PaymentMethodId);
-            ViewData["PaymentStatusId"] = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", rentalTransaction.PaymentStatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName", rentalTransaction.UserId);
-            return View(rentalTransaction);
+			}
+
+			ViewBag.PaymentMethodId = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", rentalTransaction.PaymentMethodId);
+			ViewBag.PaymentStatusId = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", rentalTransaction.PaymentStatusId);
+			return View(rentalTransaction);
         }
 
         // GET: RentalTransactions/Edit/5
@@ -102,16 +103,40 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var rentalTransaction = await _context.RentalTransactions.FindAsync(id);
+            var rentalTransaction = await _context.RentalTransactions
+                                            .Include(x => x.Book)
+                                            .Include(x => x.User)
+                                            .Include(x => x.PaymentMethod)
+                                            .Include(x => x.PaymentStatus)
+                                            .FirstOrDefaultAsync(x => x.TransactionId == id);
+            
             if (rentalTransaction == null)
             {
                 return NotFound();
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", rentalTransaction.BookId);
-            ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", rentalTransaction.PaymentMethodId);
-            ViewData["PaymentStatusId"] = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", rentalTransaction.PaymentStatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName", rentalTransaction.UserId);
-            return View(rentalTransaction);
+
+            RentalRedirectDataViewModel? redirectData = null;
+
+            if (TempData["RedirectToTransaction"] != null)
+            {
+                var jsonString = TempData["RedirectToTransaction"]?.ToString();
+                redirectData = JsonSerializer.Deserialize<RentalRedirectDataViewModel>(jsonString);
+
+               // rentalTransaction.RentalStartDate = redirectData.RentalStartDate;
+               // rentalTransaction.ReturnDate = redirectData.ReturnDate;
+            }
+
+            var selectedPaymentMethod = _context.RentalTransactions.Where(x => x.TransactionId == id).FirstOrDefault().PaymentMethod.PaymentMethod1;
+            var selectedPaymentStatus = _context.RentalTransactions.Where(x => x.TransactionId == id).FirstOrDefault().PaymentStatus.PaymentStatus1;
+
+			ViewBag.PaymentMethodId = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", rentalTransaction.PaymentMethodId);
+			ViewBag.PaymentStatusId = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", rentalTransaction.PaymentStatusId);
+            
+            return View(new RentalTransactionViewModel
+            {
+                RentalTransaction = rentalTransaction,
+                RedirectData = redirectData
+            });
         }
 
         // POST: RentalTransactions/Edit/5
@@ -146,11 +171,14 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", rentalTransaction.BookId);
-            ViewData["PaymentMethodId"] = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", rentalTransaction.PaymentMethodId);
-            ViewData["PaymentStatusId"] = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", rentalTransaction.PaymentStatusId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName", rentalTransaction.UserId);
-            return View(rentalTransaction);
+
+			var selectedPaymentMethod = _context.RentalTransactions.Where(x => x.TransactionId == id).FirstOrDefault().PaymentMethod.PaymentMethod1;
+			var selectedPaymentStatus = _context.RentalTransactions.Where(x => x.TransactionId == id).FirstOrDefault().PaymentStatus.PaymentStatus1;
+
+			ViewBag.PaymentMethodId = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", selectedPaymentMethod);
+			ViewBag.PaymentStatusId = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", selectedPaymentStatus);
+
+			return View(rentalTransaction);
         }
 
         // GET: RentalTransactions/Delete/5

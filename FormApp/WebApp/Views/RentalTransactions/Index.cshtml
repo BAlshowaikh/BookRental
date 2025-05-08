@@ -43,26 +43,24 @@
 	<div class="row">
 		@foreach (var transaction in Model)
 		{
-			var borderClass = transaction.TransactionId switch
-			{
-				_ => "border border-2 border-dark border-opacity-100"      
-			};
+			var borderClass = "border border-2 border-dark border-opacity-100";      
+
 
 			<div class="col-md-4">
-				<div class="third-card mb-4 card-clickable @borderClass"
+				<div class="main-card mb-4 card-clickable @borderClass"
 					 data-modal-id="detailsModal-@transaction.TransactionId"
 					 style="cursor: pointer;">
 
 
 					<div class="card-info">
 						<h3 class="text-dark">Transaction ID: @transaction.TransactionId</h3>
-						<h5>Book Name: @transaction.Book.Name</h5>
-						<h5>Customer Name: @transaction.User.FullName</h5>
-						<h5>Rental Start Date: @transaction.RentalStartDate</h5>
-						<h5>Return Date: @transaction.ReturnDate</h5>
-						<h5>Rental Fee: @transaction.RentalFee</h5>
-						<h5>Payment Method: @transaction.PaymentMethod.PaymentMethod1</h5>
-						<h5>Payment Status: @transaction.PaymentStatus.PaymentStatus1</h5>
+						<h6>Book Name: @transaction.Book.Name</h6>
+						<h6>Customer Name: @transaction.User.FullName</h6>
+						<h6>Rental Start Date: @transaction.RentalStartDate</h6>
+						<!--<h6>Return Date: transaction.ReturnDate</h6>
+						<h5>Rental Fee: </h5>
+						<h5>Payment Method: </h5>
+						<h5>Payment Status: </h5>-->
 
 						<div class="mt-3 d-flex flex-wrap gap-2">
 							<a asp-action="Edit"
@@ -87,14 +85,14 @@
 							</div>
 							<div class="modal-body">
 								<div class="info-group mb-3">
-									<p><strong>Transaction ID:</strong> @transaction.TransactionId</p>
-									<p><strong>Customer Name:</strong> @transaction.User.FullName</p>
-									<p><strong>Book Name:</strong> @transaction.Book.Name</p>
-									<p><strong>Rental Start Date:</strong> @transaction.RentalStartDate</p>
-									<p><strong>Return Date:</strong> @transaction.ReturnDate</p>
-									<p><strong>Rental Fee:</strong> @transaction.RentalFee</p>
-									<p><strong>Payment Method:</strong> @transaction.PaymentMethod.PaymentMethod1</p>
-									<p><strong>Payment Status:</strong> @transaction.PaymentStatus.PaymentStatus1</p>
+									<p class="mb-1"><strong>Transaction ID:</strong> @transaction.TransactionId</p>
+									<p class="mb-1"><strong>Customer Name:</strong> @transaction.User.FullName</p>
+									<p class="mb-1"><strong>Book Name:</strong> @transaction.Book.Name</p>
+									<p class="mb-1"><strong>Rental Start Date:</strong> @transaction.RentalStartDate</p>
+									<p class="mb-1"><strong>Return Date:</strong> @transaction.ReturnDate</p>
+									<p class="mb-1"><strong>Rental Fee:</strong> @transaction.RentalFee BHD</p>
+									<p class="mb-1"><strong>Payment Method:</strong> @transaction.PaymentMethod.PaymentMethod1</p>
+									<p class="mb-1"><strong>Payment Status:</strong> @transaction.PaymentStatus.PaymentStatus1</p>
 								</div>
 								<div class="text-center">
 									<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
@@ -108,3 +106,20 @@
 	</div>
 </div>
 
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			preventStretchedLinkClick();
+
+			$('.card-clickable').on('click', function () {
+				const modalId = $(this).data('modal-id');
+				const modal = document.getElementById(modalId);
+
+				if (modal) {
+					const bsModal = new bootstrap.Modal(modal);
+					bsModal.show();
+				}
+			});
+		});
+	</script>
+}
