@@ -11,7 +11,6 @@ namespace BookRentalObject
     {
         [Key]
         [Column("notificationId")]
-        [Display(Name = "Notification ID")]
         public int NotificationId { get; set; }
         [Required]
         [Column("subject")]
@@ -24,7 +23,6 @@ namespace BookRentalObject
         [Column("status")]
         public bool Status { get; set; }
         [Column("userId")]
-        [Display(Name = "User ID")]
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]

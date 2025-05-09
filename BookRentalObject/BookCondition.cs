@@ -17,12 +17,10 @@ namespace BookRentalObject
 
         [Key]
         [Column("bookConditionId")]
-        [Display(Name = "Book Condition ID")]
         public int BookConditionId { get; set; }
         [Required]
         [Column("returnCondition")]
         [StringLength(100)]
-        [Display(Name = "Return Condition")]
         public string ReturnCondition { get; set; }
 
         [InverseProperty("BookCondition")]

@@ -16,12 +16,10 @@ namespace BookRentalObject
 
         [Key]
         [Column("paymentId")]
-        [Display(Name = "Payment Status ID")]
         public int PaymentId { get; set; }
         [Required]
         [Column("paymentStatus")]
         [StringLength(50)]
-        [Display(Name = "Payment Status")]
         public string PaymentStatus1 { get; set; }
 
         [InverseProperty("PaymentStatus")]
