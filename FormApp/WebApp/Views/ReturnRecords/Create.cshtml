@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h4>Generate Return Record</h4>
 <a asp-action="Index" class="btn btn-outline-secondary mb-2 text-dark">← Back to book list</a>
 <hr />
@@ -64,24 +65,51 @@
             const chargeRates = @Html.Raw(Json.Serialize(ViewBag.ChargeRates));
 
             function calculateTotalCharge() {
+                // Clear previous errors
+                document.querySelector('[data-valmsg-for="ActualReturnDate"]').textContent = '';
+
                 const conditionId = parseInt(bookCon.value);
                 const extra = chargeRates[conditionId] || 0;
                 extraCharge.value = extra.toFixed(2);
 
                 const expectedDate = new Date(expectedDateInput.value);
                 const actualDate = new Date(actualDateInput.value);
+                const today = new Date();
+
+                // Validate date format
+                if (isNaN(actualDate.getTime())) {
+                    actualDateInput.setCustomValidity('Please enter a valid date');
+                    return;
+                }
+
+                // Validate not in future
+                if (actualDate > today) {
+                    actualDateInput.setCustomValidity('Actual return date cannot be in the future');
+                    return;
+                }
+
+                // Validate not more than 2 days before expected date
+                if (!isNaN(expectedDate.getTime())) {
+                    const twoDaysBefore = new Date(expectedDate);
+                    twoDaysBefore.setDate(twoDaysBefore.getDate() - 2);
+
+                    if (actualDate < twoDaysBefore) {
+                        actualDateInput.setCustomValidity('Book cannot be returned more than 2 days before expected return date');
+                        return;
+                    }
+                }
 
                 let lateFee = 0;
-
                 if (!isNaN(expectedDate.getTime()) && !isNaN(actualDate.getTime())) {
                     if (actualDate > expectedDate) {
                         const diffDays = Math.ceil((actualDate - expectedDate) / (1000 * 60 * 60 * 24));
-                        lateFee = diffDays * 1; 
+                        lateFee = diffDays * 1;
                     }
                 }
 
                 lateReturnFee.value = lateFee.toFixed(2);
                 totalCharges.value = (lateFee + extra).toFixed(2);
+                actualDateInput.setCustomValidity('');
             }
 
             bookCon.addEventListener('change', calculateTotalCharge);

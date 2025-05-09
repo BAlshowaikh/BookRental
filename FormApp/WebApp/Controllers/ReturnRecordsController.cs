@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Drawing.Printing;
+using System.Security.Claims;
 
 namespace WebApp.Controllers
 {
@@ -66,6 +67,15 @@ namespace WebApp.Controllers
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            // Check feedback status for each record
+            var feedbackStatus = new Dictionary<int, bool>();
+            foreach (var record in records)
+            {
+                feedbackStatus[record.RecordId] = _context.Feedbacks
+                    .Any(f => f.ReturnRecordId == record.RecordId);
+            }
+            ViewBag.FeedbackStatus = feedbackStatus;
 
             // Pass pagination data to view
             ViewBag.TotalPages = (int)Math.Ceiling(totalrecords / (double)pageSize);
@@ -135,14 +145,63 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RecordId,ExpectedReturnDate,ActualReturnDate,TotalAdditionalCharges,LateReturnFee,BookId,BookConditionId,TransactionId,ExtraChargesId")] ReturnRecord returnRecord)
         {
+            // Get the original transaction details
+            var transaction = await _context.RentalTransactions
+                .FirstOrDefaultAsync(t => t.TransactionId == returnRecord.TransactionId);
+
+            // Validate actual return date not in future
+            if (returnRecord.ActualReturnDate > DateTime.Today)
+            {
+                ModelState.AddModelError("ActualReturnDate", "Actual return date cannot be in the future");
+            }
+
+            // Validate not more than 2 days before expected date
+            if (returnRecord.ActualReturnDate < returnRecord.ExpectedReturnDate.AddDays(-2))
+            {
+                ModelState.AddModelError("ActualReturnDate", "Book cannot be returned more than 2 days before expected return date");
+            }
+
+            // Validate date is provided
+            if (returnRecord.ActualReturnDate == default)
+            {
+                ModelState.AddModelError("ActualReturnDate", "Actual return date is required");
+            }
+
             if (ModelState.IsValid)
             {
+                Notification notif = new Notification
+                {
+                    Subject = "return record have been created",
+                    Message = "Your return record for transaction ID:"+returnRecord.TransactionId+"have been generated, give feedback to your book",
+                    UserId = transaction.UserId,
+                    Status = false
+                };
+
+                _context.Notifications.Add(notif);
                 _context.Add(returnRecord);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", returnRecord.BookId);
-            ViewData["BookConditionId"] = new SelectList(_context.BookConditions.Where(x=>x.BookConditionId != 1), "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
+
+            // Repopulate view data if validation fails
+            ViewData["BookConditionId"] = new SelectList(_context.BookConditions.Where(x => x.BookConditionId != 1), "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
+            ViewData["BookId"] = returnRecord.BookId;
+            ViewData["ExpextedDate"] = returnRecord.ExpectedReturnDate;
+
+            // Recreate the charge rates dictionary
+            var chargeMap = new Dictionary<int, int>
+            {
+                { 2, 0 }, // good, no extra charge
+                { 3, 1 }, // damaged, damaged book fee
+                { 4, 3 }, // poor, poor book fee
+                { 5, 2 }  // lost, lost book fee
+            };
+            var charges = _context.ExtraCharges.ToDictionary(e => e.ExtraChargesId, e => (double)e.ExtraChargeRate);
+            ViewData["ChargeRates"] = chargeMap.ToDictionary(
+                pair => pair.Key,
+                pair => charges.ContainsKey(pair.Value) ? charges[pair.Value] : 0.0
+            );
+
             return View(returnRecord);
         }
 
