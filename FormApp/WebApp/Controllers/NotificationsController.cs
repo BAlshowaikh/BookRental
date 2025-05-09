@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApp.Controllers
 {
@@ -21,8 +22,15 @@ namespace WebApp.Controllers
         // GET: Notifications
         public async Task<IActionResult> Index()
         {
-            var bookRentalDBContext = _context.Notifications.Include(n => n.User);
-            return View(await bookRentalDBContext.ToListAsync());
+            var currentUser = User.Identity.Name;
+            var user = await _context.Users.Where(x => x.Email ==  currentUser).FirstOrDefaultAsync();
+
+            var bookRentalDBContext = _context.Notifications
+                                        .Include(n => n.User)
+                                        //.Where(n => n.UserId == user.UserId)
+                                        .ToListAsync();
+
+            return View(await bookRentalDBContext);
         }
 
         // GET: Notifications/Details/5
@@ -163,5 +171,18 @@ namespace WebApp.Controllers
         {
           return (_context.Notifications?.Any(e => e.NotificationId == id)).GetValueOrDefault();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkAsRead(int id)
+        {
+            var notification = await _context.Notifications.FindAsync(id);
+            if (notification == null) return NotFound();
+
+            notification.Status = true;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
     }
 }
