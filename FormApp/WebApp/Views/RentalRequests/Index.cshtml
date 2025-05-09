@@ -89,7 +89,7 @@
 			preventStretchedLinkClick();
 
 			var approveSuccess = '@TempData["ApproveSuccess"]';
-			var redirectData = '@TempData["RedirectToTransaction"]';
+			var redirectData = '@TempData["RedirectData"]';
 			var rejectSuccess = '@TempData["RejectSuccess"]';
 			//var successMessage = '@TempData["SuccessMessage"]';
 			//var errorMessage = '@TempData["ErrorMessage"]';
@@ -105,14 +105,15 @@
 			}
 		});
 
-			if (approveSuccess) {
-				showSuccessMessage(approveSuccess);
+			if (approveSuccess &&  redirectData) {
+					showSuccessMessage(approveSuccess);
 
+				
 				// Delay before redirect
 				if (redirectData) {
 					setTimeout(function () {
 						var data = JSON.parse(redirectData.replace(/&quot;/g, '"'));
-						var url = `/RentalTransactions/Create?rentalRequestId=${data.rentalRequestId}&bookId=${data.bookId}&userId=${data.userId}&rentalStartDate=${data.rentalStartDate}&returnDate=${data.returnDate}&totalCost=${data.totalCost}`;
+						var url = `/RentalTransactions/Index?fromRequest=true&bookId=${data.bookId}&userId=${data.userId}&rentalStartDate=${data.rentalStartDate}&returnDate=${data.returnDate}&totalCost=${data.totalCost}`;
 						window.location.href = url;
 					}, 2000); 
 				}

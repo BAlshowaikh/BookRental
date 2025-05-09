@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using System.Net;
 using System.Text.Json;
+using WebApp.ViewModel;
+
 
 
 namespace WebApp.Controllers
@@ -99,6 +101,22 @@ namespace WebApp.Controllers
                 try
                 {
                     _context.Add(rentalRequest);
+
+                    var statusName = await _context.RentalRequestStatuses
+                    .Where(s => s.RentalRequestStatusId == rentalRequest.RentalRequestStatusId)
+                    .Select(s => s.Status)
+                    .FirstOrDefaultAsync();
+
+                    var notification = new Notification
+                    {
+                        UserId = rentalRequest.UserId,
+                        Subject = "Rental Request Update",
+                        Message = $"Your rental request status has been updated to: {statusName}.",
+                        Status = false
+                    };
+
+                    _context.Notifications.Add(notification);
+
                     await _context.SaveChangesAsync();
                     ViewBag.EditedBookId = rentalRequest.RequestId;
                     TempData["SuccessMessage"] = "Rental request submitted successfully!";
@@ -243,7 +261,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Approve(int id)
         {
             var request = await _context.RentalRequests
-                .Include(r => r.Book)
+                .Include(r => r.Book).Include(x => x.User)
                 .FirstOrDefaultAsync(r => r.RequestId == id);
 
             if (request == null)
@@ -258,20 +276,49 @@ namespace WebApp.Controllers
             // Update book availability status to Rented (2)
             request.Book.AvailabilityStatusId = 2;
 
-            await _context.SaveChangesAsync();
-            TempData["ApproveSuccess"] = "Request approved successfully! You will be redirected to the Rental Transaction page.";
-            TempData["RedirectToTransaction"] = JsonSerializer.Serialize(new
-            {
-                rentalRequestId = request.RequestId,
-                bookId = request.BookId,
-                userId = request.UserId,
-                rentalStartDate = request.RentalStartDate.ToString("yyyy-MM-dd"),
-                returnDate = request.ReturnDate.ToString("yyyy-MM-dd"),
-                totalCost = request.TotalCost
-            });
+			TempData["ApproveSuccess"] = "Request approved successfully! You will be redirected to the Rental Transaction page.";
 
-            return RedirectToAction("Index");
-        }
+			TempData["RedirectData"] = JsonSerializer.Serialize(new
+			{
+				bookId = request.BookId,
+				userId = request.UserId,
+				rentalStartDate = request.RentalStartDate.ToString("yyyy-MM-dd"),
+				returnDate = request.ReturnDate.ToString("yyyy-MM-dd"),
+				totalCost = request.TotalCost
+			});
+
+			var rentalTransaction = new RentalTransaction
+			{
+				BookId = request.BookId,
+				UserId = request.UserId,
+				RentalStartDate = request.RentalStartDate,
+				ReturnDate = request.ReturnDate,
+				RentalFee = request.TotalCost,
+				PaymentMethodId = 3,
+				PaymentStatusId = 2
+			};
+
+			_context.RentalTransactions.Add(rentalTransaction);
+
+            var statusName = await _context.RentalRequestStatuses
+            .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
+            .Select(s => s.Status)
+            .FirstOrDefaultAsync();
+
+            var notification = new Notification
+            {
+                UserId = request.UserId,
+                Subject = "Rental Request Update",
+                Message = $"Your rental request status has been updated to: {statusName}.",
+                Status = false
+            };
+
+            _context.Notifications.Add(notification);
+
+            await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index");
+		}
 
         // In case the "Reject" button is clicked
         [HttpPost]
@@ -289,6 +336,22 @@ namespace WebApp.Controllers
             request.RentalRequestStatusId = 3;
 
             TempData["RejectSuccess"] = "Request rejected successfully.";
+
+            var statusName = await _context.RentalRequestStatuses
+           .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
+           .Select(s => s.Status)
+           .FirstOrDefaultAsync();
+
+            var notification = new Notification
+            {
+                UserId = request.UserId,
+                Subject = "Rental Request Update",
+                Message = $"Your rental request status has been updated to: {statusName}.",
+                Status = false
+            };
+
+            _context.Notifications.Add(notification);
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
 

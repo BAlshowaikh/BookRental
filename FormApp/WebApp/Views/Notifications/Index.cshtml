@@ -5,50 +5,98 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="text-dark text-center">Notifications</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NotificationId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NotificationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NotificationId">Delete</a>
-            </td>
-        </tr>
+<div class="container mt-4">
+        <div class="table-responsive shadow rounded">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Subject)</th>
+                        <th>@Html.DisplayNameFor(model => model.Message)</th>
+                        <th>@Html.DisplayNameFor(model => model.Status)</th>
+                        <th>@Html.DisplayNameFor(model => model.User)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="card-clickable" data-modal-id="detailsModal-@item.NotificationId" style="cursor:pointer;">
+                            <td>@item.Subject</td>
+                            <td>@item.Message</td>
+                            <td>
+                            <span class="badge @(item.Status ? "bg-success text-dark" : "bg-warning")">
+                                    @(item.Status ? "Read" : "Unread")
+                                </span>
+                            </td>
+                            <td>@item.User.FullName</td>
+                        </tr>
+
+                    <!-- Modal for each notification details -->
+                    <div class="modal fade fade-scale" id="detailsModal-@item.NotificationId" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content shadow-lg rounded-3">
+                                <div class="modal-header bg-secondary text-white border-0">
+                                    <h5 class="modal-title w-100 text-center">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Notification Details
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="info-group mb-3">
+                                        <p class="mb-1"><strong>Notification ID:</strong> @item.NotificationId</p>
+                                        <p class="mb-1"><strong>Customer Name:</strong> @item.User.FullName</p>
+                                        <p class="mb-1"><strong>Subject:</strong> @item.Subject</p>
+                                        <p class="mb-1"><strong>Message:</strong> @item.Message</p>
+                                        <p class="mb-1"><strong>Status:</strong> <span id="modal-status-@item.NotificationId">@(item.Status ? "Read" : "Unread")</span></p>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </tbody>
+            </table>
+        </div>
+</div>
+
+
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        preventStretchedLinkClick();
+
+            $('.card-clickable').on('click', function () {
+                const modalId = $(this).data('modal-id');
+                const modal = document.getElementById(modalId);
+                const notificationId = modalId.split('-')[1];
+
+                if (modal) {
+                    const bsModal = new bootstrap.Modal(modal);
+                    bsModal.show();
+
+                    // Mark as read via AJAX
+                    $.ajax({
+                        url: '/Notifications/MarkAsRead',
+                        method: 'POST',
+                        data: { id: notificationId },
+                        success: function () {
+                            // Optionally update badge to 'Read'
+                            const row = $(`[data-modal-id='${modalId}']`);
+                            row.find('span.badge').removeClass('bg-warning').addClass('bg-success text-dark').text('Read');
+                            $(`#modal-status-${notificationId}`).text('Read');
+                        }
+                    });
+                }
+            });
+
+
+    });
+
+</script>
 }
-    </tbody>
-</table>
