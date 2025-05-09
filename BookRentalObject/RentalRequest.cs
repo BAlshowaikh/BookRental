@@ -16,18 +16,25 @@ namespace BookRentalObject
 
         [Key]
         [Column("requestId")]
+        [Display(Name = "Request ID")]
         public int RequestId { get; set; }
         [Column("userId")]
+        [Display(Name = "User ID")]
         public int UserId { get; set; }
         [Column("rentalRequestStatusId")]
+        [Display(Name = "Status ID")]
         public int RentalRequestStatusId { get; set; }
         [Column("bookId")]
+        [Display(Name = "Book ID")]
         public int BookId { get; set; }
         [Column("rentalStartDate", TypeName = "datetime")]
+        [Display(Name = "Start Date")]
         public DateTime RentalStartDate { get; set; }
         [Column("totalCost")]
+        [Display(Name = "Total Cost")]
         public double TotalCost { get; set; }
         [Column("returnDate", TypeName = "datetime")]
+        [Display(Name = "Return Date")]
         public DateTime ReturnDate { get; set; }
 
         [ForeignKey("BookId")]

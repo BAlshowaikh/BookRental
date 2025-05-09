@@ -16,6 +16,7 @@ namespace BookRentalObject
 
         [Key]
         [Column("userRoleId")]
+        [Display(Name = "User Role ID")]
         public int UserRoleId { get; set; }
         [Required]
         [Column("role")]
