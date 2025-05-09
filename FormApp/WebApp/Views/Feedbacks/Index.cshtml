@@ -1,66 +1,131 @@
-﻿@model IEnumerable<BookRentalObject.Feedback>
+﻿@using BookRentalObject
+@model IEnumerable<BookRentalObject.Feedback>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="text-dark text-center">Feedback</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Timestamp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsHidden)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Book)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReturnRecord)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Timestamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsHidden)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Isbn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReturnRecord.RecordId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.FeedbackId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FeedbackId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FeedbackId">Delete</a>
-            </td>
-        </tr>
+
+<div class="container my-4">
+    <div class="row">
+                
+        @foreach (var feedback in Model)
+        {
+            var borderClass = "border border-2 border-dark border-opacity-100";
+
+                <div class="col-md-4">
+                    <div class="main-card mb-4 card-clickable @borderClass"
+                         data-modal-id="detailsModal-@feedback.FeedbackId"
+                         style="cursor: pointer;">
+
+                    <div class="card-info">
+                        <h5 class="text-dark">Customer Name: @(feedback.ReturnRecord.Transaction.User.FullName)</h5>
+                        <p>Book Name: @feedback.Book.Name</p>
+                        <p>Category: @feedback.Book.Category.CategoryName</p>
+                        <p>Author: @feedback.Book.Author.FullName</p>
+                        <p>Timestamp: @feedback.Timestamp</p>
+                        <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
+                            <button type="button"
+                                    id="toggle-btn-@feedback.FeedbackId"
+                                    class="btn btn-sm btn-light prevent-stretch toggle-visibility"
+                                    title="Show/hide Feedback"
+                                    onclick="event.stopPropagation(); toggleFeedbackVisibility(@feedback.FeedbackId, @feedback.IsHidden.ToString().ToLower())">
+                                <i class="bi @(feedback.IsHidden ? "bi-eye-slash text-danger" : "bi-eye text-success")" id="toggle-icon-@feedback.FeedbackId"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for each feedback details -->
+				<div class="modal fade fade-scale" id="detailsModal-@feedback.FeedbackId" tabindex="-1" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content shadow-lg rounded-3">
+							<div class="modal-header bg-secondary text-white border-0">
+								<h5 class="modal-title w-100 text-center">
+									<i class="bi bi-info-circle me-2"></i>
+									Feedback Details
+								</h5>
+								<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="info-group mb-3">
+									<p class="mb-1"><strong>Feedback ID:</strong> @feedback.FeedbackId</p>
+                                    <p class="mb-1"><strong>Book Name:</strong> @feedback.Book.Name</p>
+                                    <p class="mb-1"><strong>Customer Name:</strong> @feedback.ReturnRecord?.Transaction.User.FullName</p>
+									<p class="mb-1"><strong>Timestamp:</strong> @feedback.Timestamp</p>
+									<p class="mb-1"><strong>Comment:</strong> @feedback.Comment</p>
+									<p class="mb-1"><strong>Rate:</strong>  @feedback.Rate</p>
+								</div>
+								<div class="text-center">
+									<button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+        }
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        preventStretchedLinkClick();
+
+        $('.card-clickable').on('click', function () {
+            const modalId = $(this).data('modal-id');
+            const modal = document.getElementById(modalId);
+
+            if (modal) {
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
+            }
+        });
+
+
+        $('.toggle-visibility').on('click', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+        function toggleFeedbackVisibility(feedbackId, currentStatus) {
+            const newStatus = !currentStatus;
+
+            $.ajax({
+                url: '@Url.Action("ToggleVisibility", "Feedbacks")',
+                type: 'POST',
+                data: {
+                    feedbackId: feedbackId,
+                    isHidden: newStatus
+                },
+                success: function () {
+                    const icon = $('#toggle-icon-' + feedbackId);
+                    const btn = $('#toggle-btn-' + feedbackId);
+
+                    if (newStatus) {
+                        icon
+                            .removeClass('bi-eye text-success')
+                            .addClass('bi-eye-slash text-danger');
+                    } else {
+                        icon
+                            .removeClass('bi-eye-slash text-danger')
+                            .addClass('bi-eye text-success');
+                    }
+
+                    // Also update the onclick with the new state
+                    btn.attr('onclick', `event.stopPropagation(); toggleFeedbackVisibility(${feedbackId}, ${newStatus})`);
+
+                    showSuccessMessage("Feedback visibility updated successfully!");
+                },
+                error: function () {
+                    showErrorMessage("Failed to update feedback visibility.");
+                }
+            });
+        }
+	
+</script>
 }
-    </tbody>
-</table>

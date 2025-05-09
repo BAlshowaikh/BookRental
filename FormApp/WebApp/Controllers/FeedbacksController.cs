@@ -22,7 +22,10 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var bookRentalDBContext = _context.Feedbacks
-                .Include(f => f.Book)                          
+                .Include(f => f.Book)             
+                    .ThenInclude(f => f.Category)
+                .Include(f => f.Book)
+                    .ThenInclude(f => f.Author)
                 .Include(f => f.ReturnRecord)                   
                     .ThenInclude(r => r.Transaction)            
                     .ThenInclude(t => t.User);                  
@@ -205,7 +208,6 @@ namespace WebApp.Controllers
             }
 
             feedback.IsHidden = isHidden;  // Toggle the visibility
-            _context.Update(feedback);
             await _context.SaveChangesAsync();
 
             return Ok();
