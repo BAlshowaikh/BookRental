@@ -18,14 +18,6 @@ namespace WebApp.Controllers
             _context = context;
         }
 
-        // GET: Categories
-        public async Task<IActionResult> Index()
-        {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'BookRentalDBContext.Categories'  is null.");
-        }
-
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -180,9 +172,33 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        //search and filter 
         private bool CategoryExists(int id)
         {
           return (_context.Categories?.Any(e => e.CategoryId == id)).GetValueOrDefault();
         }
+
+
+        // GET: Categories
+        public async Task<IActionResult> Index(string searchName, bool? isActive)
+        {
+            var query = _context.Categories.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                query = query.Where(c => c.CategoryName.Contains(searchName));
+            }
+
+            if (isActive.HasValue)
+            {
+                query = query.Where(c => c.IsActive == isActive.Value);
+            }
+
+            return View(await query.ToListAsync());
+        }
+
+
+
     }
 }
