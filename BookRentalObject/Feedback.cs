@@ -11,7 +11,6 @@ namespace BookRentalObject
     {
         [Key]
         [Column("feedbackId")]
-        [Display(Name = "Feedback ID")]
         public int FeedbackId { get; set; }
         [Column("timestamp", TypeName = "datetime")]
         public DateTime Timestamp { get; set; }
@@ -21,13 +20,10 @@ namespace BookRentalObject
         [Column("rate")]
         public int Rate { get; set; }
         [Column("bookId")]
-        [Display(Name = "Book ID")]
         public int BookId { get; set; }
         [Column("isHidden")]
-        [Display(Name = "Is Hidden?")]
         public bool IsHidden { get; set; }
         [Column("returnRecordId")]
-        [Display(Name = "Return Record ID")]
         public int? ReturnRecordId { get; set; }
 
         [ForeignKey("BookId")]

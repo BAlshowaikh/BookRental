@@ -16,7 +16,6 @@ namespace BookRentalObject
 
         [Key]
         [Column("rentalRequestStatusId")]
-        [Display(Name = "Status ID")]
         public int RentalRequestStatusId { get; set; }
         [Required]
         [Column("status")]

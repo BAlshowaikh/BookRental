@@ -16,15 +16,12 @@ namespace BookRentalObject
 
         [Key]
         [Column("categoryId")]
-        [Display(Name = "Category ID")]
         public int CategoryId { get; set; }
         [Required]
         [Column("categoryName")]
         [StringLength(100)]
-        [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
         [Column("isActive")]
-        [Display(Name = "Is Active?")]
         public bool IsActive { get; set; }
 
         [InverseProperty("Category")]
