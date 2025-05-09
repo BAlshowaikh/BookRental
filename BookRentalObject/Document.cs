@@ -11,13 +11,17 @@ namespace BookRentalObject
     {
         [Key]
         [Column("documentId")]
+        [Display(Name = "Document ID")]
         public int DocumentId { get; set; }
         [Column("uploadDate", TypeName = "datetime")]
+        [Display(Name = "Upload Date")]
         public DateTime UploadDate { get; set; }
         [Required]
         [Column("BLOB")]
+        [Display(Name = "BLOB")]
         public byte[] Blob { get; set; }
         [Column("rentalRequestId")]
+        [Display(Name = "Rental Request ID")]
         public int RentalRequestId { get; set; }
 
         [ForeignKey("RentalRequestId")]
