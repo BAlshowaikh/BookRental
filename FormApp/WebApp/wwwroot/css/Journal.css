@@ -13538,9 +13538,10 @@ textarea.form-control-lg {
     color: var(--bs-light);
 }
 
-    .card-info h5 {
-        margin: 0 0 0.5rem 0;
+    .card-info :is(h1, h2, h3, h4, h5, h6) {
+        margin: 0 0 0.3rem 0;
         font-weight: bold;
+        color: var(--bs-info)
     }
 
     .card-info p {
@@ -13719,6 +13720,27 @@ input.form-check-input {
 }
 
 
+/* design for the charts in the dashboard */
+.chart-card {
+    height: 360px;
+}
+
+    .chart-card .card-body {
+        height: 100%;
+    }
+
+    .chart-card canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+.row > .col-md-6 {
+    display: flex;
+}
+
+    .row > .col-md-6 > .card {
+        flex-grow: 1;
+    }
 
 
 

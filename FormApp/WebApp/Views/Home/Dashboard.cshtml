@@ -32,20 +32,62 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6 mb-4">
-        <canvas id="categoryChart" height="250"></canvas>
+<div class="container mt-4">
+    <div class="row mb-4">
+        <!-- Chart 1 -->
+        <div class="col-md-6 mb-4">
+            <div class="card chart-card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    Most Rented Categories
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <canvas id="categoryChart" height="220"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart 2 -->
+        <div class="col-md-6 mb-4">
+            <div class="card chart-card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    Return Statistics
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <div style="width: 300px; height: 300px; margin: auto;">
+                        <canvas id="returnStatsChart" height="20"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 mb-4">
-        <canvas id="returnStatsChart" height="250"></canvas>
-    </div>
-    <div class="col-md-6 mb-4">
-        <canvas id="revenueChart" height="250"></canvas>
-    </div>
-    <div class="col-md-6 mb-4">
-        <canvas id="conditionChart" height="250"></canvas>
+
+    <div class="row">
+        <!-- Chart 3 -->
+        <div class="col-md-6 mb-4">
+            <div class="card chart-card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    Revenue Breakdown
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <canvas id="revenueChart" height="220"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart 4 -->
+        <div class="col-md-6 mb-4">
+            <div class="card chart-card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    Book Conditions
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <canvas id="conditionChart" height="220"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -58,8 +100,8 @@
                 datasets: [{
                     label: 'Number of Rentals',
                     data: @Html.Raw(Json.Serialize(ViewBag.CategoryData)),
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(109, 167, 168, 0.6)',
+                    borderColor: 'rgba(109, 167, 168, 1)',
                     borderWidth: 1,
                     borderRadius: 4
                 }]
@@ -83,7 +125,8 @@
                 datasets: [{
                     label: 'Return Statistics',
                     data: @Html.Raw(Json.Serialize(ViewBag.ReturnStatsData)),
-                    backgroundColor: ['#4caf50', '#f44336']
+                    backgroundColor: ['rgba(90, 140, 94, 0.6)', 'rgba(188, 83, 80, 0.6)'],
+                    borderColor: ['rgba(90, 140, 94, 0.8)', 'rgba(188, 83, 80, 0.8)']
                 }]
             }
         });
@@ -94,10 +137,10 @@
             data: {
                 labels: ['Rental Fees', 'Late Fees'],
                 datasets: [{
-                    label: 'Revenue Breakdown',
+                    label: 'Revenue Amount',
                     data: @Html.Raw(Json.Serialize(ViewBag.RevenueData)),
-                    backgroundColor: ['#2196f3', '#ff9800'],
-                    borderColor: ['#2196f3', '#ff9800'],
+                    backgroundColor: 'rgba(216, 157, 90, 0.6)',
+                    borderColor: 'rgba(216, 157, 90, 1)',
                     borderWidth: 1,
                     borderRadius: 4
                 }]
@@ -112,8 +155,8 @@
                 datasets: [{
                     label: 'Number of Books',
                     data: @Html.Raw(Json.Serialize(ViewBag.ConditionData)),
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(113, 147, 191, 0.6)',
+                    borderColor: 'rgba(113, 147, 191, 1)',
                     borderWidth: 1,
                     borderRadius: 4
                 }]
