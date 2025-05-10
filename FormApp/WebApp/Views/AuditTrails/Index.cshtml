@@ -1,54 +1,54 @@
-﻿@model IEnumerable<BookRentalObject.AuditTrail>
+﻿@model IEnumerable<BookRentalObject.AuditTrailViewModel>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Audit Trails";
 }
 
-<h1>Index</h1>
+<h2>Audit Trails</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+@using (Html.BeginForm("Index", "AuditTrail", FormMethod.Get))
+{
+    <div class="form-inline mb-3">
+        <label for="auditId">Audit ID:</label>
+        <input type="number" name="auditId" id="auditId" class="form-control mx-2" />
+
+        <label for="userId">User:</label>
+        @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select User", new { @class = "form-control mx-2" })
+
+        <button type="submit" class="btn btn-primary mx-1">Filter</button>
+        <a href="@Url.Action("Index", "AuditTrail")" class="btn btn-secondary">Reset</a>
+    </div>
+}
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Timestamp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OldValue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NewValue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
+            <th>Audit ID</th>
+            <th>Timestamp</th>
+            <th>Old Value</th>
+            <th>New Value</th>
+            <th>User</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Timestamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OldValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NewValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AuditId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AuditId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AuditId">Delete</a>
-            </td>
-        </tr>
-}
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center">No records found.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AuditId</td>
+                    <td>@item.Timestamp</td>
+                    <td>@item.OldValue</td>
+                    <td>@item.NewValue</td>
+                    <td>@item.UserFullName</td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
