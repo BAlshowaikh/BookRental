@@ -27,22 +27,28 @@ namespace BookRentalObject
         [Required]
         [Column("firstName")]
         [StringLength(50)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required]
         [Column("lastName")]
         [StringLength(50)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Column("email")]
         [StringLength(100)]
         public string Email { get; set; }
         [Column("userRoleId")]
+        [Display(Name = "User Role ID")]
         public int UserRoleId { get; set; }
         [Column("contactNo")]
         [StringLength(10)]
+        [Display(Name = "Contact Number")]
         public string ContactNo { get; set; }
         [Column("isActive")]
+        [Display(Name = "Is Active?")]
         public bool IsActive { get; set; }
 
+        [Display(Name = "Full Name")]
         public String FullName { get { return FirstName + " " + LastName; } }
 
         [ForeignKey("UserRoleId")]
