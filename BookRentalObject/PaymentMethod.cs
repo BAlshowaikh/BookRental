@@ -16,10 +16,12 @@ namespace BookRentalObject
 
         [Key]
         [Column("paymentMethodId")]
+        [Display(Name = "Payment Method ID")]
         public int PaymentMethodId { get; set; }
         [Required]
         [Column("paymentMethod")]
         [StringLength(50)]
+        [Display(Name = "Payment Method")]
         public string PaymentMethod1 { get; set; }
 
         [InverseProperty("PaymentMethod")]

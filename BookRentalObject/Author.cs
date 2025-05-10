@@ -21,15 +21,19 @@ namespace BookRentalObject
         [Required]
         [Column("firstName")]
         [StringLength(100)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required]
         [Column("lastName")]
         [StringLength(100)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Column("email")]
         [StringLength(100)]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Display(Name = "Full Name")]
         public String FullName { get { return FirstName + " " + LastName; } }
 
         [InverseProperty("Author")]
