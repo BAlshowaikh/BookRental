@@ -6,19 +6,27 @@
 
 <h2>Audit Trails</h2>
 
-@using (Html.BeginForm("Index", "AuditTrail", FormMethod.Get))
+@using (Html.BeginForm("Index", "AuditTrails", FormMethod.Get))
 {
-    <div class="form-inline mb-3">
-        <label for="auditId">Audit ID:</label>
-        <input type="number" name="auditId" id="auditId" class="form-control mx-2" />
+    <div class="filter-row">
+        <div class="filter-group">
+            <label for="auditId">Audit ID:</label>
+            <input type="number" name="auditId" id="auditId" class="form-control" />
+        </div>
 
-        <label for="userId">User:</label>
-        @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select User", new { @class = "form-control mx-2" })
+        <div class="filter-group">
+            <label for="userId">User:</label>
+            @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select User", new { @class = "form-control" })
+        </div>
 
-        <button type="submit" class="btn btn-primary mx-1">Filter</button>
-        <a href="@Url.Action("Index", "AuditTrail")" class="btn btn-secondary">Reset</a>
+        <div class="filter-buttons">
+            <button type="submit" class="btn">Filter</button>
+            <a href="@Url.Action("Index", "AuditTrails")" class="btn btn-secondary">Reset</a>
+        </div>
+
     </div>
 }
+
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -52,3 +60,54 @@
         }
     </tbody>
 </table>
+
+<style>
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .filter-group {
+        flex: 1 1 200px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-buttons {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+    }
+
+        .filter-buttons button,
+        .filter-buttons a {
+            height: 36px;
+        }
+
+    .btn {
+        background-color: #6B4226; /* brown */
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+        background-color: #5a351f;
+    }
+
+    .btn-secondary {
+        background-color: #8C6E54;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7a5f49;
+        }
+
+
+</style>

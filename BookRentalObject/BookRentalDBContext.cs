@@ -38,6 +38,11 @@ namespace BookRentalObject
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
 
+        public DbSet<Log> Log { get; set; }
+
+
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
