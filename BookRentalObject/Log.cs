@@ -35,5 +35,6 @@ namespace BookRentalObject
         [ForeignKey("UserId")]
         [InverseProperty("Logs")]
         public virtual User User { get; set; }
+
     }
 }

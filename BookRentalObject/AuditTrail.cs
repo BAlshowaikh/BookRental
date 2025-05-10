@@ -33,4 +33,15 @@ namespace BookRentalObject
         [InverseProperty("AuditTrails")]
         public virtual User User { get; set; }
     }
+    public class AuditTrailViewModel
+    {
+        public int AuditId { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string OldValue { get; set; }
+        public string NewValue { get; set; }
+        public string UserFullName { get; set; }
+    }
+
+
+
 }

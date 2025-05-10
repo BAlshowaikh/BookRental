@@ -1,54 +1,113 @@
-﻿@model IEnumerable<BookRentalObject.AuditTrail>
+﻿@model IEnumerable<BookRentalObject.AuditTrailViewModel>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Audit Trails";
 }
 
-<h1>Index</h1>
+<h2>Audit Trails</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+@using (Html.BeginForm("Index", "AuditTrails", FormMethod.Get))
+{
+    <div class="filter-row">
+        <div class="filter-group">
+            <label for="auditId">Audit ID:</label>
+            <input type="number" name="auditId" id="auditId" class="form-control" />
+        </div>
+
+        <div class="filter-group">
+            <label for="userId">User:</label>
+            @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select User", new { @class = "form-control" })
+        </div>
+
+        <div class="filter-buttons">
+            <button type="submit" class="btn">Filter</button>
+            <a href="@Url.Action("Index", "AuditTrails")" class="btn btn-secondary">Reset</a>
+        </div>
+
+    </div>
+}
+
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Timestamp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OldValue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NewValue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
+            <th>Audit ID</th>
+            <th>Timestamp</th>
+            <th>Old Value</th>
+            <th>New Value</th>
+            <th>User</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Timestamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OldValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NewValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AuditId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AuditId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AuditId">Delete</a>
-            </td>
-        </tr>
-}
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center">No records found.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AuditId</td>
+                    <td>@item.Timestamp</td>
+                    <td>@item.OldValue</td>
+                    <td>@item.NewValue</td>
+                    <td>@item.UserFullName</td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
+
+<style>
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .filter-group {
+        flex: 1 1 200px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-buttons {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+    }
+
+        .filter-buttons button,
+        .filter-buttons a {
+            height: 36px;
+        }
+
+    .btn {
+        background-color: #6B4226; /* brown */
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+        background-color: #5a351f;
+    }
+
+    .btn-secondary {
+        background-color: #8C6E54;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7a5f49;
+        }
+
+
+</style>
