@@ -22,7 +22,7 @@ namespace BookRentalObject
         public byte[] Blob { get; set; }
         [Column("rentalRequestId")]
         [Display(Name = "Rental Request ID")]
-        public int RentalRequestId { get; set; }}
+        public int RentalRequestId { get; set; }
 
         [ForeignKey("RentalRequestId")]
         [InverseProperty("Documents")]

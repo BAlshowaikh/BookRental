@@ -1,24 +1,117 @@
-﻿
-@{
-    ViewData["Title"] = "View";
+﻿@{
+    ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Most Rented Book Categories</h2>
-<canvas id="categoryChart" width="600" height="300"></canvas>
+<h2>Statistics Overview</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>Active Rentals</h5>
+            <p>@ViewBag.ActiveRentals</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>On-Time Returns</h5>
+            <p>@ViewBag.OnTimeReturns.ToString("F1")% </p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>Late Returns</h5>
+            <p>@ViewBag.LateReturns.ToString("F1")%</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <h5>Total Revenue</h5>
+            <p>$@ViewBag.TotalRevenue.ToString("F2")</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <canvas id="categoryChart" height="250"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+        <canvas id="returnStatsChart" height="250"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+        <canvas id="revenueChart" height="250"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+        <canvas id="conditionChart" height="250"></canvas>
+    </div>
+</div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('categoryChart').getContext('2d');
-
-        const chart = new Chart(ctx, {
+        // Category Chart
+        new Chart(document.getElementById('categoryChart'), {
             type: 'bar',
             data: {
                 labels: @Html.Raw(Json.Serialize(ViewBag.CategoryLabels)),
                 datasets: [{
                     label: 'Number of Rentals',
                     data: @Html.Raw(Json.Serialize(ViewBag.CategoryData)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { precision: 0 }
+                    }
+                }
+            }
+        });
+
+        // Return Stats Pie Chart
+        new Chart(document.getElementById('returnStatsChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['On-Time Returns', 'Late Returns'],
+                datasets: [{
+                    label: 'Return Statistics',
+                    data: @Html.Raw(Json.Serialize(ViewBag.ReturnStatsData)),
+                    backgroundColor: ['#4caf50', '#f44336']
+                }]
+            }
+        });
+
+        // Revenue Breakdown Chart: Rental Fees vs Late Fees
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Rental Fees', 'Late Fees'],
+                datasets: [{
+                    label: 'Revenue Breakdown',
+                    data: @Html.Raw(Json.Serialize(ViewBag.RevenueData)),
+                    backgroundColor: ['#2196f3', '#ff9800'],
+                    borderColor: ['#2196f3', '#ff9800'],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            }
+        });
+
+        // Condition Chart: Number of Books by Condition
+        new Chart(document.getElementById('conditionChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.ConditionLabels)),
+                datasets: [{
+                    label: 'Number of Books',
+                    data: @Html.Raw(Json.Serialize(ViewBag.ConditionData)),
                     backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1,
@@ -37,4 +130,3 @@
         });
     </script>
 }
-
