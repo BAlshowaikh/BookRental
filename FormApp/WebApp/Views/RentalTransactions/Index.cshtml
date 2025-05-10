@@ -44,10 +44,8 @@
 	<div class="row">
 		@foreach (var card in Model)
 		{
-			var borderClass = "border border-2 border-dark border-opacity-100";
-
 			<div class="col-md-4">
-				<div class="main-card mb-4 card-clickable @borderClass"
+				<div class="second-card mb-4 card-clickable"
 					 data-modal-id="detailsModal-@card.RentalTransaction.TransactionId"
 					 style="cursor: pointer;">
 
