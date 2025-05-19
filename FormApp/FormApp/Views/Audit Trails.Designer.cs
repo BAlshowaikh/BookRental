@@ -52,7 +52,7 @@
             // 
             pageTitleTxt.AutoSize = true;
             pageTitleTxt.BackColor = Color.Transparent;
-            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             pageTitleTxt.ForeColor = Color.Cornsilk;
             pageTitleTxt.Location = new Point(315, 9);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
@@ -120,7 +120,7 @@
             filterGB.Controls.Add(FilterbyUser);
             filterGB.Controls.Add(txtFilterTrailsNo);
             filterGB.Controls.Add(FilterbyLoginTrailsNo);
-            filterGB.Font = new Font("Tahoma", 10F);
+            filterGB.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             filterGB.Location = new Point(31, 103);
             filterGB.Name = "filterGB";
             filterGB.Size = new Size(930, 96);
@@ -131,9 +131,9 @@
             // btnReset
             // 
             btnReset.BackColor = Color.Cornsilk;
-            btnReset.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnReset.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnReset.ForeColor = Color.Black;
-            btnReset.Location = new Point(809, 32);
+            btnReset.Location = new Point(809, 42);
             btnReset.Margin = new Padding(2);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(105, 38);
@@ -145,9 +145,9 @@
             // btnFilter
             // 
             btnFilter.BackColor = Color.Cornsilk;
-            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnFilter.ForeColor = Color.Black;
-            btnFilter.Location = new Point(700, 32);
+            btnFilter.Location = new Point(700, 42);
             btnFilter.Margin = new Padding(2);
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(105, 38);
@@ -159,7 +159,7 @@
             // ddlFilterUser
             // 
             ddlFilterUser.FormattingEnabled = true;
-            ddlFilterUser.Location = new Point(505, 35);
+            ddlFilterUser.Location = new Point(466, 43);
             ddlFilterUser.Margin = new Padding(4, 5, 4, 5);
             ddlFilterUser.Name = "ddlFilterUser";
             ddlFilterUser.Size = new Size(180, 32);
@@ -168,8 +168,8 @@
             // FilterbyUser
             // 
             FilterbyUser.AutoSize = true;
-            FilterbyUser.Font = new Font("Britannic Bold", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FilterbyUser.Location = new Point(357, 44);
+            FilterbyUser.Font = new Font("Britannic Bold", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            FilterbyUser.Location = new Point(312, 46);
             FilterbyUser.Name = "FilterbyUser";
             FilterbyUser.Size = new Size(147, 25);
             FilterbyUser.TabIndex = 2;
@@ -177,7 +177,7 @@
             // 
             // txtFilterTrailsNo
             // 
-            txtFilterTrailsNo.Location = new Point(187, 37);
+            txtFilterTrailsNo.Location = new Point(131, 42);
             txtFilterTrailsNo.Name = "txtFilterTrailsNo";
             txtFilterTrailsNo.Size = new Size(150, 32);
             txtFilterTrailsNo.TabIndex = 1;
@@ -185,17 +185,17 @@
             // FilterbyLoginTrailsNo
             // 
             FilterbyLoginTrailsNo.AutoSize = true;
-            FilterbyLoginTrailsNo.Font = new Font("Britannic Bold", 10F);
+            FilterbyLoginTrailsNo.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             FilterbyLoginTrailsNo.Location = new Point(12, 46);
             FilterbyLoginTrailsNo.Name = "FilterbyLoginTrailsNo";
-            FilterbyLoginTrailsNo.Size = new Size(174, 22);
+            FilterbyLoginTrailsNo.Size = new Size(113, 22);
             FilterbyLoginTrailsNo.TabIndex = 0;
-            FilterbyLoginTrailsNo.Text = "Filter by Trails No:";
+            FilterbyLoginTrailsNo.Text = "Filter by ID:";
             // 
             // btnRefresh
             // 
             btnRefresh.BackColor = Color.LightGray;
-            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnRefresh.Location = new Point(851, 570);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(110, 35);

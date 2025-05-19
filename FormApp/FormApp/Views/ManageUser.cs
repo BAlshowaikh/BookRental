@@ -54,10 +54,10 @@ namespace FormApp
             try
             {
                 //Set the data source of the drop down to the list of users 
-                ddlUser.DataSource = context.Users.ToList();
-                ddlUser.DisplayMember = "FullName"; // Set which property to display in the dropdown
-                ddlUser.ValueMember = "userId"; // Set the value property for each dropdown item
-                ddlUser.SelectedItem = null; // Clear any pre-selected item
+                ddlValue.DataSource = context.Users.ToList();
+                ddlValue.DisplayMember = "FullName"; // Set which property to display in the dropdown
+                ddlValue.ValueMember = "userId"; // Set the value property for each dropdown item
+                ddlValue.SelectedItem = null; // Clear any pre-selected item
 
                 // Refresh the grid view to show the latest users
                 RefreshUsersGridView();
@@ -84,10 +84,10 @@ namespace FormApp
                     userToShow = userToShow.Where(u => u.UserId == Convert.ToInt32(txtUserID.Text));
                 }
                 //if a user is selected, filter by that category 
-                else if (ddlAttributesNames.SelectedItem != null && ddlUser.SelectedItem != null)
+                else if (ddlAttributesNames.SelectedItem != null && ddlValue.SelectedItem != null)
                 {
                     string selectedAttribute = ddlAttributesNames.SelectedItem.ToString();
-                    string selectedValue = ddlUser.SelectedItem.ToString();
+                    string selectedValue = ddlValue.SelectedItem.ToString();
 
                     var propInfo = typeof(BookRentalObject.User).GetProperty(selectedAttribute);
                     if (propInfo != null)
@@ -127,8 +127,9 @@ namespace FormApp
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
+            txtUserID.Text = null;
             ddlAttributesNames.SelectedItem = null;
-            ddlUser.SelectedItem = null; // Clear any pre-selected item
+            ddlValue.SelectedItem = null; // Clear any pre-selected item
 
             RefreshUsersGridView(); //Refresh the view to remove the filters
         }
@@ -236,8 +237,8 @@ namespace FormApp
                     .ToList();
 
 
-                ddlUser.DataSource = values;
-                ddlUser.SelectedItem = null;
+                ddlValue.DataSource = values;
+                ddlValue.SelectedItem = null;
             }
 
            
