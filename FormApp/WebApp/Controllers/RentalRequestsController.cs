@@ -256,8 +256,25 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    var originalRequest = await _context.RentalRequests.AsNoTracking()
+                    .FirstOrDefaultAsync(r => r.RequestId == id);
+
                     _context.Update(rentalRequest);
                     await _context.SaveChangesAsync();
+
+                    // Add Audit Trail
+                    var audit = new AuditTrail
+                    {
+                        Timestamp = DateTime.Now,
+                        UserId = rentalRequest.UserId,
+                        OldValue = $"Status: {originalRequest.RentalRequestStatusId}, Start: {originalRequest.RentalStartDate}, Return: {originalRequest.ReturnDate}",
+                        NewValue = $"Status: {rentalRequest.RentalRequestStatusId}, Start: {rentalRequest.RentalStartDate}, Return: {rentalRequest.ReturnDate}"
+                    };
+
+                    _context.AuditTrails.Add(audit);
+                    await _context.SaveChangesAsync();
+
+
                     TempData["SuccessMessage"] = "Rental request updated successfully!";
                     return RedirectToAction(nameof(Edit), new { id = rentalRequest.RequestId });
                 }
@@ -397,7 +414,19 @@ namespace WebApp.Controllers
 
             await _context.SaveChangesAsync();
 
-			return RedirectToAction("Index");
+            var audit = new AuditTrail
+            {
+                Timestamp = DateTime.Now,
+                UserId = request.UserId,
+                OldValue = $"Request {request.RequestId} status before approval",
+                NewValue = $"Approved - RequestId: {request.RequestId}, BookId: {request.BookId}"
+            };
+
+            _context.AuditTrails.Add(audit);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction("Index");
 		}
 
         // In case the "Reject" button is clicked
@@ -433,6 +462,18 @@ namespace WebApp.Controllers
             _context.Notifications.Add(notification);
 
             await _context.SaveChangesAsync();
+
+            var audit = new AuditTrail
+            {
+                Timestamp = DateTime.Now,
+                UserId = request.UserId,
+                OldValue = $"Request {request.RequestId} status before rejection",
+                NewValue = $"Rejected - RequestId: {request.RequestId}"
+            };
+
+            _context.AuditTrails.Add(audit);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
 
         }
