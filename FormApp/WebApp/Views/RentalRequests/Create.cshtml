@@ -12,7 +12,7 @@
 	<a asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
 	<hr class="mb-4" />
 
-	<form asp-action="Create" method="post">
+	<form asp-action="Create" method="post" enctype="multipart/form-data">
 		<div asp-validation-summary="All" class="text-danger mb-3"></div>
 		<input type="hidden" asp-for="BookId" value="@ViewBag.BookId" />
 
@@ -58,9 +58,23 @@
 			<span asp-validation-for="TotalCost" class="text-danger"></span>
 		</div>
 
-		<div class="form-group mb-3 text-danger d-none" id="dateWarning">
-			Rental period should not exceed 30 days.
+		<!-- Regulations PDF Download -->
+		<div class="form-group mb-3">
+			<label class="form-label">Rental Conditions & Regulations</label>
+			<div>
+				<a class="btn btn-outline-primary" href="~/pdfs/RentalRegulations.pdf" download>
+					📄 Click to download Conditions & Regulations
+				</a>
+			</div>
 		</div>
+
+		<!-- PDF Upload -->
+		<div class="form-group mb-3">
+			<label class="form-label" for="uploadedFile">Upload Signed Agreement (PDF)</label>
+			<input type="file" name="uploadedFile" id="uploadedFile" class="form-control" accept=".pdf" />
+			<span class="text-danger d-none" id="uploadWarning">Please upload a signed agreement in PDF format.</span>
+		</div>
+
 
 		<div class="form-group">
 			<input type="submit" value="Submit Request" class="btn btn-success w-100" />

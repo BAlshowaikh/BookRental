@@ -19,7 +19,6 @@ namespace BookRentalObject
 
         [Key]
         [Column("bookId")]
-        [Display(Name = "Book ID")]
         public int BookId { get; set; }
         [Required]
         [Column("name")]
