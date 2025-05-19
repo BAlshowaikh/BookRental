@@ -256,24 +256,56 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    var originalRequest = await _context.RentalRequests.AsNoTracking()
-                    .FirstOrDefaultAsync(r => r.RequestId == id);
+                    var original = await _context.RentalRequests
+    .AsNoTracking()
+    .FirstOrDefaultAsync(r => r.RequestId == id);
 
                     _context.Update(rentalRequest);
                     await _context.SaveChangesAsync();
 
-                    // Add Audit Trail
-                    var audit = new AuditTrail
+                    // Compare and build audit entry
+                    var changes = new List<string>();
+                    var oldValues = new List<string>();
+                    var newValues = new List<string>();
+
+                    if (original.RentalRequestStatusId != rentalRequest.RentalRequestStatusId)
                     {
-                        Timestamp = DateTime.Now,
-                        UserId = rentalRequest.UserId,
-                        OldValue = $"Status: {originalRequest.RentalRequestStatusId}, Start: {originalRequest.RentalStartDate}, Return: {originalRequest.ReturnDate}",
-                        NewValue = $"Status: {rentalRequest.RentalRequestStatusId}, Start: {rentalRequest.RentalStartDate}, Return: {rentalRequest.ReturnDate}"
-                    };
+                        changes.Add("Status");
+                        oldValues.Add($"Status: {original.RentalRequestStatusId}");
+                        newValues.Add($"Status: {rentalRequest.RentalRequestStatusId}");
+                    }
+                    if (original.RentalStartDate != rentalRequest.RentalStartDate)
+                    {
+                        changes.Add("StartDate");
+                        oldValues.Add($"Start: {original.RentalStartDate:yyyy-MM-dd}");
+                        newValues.Add($"Start: {rentalRequest.RentalStartDate:yyyy-MM-dd}");
+                    }
+                    if (original.ReturnDate != rentalRequest.ReturnDate)
+                    {
+                        changes.Add("ReturnDate");
+                        oldValues.Add($"Return: {original.ReturnDate:yyyy-MM-dd}");
+                        newValues.Add($"Return: {rentalRequest.ReturnDate:yyyy-MM-dd}");
+                    }
+                    if (original.TotalCost != rentalRequest.TotalCost)
+                    {
+                        changes.Add("TotalCost");
+                        oldValues.Add($"Cost: {original.TotalCost}");
+                        newValues.Add($"Cost: {rentalRequest.TotalCost}");
+                    }
 
-                    _context.AuditTrails.Add(audit);
-                    await _context.SaveChangesAsync();
+                    if (changes.Any())
+                    {
+                        var audit = new AuditTrail
+                        {
+                            Timestamp = DateTime.Now,
+                            UserId = rentalRequest.UserId,
+                            OldValue = string.Join("; ", oldValues),
+                            NewValue = string.Join("; ", newValues)
+                        };
 
+                        _context.AuditTrails.Add(audit);
+                        await _context.SaveChangesAsync();
+                    }
 
                     TempData["SuccessMessage"] = "Rental request updated successfully!";
                     return RedirectToAction(nameof(Edit), new { id = rentalRequest.RequestId });
@@ -367,6 +399,9 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index");
             }
 
+            var originalStatus = request.RentalRequestStatusId;
+            var originalBookStatus = request.Book.AvailabilityStatusId;
+
             // Update rental request status to Approved (2)
             request.RentalRequestStatusId = 2;
 
@@ -414,12 +449,13 @@ namespace WebApp.Controllers
 
             await _context.SaveChangesAsync();
 
+            // AUDIT TRAIL for Approve
             var audit = new AuditTrail
             {
                 Timestamp = DateTime.Now,
                 UserId = request.UserId,
-                OldValue = $"Request {request.RequestId} status before approval",
-                NewValue = $"Approved - RequestId: {request.RequestId}, BookId: {request.BookId}"
+                OldValue = $"Request Status: {originalStatus}, Book Status: {originalBookStatus}",
+                NewValue = $"Request Status: {request.RentalRequestStatusId} (Approved), Book Status: {request.Book.AvailabilityStatusId} (Rented)"
             };
 
             _context.AuditTrails.Add(audit);
@@ -440,6 +476,8 @@ namespace WebApp.Controllers
                 TempData["ErrorMessage"] = "Request not found.";
                 return View();
             }
+
+            var originalStatus = request.RentalRequestStatusId;
 
             // Set status to Rejected (3)
             request.RentalRequestStatusId = 3;
@@ -462,13 +500,13 @@ namespace WebApp.Controllers
             _context.Notifications.Add(notification);
 
             await _context.SaveChangesAsync();
-
+            // AUDIT TRAIL for Reject
             var audit = new AuditTrail
             {
                 Timestamp = DateTime.Now,
                 UserId = request.UserId,
-                OldValue = $"Request {request.RequestId} status before rejection",
-                NewValue = $"Rejected - RequestId: {request.RequestId}"
+                OldValue = $"Request Status: {originalStatus}",
+                NewValue = $"Request Status: {request.RentalRequestStatusId} (Rejected)"
             };
 
             _context.AuditTrails.Add(audit);
