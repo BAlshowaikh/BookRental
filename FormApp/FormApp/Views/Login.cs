@@ -91,11 +91,11 @@ namespace FormApp
                         var roles = await userManager.GetRolesAsync(founduser);
 
                         //save into global class
-                        Global.User = founduser;
+                        Global.identityUser = founduser;
 
                         Global.RoleName = roles.FirstOrDefault();
 
-                        Global.userID = context.Users.Where(x => x.Email == userName).FirstOrDefault().UserId;
+                        Global.user = context.Users.Where(x => x.Email == userName).FirstOrDefault();
                     }
                     return passCheck;
                 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BookRentalObject;
+using Microsoft.AspNetCore.Identity;
 
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace ProjectFormApp
 {
     public static class Global
     {
-        public static IdentityUser User;
+        public static IdentityUser identityUser;
         public static string RoleName;
-        public static int userID;
+        public static User user;
     }
 }

@@ -24,9 +24,6 @@ namespace FormApp.Views
 
             context = new BookRentalDBContext();
 
-            // testing user id , will remove once login page is integrated 
-            userId = 1;
-
             this.Load += profile_Load;
         }
 
@@ -45,7 +42,15 @@ namespace FormApp.Views
                 }
                 else
                 {
-                    MessageBox.Show($"User with ID {userId} not found.");
+                    if (userId == 0)
+                    {
+                        MessageBox.Show($"User not found.");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"User with ID {userId} not found.");
+                    }
                 }
             }
             catch (Exception ex)
@@ -87,7 +92,7 @@ namespace FormApp.Views
 
         private void homeIcon_Click(object sender, EventArgs e)
         {
-            HelperFunctions.homePageBtn(this);
+            this.Close();
         }
 
         private void emailTxt_TextChanged(object sender, EventArgs e)

@@ -67,17 +67,15 @@ namespace FormApp.Controllers
         public static void ShowProfilePage(Form currentForm)
         {
             DialogResult result = MessageBox.Show(
-                "Are you sure you want to go to your Profile page?\nThis will close the current page.",
+                "Are you sure you want to go to your Profile page?",
                 "Confirm Navigation",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question
+                MessageBoxButtons.YesNo
             );
 
-            if (result == DialogResult.OK)
+            if (result == DialogResult.Yes)
             {
-                Form profileForm = new profile(); 
-                profileForm.Show();
-                currentForm.Close(); 
+                profile profileForm = new profile();
+                profileForm.ShowDialog();
             }
         }
 
