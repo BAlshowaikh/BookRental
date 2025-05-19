@@ -55,9 +55,10 @@
 
 		<div class="form-group mb-3">
 			<label class="form-label">Total Cost</label>
-			<input asp-for="TotalCost" class="form-control input-border" id="totalCost" />
-			<span asp-validation-for="TotalCost" class="text-danger"></span>
+			<input asp-for="TotalCost" class="form-control" id="totalCost" readonly />
+			<input type="hidden" asp-for="TotalCost" />
 		</div>
+
 
 		@if (Model.Documents != null && Model.Documents.Any())
 		{
