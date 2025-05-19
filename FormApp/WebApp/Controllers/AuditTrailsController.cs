@@ -191,9 +191,5 @@ namespace WebApp.Controllers
 
         private readonly BookRentalDBContext db = new BookRentalDBContext();
 
-
-        //[Authorize(Roles = "Admin")]
-       
-
     }
 }
