@@ -24,11 +24,43 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalRequests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? searchRequestId, int? searchStatusId, int page = 1)
         {
-            var bookRentalDBContext = _context.RentalRequests.Include(r => r.Book).Include(r => r.RentalRequestStatus).Include(r => r.User).Include(r => r.Documents);
-            return View(await bookRentalDBContext.ToListAsync());
+            int pageSize = 12;
+
+            var query = _context.RentalRequests
+                .Include(r => r.User)
+                .Include(r => r.Book)
+                .Include(r => r.RentalRequestStatus)
+                .AsQueryable();
+
+            if (searchRequestId.HasValue && searchRequestId.Value > 0)
+            {
+                query = query.Where(r => r.RequestId == searchRequestId.Value);
+            }
+
+            if (searchStatusId.HasValue && searchStatusId.Value > 0)
+            {
+                query = query.Where(r => r.RentalRequestStatusId == searchStatusId.Value);
+            }
+
+            int totalItems = await query.CountAsync();
+
+            query = query.OrderBy(r => r.RequestId); 
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewBag.StatusList = new SelectList(_context.RentalRequestStatuses, "RentalRequestStatusId", "Status");
+
+            return View(items);
         }
+
+
 
         // GET: RentalRequests/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -169,6 +201,7 @@ namespace WebApp.Controllers
                 .Include(r => r.Book)
                 .Include(r => r.User)
                 .Include(r => r.RentalRequestStatus)
+                .Include(r => r.Documents)
                 .FirstOrDefaultAsync(r => r.RequestId == id);
 
             if (rentalRequest == null)
@@ -374,31 +407,97 @@ namespace WebApp.Controllers
         // Function to retrive the documnet and display it
         public async Task<IActionResult> DownloadDocument(int id)
         {
-            var document = await _context.Documents.FindAsync(id);
-            if (document == null)
-                return NotFound();
+            try
+            {
+                var document = await _context.Documents.Where(d => d.RentalRequestId == id).FirstOrDefaultAsync();
+                if (document == null)
+                    return NotFound("Document not found.");
 
-            var rentalRequestId = document.RentalRequestId;
+                var rentalRequestId = document.RentalRequestId;
 
-            return File(document.Blob, "application/octet-stream", $"RentalRequest_{rentalRequestId}.pdf");
+                return File(document.Blob, "application/octet-stream", $"RentalRequest_{rentalRequestId}.pdf");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         // Function to delete the dosumnet
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteDocument(int id)
         {
-            var document = await _context.Documents.Where(d => d.RentalRequestId == id).FirstOrDefaultAsync();
-            if (document == null)
+            try
             {
-                return Json(new { success = false, message = "Document not found." });
+                var document = await _context.Documents
+                    .FirstOrDefaultAsync(d => d.RentalRequestId == id);
+
+                if (document == null)
+                    return NotFound("Document not found.");
+
+                _context.Documents.Remove(document);
+                await _context.SaveChangesAsync();
+
+                return Ok(); // AJAX handles the response
             }
-
-            _context.Documents.Remove(document);
-            await _context.SaveChangesAsync();
-
-            return Json(new { success = true, message = "Document deleted successfully." });
+            catch
+            {
+                return StatusCode(500, "Internal server error.");
+            }
         }
+
+        // Function to upload a documnet for Manager
+        [HttpPost]
+        public async Task<IActionResult> UploadDocument(int RentalRequestId, IFormFile Document)
+        {
+            try
+            {
+                if (Document == null || Document.Length == 0)
+                    return Ok(new { success = false, message = "Please select a file to upload." });
+
+                if (Path.GetExtension(Document.FileName).ToLower() != ".pdf")
+                    return Ok(new { success = false, message = "Only PDF files are allowed." });
+
+                var rentalRequest = await _context.RentalRequests
+                    .FirstOrDefaultAsync(r => r.RequestId == RentalRequestId);
+
+                if (rentalRequest == null)
+                    return Ok(new { success = false, message = "Rental request not found." });
+
+                var existingDoc = await _context.Documents
+                    .FirstOrDefaultAsync(d => d.RentalRequestId == RentalRequestId);
+
+                using var memoryStream = new MemoryStream();
+                await Document.CopyToAsync(memoryStream);
+
+                if (existingDoc != null)
+                {
+                    existingDoc.Blob = memoryStream.ToArray();
+                    existingDoc.UploadDate = DateTime.UtcNow;
+                }
+                else
+                {
+                    var newDocument = new Document
+                    {
+                        RentalRequestId = RentalRequestId,
+                        UploadDate = DateTime.UtcNow,
+                        Blob = memoryStream.ToArray()
+                    };
+                    _context.Documents.Add(newDocument);
+                }
+
+                await _context.SaveChangesAsync();
+                return Ok(new { success = true, message = "Document updated successfully." });
+            }
+            catch
+            {
+                return Ok(new { success = false, message = "An error occurred while uploading the document." });
+            }
+        }
+
 
     }
 } 
