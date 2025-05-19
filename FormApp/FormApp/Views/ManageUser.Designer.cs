@@ -44,7 +44,6 @@
             userIcon = new PictureBox();
             pageTitleTxt = new Label();
             btnRefresh = new Button();
-            ddlAttributesNames = new ComboBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -61,7 +60,7 @@
             groupBox1.Controls.Add(ddlUser);
             groupBox1.Controls.Add(filterBttn);
             groupBox1.Controls.Add(label1);
-            groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             groupBox1.ForeColor = Color.Black;
             groupBox1.Location = new Point(22, 74);
             groupBox1.Margin = new Padding(2);
@@ -82,7 +81,7 @@
             // lblUserID
             // 
             lblUserID.AutoSize = true;
-            lblUserID.Font = new Font("Britannic Bold", 10F);
+            lblUserID.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             lblUserID.Location = new Point(14, 45);
             lblUserID.Name = "lblUserID";
             lblUserID.Size = new Size(135, 19);
@@ -92,7 +91,7 @@
             // btnReset
             // 
             btnReset.BackColor = Color.Cornsilk;
-            btnReset.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnReset.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnReset.ForeColor = Color.Black;
             btnReset.Location = new Point(814, 36);
             btnReset.Margin = new Padding(2);
@@ -115,7 +114,7 @@
             // filterBttn
             // 
             filterBttn.BackColor = Color.Cornsilk;
-            filterBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            filterBttn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             filterBttn.ForeColor = Color.Black;
             filterBttn.Location = new Point(702, 36);
             filterBttn.Margin = new Padding(2);
@@ -129,7 +128,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.Black;
             label1.Location = new Point(345, 46);
             label1.Margin = new Padding(2, 0, 2, 0);
@@ -153,7 +152,7 @@
             // addBttn
             // 
             addBttn.BackColor = Color.Cornsilk;
-            addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             addBttn.ForeColor = Color.Black;
             addBttn.Location = new Point(147, 583);
             addBttn.Margin = new Padding(2);
@@ -167,7 +166,7 @@
             // editBttn
             // 
             editBttn.BackColor = Color.Cornsilk;
-            editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            editBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             editBttn.ForeColor = Color.Black;
             editBttn.Location = new Point(409, 583);
             editBttn.Margin = new Padding(2);
@@ -181,7 +180,7 @@
             // deleteBttn
             // 
             deleteBttn.BackColor = Color.IndianRed;
-            deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            deleteBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             deleteBttn.ForeColor = Color.White;
             deleteBttn.Location = new Point(670, 583);
             deleteBttn.Margin = new Padding(2);
@@ -235,7 +234,7 @@
             // 
             pageTitleTxt.AutoSize = true;
             pageTitleTxt.BackColor = Color.Transparent;
-            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             pageTitleTxt.ForeColor = Color.Cornsilk;
             pageTitleTxt.Location = new Point(232, 7);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
@@ -247,7 +246,7 @@
             // btnRefresh
             // 
             btnRefresh.BackColor = Color.LightGray;
-            btnRefresh.Font = new Font("Britannic Bold", 10F);
+            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnRefresh.Location = new Point(840, 535);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(112, 34);
@@ -255,16 +254,6 @@
             btnRefresh.Text = "Refresh";
             btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += btnRefresh_Click;
-            // 
-            // ddlAttributesNames
-            // 
-            ddlAttributesNames.FormattingEnabled = true;
-            ddlAttributesNames.Location = new Point(328, 155);
-            ddlAttributesNames.Margin = new Padding(4);
-            ddlAttributesNames.Name = "ddlAttributesNames";
-            ddlAttributesNames.Size = new Size(160, 28);
-            ddlAttributesNames.TabIndex = 22;
-            ddlAttributesNames.SelectedIndexChanged += ddlAttributesNames_SelectedIndexChanged;
             // 
             // ManageUser
             // 
@@ -274,7 +263,6 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
-            Controls.Add(ddlAttributesNames);
             Controls.Add(btnRefresh);
             Controls.Add(pageTitleTxt);
             Controls.Add(exitIcon);
@@ -318,6 +306,5 @@
         private Button btnReset;
         private Label pageTitleTxt;
         private Label lblUserID;
-        private ComboBox ddlAttributesNames;
     }
 }

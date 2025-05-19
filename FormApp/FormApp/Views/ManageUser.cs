@@ -30,23 +30,8 @@ namespace FormApp
 
         private void ManageUser_Load(object sender, EventArgs e)
         {
-            //populateUserComboBox();
+            populateUserComboBox();
             RefreshUsersGridView();
-            LoadAttributesCmbBox();
-        }
-
-        private void LoadAttributesCmbBox()
-        {
-            var properties = typeof(BookRentalObject.User).GetProperties()
-                .Where(p => p.Name != "UserId")
-                .Where(p => p.Name != "UserRoleId")
-                .Where(p => p.Name != "FirstName")
-                .Where(p => p.Name != "LastName")
-                .Where(p => p.PropertyType == typeof(string) || p.PropertyType.IsValueType)
-                .Select(p => p.Name).ToList();
-
-            ddlAttributesNames.DataSource = properties;
-            ddlAttributesNames.SelectedItem = null;
         }
 
         private void populateUserComboBox()
@@ -84,29 +69,9 @@ namespace FormApp
                     userToShow = userToShow.Where(u => u.UserId == Convert.ToInt32(txtUserID.Text));
                 }
                 //if a user is selected, filter by that category 
-                else if (ddlAttributesNames.SelectedItem != null && ddlUser.SelectedItem != null)
+                else if (ddlUser.SelectedItem != null)
                 {
-                    string selectedAttribute = ddlAttributesNames.SelectedItem.ToString();
-                    string selectedValue = ddlUser.SelectedItem.ToString();
-
-                    var propInfo = typeof(BookRentalObject.User).GetProperty(selectedAttribute);
-                    if (propInfo != null)
-                    {
-                        // Load all users into memory 
-                        var userList = userToShow.ToList();
-
-                        // Filter manually using reflection
-                        userToShow = userList
-                            .Where(u =>
-                            {
-                                var value = propInfo.GetValue(u, null);
-                                return value != null && value.ToString() == selectedValue;
-                            })
-                            .AsQueryable(); 
-                    }
-
-
-                    //userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
+                    userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
                 }
 
                 //Project the filtered user into an anonymous type, then convert the result to a list and bind it to the data grid view.
@@ -127,7 +92,6 @@ namespace FormApp
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
-            ddlAttributesNames.SelectedItem = null;
             ddlUser.SelectedItem = null; // Clear any pre-selected item
 
             RefreshUsersGridView(); //Refresh the view to remove the filters
@@ -215,31 +179,6 @@ namespace FormApp
 
         private void ddlAttributesNames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedProp = ddlAttributesNames.SelectedItem?.ToString();
-
-            if (string.IsNullOrEmpty(selectedProp)) return;
-
-            // Get property info safely
-            PropertyInfo propInfo = typeof(BookRentalObject.User).GetProperty(selectedProp);
-            if (propInfo == null) return;
-
-            using (var context = new BookRentalDBContext())
-            {
-                // Pull all users into memory first
-                var users = context.Users.ToList();
-
-                // Then reflect over the selected property
-                var values = users
-                    .Select(b => propInfo.GetValue(b, null))
-                    .Where(val => val != null)
-                    .Distinct()
-                    .ToList();
-
-
-                ddlUser.DataSource = values;
-                ddlUser.SelectedItem = null;
-            }
-
            
         }
     }
