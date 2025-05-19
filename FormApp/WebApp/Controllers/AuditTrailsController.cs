@@ -19,12 +19,36 @@ namespace WebApp.Controllers
             _context = context;
         }
 
-        // GET: AuditTrails
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? auditId, int? userId)
         {
-            var bookRentalDBContext = _context.AuditTrails.Include(a => a.User);
-            return View(await bookRentalDBContext.ToListAsync());
+            var users = await _context.Users
+            .Select(u => new {
+                u.UserId,
+                FullName = u.FirstName + " " + u.LastName
+            })
+            .ToListAsync();
+
+            ViewBag.Users = new SelectList(users, "UserId", "FullName");
+
+
+            var auditTrails = _context.AuditTrails
+                .Include(a => a.User) // eager loading
+                .AsQueryable();
+
+            if (auditId.HasValue)
+            {
+                auditTrails = auditTrails.Where(x => x.AuditId == auditId.Value);
+            }
+            else if (userId.HasValue)
+            {
+                auditTrails = auditTrails.Where(x => x.UserId == userId.Value);
+            }
+
+            var list = await auditTrails.OrderByDescending(x => x.Timestamp).ToListAsync();
+
+            return View(list); // View uses @model IEnumerable<AuditTrail>
         }
+
 
         // GET: AuditTrails/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -166,38 +190,6 @@ namespace WebApp.Controllers
         }
 
         private readonly BookRentalDBContext db = new BookRentalDBContext();
-
-
-        //[Authorize(Roles = "Admin")]
-        //public ActionResult Index(int? auditId, int? userId)
-        //{
-        //    //ViewBag.Users = new SelectList(db.Users.ToList(), "UserId", "FullName");
-
-        //    //var auditTrails = db.AuditTrails.Include(a => a.User).AsQueryable();
-
-        //    //if (auditId.HasValue)
-        //    //{
-        //    //    auditTrails = auditTrails.Where(x => x.AuditId == auditId.Value);
-        //    //}
-        //    //else if (userId.HasValue)
-        //    //{
-        //    //    auditTrails = auditTrails.Where(x => x.UserId == userId.Value);
-        //    //}
-
-        //    //var model = auditTrails
-        //    //    .OrderByDescending(x => x.Timestamp)
-        //    //    .Select(x => new AuditTrailViewModel
-        //    //    {
-        //    //        AuditId = x.AuditId,
-        //    //        Timestamp = x.Timestamp,
-        //    //        OldValue = x.OldValue,
-        //    //        NewValue = x.NewValue,
-        //    //        UserFullName = x.User.FirstName + " " + x.User.LastName
-        //    //    })
-        //    //    .ToList();
-
-        //    return View();
-        //}
 
     }
 }
