@@ -81,6 +81,7 @@ namespace FormApp.Views
                     if (MessageBox.Show("are you sure you want to add this category? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         context.Categories.Add(category);
+                        Application.Exit();
                     }
                 }
 
