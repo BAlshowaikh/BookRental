@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using BookRentalObject;
 
 namespace WebApp.Areas.Identity.Pages.Account
 {
@@ -21,11 +22,13 @@ namespace WebApp.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly BookRentalDBContext _context;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = new BookRentalDBContext();
         }
 
         /// <summary>
@@ -109,11 +112,19 @@ namespace WebApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var userActive = _context.Users.Where(x => x.Email == Input.Email).FirstOrDefault().IsActive;
+                    if (userActive == false)
+                        {
+                            ModelState.AddModelError(string.Empty, "Your account is inactive.");
+                            return Page();
+                        }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

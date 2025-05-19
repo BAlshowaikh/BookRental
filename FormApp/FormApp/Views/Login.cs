@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Sprache;
 
 namespace FormApp
 {
@@ -45,21 +47,30 @@ namespace FormApp
             var signInResults = await VerifyUserNamePassword(txtUserEmail.Text, txtPassword.Text);
             if (signInResults == true) //if user is verified
             {
-                if (Global.RoleName == "Admin")
+                var userActive = context.Users.Where(x => x.Email == txtUserEmail.Text).FirstOrDefault().IsActive;
+                if (userActive == true)
                 {
-                    homePageAdmin home = new homePageAdmin();
-                    this.Hide();
-                    home.Show();
-                }
-                else if (Global.RoleName == "Manager"|| Global.RoleName == "Technician")
-                {
-                    homePageStaff home = new homePageStaff();
-                    this.Hide();
-                    home.Show();
-                }
-                else {
-                    MessageBox.Show("Error. You can not access this form app");
+                    if (Global.RoleName == "Admin")
+                    {
+                        homePageAdmin home = new homePageAdmin();
+                        this.Hide();
+                        home.Show();
+                    }
+                    else if (Global.RoleName == "Manager"|| Global.RoleName == "Technician")
+                    {
+                        homePageStaff home = new homePageStaff();
+                        this.Hide();
+                        home.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. You can not access this form app");
 
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error. Your account is inactive.");
                 }
             }
             else

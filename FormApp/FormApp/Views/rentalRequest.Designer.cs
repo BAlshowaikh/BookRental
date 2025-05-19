@@ -38,7 +38,7 @@
             filterGB = new GroupBox();
             btnResetFilter = new Button();
             btnFilter = new Button();
-            ddlFilterUser = new ComboBox();
+            ddlFilterStatus = new ComboBox();
             FilterbyUser = new Label();
             txtFilterRequestNo = new TextBox();
             FilterbyRequestNo = new Label();
@@ -53,7 +53,7 @@
             // 
             pageTitleTxt.AutoSize = true;
             pageTitleTxt.BackColor = Color.Transparent;
-            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             pageTitleTxt.ForeColor = Color.Cornsilk;
             pageTitleTxt.Location = new Point(186, 9);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
@@ -115,7 +115,7 @@
             // btnDetails
             // 
             btnDetails.BackColor = Color.Cornsilk;
-            btnDetails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDetails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnDetails.ForeColor = Color.Black;
             btnDetails.Location = new Point(423, 582);
             btnDetails.Margin = new Padding(2);
@@ -129,7 +129,7 @@
             // btnRefresh
             // 
             btnRefresh.BackColor = Color.LightGray;
-            btnRefresh.Font = new Font("Britannic Bold", 10F);
+            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnRefresh.ForeColor = Color.Black;
             btnRefresh.Location = new Point(845, 550);
             btnRefresh.Margin = new Padding(2);
@@ -145,7 +145,7 @@
             filterGB.BackColor = Color.Transparent;
             filterGB.Controls.Add(btnResetFilter);
             filterGB.Controls.Add(btnFilter);
-            filterGB.Controls.Add(ddlFilterUser);
+            filterGB.Controls.Add(ddlFilterStatus);
             filterGB.Controls.Add(FilterbyUser);
             filterGB.Controls.Add(txtFilterRequestNo);
             filterGB.Controls.Add(FilterbyRequestNo);
@@ -160,7 +160,7 @@
             // 
             btnResetFilter.BackColor = Color.Cornsilk;
             btnResetFilter.FlatAppearance.BorderSize = 0;
-            btnResetFilter.Font = new Font("Britannic Bold", 10F);
+            btnResetFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnResetFilter.ForeColor = Color.Black;
             btnResetFilter.Location = new Point(816, 38);
             btnResetFilter.Margin = new Padding(4, 5, 4, 5);
@@ -174,7 +174,7 @@
             // btnFilter
             // 
             btnFilter.BackColor = Color.Cornsilk;
-            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnFilter.ForeColor = Color.Black;
             btnFilter.Location = new Point(704, 38);
             btnFilter.Margin = new Padding(2);
@@ -185,24 +185,24 @@
             btnFilter.UseVisualStyleBackColor = false;
             btnFilter.Click += btnFilter_Click;
             // 
-            // ddlFilterUser
+            // ddlFilterStatus
             // 
-            ddlFilterUser.FormattingEnabled = true;
-            ddlFilterUser.Location = new Point(524, 39);
-            ddlFilterUser.Margin = new Padding(4, 5, 4, 5);
-            ddlFilterUser.Name = "ddlFilterUser";
-            ddlFilterUser.Size = new Size(168, 33);
-            ddlFilterUser.TabIndex = 38;
+            ddlFilterStatus.FormattingEnabled = true;
+            ddlFilterStatus.Location = new Point(524, 39);
+            ddlFilterStatus.Margin = new Padding(4, 5, 4, 5);
+            ddlFilterStatus.Name = "ddlFilterStatus";
+            ddlFilterStatus.Size = new Size(168, 33);
+            ddlFilterStatus.TabIndex = 38;
             // 
             // FilterbyUser
             // 
             FilterbyUser.AutoSize = true;
-            FilterbyUser.Font = new Font("Britannic Bold", 10F);
+            FilterbyUser.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             FilterbyUser.Location = new Point(387, 46);
             FilterbyUser.Name = "FilterbyUser";
-            FilterbyUser.Size = new Size(135, 22);
+            FilterbyUser.Size = new Size(148, 22);
             FilterbyUser.TabIndex = 2;
-            FilterbyUser.Text = "Filter by User:";
+            FilterbyUser.Text = "Filter by status:";
             // 
             // txtFilterRequestNo
             // 
@@ -214,7 +214,7 @@
             // FilterbyRequestNo
             // 
             FilterbyRequestNo.AutoSize = true;
-            FilterbyRequestNo.Font = new Font("Britannic Bold", 10F);
+            FilterbyRequestNo.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             FilterbyRequestNo.Location = new Point(12, 46);
             FilterbyRequestNo.Name = "FilterbyRequestNo";
             FilterbyRequestNo.Size = new Size(194, 22);
@@ -263,7 +263,7 @@
         private Label FilterbyUser;
         private Label FilterbyRequestNo;
         private Button btnFilter;
-        private ComboBox ddlFilterUser;
+        private ComboBox ddlFilterStatus;
         private Button btnResetFilter;
         private TextBox txtFilterRequestNo;
     }
