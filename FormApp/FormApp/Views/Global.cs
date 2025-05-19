@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FormApp.Views
+namespace ProjectFormApp
 {
-    internal class Global
+    public static class Global
     {
-        internal static int userID; 
+        public static IdentityUser User;
+        public static string RoleName;
+        public static int userID;
     }
 }
