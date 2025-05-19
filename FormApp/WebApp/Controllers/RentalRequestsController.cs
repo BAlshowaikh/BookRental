@@ -9,6 +9,7 @@ using BookRentalObject;
 using System.Net;
 using System.Text.Json;
 using WebApp.ViewModel;
+using Microsoft.AspNetCore.Identity;
 
 
 
@@ -17,10 +18,12 @@ namespace WebApp.Controllers
     public class RentalRequestsController : Controller
     {
         private readonly BookRentalDBContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public RentalRequestsController(BookRentalDBContext context)
+        public RentalRequestsController(BookRentalDBContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: RentalRequests
@@ -122,9 +125,24 @@ namespace WebApp.Controllers
                     TempData["SuccessMessage"] = "Rental request submitted successfully!";
                     //return View(rentalRequest);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     TempData["ErrorMessage"] = "An error occurred while saving the rental request.";
+
+                    var user = await _userManager.GetUserAsync(User);
+                    var email = await _userManager.GetEmailAsync(user);
+
+                    var newLog = new Log 
+                    {
+                        UserId = _context.Users.Where(x=> x.Email == email).FirstOrDefault().UserId,
+                        Timestamp = DateTime.Now,
+                        AffectedData = "rental request",
+                        Source = "web app",
+                        Exceptions = "Error: " + ex.Message
+                    };
+
+                    _context.Logs.Add(newLog);
+                    await _context.SaveChangesAsync();
                 }
             }
             else
@@ -196,9 +214,24 @@ namespace WebApp.Controllers
                     TempData["SuccessMessage"] = "Rental request updated successfully!";
                     return RedirectToAction(nameof(Edit), new { id = rentalRequest.RequestId });
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
                     TempData["ErrorMessage"] = "An error occurred while editing the rental request.";
+
+                    var user = await _userManager.GetUserAsync(User);
+                    var email = await _userManager.GetEmailAsync(user);
+
+                    var newLog = new Log
+                    {
+                        UserId = _context.Users.Where(x => x.Email == email).FirstOrDefault().UserId,
+                        Timestamp = DateTime.Now,
+                        AffectedData = "rental request",
+                        Source = "web app",
+                        Exceptions = "Error: " + ex.Message
+                    };
+
+                    _context.Logs.Add(newLog);
+                    await _context.SaveChangesAsync();
                 }
             }
             else
