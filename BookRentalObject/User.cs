@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookRentalObject
@@ -21,35 +22,39 @@ namespace BookRentalObject
 
         [Key]
         [Column("userId")]
+        [Display(Name = "User ID")]
         public int UserId { get; set; }
         [Required]
         [Column("firstName")]
         [StringLength(50)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required]
         [Column("lastName")]
         [StringLength(50)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Column("email")]
         [StringLength(100)]
         public string Email { get; set; }
         [Column("userRoleId")]
+        [Display(Name = "User Role ID")]
         public int UserRoleId { get; set; }
         [Column("contactNo")]
         [StringLength(10)]
+        [Display(Name = "Contact Number")]
         public string ContactNo { get; set; }
         [Column("isActive")]
+        [Display(Name = "Is Active?")]
         public bool IsActive { get; set; }
-        [Column("hasLibraryCard")]
-        public bool HasLibraryCard { get; set; }
+
+        [Display(Name = "Full Name")]
+        public String FullName { get { return FirstName + " " + LastName; } }
 
         [ForeignKey("UserRoleId")]
         [InverseProperty("Users")]
         public virtual UserRole UserRole { get; set; }
         [InverseProperty("User")]
-
-        public String FullName { get { return FirstName + " " + LastName; } }
-
         public virtual ICollection<AuditTrail> AuditTrails { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<Log> Logs { get; set; }

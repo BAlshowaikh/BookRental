@@ -11,14 +11,17 @@ namespace BookRentalObject
     {
         [Key]
         [Column("logId")]
+        [Display(Name = "Log ID")]
         public int LogId { get; set; }
         [Column("userId")]
+        [Display(Name = "User ID")]
         public int UserId { get; set; }
         [Column("timestamp", TypeName = "datetime")]
         public DateTime Timestamp { get; set; }
         [Required]
         [Column("affectedData")]
         [StringLength(100)]
+        [Display(Name = "Affected Data")]
         public string AffectedData { get; set; }
         [Required]
         [Column("source")]
@@ -32,5 +35,6 @@ namespace BookRentalObject
         [ForeignKey("UserId")]
         [InverseProperty("Logs")]
         public virtual User User { get; set; }
+
     }
 }

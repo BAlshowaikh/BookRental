@@ -16,10 +16,12 @@ namespace BookRentalObject
 
         [Key]
         [Column("availabiltyStatusId")]
+        [Display(Name = "Availabilty Status ID")]
         public int AvailabiltyStatusId { get; set; }
         [Required]
         [Column("availabilityStatus")]
         [StringLength(50)]
+        [Display(Name = "Availability Status")]
         public string AvailabilityStatus1 { get; set; }
 
         [InverseProperty("AvailabilityStatus")]

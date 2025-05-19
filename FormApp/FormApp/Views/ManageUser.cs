@@ -69,7 +69,7 @@ namespace FormApp
                     userToShow = userToShow.Where(u => u.UserId == Convert.ToInt32(txtUserID.Text));
                 }
                 //if a user is selected, filter by that category 
-                else if (ddlUser.SelectedItem != null)
+                if (ddlUser.SelectedItem != null)
                 {
                     userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
                 }
@@ -92,6 +92,7 @@ namespace FormApp
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
+            txtUserID.Text = null;
             ddlUser.SelectedItem = null; // Clear any pre-selected item
 
             RefreshUsersGridView(); //Refresh the view to remove the filters

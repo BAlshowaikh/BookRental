@@ -16,9 +16,11 @@ namespace BookRentalObject
 
         [Key]
         [Column("documetTypeId")]
+        [Display(Name = "Documet Type ID")]
         public int DocumetTypeId { get; set; }
         [Column("documentType")]
         [StringLength(100)]
+        [Display(Name = "Documet Type")]
         public string? DocumentType1 { get; set; }
 
         [InverseProperty("DocumentType")]

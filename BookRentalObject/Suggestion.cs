@@ -11,8 +11,10 @@ namespace BookRentalObject
     {
         [Key]
         [Column("suggestionId")]
+        [Display(Name = "Suggestion ID")]
         public int SuggestionId { get; set; }
         [Column("userId")]
+        [Display(Name = "User ID")]
         public int UserId { get; set; }
         [Required]
         [Column("subject")]

@@ -44,19 +44,17 @@
 	<div class="row">
 		@foreach (var card in Model)
 		{
-			var borderClass = "border border-2 border-dark border-opacity-100";
-
 			<div class="col-md-4">
-				<div class="main-card mb-4 card-clickable @borderClass"
+				<div class="second-card mb-4 card-clickable"
 					 data-modal-id="detailsModal-@card.RentalTransaction.TransactionId"
 					 style="cursor: pointer;">
 
 
 					<div class="card-info">
-						<h3 class="text-dark">Transaction ID: @card.RentalTransaction.TransactionId</h3>
-						<h6>Book Name: @card.RentalTransaction.Book.Name</h6>
-						<h6>Customer Name: @card.RentalTransaction.User.FullName</h6>
-						<h6>Rental Start Date: @card.RentalTransaction.RentalStartDate</h6>
+						<h3>Transaction ID: @card.RentalTransaction.TransactionId</h3>
+						<p>Book Name: @card.RentalTransaction.Book.Name</p>
+						<p>Customer Name: @card.RentalTransaction.User.FullName</p>
+						<p>Rental Start Date: @card.RentalTransaction.RentalStartDate</p>
 					
 						<div class="mt-3 d-flex flex-wrap gap-2">
 							<a asp-action="Edit"
