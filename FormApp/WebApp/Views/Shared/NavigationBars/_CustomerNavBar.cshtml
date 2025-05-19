@@ -8,24 +8,24 @@
 
             <!-- Navigation Links -->
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-controller="Book" asp-action="Index">Book List</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-controller="RentalRequest" asp-action="Index">Rental Requests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-controller="RentalTransaction" asp-action="Index">Rental Transactions</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-controller="ReturnRecord" asp-action="Index">Return Records</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-controller="Home" asp-action="AboutUs">About Us</a>
-                </li>
+            <li class="nav-item">
+                <a class="dropdown-item" asp-controller="Books" asp-action="Index">Book List</a>>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                    Rentals
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="RentalRequests" asp-action="Index">Rental Requests</a></li>
+                    <li><a class="dropdown-item" asp-controller="RentalTransactions" asp-action="Index">Rental Transactions</a></li>
+                    <li><a class="dropdown-item" asp-controller="ReturnRecords" asp-action="Index">Return Records</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" asp-controller="Notifications" asp-action="Index">Notifications</a>
+            </li>
             </ul>
         <!-- Right Side Icons
         <ul class="navbar-nav">

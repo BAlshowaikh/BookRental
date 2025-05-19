@@ -119,7 +119,14 @@ namespace WebApp.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var userActive = _context.Users.Where(x => x.Email == Input.Email).FirstOrDefault().IsActive;
+                    var user = _context.Users.Where(x => x.Email == Input.Email).FirstOrDefault();
+                    if (user == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }
+
+                    var userActive = user.IsActive;
                     if (userActive == false)
                         {
                             ModelState.AddModelError(string.Empty, "Your account is inactive.");

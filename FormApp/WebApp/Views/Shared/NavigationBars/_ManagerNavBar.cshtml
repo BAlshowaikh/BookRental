@@ -1,49 +1,59 @@
-﻿
-<nav class="navbar navbar-expand navbar-dark bg-primary border-bottom shadow-sm fixed-top">
-	<div class="container-fluid">
-		<!-- Store Icon Logo -->
-		<a class="navbar-brand" asp-controller="Home" asp-action="Dashboard">
-			<i class="bi bi-book-half fs-2"></i> <!-- Book Icon -->
-		</a>
+﻿<nav class="navbar navbar-expand navbar-dark bg-primary border-bottom shadow-sm fixed-top">
+    <div class="container-fluid">
+        <!-- Store Icon Logo -->
+        <a class="navbar-brand" asp-controller="Home" asp-action="Dashboard">
+            <i class="bi bi-book-half fs-2"></i> <!-- Book Icon -->
+        </a>
 
-		<!-- Navigation Links -->
-		<ul class="navbar-nav mx-auto">
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="Books" asp-action="Index">Book List</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="RentalRequests" asp-action="Index">Rental Requests</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="RentalTransactions" asp-action="Index">Rental Transactions</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="ReturnRecords" asp-action="Index">Return Records</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="Books" asp-action="Index">Manage Books</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="Categories" asp-action="Index">Manage Categories</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="Feedbacks" asp-action="Index">Feedback</a>
-			</li>
-		</ul>
+        <!-- Navigation Links (Centered) -->
+        <div class="d-flex justify-content-center flex-grow-1">
+            <ul class="navbar-nav">
+                <!-- Books Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                        Books
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-controller="Books" asp-action="Index">Book List</a></li>
+                        <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Manage Categories</a></li>
+                        <li><a class="dropdown-item" asp-controller="Authors" asp-action="Index">Manage Authors</a></li>
+                    </ul>
+                </li>
 
-		<!-- Right Side Icons
-		<ul class="navbar-nav">
-			<li class="nav-item me-3">
-				<a class="nav-link text-white" href="#">
-					<i class="bi bi-envelope fs-3"></i> Notification Icon
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link text-white" asp-controller="Account" asp-action="Profile">
-					<i class="bi bi-person-circle fs-3"></i> Profile Icon
-				</a>
-			</li>
-		</ul>
-		-->
-	</div>
+                <!-- Rentals Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                        Rentals
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-controller="RentalRequests" asp-action="Index">Rental Requests</a></li>
+                        <li><a class="dropdown-item" asp-controller="RentalTransactions" asp-action="Index">Rental Transactions</a></li>
+                        <li><a class="dropdown-item" asp-controller="ReturnRecords" asp-action="Index">Return Records</a></li>
+                    </ul>
+                </li>
+
+                <!-- Feedback Link -->
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Feedbacks" asp-action="Index">Feedback</a>
+                </li>
+            </ul>
+        </div>
+
+        <partial name="_LoginPartial" />
+
+        <!-- Right Side Icons
+        <ul class="navbar-nav">
+            <li class="nav-item me-3">
+                <a class="nav-link text-white" href="#">
+                    <i class="bi bi-envelope fs-3"></i> Notification Icon
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" asp-controller="Account" asp-action="Profile">
+                    <i class="bi bi-person-circle fs-3"></i> Profile Icon
+                </a>
+            </li>
+        </ul>
+        -->
+    </div>
 </nav>
