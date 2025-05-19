@@ -84,8 +84,9 @@ namespace FormApp.Views
 
         private void refreshBttn_Click(object sender, EventArgs e)
         {
-            ddlCategory.SelectedItem = null; // Clear any pre-selected item
-            RefreshCategoryGridView(); //Refresh the view to remove the filters
+            txtCategoryID.Text = string.Empty; // Clear ID input
+            ddlCategory.SelectedItem = null;   // Clear dropdown
+            RefreshCategoryGridView();         // Refresh grid
         }
 
         private void deleteBttn_Click(object sender, EventArgs e)

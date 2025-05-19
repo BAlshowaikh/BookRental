@@ -1,5 +1,4 @@
-﻿@model IEnumerable<BookRentalObject.AuditTrailViewModel>
-
+﻿@model IEnumerable<BookRentalObject.AuditTrail>  
 @{
     ViewBag.Title = "Audit Trails";
 }
@@ -54,7 +53,7 @@
                     <td>@item.Timestamp</td>
                     <td>@item.OldValue</td>
                     <td>@item.NewValue</td>
-                    <td>@item.UserFullName</td>
+                    <td>@(item.User.FirstName + " " + item.User.LastName)</td>
                 </tr>
             }
         }

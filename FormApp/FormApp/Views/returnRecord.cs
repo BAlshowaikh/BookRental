@@ -107,8 +107,8 @@ namespace FormApp.Views
                 UserName = x.Transaction.User.FullName,
                 x.ExpectedReturnDate,
                 x.ActualReturnDate,
-                x.TotalAdditionalCharges,
-                x.LateReturnFee,
+                TotalAdditionalCharges = x.TotalAdditionalCharges + x.LateReturnFee,
+                LateReturnFee = x.LateReturnFee,
                 x.TransactionId
 
             }).ToList();
@@ -127,6 +127,11 @@ namespace FormApp.Views
         private void userIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void filterGB_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

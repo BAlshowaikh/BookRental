@@ -182,12 +182,12 @@ namespace FormApp
 
         private void btnAddBook_Click(object sender, EventArgs e)
         {
-            AddEditBook addEditBook = new AddEditBook(context);
-            HelperFunctions.ShowChildForm(this, addEditBook);
-
-            if (addEditBook.DialogResult == DialogResult.OK)
+            using (AddEditBook addEditBook = new AddEditBook(context))
             {
-                LoadBookData();
+                if (addEditBook.ShowDialog() == DialogResult.OK)
+                {
+                    LoadBookData(); // Automatically refresh grid after adding
+                }
             }
         }
 
@@ -271,33 +271,19 @@ namespace FormApp
 
         private void btnEditBook_Click(object sender, EventArgs e)
         {
-            // Check if there is a selected row
-            try
+            if (_selectedBook != null)
             {
-                if (dgvBooksList.SelectedCells.Count > 0)
+                using (AddEditBook editForm = new AddEditBook(_selectedBook, context))
                 {
-                    if (_selectedBook != null)
+                    if (editForm.ShowDialog() == DialogResult.OK)
                     {
-                        {
-                            var updatedBook = _selectedBook;
-                            Form addEditBookForm = new AddEditBook(updatedBook, context);
-                            HelperFunctions.ShowChildForm(this, addEditBookForm);
-
-                            if (addEditBookForm.DialogResult == DialogResult.OK)
-                            {
-                                LoadBookData();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("You have to select an order", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadBookData(); // Auto-refresh the grid after editing
                     }
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"An error occured {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a book to edit.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
