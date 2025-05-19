@@ -9,6 +9,45 @@
 
 <div class="container my-4">
 	<div class="row">
+
+		<!-- Search and filter -->
+		<div class="row py-3">
+			<div class="col-12">
+				<form asp-controller="RentalRequests" asp-action="Index" method="get" class="row gx-2 align-items-center">
+
+					<!-- Search by Request ID -->
+					<div class="col-auto">
+						<label class="form-label">Request ID:</label>
+					</div>
+					<div class="col-auto">
+						<input type="number" name="SearchRequestId" value="@Context.Request.Query["SearchRequestId"]" class="form-control" placeholder="e.g. 1" min="1" />
+					</div>
+
+					<!-- Filter by Status -->
+					<div class="col-auto">
+						<label class="form-label">Status:</label>
+					</div>
+					<div class="col-auto">
+						<select name="SearchStatusId" asp-items="ViewBag.StatusList" class="form-select">
+							<option value="">All</option>
+						</select>
+					</div>
+
+					<!-- Push buttons to right -->
+					<div class="col"></div>
+
+					<!-- Search & Clear -->
+					<div class="col-auto">
+						<input type="submit" value="Search" class="btn btn-primary mx-3" />
+					</div>
+					<div class="col-auto">
+						<a asp-action="Index" class="btn btn-outline-danger">Clear</a>
+					</div>
+				</form>
+			</div>
+		</div>
+
+
 		@foreach (var request in Model)
 		{
 			var borderClass = request.RentalRequestStatus.RentalRequestStatusId switch
@@ -91,6 +130,31 @@
 				</div>
 			</div>
 		}
+
+		<!-- Pagination -->
+		<div class="row mt-4">
+			<div class="col text-center">
+				@if (ViewBag.TotalPages > 1)
+				{
+					<nav aria-label="Page navigation">
+						<ul class="pagination justify-content-center">
+							@for (int i = 1; i <= ViewBag.TotalPages; i++)
+							{
+								<li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+									<a class="page-link"
+									   href="@Url.Action("Index", new {
+                                   page = i,
+                                   SearchRequestId = Context.Request.Query["SearchRequestId"],
+                                   SearchStatusId = Context.Request.Query["SearchStatusId"]
+                               })">@i</a>
+								</li>
+							}
+						</ul>
+					</nav>
+				}
+			</div>
+		</div>
+
 	</div>
 </div>
 

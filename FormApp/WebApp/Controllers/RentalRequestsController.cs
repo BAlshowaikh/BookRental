@@ -24,11 +24,43 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalRequests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? searchRequestId, int? searchStatusId, int page = 1)
         {
-            var bookRentalDBContext = _context.RentalRequests.Include(r => r.Book).Include(r => r.RentalRequestStatus).Include(r => r.User).Include(r => r.Documents);
-            return View(await bookRentalDBContext.ToListAsync());
+            int pageSize = 12;
+
+            var query = _context.RentalRequests
+                .Include(r => r.User)
+                .Include(r => r.Book)
+                .Include(r => r.RentalRequestStatus)
+                .AsQueryable();
+
+            if (searchRequestId.HasValue && searchRequestId.Value > 0)
+            {
+                query = query.Where(r => r.RequestId == searchRequestId.Value);
+            }
+
+            if (searchStatusId.HasValue && searchStatusId.Value > 0)
+            {
+                query = query.Where(r => r.RentalRequestStatusId == searchStatusId.Value);
+            }
+
+            int totalItems = await query.CountAsync();
+
+            query = query.OrderBy(r => r.RequestId); 
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewBag.StatusList = new SelectList(_context.RentalRequestStatuses, "RentalRequestStatusId", "Status");
+
+            return View(items);
         }
+
+
 
         // GET: RentalRequests/Details/5
         public async Task<IActionResult> Details(int? id)
