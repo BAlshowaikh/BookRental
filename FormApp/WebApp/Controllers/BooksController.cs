@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Drawing.Printing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
@@ -101,6 +102,8 @@ namespace WebApp.Controllers
         }
 
         // GET: Books/Create
+        //Restrict the edit book
+        [Authorize(Roles = "Admin, Manager")]
         public IActionResult Create()
         {
             ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "FullName");
@@ -116,6 +119,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Create([Bind("Name,Description,CategoryId,RentalPrice,BookConditionId,AvailabilityStatusId,AuthorId,PublishDate,Isbn,IsActive,ImageId")] Book book, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
@@ -168,6 +172,8 @@ namespace WebApp.Controllers
         }
 
         // GET: Books/Edit/5
+        //Restrict the edit book
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Books == null)
@@ -307,6 +313,8 @@ namespace WebApp.Controllers
 
 
         // GET: Books/Delete/5
+        // Restrict the user for deleting book
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Books == null)
@@ -332,6 +340,8 @@ namespace WebApp.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        // Restrict the user for deleting book
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Books == null)
@@ -368,6 +378,8 @@ namespace WebApp.Controllers
 
         // Method to show/hide book button in the Index
         [HttpPost]
+        // Restrict the user for hiding/showing book
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> BookVisibility(int bookId, bool isActive)
         {
             Console.WriteLine("This is from books controller");
