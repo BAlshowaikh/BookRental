@@ -49,6 +49,8 @@ namespace FormApp.Views
                     // Populate form fields with the category data
                     txtCategoryID.Text = category.CategoryId.ToString();
                     txtCategoryName.Text = category.CategoryName;
+                    if (category.IsActive)
+                    isActive.Checked = true;
                 }
                 else
                 {
@@ -73,15 +75,31 @@ namespace FormApp.Views
                 {
                     if (MessageBox.Show("are you sure you want to edit category ID:" + category.CategoryId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
+                        if (isActive.Checked == true)
+                        {
+                            category.IsActive = true;
+                        }
+                        else 
+                        {
+                            category.IsActive = false;
+                        }
                         context.Categories.Update(category);
                     }
                 }
-                else // add a new user
+                else // add a new category
                 {
                     if (MessageBox.Show("are you sure you want to add this category? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
+                        if (isActive.Checked == true)
+                        {
+                            category.IsActive = true;
+                        }
+                        else
+                        {
+                            category.IsActive = false;
+                        }
+
                         context.Categories.Add(category);
-                        Application.Exit();
                     }
                 }
 

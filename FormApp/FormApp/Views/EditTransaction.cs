@@ -89,10 +89,11 @@ namespace FormApp.Views
         {
             try
             {
-                //Set the data source of the drop down to the list of payment status
+                //Set the data source of the drop down to the list of payment stnatus
                 ddlPaymentStatus.DataSource = context.PaymentStatuses.ToList();
                 ddlPaymentStatus.DisplayMember = "Status"; // Set which property to display in the dropdown
                 ddlPaymentStatus.ValueMember = "PaymentId"; // Set the value property for each dropdown item
+                ddlPaymentStatus.SelectedItem = null;
             }
             catch (Exception ex)
             {

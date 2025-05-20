@@ -33,11 +33,6 @@ namespace FormApp.Views
         {
             try
             {
-                //Set the data source of the drop down to the list of categories 
-                ddlCategory.DataSource = context.Categories.ToList();
-                ddlCategory.DisplayMember = "categoryName";  // Set which property to display in the dropdown
-                ddlCategory.ValueMember = "categoryId"; // Set the value property for each dropdown item
-                ddlCategory.SelectedItem = null; // Clear any pre-selected item
 
                 // Refresh the grid view to show the latest categories
                 RefreshCategoryGridView();
@@ -59,16 +54,21 @@ namespace FormApp.Views
                     categoryToShow = categoryToShow.Where(c => c.CategoryId == Convert.ToInt32(txtCategoryID.Text));
                 }
 
-                else if (ddlCategory.SelectedItem != null)
+                if (isActive.Checked == true)
                 {
-                    categoryToShow = categoryToShow.Where(x => x.CategoryId == Convert.ToInt32(ddlCategory.SelectedValue));
+                    categoryToShow = categoryToShow.Where(x => x.IsActive == true);
+                }
+                else
+                {
+                    categoryToShow = categoryToShow.Where(x => x.IsActive == true);
                 }
 
                 //Project the filtered category into an anonymous type, then convert the result to a list and bind it to the data grid view.
                 dgvCategories.DataSource = categoryToShow.Select(x => new
                 {
                     CategoryID = x.CategoryId,
-                    CategoryName = x.CategoryName
+                    CategoryName = x.CategoryName,
+                    x.IsActive
                 }).ToList();
             }
             catch (Exception ex)
@@ -82,10 +82,10 @@ namespace FormApp.Views
             RefreshCategoryGridView(); //Call the method to filter if any filters were applied
         }
 
-        private void refreshBttn_Click(object sender, EventArgs e)
+        private void btnReset_Click(object sender, EventArgs e)
         {
             txtCategoryID.Text = string.Empty; // Clear ID input
-            ddlCategory.SelectedItem = null;   // Clear dropdown
+            isActive.Checked = false;
             RefreshCategoryGridView();         // Refresh grid
         }
 

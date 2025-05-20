@@ -38,13 +38,12 @@
             groupBox1 = new GroupBox();
             txtCategoryID = new TextBox();
             lblCategoryID = new Label();
-            lblCategoryName = new Label();
             btnReset = new Button();
-            ddlCategory = new ComboBox();
             filterBttn = new Button();
             label1 = new Label();
             label2 = new Label();
             btnRefresh = new Button();
+            isActive = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -148,11 +147,10 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Transparent;
+            groupBox1.Controls.Add(isActive);
             groupBox1.Controls.Add(txtCategoryID);
             groupBox1.Controls.Add(lblCategoryID);
-            groupBox1.Controls.Add(lblCategoryName);
             groupBox1.Controls.Add(btnReset);
-            groupBox1.Controls.Add(ddlCategory);
             groupBox1.Controls.Add(filterBttn);
             groupBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             groupBox1.ForeColor = Color.Black;
@@ -167,8 +165,8 @@
             // 
             // txtCategoryID
             // 
-            txtCategoryID.Location = new Point(131, 42);
-            txtCategoryID.Margin = new Padding(4, 4, 4, 4);
+            txtCategoryID.Location = new Point(211, 42);
+            txtCategoryID.Margin = new Padding(4);
             txtCategoryID.Name = "txtCategoryID";
             txtCategoryID.Size = new Size(150, 32);
             txtCategoryID.TabIndex = 22;
@@ -177,23 +175,12 @@
             // 
             lblCategoryID.AutoSize = true;
             lblCategoryID.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCategoryID.Location = new Point(12, 46);
+            lblCategoryID.Location = new Point(77, 47);
             lblCategoryID.Margin = new Padding(4, 0, 4, 0);
             lblCategoryID.Name = "lblCategoryID";
             lblCategoryID.Size = new Size(115, 22);
             lblCategoryID.TabIndex = 21;
             lblCategoryID.Text = "Filter By ID:";
-            // 
-            // lblCategoryName
-            // 
-            lblCategoryName.AutoSize = true;
-            lblCategoryName.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCategoryName.Location = new Point(312, 46);
-            lblCategoryName.Margin = new Padding(4, 0, 4, 0);
-            lblCategoryName.Name = "lblCategoryName";
-            lblCategoryName.Size = new Size(145, 22);
-            lblCategoryName.TabIndex = 20;
-            lblCategoryName.Text = "Filter By Name:";
             // 
             // btnReset
             // 
@@ -207,16 +194,7 @@
             btnReset.TabIndex = 19;
             btnReset.Text = "Reset";
             btnReset.UseVisualStyleBackColor = false;
-            btnReset.Click += refreshBttn_Click;
-            // 
-            // ddlCategory
-            // 
-            ddlCategory.FormattingEnabled = true;
-            ddlCategory.Location = new Point(466, 43);
-            ddlCategory.Margin = new Padding(5, 5, 5, 5);
-            ddlCategory.Name = "ddlCategory";
-            ddlCategory.Size = new Size(180, 32);
-            ddlCategory.TabIndex = 18;
+            btnReset.Click += btnReset_Click;
             // 
             // filterBttn
             // 
@@ -262,13 +240,23 @@
             btnRefresh.BackColor = Color.LightGray;
             btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnRefresh.Location = new Point(849, 531);
-            btnRefresh.Margin = new Padding(4, 4, 4, 4);
+            btnRefresh.Margin = new Padding(4);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(110, 35);
             btnRefresh.TabIndex = 27;
             btnRefresh.Text = "Refresh";
             btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += btnRefresh_Click;
+            // 
+            // isActive
+            // 
+            isActive.AutoSize = true;
+            isActive.Location = new Point(519, 44);
+            isActive.Name = "isActive";
+            isActive.Size = new Size(99, 28);
+            isActive.TabIndex = 32;
+            isActive.Text = "Active?";
+            isActive.UseVisualStyleBackColor = true;
             // 
             // ManageCategory
             // 
@@ -289,7 +277,7 @@
             Controls.Add(dgvCategories);
             Controls.Add(groupBox1);
             DoubleBuffered = true;
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "ManageCategory";
             Text = "ManageCategory";
             Load += ManageCategory_Load;
@@ -313,13 +301,12 @@
         private DataGridView dgvCategories;
         private GroupBox groupBox1;
         private Button btnReset;
-        private ComboBox ddlCategory;
         private Button filterBttn;
         private Label label1;
         private Label label2;
-        private Label lblCategoryName;
         private TextBox txtCategoryID;
         private Label lblCategoryID;
         private Button btnRefresh;
+        private CheckBox isActive;
     }
 }
