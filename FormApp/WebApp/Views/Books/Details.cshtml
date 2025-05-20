@@ -26,10 +26,10 @@
 			@if (Model.Image != null)
 			{
 				<img src="@Url.Action("GetImage", "Images", new { id = Model.Image.ImageId })"
-					 class="img-fluid rounded shadow"
-					 alt="Book Image"
-					 style="max-height: 400px;"
-					 onerror="this.style.display='none'; document.getElementById('noImageMsg').style.display = 'block';" />
+				class="img-fluid rounded shadow"
+				alt="Book Image"
+				style="max-height: 400px;"
+				onerror="this.style.display='none'; document.getElementById('noImageMsg').style.display = 'block';" />
 			}
 
 			<div id="noImageMsg" class="text-muted fst-italic" style="display: @(Model.Image == null ? "block" : "none")">
@@ -82,46 +82,54 @@
 
 	<!-- Container for feedbacks (hidden by default) -->
 	<div id="feedbackContainer" class="container" style="display: none;">
-		@if (!Model.Feedbacks.Any(f => !f.IsHidden))
+		<!-- All user roles -except guest- can view the feedback-->
+		@if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("User"))
 		{
-			<div class="text-center text-muted fst-italic my-3">No feedbacks available</div>
-		}
-		else
-		{
-			foreach (var fb in Model.Feedbacks)
+			@if (!Model.Feedbacks.Any(f => !f.IsHidden))
 			{
-				<div class="mb-4" id="feedback-@fb.FeedbackId">
-					<div class="fw-bold fs-5">Username: <span class="fw-normal">@fb.ReturnRecord.Transaction.User.FullName</span></div>
-					<div class="ms-3 mt-2"><strong>Comment:</strong><br />@fb.Comment</div>
-					<div class="ms-3 mt-2">
-						<strong>Rating:</strong><br />
-						@for (int i = 1; i <= 5; i++)
-						{
-							if (i <= fb.Rate)
+				<div class="text-center text-muted fst-italic my-3">No feedbacks available</div>
+			}
+			else
+			{
+				foreach (var fb in Model.Feedbacks)
+				{
+					<div class="mb-4" id="feedback-@fb.FeedbackId">
+						<div class="fw-bold fs-5">Username: <span class="fw-normal">@fb.ReturnRecord.Transaction.User.FullName</span></div>
+						<div class="ms-3 mt-2"><strong>Comment:</strong><br />@fb.Comment</div>
+						<div class="ms-3 mt-2">
+							<strong>Rating:</strong><br />
+							@for (int i = 1; i <= 5; i++)
 							{
-								<i class="bi bi-star-fill text-warning"></i>
+								if (i <= fb.Rate)
+								{
+									<i class="bi bi-star-fill text-warning"></i>
+								}
+								else
+								{
+									<i class="bi bi-star text-secondary"></i>
+								}
 							}
-							else
-							{
-								<i class="bi bi-star text-secondary"></i>
-							}
-						}
-					</div>
+						</div>
 
-					<!-- Eye icon to toggle feedback visibility -->
-					<div class="text-center mt-2">
-						@if (fb.IsHidden)
-						{
-							<i class="bi bi-eye-slash toggle-visibility text-danger" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, false)"></i> <!-- Hidden -->
-						}
-						else
-						{
-							<i class="bi bi-eye toggle-visibility text-primary" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, true)"></i> <!-- Visible -->
-						}
+						<!-- Eye icon to toggle feedback visibility -->
+						<div class="text-center mt-2">
+							<!-- Only Admin and manager can Hide the feedback -->
+							@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+							{
+								@if (fb.IsHidden)
+								{
+									<i class="bi bi-eye-slash toggle-visibility text-danger" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, false)"></i> <!-- Hidden -->
+								}
+								else
+								{
+									<i class="bi bi-eye toggle-visibility text-primary" style="cursor: pointer;" onclick="toggleFeedbackVisibility(@fb.FeedbackId, true)"></i> <!-- Visible -->
+								}
+							}
 					</div>
 					<hr class="w-50 mx-auto mt-4" />
 				</div>
-			}
+			}		
+		}
 		}
 	</div>
 </div>

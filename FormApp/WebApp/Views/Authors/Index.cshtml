@@ -19,9 +19,12 @@
         </div>
 
         <div class="col-md-auto text-end">
-            <a href="javascript:void(0);" class="btn btn-success rounded-pill px-4" onclick="openCreateModal()">
-                + Add New Author
-            </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="javascript:void(0);" class="btn btn-success rounded-pill px-4" onclick="openCreateModal()">
+                    + Add New Author
+                </a>
+            }
         </div>
     </form>
 
@@ -44,11 +47,14 @@
                         <td>@item.FirstName</td>
                         <td>@item.LastName</td>
                         <td>@item.Email</td>
-                        <td class="text-center">
-                            <a href="javascript:void(0);" onclick="openEditModal(@item.AuthorId)" class="btn btn-sm btn-warning me-1">Edit</a>
-                            <a href="javascript:void(0);" onclick="openDetailsModal(@item.AuthorId)" class="btn btn-sm btn-secondary me-1">Details</a>
-                            <a href="javascript:void(0);" onclick="openDeleteModal(@item.AuthorId, '@item.FirstName @item.LastName')" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td class="text-center">
+                                <a href="javascript:void(0);" onclick="openEditModal(@item.AuthorId)" class="btn btn-sm btn-warning me-1">Edit</a>
+                                <a href="javascript:void(0);" onclick="openDetailsModal(@item.AuthorId)" class="btn btn-sm btn-secondary me-1">Details</a>
+                                <a href="javascript:void(0);" onclick="openDeleteModal(@item.AuthorId, '@item.FirstName @item.LastName')" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>

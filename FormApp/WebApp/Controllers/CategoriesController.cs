@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly BookRentalDBContext _context;
@@ -19,6 +21,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Categories/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Categories == null)
@@ -37,13 +40,23 @@ namespace WebApp.Controllers
         }
 
         // GET: Categories/Create
-       
+        [Authorize(Roles = "Admin")]
+        public IActionResult Create()
+        {
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("Create", new Category());
+            }
+
+            return View(new Category());
+        }
 
         // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,IsActive")] Category category)
         {
             if (ModelState.IsValid)
@@ -55,17 +68,10 @@ namespace WebApp.Controllers
             return View(category);
         }
 
-        public IActionResult Create()
-        {
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                return PartialView("Create", new Category());
-            }
 
-            return View(new Category());
-        }
 
         // GET: Categories/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Categories == null)
@@ -94,6 +100,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,IsActive")] Category category)
         {
             if (id != category.CategoryId)
@@ -125,6 +132,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Categories == null)
@@ -142,6 +150,7 @@ namespace WebApp.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -156,6 +165,7 @@ namespace WebApp.Controllers
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Categories == null)

@@ -7,6 +7,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
 using FormApp.Views;
+using ProjectFormApp;
 
 namespace FormApp.Controllers
 {
@@ -38,9 +39,18 @@ namespace FormApp.Controllers
 
         public static void homePageBtn(Form currentForm)
         {
-            homePageAdmin homePage = homePageAdmin.GetInstance();
-            homePage.Show();
-            currentForm.Close();
+            if (Global.RoleName == "Admin")
+            {
+                homePageAdmin homePage = homePageAdmin.GetInstance();
+                homePage.Show();
+                currentForm.Close();
+            }
+            else 
+            {
+                homePageStaff homePage = homePageStaff.GetInstance();
+                homePage.Show();
+                currentForm.Close();
+            }
         }
 
         public static void returnBtn(Form mainForm, Form subForm)

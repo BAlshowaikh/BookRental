@@ -41,58 +41,80 @@
         </form>
     </div>
 
-    <a href="/Books/Create"
-       class="rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center add-book-btn"
-       style="width: 50px; height: 50px; bottom: 40px; right: 20px; z-index: 1030; background-color:#79A87C; color:white; position:fixed;"
-       data-bs-toggle="tooltip"
-       data-bs-placement="left"
-       title="Add new book">
-        <i class="bi bi-plus-lg fs-4"></i>
-    </a>
-
+    <!-- Only Admin and manager can see the add book button-->
+    @if (User.IsInRole("Admin, Manager")){
+        <a href="/Books/Create"
+        class="rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center add-book-btn"
+        style="width: 50px; height: 50px; bottom: 40px; right: 20px; z-index: 1030; background-color:#79A87C; color:white; position:fixed;"
+        data-bs-toggle="tooltip"
+        data-bs-placement="left"
+        title="Add new book">
+            <i class="bi bi-plus-lg fs-4"></i>
+        </a>
+    }
 </div>
 
 <!-- Books cards -->
 <div class="row">
     @if (Model != null && Model.Any())
     {
-        @foreach (var book in Model)
+        var showAll = User.IsInRole("Admin") || User.IsInRole("Manager");
+
+        foreach (var book in Model)
         {
-            <div class="col-md-4">
-                <div class="second-card" style="font-weight:bold">
+            if (showAll || book.IsActive) // Show all books to Admin/Manager, only active to User
+            {
+                <div class="col-md-4">
+                    <div class="second-card" style="font-weight:bold">
 
-                    <div class="col-5 d-flex justify-content-center align-items-center" style="height: 100%; min-height: 200px;">
-                        @if (book.ImageId != null)
-                        {
-                            <img src="@Url.Action("GetImage", "Images", new { id = book.ImageId })"
-                                 alt="@book.Name"
-                                 class="img-fluid rounded shadow-sm"
-                                 style="height: 180px; width: auto; object-fit: contain;" />
-                        }
-                    </div>
+                        <div class="col-5 d-flex justify-content-center align-items-center" style="height: 100%; min-height: 200px;">
+                            @if (book.ImageId != null)
+                            {
+                                <img src="@Url.Action("GetImage", "Images", new { id = book.ImageId })"
+                                alt="@book.Name"
+                                class="img-fluid rounded shadow-sm"
+                                style="height: 180px; width: auto; object-fit: contain;" />
+                            }
+                        </div>
 
-                    <div class="card-info">
-                        <h5>@book.Name</h5>
-                        <p>ID: @book.BookId</p>
-                        <p >Category: @book.Category.CategoryName</p>
-                        <p>Author: @book.Author.FullName</p>
-                        <p>Availability: @book.AvailabilityStatus.AvailabilityStatus1</p>
-                        <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
-                            <a asp-controller="RentalRequests" asp-action="Create" asp-route-bookId="@book.BookId" class="btn btn-sm btn-light prevent-stretch">Rent</a>
-                            <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-light  prevent-stretch">Edit</a>
-                            <button type="button"
+                        <div class="card-info">
+                            <h5>@book.Name</h5>
+                            <p>ID: @book.BookId</p>
+                            <p>Category: @book.Category.CategoryName</p>
+                            <p>Author: @book.Author.FullName</p>
+                            <p>Availability: @book.AvailabilityStatus.AvailabilityStatus1</p>
+                            <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
+
+                                <!-- Only Guest and User 'Customer' can see the rent button-->
+                                @if ((User.Identity.IsAuthenticated || User.IsInRole("User")) && !showAll)
+                                {
+                                    <a asp-controller="RentalRequests" asp-action="Create" asp-route-bookId="@book.BookId" class="btn btn-sm btn-light prevent-stretch">Rent</a>
+                                }
+                                <!-- Only Admin and manager can see the add book button-->
+                                @if (showAll)
+                                {
+                                    <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-light prevent-stretch">Edit</a>
+
+                                    <button type="button"
                                     id="toggle-btn-@book.BookId"
                                     class="btn btn-sm btn-light prevent-stretch toggle-visibility"
                                     title="Show/hide Book"
                                     onclick="toggleBookVisibility(@book.BookId, @(book.IsActive ? "true" : "false"))">
-                                <i class="bi @(book.IsActive ? "bi-eye text-success" : "bi-eye-slash text-danger")" id="toggle-icon-@book.BookId"></i>
-                            </button>
-
+                                        <i class="bi @(book.IsActive ? "bi-eye text-success" : "bi-eye-slash text-danger")" id="toggle-icon-@book.BookId"></i>
+                                    </button>
+                                }
+                            </div>
                         </div>
-					</div>
-                    <a asp-action="Details" asp-route-id="@book.BookId" class="stretched-link" title="Click to view book details"></a>
+                        <a asp-action="Details" asp-route-id="@book.BookId" class="stretched-link" title="Click to view book details"></a>
+                    </div>
                 </div>
-            </div>
+            }
+        }
+
+        // Optional: if user is not Admin/Manager and sees no active books
+        if (!showAll && !Model.Any(book => book.IsActive))
+        {
+            <p class="text-center">No books available.</p>
         }
     }
     else
@@ -100,6 +122,9 @@
         <p class="text-center">No books available.</p>
     }
 </div>
+
+
+<!-- Pagination -->
 <div class="row mt-4">
     <div class="col text-center">
         @if (ViewBag.TotalPages > 1)

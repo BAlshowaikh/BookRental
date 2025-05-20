@@ -1,66 +1,297 @@
 ﻿@model IEnumerable<BookRentalObject.User>
 
+
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
+    <h2 class="text-center text-dark mb-4">Manage Users</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserRole)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserRole.Role)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="row align-items-end mb-3 gx-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <!-- Filter Form -->
+            <form asp-action="Index" method="get" class="d-flex flex-wrap align-items-center gap-3" autocomplete="off">
+                <!-- Email Search -->
+                <div class="d-flex align-items-center gap-2 me-3">
+                    <label for="searchEmail" class="form-label mb-0">Email:</label>
+                    <input type="text" name="searchEmail" class="form-control" placeholder="Enter email"
+                           value="@Context.Request.Query["searchEmail"]" />
+                </div>
+
+                <!-- Status Filter -->
+                <div class="d-flex align-items-center">
+                    <label for="isActive" class="form-label mb-0 me-2">Status:</label>
+                    <select name="isActive" class="form-select">
+                        <option value="">All</option>
+                        <option value="true" selected="@(Context.Request.Query["isActive"] == "true" ? "selected" : null)">Active</option>
+                        <option value="false" selected="@(Context.Request.Query["isActive"] == "false" ? "selected" : null)">Inactive</option>
+                    </select>
+                </div>
+
+                <!-- Buttons -->
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-danger">Clear</a>
+            </form>
+
+            <!-- Create Button -->
+            <a asp-action="Create" class="btn btn-success rounded-pill px-4 mt-3 mt-md-0">
+                + Add New User
+            </a>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.ContactNo)</th>
+                    <th>Status</th>
+                    <th>@Html.DisplayNameFor(model => model.UserRole.Role)</th>
+                    <th class="text-center">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Email</td>
+                        <td>@item.ContactNo</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="status-badge bg-active">Active</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge bg-inactive">Inactive</span>
+                            }
+                        </td>
+                        <td>@item.UserRole?.Role</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-sm btn-warning me-1">Edit</a>
+                            <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="openDeleteUserModal(@item.UserId, '@item.Email')">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+
+    <!-- Create User Modal -->
+    <div class="modal fade" id="createUserModal" ...>
+        ...
+        <div class="modal-body p-4" id="createUserModalContent"></div>
+    </div>
+
+   @*  <!-- Edit User Modal -->
+    <form id="editForm" asp-action="Edit" asp-controller="Users" method="post">
+        <input type="hidden" name="UserId" value="@Model.UserId" />
+
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">User Role</label>
+            <select asp-for="UserRoleId" asp-items="ViewBag.RoleList" class="form-select"></select>
+            <span asp-validation-for="UserRoleId" class="text-danger"></span>
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Contact Number</label>
+            <input asp-for="ContactNo" class="form-control" />
+            <span asp-validation-for="ContactNo" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-4">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label class="form-check-label" asp-for="IsActive">Is Active</label>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+    </form> *@
+
+
+
+    <!-- Delete User Modal -->
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold">Delete User</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">Are you sure you want to delete <strong id="deleteUserEmail"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="post">
+                        <input type="hidden" name="id" id="deleteUserId" />
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    @section Scripts {
+        <script>
+            
+
+            function openCreateUserModal() {
+                $.get('/Users/Create', function (response) {
+                    $('#createUserModalContent').html(response);
+                    $('#createUserModal').modal('show');
+                });
+            }
+
+            function openDeleteUserModal(id, email) {
+                $('#deleteUserId').val(id);
+                $('#deleteUserEmail').text(email);
+                $('#deleteUserModal').modal('show');
+            }
+
+            $(document).on('submit', '#editForm', function (e) {
+                e.preventDefault();
+                $.post($(this).attr('action'), $(this).serialize(), function () {
+                    $('#editUserModal').modal('hide');
+                    location.reload();
+                });
+            });
+
+            $(document).on('submit', '#createForm', function (e) {
+                e.preventDefault();
+                $.post($(this).attr('action'), $(this).serialize(), function () {
+                    $('#createUserModal').modal('hide');
+                    location.reload();
+                });
+            });
+
+            $(document).on('submit', '#deleteForm', function (e) {
+                e.preventDefault();
+                $.post('/Users/Delete/' + $('#deleteUserId').val(), $(this).serialize(), function () {
+                    $('#deleteUserModal').modal('hide');
+                    location.reload();
+                });
+            });
+        </script>
+
+        <style>
+            .table-hover tbody tr {
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                background-color: transparent !important;
+            }
+
+                .table-hover tbody tr:hover {
+                    transform: scale(1.01);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                    background-color: rgba(255, 255, 255, 0.5) !important;
+                    border-radius: 0.5rem;
+                    position: relative;
+                    z-index: 1;
+                }
+
+            .badge {
+                font-size: 0.9rem;
+                border-radius: 1rem;
+            }
+
+
+            .status-badge {
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                border-radius: 1rem;
+                color: #fff;
+                font-weight: bold;
+                font-size: 0.9rem;
+                text-align: center;
+                min-width: 80px;
+            }
+
+            .bg-active {
+                background-color: #2e7d32; /* dark green */
+            }
+
+            .bg-inactive {
+                background-color: #c62828; /* dark red */
+            }
+
+            .btn-brown {
+                background-color: #8a5a44;
+                color: white;
+                border: none;
+            }
+
+                .btn-brown:hover {
+                    background-color: #754b39;
+                    color: white;
+                }
+
+            .form-label {
+                white-space: nowrap;
+            }
+
+            .table,
+            .table thead,
+            .table tbody,
+            .table th,
+            .table td {
+                background-color: transparent !important;
+            }
+
+            /* Table Header Styling */
+            table thead tr {
+                background-color: #a97463;
+            }
+
+            table thead th {
+                color: white !important;
+                font-weight: bold;
+                font-size: 1rem;
+                vertical-align: middle;
+            }
+
+
+            .table-light {
+                background-color: transparent !important;
+            }
+
+            .table-responsive {
+                background-color: transparent !important;
+            }
+
+        </style>
+    }
+

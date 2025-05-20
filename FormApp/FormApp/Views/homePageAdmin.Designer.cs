@@ -42,6 +42,7 @@
             manageCategoryBtn = new Button();
             manageAuthorsBtn = new Button();
             quickAccessLbl = new Label();
+            ViewStatsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             SuspendLayout();
@@ -76,7 +77,7 @@
             // 
             welcomeTxt.AutoSize = true;
             welcomeTxt.BackColor = Color.Transparent;
-            welcomeTxt.Font = new Font("Felix Titling", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            welcomeTxt.Font = new Font("Felix Titling", 22F, FontStyle.Bold, GraphicsUnit.Point);
             welcomeTxt.Location = new Point(80, 133);
             welcomeTxt.Margin = new Padding(2, 0, 2, 0);
             welcomeTxt.Name = "welcomeTxt";
@@ -87,7 +88,7 @@
             // manageUsersBtn
             // 
             manageUsersBtn.BackColor = Color.Cornsilk;
-            manageUsersBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageUsersBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             manageUsersBtn.Location = new Point(102, 226);
             manageUsersBtn.Margin = new Padding(2);
             manageUsersBtn.Name = "manageUsersBtn";
@@ -100,7 +101,7 @@
             // manageBooksBtn
             // 
             manageBooksBtn.BackColor = Color.Cornsilk;
-            manageBooksBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageBooksBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             manageBooksBtn.Location = new Point(386, 225);
             manageBooksBtn.Margin = new Padding(2);
             manageBooksBtn.Name = "manageBooksBtn";
@@ -113,7 +114,7 @@
             // manageRentalTransictionsBtn
             // 
             manageRentalTransictionsBtn.BackColor = Color.Cornsilk;
-            manageRentalTransictionsBtn.Font = new Font("Britannic Bold", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageRentalTransictionsBtn.Font = new Font("Britannic Bold", 8F, FontStyle.Regular, GraphicsUnit.Point);
             manageRentalTransictionsBtn.Location = new Point(661, 336);
             manageRentalTransictionsBtn.Margin = new Padding(2);
             manageRentalTransictionsBtn.Name = "manageRentalTransictionsBtn";
@@ -126,7 +127,7 @@
             // manageRentalRequestBtn
             // 
             manageRentalRequestBtn.BackColor = Color.Cornsilk;
-            manageRentalRequestBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageRentalRequestBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point);
             manageRentalRequestBtn.Location = new Point(386, 336);
             manageRentalRequestBtn.Margin = new Padding(2);
             manageRentalRequestBtn.Name = "manageRentalRequestBtn";
@@ -139,7 +140,7 @@
             // manageRentalRecordsBtn
             // 
             manageRentalRecordsBtn.BackColor = Color.Cornsilk;
-            manageRentalRecordsBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageRentalRecordsBtn.Font = new Font("Britannic Bold", 9F, FontStyle.Regular, GraphicsUnit.Point);
             manageRentalRecordsBtn.Location = new Point(102, 445);
             manageRentalRecordsBtn.Margin = new Padding(2);
             manageRentalRecordsBtn.Name = "manageRentalRecordsBtn";
@@ -152,7 +153,7 @@
             // btnViewLoginTrails
             // 
             btnViewLoginTrails.BackColor = Color.Cornsilk;
-            btnViewLoginTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnViewLoginTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnViewLoginTrails.Location = new Point(661, 445);
             btnViewLoginTrails.Margin = new Padding(2);
             btnViewLoginTrails.Name = "btnViewLoginTrails";
@@ -166,7 +167,7 @@
             // 
             lblWelcome.AutoSize = true;
             lblWelcome.BackColor = Color.Transparent;
-            lblWelcome.Font = new Font("Britannic Bold", 10F);
+            lblWelcome.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             lblWelcome.ForeColor = Color.Maroon;
             lblWelcome.Location = new Point(64, 31);
             lblWelcome.Name = "lblWelcome";
@@ -177,7 +178,7 @@
             // btnViewAuditTrails
             // 
             btnViewAuditTrails.BackColor = Color.Cornsilk;
-            btnViewAuditTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnViewAuditTrails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnViewAuditTrails.Location = new Point(386, 442);
             btnViewAuditTrails.Margin = new Padding(2);
             btnViewAuditTrails.Name = "btnViewAuditTrails";
@@ -190,7 +191,7 @@
             // manageCategoryBtn
             // 
             manageCategoryBtn.BackColor = Color.Cornsilk;
-            manageCategoryBtn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageCategoryBtn.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             manageCategoryBtn.Location = new Point(661, 225);
             manageCategoryBtn.Margin = new Padding(2);
             manageCategoryBtn.Name = "manageCategoryBtn";
@@ -203,7 +204,7 @@
             // manageAuthorsBtn
             // 
             manageAuthorsBtn.BackColor = Color.Cornsilk;
-            manageAuthorsBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            manageAuthorsBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             manageAuthorsBtn.Location = new Point(102, 333);
             manageAuthorsBtn.Margin = new Padding(2);
             manageAuthorsBtn.Name = "manageAuthorsBtn";
@@ -217,7 +218,7 @@
             // 
             quickAccessLbl.BackColor = Color.Transparent;
             quickAccessLbl.FlatStyle = FlatStyle.Flat;
-            quickAccessLbl.Font = new Font("Britannic Bold", 12F);
+            quickAccessLbl.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             quickAccessLbl.ForeColor = Color.Maroon;
             quickAccessLbl.Image = Properties.Resources.search1;
             quickAccessLbl.ImageAlign = ContentAlignment.MiddleLeft;
@@ -227,7 +228,20 @@
             quickAccessLbl.TabIndex = 24;
             quickAccessLbl.Text = "Quick Access";
             quickAccessLbl.TextAlign = ContentAlignment.MiddleRight;
+            quickAccessLbl.Click += quickAccessLbl_Click;
             quickAccessLbl.MouseEnter += quickAccessLbl_Click;
+            // 
+            // ViewStatsBtn
+            // 
+            ViewStatsBtn.BackColor = Color.Cornsilk;
+            ViewStatsBtn.Font = new Font("Britannic Bold", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            ViewStatsBtn.Location = new Point(386, 547);
+            ViewStatsBtn.Name = "ViewStatsBtn";
+            ViewStatsBtn.Size = new Size(220, 50);
+            ViewStatsBtn.TabIndex = 25;
+            ViewStatsBtn.Text = "View Mointoring Dashboard";
+            ViewStatsBtn.UseVisualStyleBackColor = false;
+            ViewStatsBtn.Click += ViewStatsBtn_Click;
             // 
             // homePageAdmin
             // 
@@ -237,6 +251,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(ViewStatsBtn);
             Controls.Add(quickAccessLbl);
             Controls.Add(manageAuthorsBtn);
             Controls.Add(manageCategoryBtn);
@@ -277,5 +292,6 @@
         private Button manageCategoryBtn;
         private Button manageAuthorsBtn;
         private Label quickAccessLbl;
+        private Button ViewStatsBtn;
     }
 }

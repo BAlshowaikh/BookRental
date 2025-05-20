@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AuditTrailsController : Controller
     {
         private readonly BookRentalDBContext _context;

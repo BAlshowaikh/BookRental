@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LogsController : Controller
     {
         private readonly BookRentalDBContext _context;
@@ -21,9 +23,27 @@ namespace WebApp.Controllers
         // GET: Logs
         public async Task<IActionResult> Index()
         {
-            var bookRentalDBContext = _context.Logs.Include(l => l.User);
-            return View(await bookRentalDBContext.ToListAsync());
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account"); // or appropriate page
+            }
+
+            var user = await _context.Users.Include(u => u.UserRole)
+                                           .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null || user.UserRole.Role != "Admin")
+            {
+                return Forbid(); // or return RedirectToAction("AccessDenied");
+            }
+
+            var logs = await _context.Logs.Include(l => l.User)
+                                          .OrderByDescending(l => l.Timestamp)
+                                          .ToListAsync();
+
+            return View(logs);
         }
+
 
         // GET: Logs/Details/5
         public async Task<IActionResult> Details(int? id)
