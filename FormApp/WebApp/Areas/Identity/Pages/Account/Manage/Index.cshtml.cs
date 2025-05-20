@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BookRentalObject;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,6 +17,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly BookRentalDBContext _context;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
@@ -23,6 +25,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = new BookRentalDBContext();
         }
 
         /// <summary>
@@ -107,6 +110,15 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
+                }
+
+                // update our custom users table
+                var User = await _context.Users.FindAsync(user.Id);
+                if (User != null)
+                {
+                    User.ContactNo = Input.PhoneNumber;
+                    _context.Users.Update(User);
+                    await _context.SaveChangesAsync();
                 }
             }
 

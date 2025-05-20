@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BookRentalObject;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly BookRentalDBContext _context;
 
         public EmailModel(
             UserManager<IdentityUser> userManager,
@@ -29,6 +31,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _context = new BookRentalDBContext();
         }
 
         /// <summary>
@@ -112,8 +115,8 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var email = await _userManager.GetEmailAsync(user);
-            if (Input.NewEmail != email)
+            var currentEmail = await _userManager.GetEmailAsync(user);
+            if (Input.NewEmail != currentEmail)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
@@ -128,6 +131,15 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
+                // update our custom Users table
+                var appUser = await _context.Users.FindAsync(user.Id); 
+                if (appUser != null)
+                {
+                    appUser.Email = Input.NewEmail;
+                    _context.Users.Update(appUser);
+                    await _context.SaveChangesAsync();
+                }
+
                 StatusMessage = "Confirmation link to change email sent. Please check your email.";
                 return RedirectToPage();
             }
@@ -135,6 +147,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             StatusMessage = "Your email is unchanged.";
             return RedirectToPage();
         }
+
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
