@@ -113,6 +113,7 @@ namespace WebApp.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -125,12 +126,17 @@ namespace WebApp.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    if (!await _userManager.IsInRoleAsync(user, "User"))
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+
                     var newUser = new User
                     {
                         Email = Input.Email,
                         FirstName = Input.Email.Split('@')[0],
-                        UserRoleId = 3,
-                        IsActive = false
+                        UserRoleId = 3,  
+                        IsActive = true
                     };
 
                     _context.Users.Add(newUser);
@@ -158,15 +164,18 @@ namespace WebApp.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
+                // Add identity errors to model state
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // Something failed, redisplay form
             return Page();
         }
+
 
         private IdentityUser CreateUser()
         {
