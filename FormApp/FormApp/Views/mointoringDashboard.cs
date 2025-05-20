@@ -31,7 +31,7 @@ namespace FormApp.Views
         {
             try
             {
-                string connection = @"Server=reboot08.com;Database=BookRental;User Id=sa;Password='caliber,willpower,enjoyably,ending,giggling,P5';Encrypt=True;TrustServerCertificate=True;";
+                string connection = @"Server=reboot08.com,1450;Database=BookRental;User Id=sa;Password='caliber,willpower,enjoyably,ending,giggling,P5';Encrypt=True;TrustServerCertificate=True;";
                 using (SqlConnection con = new SqlConnection(connection))
                 {
                     con.Open();
