@@ -30,7 +30,7 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<IActionResult> Index(string SearchString, string SearchCon, int page = 1, int pageSize = 9)
         {
-            // Start with base query including all relationships
+            // Start with base query
             var bookRentalDBContext = _context.ReturnRecords
                 .Include(r => r.Book)
                 .Include(r => r.BookCondition)
@@ -38,56 +38,48 @@ namespace WebApp.Controllers
                 .Include(r => r.Transaction)
                 .AsQueryable();
 
-            // Filter for regular users (non-admins)
-            if (User.IsInRole("User"))
-            {
-                var userEmail = _userManager.GetUserName(User);
-                var dbUser = _context.Users.FirstOrDefault(x => x.Email == userEmail);
+            // Get current user info
+            var currentUserEmail = _userManager.GetUserName(User);
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+            ViewBag.CurrentUserId = dbUser?.UserId; // Store the int UserId
 
-                if (dbUser != null)
-                {
-                    var dbUserId = dbUser.UserId;
-                    bookRentalDBContext = bookRentalDBContext.Where(x => x.Transaction.UserId == dbUserId);
-                }
+            // Filter for regular users
+            if (User.IsInRole("User") && dbUser != null)
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(x => x.Transaction.UserId == dbUser.UserId);
             }
 
-            // Apply Record ID filter
+            // Apply filters
             if (!string.IsNullOrEmpty(SearchString))
             {
                 if (int.TryParse(SearchString, out int recordId))
-                {
                     bookRentalDBContext = bookRentalDBContext.Where(x => x.RecordId == recordId);
-                }
                 else
-                {
                     ModelState.AddModelError("SearchString", "Please enter a valid numeric ID");
-                }
             }
 
-            // Apply Book Condition filter
             if (!string.IsNullOrEmpty(SearchCon))
             {
-                bookRentalDBContext = bookRentalDBContext.Where(x => x.BookCondition != null &&
-                                   x.BookCondition.BookConditionId.ToString() == SearchCon);
+                bookRentalDBContext = bookRentalDBContext.Where(x =>
+                    x.BookCondition != null &&
+                    x.BookCondition.BookConditionId.ToString() == SearchCon);
             }
 
-            // Populate dropdown with current selection preserved
+            // Get dropdown data
             ViewBag.conList = new SelectList(
                 await _context.BookConditions.ToListAsync(),
                 "BookConditionId",
                 "ReturnCondition",
                 SearchCon);
 
-            // Total count before pagination
+            // Pagination
             var totalRecords = await bookRentalDBContext.CountAsync();
-
-            // Apply pagination
             var records = await bookRentalDBContext
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            // Initialize feedback status dictionary
+            // Feedback status
             var feedbackStatus = new Dictionary<int, bool>();
             foreach (var record in records)
             {
@@ -96,7 +88,6 @@ namespace WebApp.Controllers
             }
             ViewBag.FeedbackStatus = feedbackStatus;
 
-            // Pass pagination data to view
             ViewBag.TotalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
             ViewBag.CurrentPage = page;
 
