@@ -1,22 +1,20 @@
 ﻿@model IEnumerable<BookRentalObject.ReturnRecord>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h1 class="text-dark text-center">Return Records</h1>
 
-<!-- Search and filter div -->
+<!-- Search and filter section -->
 <div class="row py-3">
     <div class="col-12">
         <form asp-controller="ReturnRecords" asp-action="Index" method="get" class="row gx-2 align-items-center" autocomplete="off">
-            <!-- Record ID -->
             <label class="form-label px-2 ms-3" style="width: 9.5%">Record ID:</label>
             <div class="col-auto position-relative">
                 <input type="text" name="SearchString" value="@Context.Request.Query["SearchString"]" class="form-control" placeholder="Type record ID" />
             </div>
 
-            <!-- Book Condition -->
             <div class="col-auto">
                 <label class="form-label ms-3">Book Condition:</label>
             </div>
@@ -26,10 +24,8 @@
                 </select>
             </div>
 
-            <!-- Space to push buttons right -->
             <div class="col"></div>
 
-            <!-- Buttons -->
             <div class="col-auto">
                 <input type="submit" value="Search" class="btn btn-primary mx-3" />
             </div>
@@ -40,6 +36,7 @@
     </div>
 </div>
 
+<!-- Records display -->
 <div class="container my-4">
     <div class="row">
         @if (Model != null && Model.Any())
@@ -56,11 +53,14 @@
                             <h4>Record ID: @record.RecordId</h4>
                             <p>User: @record.Transaction.UserId</p>
                             <p>Book: @record.Book.Name</p>
-                            <p>Book Return Condition: @record.BookCondition.ReturnCondition</p>
-                            <p>Total Extra Charges: @record.TotalAdditionalCharges</p>
+                            <p>Condition: @record.BookCondition.ReturnCondition</p>
+                            <p>Charges: @record.TotalAdditionalCharges</p>
+
+                            <!-- Feedback Button Section -->
                             <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
-                                @if (ViewBag.FeedbackStatus != null && !ViewBag.FeedbackStatus[record.RecordId])
+                                @if (ViewBag.FeedbackStatus != null)
                                 {
+<<<<<<< HEAD
                                     <a asp-controller="Feedbacks" asp-action="Create"
                                        asp-route-id="@record.RecordId"
                                        class="btn btn-sm btn-light prevent-stretch">
@@ -73,42 +73,35 @@
                                        class="btn btn-sm btn-light prevent-stretch">
                                         View Feedback
                                     </a>
+=======
+                                    @if (ViewBag.FeedbackStatus[record.RecordId])
+                                    {
+                                        <a asp-controller="Feedbacks" asp-action="Index" asp-route-recordId="@record.RecordId"
+                                           class="btn btn-sm btn-light prevent-stretch">
+                                            View Feedback
+                                        </a>
+                                    }
+                                    else if (ViewBag.CurrentUserId != null && ViewBag.CurrentUserId == record.Transaction.UserId)
+                                    {
+                                        <a asp-controller="Feedbacks" asp-action="Create"
+                                           asp-route-Id="@record.RecordId"
+                                           class="btn btn-sm btn-light prevent-stretch">
+                                            Give Feedback
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-sm btn-light prevent-stretch disabled">No Feedback</span>
+                                    }
+>>>>>>> 16ca828110006d9815cd00e71d3f04133b0609da
                                 }
                             </div>
                         </div>
                     </div>
 
-                    <!-- Modal for each request details -->
+                    <!-- Modal -->
                     <div class="modal fade fade-scale" id="detailsModal-@record.RecordId" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content shadow-lg rounded-3">
-                                <div class="modal-header bg-secondary text-white border-0">
-                                    <h5 class="modal-title w-100 text-center">
-                                        <i class="bi bi-info-circle me-2"></i>
-                                        Return Record Details
-                                    </h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="info-group mb-3">
-                                        <p class="mb-1"><strong>Record ID:</strong> @record.RecordId</p>
-                                        <p class="mb-1"><strong>Transaction ID:</strong> @record.TransactionId</p>
-                                        <p class="mb-1"><strong>User ID:</strong> @record.Transaction.UserId</p>
-                                        <p class="mb-1"><strong>Book Name:</strong> @record.Book.Name</p>
-                                        <p class="mb-1"><strong>Return Condition:</strong> @record.BookCondition.ReturnCondition</p>
-                                        <p class="mb-1"><strong>Expected Return Date:</strong> @record.ExpectedReturnDate</p>
-                                        <p class="mb-1"><strong>Actual Return Date:</strong> @record.ActualReturnDate</p>
-                                        <p class="mb-1"><strong>Extra Charges:</strong> @(record.ExtraCharges?.ExtraChargeName ?? "None")</p>
-                                        <p class="mb-1"><strong>Extra Charges Rate:</strong> @(record.ExtraCharges?.ExtraChargeRate ?? 0) BHD</p>
-                                        <p class="mb-1"><strong>Late Return Fee:</strong> @record.LateReturnFee BHD</p>
-                                        <p class="mb-1"><strong>Total Additional Charges:</strong> @record.TotalAdditionalCharges BHD</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- ... (keep your existing modal code) ... -->
                     </div>
                 </div>
             }
