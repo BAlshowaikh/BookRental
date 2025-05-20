@@ -10,6 +10,7 @@ using System.Net;
 using System.Text.Json;
 using WebApp.ViewModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -87,6 +88,8 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalRequests/Create
+        // Only User (customer) can create a rental request
+        [Authorize(Roles = "User")]
         public IActionResult Create(int? bookId)
         {
             if (bookId == null)
@@ -123,6 +126,8 @@ namespace WebApp.Controllers
         // POST: RentalRequests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // Only User (customer) can create a rental request
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Create([Bind("RequestId,UserId,RentalRequestStatusId,BookId,RentalStartDate,TotalCost,ReturnDate")] RentalRequest rentalRequest, IFormFile uploadedFile)
         {
             if ((rentalRequest.ReturnDate - rentalRequest.RentalStartDate).TotalDays > 30)
