@@ -92,7 +92,6 @@ namespace WebApp.Controllers
             int page = 1,
             int pageSize = 12)
         {
-<<<<<<< HEAD
 			var query = _context.RentalTransactions
 		                .Include(r => r.Book)
 		                .Include(r => r.User)
@@ -101,20 +100,14 @@ namespace WebApp.Controllers
 						.Include(x => x.ReturnRecords)
 						//.Where(r => r.User.UserRole.Role == "Customer")
 						.AsQueryable();
-=======
-            var query = _context.RentalTransactions
-                .Include(r => r.Book)
-                .Include(r => r.User)
-                .Include(r => r.PaymentMethod)
-                .Include(r => r.PaymentStatus)
-                .AsQueryable();
 
-            if (!string.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
+
+            if (!String.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
             {
                 query = query.Where(r => r.TransactionId == transId);
             }
-
-            if (!string.IsNullOrEmpty(SearchCustomer) && int.TryParse(SearchCustomer, out int userID))
+            
+            if (!String.IsNullOrEmpty(SearchCustomer) && int.TryParse(SearchCustomer, out int userID))
             {
                 query = query.Where(r => r.User.UserId == userID);
             }
@@ -136,45 +129,30 @@ namespace WebApp.Controllers
                     RedirectData = null
                 })
                 .ToList();
->>>>>>> 01e678179299280ff3404ee4238ad6124ec053a2
 
-            ViewBag.CustList = new SelectList(
-                await _context.Users
-                    .Where(x => x.UserRole.Role == "Customer")
-                    .ToListAsync(),
-                "UserId", "FullName", SearchCustomer
-            );
+			Console.WriteLine($"Total cards: {cards.Count}");
 
-            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+			ViewBag.CustList = new SelectList(
+					 await _context.Users
+					.Where(x => x.UserRole.Role == "Customer")
+					.Select(u => new {
+						u.UserId,
+						FullName = (u.FirstName ?? "") + " " + (u.LastName ?? "")
+					})
+					.ToListAsync(),
+					 "UserId", "FullName", SearchCustomer
+			);
+
+			ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
             ViewBag.CurrentPage = page;
 
             return View(cards);
         }
 
 
-<<<<<<< HEAD
-			Console.WriteLine($"Total cards: {cards.Count}");
 
-			ViewBag.CustList = new SelectList(
-		             await _context.Users
-			        .Where(x => x.UserRole.Role == "Customer")
-                    .Select(u => new {
-                        u.UserId,
-                        FullName = (u.FirstName ?? "") + " " + (u.LastName ?? "")
-                    })
-                    .ToListAsync(),
-		             "UserId", "FullName", SearchCustomer
-	        );
-
-			return View(cards);
-		}
-
-		// GET: RentalTransactions/Details/5
-		public async Task<IActionResult> Details(int? id)
-=======
         // GET: RentalTransactions/Details/5
         public async Task<IActionResult> Details(int? id)
->>>>>>> 01e678179299280ff3404ee4238ad6124ec053a2
         {
             if (id == null || _context.RentalTransactions == null)
             {
