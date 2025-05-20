@@ -116,7 +116,7 @@ namespace FormApp.Views
             RefreshGridView(); //Call the method to filter if any filters were applied
         }
 
-        private void refreshBttn_Click(object sender, EventArgs e)
+        private void resetBttn_Click(object sender, EventArgs e)
         {
             ddlCustomer.SelectedItem = null; // Clear any pre-selected item
             txtTransactionID.Text = ""; // Clear the text box
@@ -187,6 +187,11 @@ namespace FormApp.Views
         private void userIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void Refreshbtn_Click(object sender, EventArgs e)
+        {
+            RefreshGridView();
         }
     }
 }

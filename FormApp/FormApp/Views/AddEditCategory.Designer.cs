@@ -40,6 +40,7 @@
             homeIcon = new PictureBox();
             userIcon = new PictureBox();
             pageTitle = new Label();
+            isActive = new CheckBox();
             grpboxCategoryInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
@@ -50,7 +51,7 @@
             // cancelBttn
             // 
             cancelBttn.BackColor = Color.IndianRed;
-            cancelBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cancelBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             cancelBttn.ForeColor = Color.White;
             cancelBttn.Location = new Point(499, 446);
             cancelBttn.Margin = new Padding(2);
@@ -64,7 +65,7 @@
             // addBttn
             // 
             addBttn.BackColor = Color.Cornsilk;
-            addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addBttn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             addBttn.ForeColor = Color.Black;
             addBttn.Location = new Point(266, 446);
             addBttn.Margin = new Padding(2);
@@ -78,11 +79,12 @@
             // grpboxCategoryInfo
             // 
             grpboxCategoryInfo.BackColor = Color.Transparent;
+            grpboxCategoryInfo.Controls.Add(isActive);
             grpboxCategoryInfo.Controls.Add(txtCategoryID);
             grpboxCategoryInfo.Controls.Add(lblCategoryID);
             grpboxCategoryInfo.Controls.Add(txtCategoryName);
             grpboxCategoryInfo.Controls.Add(lblCategoryName);
-            grpboxCategoryInfo.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            grpboxCategoryInfo.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             grpboxCategoryInfo.Location = new Point(180, 137);
             grpboxCategoryInfo.Name = "grpboxCategoryInfo";
             grpboxCategoryInfo.Size = new Size(596, 281);
@@ -95,16 +97,16 @@
             txtCategoryID.Location = new Point(272, 93);
             txtCategoryID.Name = "txtCategoryID";
             txtCategoryID.ReadOnly = true;
-            txtCategoryID.Size = new Size(261, 30);
+            txtCategoryID.Size = new Size(261, 34);
             txtCategoryID.TabIndex = 30;
             // 
             // lblCategoryID
             // 
             lblCategoryID.AutoSize = true;
-            lblCategoryID.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblCategoryID.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblCategoryID.Location = new Point(50, 100);
             lblCategoryID.Name = "lblCategoryID";
-            lblCategoryID.Size = new Size(120, 22);
+            lblCategoryID.Size = new Size(143, 27);
             lblCategoryID.TabIndex = 29;
             lblCategoryID.Text = "Category ID:";
             // 
@@ -112,16 +114,16 @@
             // 
             txtCategoryName.Location = new Point(272, 162);
             txtCategoryName.Name = "txtCategoryName";
-            txtCategoryName.Size = new Size(261, 30);
+            txtCategoryName.Size = new Size(261, 34);
             txtCategoryName.TabIndex = 25;
             // 
             // lblCategoryName
             // 
             lblCategoryName.AutoSize = true;
-            lblCategoryName.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblCategoryName.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblCategoryName.Location = new Point(50, 169);
             lblCategoryName.Name = "lblCategoryName";
-            lblCategoryName.Size = new Size(150, 22);
+            lblCategoryName.Size = new Size(179, 27);
             lblCategoryName.TabIndex = 21;
             lblCategoryName.Text = "Category Name:";
             // 
@@ -180,7 +182,7 @@
             // 
             pageTitle.AutoSize = true;
             pageTitle.BackColor = Color.Transparent;
-            pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitle.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             pageTitle.ForeColor = Color.Cornsilk;
             pageTitle.Location = new Point(307, 12);
             pageTitle.Margin = new Padding(2, 0, 2, 0);
@@ -189,9 +191,19 @@
             pageTitle.TabIndex = 47;
             pageTitle.Text = "Add Category";
             // 
+            // isActive
+            // 
+            isActive.AutoSize = true;
+            isActive.Location = new Point(235, 227);
+            isActive.Name = "isActive";
+            isActive.Size = new Size(113, 31);
+            isActive.TabIndex = 31;
+            isActive.Text = "Active?";
+            isActive.UseVisualStyleBackColor = true;
+            // 
             // AddEditCategory
             // 
-            AutoScaleDimensions = new SizeF(11F, 22F);
+            AutoScaleDimensions = new SizeF(13F, 27F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = Properties.Resources.Book_trans_bg;
@@ -204,7 +216,7 @@
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
-            Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(4, 3, 4, 3);
             Name = "AddEditCategory";
             Text = "AddEditCategory";
@@ -233,5 +245,6 @@
         private PictureBox homeIcon;
         private PictureBox userIcon;
         private Label pageTitle;
+        private CheckBox isActive;
     }
 }

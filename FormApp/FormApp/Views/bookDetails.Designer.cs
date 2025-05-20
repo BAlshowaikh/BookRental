@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            btnViewFeedback = new Button();
             returnIcon = new PictureBox();
             exitIcon = new PictureBox();
             homeIcon = new PictureBox();
@@ -64,27 +63,14 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            label1.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.Cornsilk;
-            label1.Location = new Point(296, 9);
+            label1.Location = new Point(292, 57);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(355, 63);
             label1.TabIndex = 1;
             label1.Text = "Book Details";
-            // 
-            // btnViewFeedback
-            // 
-            btnViewFeedback.BackColor = Color.Cornsilk;
-            btnViewFeedback.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnViewFeedback.ForeColor = Color.Black;
-            btnViewFeedback.Location = new Point(396, 559);
-            btnViewFeedback.Margin = new Padding(2);
-            btnViewFeedback.Name = "btnViewFeedback";
-            btnViewFeedback.Size = new Size(200, 50);
-            btnViewFeedback.TabIndex = 11;
-            btnViewFeedback.Text = "View Feedback";
-            btnViewFeedback.UseVisualStyleBackColor = false;
             // 
             // returnIcon
             // 
@@ -139,7 +125,7 @@
             // 
             // txtPublishDate
             // 
-            txtPublishDate.Location = new Point(240, 455);
+            txtPublishDate.Location = new Point(242, 499);
             txtPublishDate.Margin = new Padding(2);
             txtPublishDate.Name = "txtPublishDate";
             txtPublishDate.Size = new Size(250, 31);
@@ -149,9 +135,9 @@
             // 
             lblAuthorName.AutoSize = true;
             lblAuthorName.BackColor = Color.Transparent;
-            lblAuthorName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAuthorName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblAuthorName.ForeColor = Color.Black;
-            lblAuthorName.Location = new Point(540, 217);
+            lblAuthorName.Location = new Point(542, 261);
             lblAuthorName.Margin = new Padding(2, 0, 2, 0);
             lblAuthorName.Name = "lblAuthorName";
             lblAuthorName.Size = new Size(167, 29);
@@ -160,7 +146,7 @@
             // 
             // txtBookCategory
             // 
-            txtBookCategory.Location = new Point(710, 293);
+            txtBookCategory.Location = new Point(712, 337);
             txtBookCategory.Margin = new Padding(2);
             txtBookCategory.Name = "txtBookCategory";
             txtBookCategory.Size = new Size(250, 31);
@@ -170,9 +156,9 @@
             // 
             lblPublishDate.AutoSize = true;
             lblPublishDate.BackColor = Color.Transparent;
-            lblPublishDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPublishDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblPublishDate.ForeColor = Color.Black;
-            lblPublishDate.Location = new Point(19, 455);
+            lblPublishDate.Location = new Point(21, 499);
             lblPublishDate.Margin = new Padding(2, 0, 2, 0);
             lblPublishDate.Name = "lblPublishDate";
             lblPublishDate.Size = new Size(192, 29);
@@ -181,7 +167,7 @@
             // 
             // txtBookDesc
             // 
-            txtBookDesc.Location = new Point(240, 375);
+            txtBookDesc.Location = new Point(242, 419);
             txtBookDesc.Margin = new Padding(2);
             txtBookDesc.Name = "txtBookDesc";
             txtBookDesc.Size = new Size(250, 31);
@@ -191,9 +177,9 @@
             // 
             lblBookDesc.AutoSize = true;
             lblBookDesc.BackColor = Color.Transparent;
-            lblBookDesc.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookDesc.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblBookDesc.ForeColor = Color.Black;
-            lblBookDesc.Location = new Point(19, 377);
+            lblBookDesc.Location = new Point(21, 421);
             lblBookDesc.Margin = new Padding(2, 0, 2, 0);
             lblBookDesc.Name = "lblBookDesc";
             lblBookDesc.Size = new Size(223, 29);
@@ -202,7 +188,7 @@
             // 
             // txtBookName
             // 
-            txtBookName.Location = new Point(240, 218);
+            txtBookName.Location = new Point(242, 262);
             txtBookName.Margin = new Padding(2);
             txtBookName.Name = "txtBookName";
             txtBookName.Size = new Size(250, 31);
@@ -212,9 +198,9 @@
             // 
             lblBookName.AutoSize = true;
             lblBookName.BackColor = Color.Transparent;
-            lblBookName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblBookName.ForeColor = Color.Black;
-            lblBookName.Location = new Point(19, 214);
+            lblBookName.Location = new Point(21, 258);
             lblBookName.Margin = new Padding(2, 0, 2, 0);
             lblBookName.Name = "lblBookName";
             lblBookName.Size = new Size(150, 29);
@@ -224,7 +210,7 @@
             // 
             // txtRentalPrice
             // 
-            txtRentalPrice.Location = new Point(710, 136);
+            txtRentalPrice.Location = new Point(712, 180);
             txtRentalPrice.Margin = new Padding(2);
             txtRentalPrice.Name = "txtRentalPrice";
             txtRentalPrice.Size = new Size(250, 31);
@@ -232,7 +218,7 @@
             // 
             // txtBookId
             // 
-            txtBookId.Location = new Point(240, 137);
+            txtBookId.Location = new Point(242, 181);
             txtBookId.Margin = new Padding(2);
             txtBookId.Name = "txtBookId";
             txtBookId.Size = new Size(250, 31);
@@ -242,9 +228,9 @@
             // 
             lblBookID.AutoSize = true;
             lblBookID.BackColor = Color.Transparent;
-            lblBookID.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookID.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblBookID.ForeColor = Color.Black;
-            lblBookID.Location = new Point(19, 132);
+            lblBookID.Location = new Point(21, 176);
             lblBookID.Margin = new Padding(2, 0, 2, 0);
             lblBookID.Name = "lblBookID";
             lblBookID.Size = new Size(110, 29);
@@ -255,9 +241,9 @@
             // 
             lblBookCategory.AutoSize = true;
             lblBookCategory.BackColor = Color.Transparent;
-            lblBookCategory.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookCategory.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point);
             lblBookCategory.ForeColor = Color.Black;
-            lblBookCategory.Location = new Point(540, 297);
+            lblBookCategory.Location = new Point(542, 341);
             lblBookCategory.Margin = new Padding(2, 0, 2, 0);
             lblBookCategory.Name = "lblBookCategory";
             lblBookCategory.Size = new Size(163, 24);
@@ -268,9 +254,9 @@
             // 
             lblRentalPrice.AutoSize = true;
             lblRentalPrice.BackColor = Color.Transparent;
-            lblRentalPrice.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRentalPrice.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblRentalPrice.ForeColor = Color.Black;
-            lblRentalPrice.Location = new Point(540, 136);
+            lblRentalPrice.Location = new Point(542, 180);
             lblRentalPrice.Margin = new Padding(2, 0, 2, 0);
             lblRentalPrice.Name = "lblRentalPrice";
             lblRentalPrice.Size = new Size(157, 29);
@@ -279,7 +265,7 @@
             // 
             // txtAuthorName
             // 
-            txtAuthorName.Location = new Point(710, 215);
+            txtAuthorName.Location = new Point(712, 259);
             txtAuthorName.Margin = new Padding(2);
             txtAuthorName.Name = "txtAuthorName";
             txtAuthorName.Size = new Size(250, 31);
@@ -289,9 +275,9 @@
             // 
             lblBookCondition.AutoSize = true;
             lblBookCondition.BackColor = Color.Transparent;
-            lblBookCondition.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookCondition.Font = new Font("Tahoma", 10F, FontStyle.Bold, GraphicsUnit.Point);
             lblBookCondition.ForeColor = Color.Black;
-            lblBookCondition.Location = new Point(538, 381);
+            lblBookCondition.Location = new Point(540, 425);
             lblBookCondition.Margin = new Padding(2, 0, 2, 0);
             lblBookCondition.Name = "lblBookCondition";
             lblBookCondition.Size = new Size(162, 24);
@@ -300,7 +286,7 @@
             // 
             // txtBookCondition
             // 
-            txtBookCondition.Location = new Point(710, 375);
+            txtBookCondition.Location = new Point(712, 419);
             txtBookCondition.Margin = new Padding(2);
             txtBookCondition.Name = "txtBookCondition";
             txtBookCondition.Size = new Size(250, 31);
@@ -310,9 +296,9 @@
             // 
             lblAvailability.AutoSize = true;
             lblAvailability.BackColor = Color.Transparent;
-            lblAvailability.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAvailability.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblAvailability.ForeColor = Color.Black;
-            lblAvailability.Location = new Point(540, 455);
+            lblAvailability.Location = new Point(542, 499);
             lblAvailability.Margin = new Padding(2, 0, 2, 0);
             lblAvailability.Name = "lblAvailability";
             lblAvailability.Size = new Size(145, 29);
@@ -321,7 +307,7 @@
             // 
             // txtAvailability
             // 
-            txtAvailability.Location = new Point(710, 456);
+            txtAvailability.Location = new Point(712, 500);
             txtAvailability.Margin = new Padding(2);
             txtAvailability.Name = "txtAvailability";
             txtAvailability.Size = new Size(250, 31);
@@ -331,8 +317,8 @@
             // 
             lblISBN.AutoSize = true;
             lblISBN.BackColor = Color.Transparent;
-            lblISBN.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblISBN.Location = new Point(19, 287);
+            lblISBN.Font = new Font("Tahoma", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            lblISBN.Location = new Point(21, 331);
             lblISBN.Name = "lblISBN";
             lblISBN.Size = new Size(88, 34);
             lblISBN.TabIndex = 28;
@@ -340,7 +326,7 @@
             // 
             // txtBookISBN
             // 
-            txtBookISBN.Location = new Point(240, 290);
+            txtBookISBN.Location = new Point(242, 334);
             txtBookISBN.Margin = new Padding(2);
             txtBookISBN.Name = "txtBookISBN";
             txtBookISBN.Size = new Size(250, 31);
@@ -371,7 +357,6 @@
             Controls.Add(exitIcon);
             Controls.Add(homeIcon);
             Controls.Add(userIcon);
-            Controls.Add(btnViewFeedback);
             Controls.Add(txtPublishDate);
             Controls.Add(txtBookCategory);
             Controls.Add(txtBookName);

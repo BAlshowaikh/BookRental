@@ -43,10 +43,10 @@ namespace FormApp
             try
             {
                 //Set the data source of the drop down to the list of users 
-                ddlUser.DataSource = context.Users.ToList();
-                ddlUser.DisplayMember = "FullName"; // Set which property to display in the dropdown
-                ddlUser.ValueMember = "userId"; // Set the value property for each dropdown item
-                ddlUser.SelectedItem = null; // Clear any pre-selected item
+                ddlRole.DataSource = context.UserRoles.ToList();
+                ddlRole.DisplayMember = "Role"; // Set which property to display in the dropdown
+                ddlRole.ValueMember = "UserRoleId"; // Set the value property for each dropdown item
+                ddlRole.SelectedItem = null; // Clear any pre-selected item
 
                 // Refresh the grid view to show the latest users
                 RefreshUsersGridView();
@@ -73,9 +73,9 @@ namespace FormApp
                     userToShow = userToShow.Where(u => u.UserId == Convert.ToInt32(txtUserID.Text));
                 }
                 //if a user is selected, filter by that category 
-                if (ddlUser.SelectedItem != null)
+                if (ddlRole.SelectedItem != null)
                 {
-                    userToShow = userToShow.Where(x => x.UserId == Convert.ToInt32(ddlUser.SelectedValue));
+                    userToShow = userToShow.Where(x => x.UserRoleId == Convert.ToInt32(ddlRole.SelectedValue));
                 }
 
                 //Project the filtered user into an anonymous type, then convert the result to a list and bind it to the data grid view.
@@ -85,8 +85,9 @@ namespace FormApp
                     FullName = s.FullName,
                     Email = s.Email,
                     ContactNumber = s.ContactNo,
-                    Status = s.IsActive,
-                    Role = s.UserRole.Role
+                    Role = s.UserRole.Role,
+                    s.IsActive
+
                 }).ToList();
             }
             catch (Exception ex)
@@ -98,7 +99,7 @@ namespace FormApp
         private void refreshBttn_Click(object sender, EventArgs e)
         {
             txtUserID.Text = null;
-            ddlUser.SelectedItem = null; // Clear any pre-selected item
+            ddlRole.SelectedItem = null; // Clear any pre-selected item
 
             RefreshUsersGridView(); //Refresh the view to remove the filters
         }

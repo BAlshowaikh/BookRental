@@ -1,218 +1,164 @@
 ﻿using BookRentalObject;
 using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using FormApp.Controllers;
-using FormApp.Views;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using FormApp.Controllers;
 using ProjectFormApp;
 
 namespace FormApp.Views
 {
-    //this page shows the details for a spicefic Rental Request
-    //this page allows the user to approve or reject pending requests 
-    //this page gaves the user the ability to create a transaction when the request is approved
     public partial class rentalRequestDetails : Form
     {
-        BookRentalDBContext context = new BookRentalDBContext();
-        //private variable for thr request ID do it is accessed to all the method in the form
-        private int requestID;
-
-        // Function to track changes into the rental request 
-        private void TrackAuditChange(string oldValue, string newValue, int userId)
-        {
-            if (oldValue != newValue)
-            {
-                var audit = new AuditTrail
-                {
-                    Timestamp = DateTime.Now,
-                    OldValue = oldValue,
-                    NewValue = newValue,
-                    UserId = userId
-                };
-
-                context.AuditTrails.Add(audit);
-            }
-        }
+        private readonly BookRentalDBContext context = new BookRentalDBContext();
+        private readonly int requestID;
 
         public rentalRequestDetails(int requestID)
         {
-            //set the requestID as the reseved requestID
             this.requestID = requestID;
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
         }
 
-        private void rentalRequestDetails_Load(object sender, EventArgs e)
-        {
-            //get the request as an object 
-            var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
-
-            //a variable for the book ID, used more than once
-            var bookID = request.BookId;
-
-            //populate the text fields
-            txtRequestID.Text = requestID.ToString();
-
-            txtUserName.Text = context.Users
-                .Where(x => x.UserId == request.UserId)
-                .Select(x => x.FullName)
-                .FirstOrDefault();
-
-            lblUserID.Text = "User ID: " + request.UserId.ToString();
-            txtBookID.Text = bookID.ToString();
-
-            txtBookName.Text = context.Books
-                .Where(x => x.BookId == bookID)
-                .Select(x => x.Name)
-                .FirstOrDefault();
-
-            //get the book status and set the lable
-            var bookStatus = context.Books
-                .Where(x => x.BookId == bookID)
-                .Select(x => x.AvailabilityStatus.AvailabilityStatus1)
-                .FirstOrDefault();
-            lblBookStatus.Text = "This Book is " + bookStatus;
-
-            txtStartDate.Text = request.RentalStartDate.ToString();
-            txtReturnDate.Text = request.ReturnDate.ToString();
-            txtTotalCost.Text = request.TotalCost.ToString();
-
-            var statusId = request.RentalRequestStatusId;
-            txtStatus.Text = context.RentalRequestStatuses
-                .Where(x => x.RentalRequestStatusId == statusId)
-                .Select(x => x.Status)
-                .FirstOrDefault();
-
-        }
-
-        private void btnApprove_Click(object sender, EventArgs e)
+        private async void rentalRequestDetails_Load(object sender, EventArgs e)
         {
             try
             {
-                var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
-                //if the request status is "pending"
-                if (request.RentalRequestStatusId == 1)
+                // Use separate context for loading to avoid conflicts
+                using (var loadContext = new BookRentalDBContext())
                 {
-                    if (MessageBox.Show("are you sure you want to approve requst ID:" + requestID + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    var request = await loadContext.RentalRequests
+                        .Include(r => r.Book)
+                        .ThenInclude(b => b.AvailabilityStatus)
+                        .Include(r => r.User)
+                        .FirstOrDefaultAsync(x => x.RequestId == requestID);
+
+                    if (request == null) return;
+
+                    txtRequestID.Text = requestID.ToString();
+                    txtUserName.Text = request.User?.FullName;
+                    lblUserID.Text = "User ID: " + request.UserId.ToString();
+                    txtBookID.Text = request.BookId.ToString();
+                    txtBookName.Text = request.Book?.Name;
+                    lblBookStatus.Text = "This Book is " + request.Book?.AvailabilityStatus?.AvailabilityStatus1;
+                    txtStartDate.Text = request.RentalStartDate.ToString();
+                    txtReturnDate.Text = request.ReturnDate.ToString();
+                    txtTotalCost.Text = request.TotalCost.ToString();
+
+                    var status = await loadContext.RentalRequestStatuses
+                        .FirstOrDefaultAsync(x => x.RentalRequestStatusId == request.RentalRequestStatusId);
+                    txtStatus.Text = status?.Status;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading request details: " + ex.Message);
+            }
+        }
+
+        private async void btnApprove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var approveContext = new BookRentalDBContext())
+                {
+                    var request = await approveContext.RentalRequests
+                        .FirstOrDefaultAsync(x => x.RequestId == requestID);
+
+                    if (request?.RentalRequestStatusId != 1)
                     {
-                        //set the status ID as 2 -> approved
+                        MessageBox.Show("This request cannot be approved, it has been " +
+                            await GetStatusName(approveContext, request?.RentalRequestStatusId ?? 0));
+                        return;
+                    }
+
+                    if (MessageBox.Show("Are you sure you want to approve request ID:" + requestID + "?",
+                        "Confirm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
                         request.RentalRequestStatusId = 2;
-
-                        var statusName = context.RentalRequestStatuses
-                            .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
-                               .Select(s => s.Status)
-                               .FirstOrDefaultAsync();
+                        var statusName = await GetStatusName(approveContext, request.RentalRequestStatusId);
 
                         var notification = new Notification
                         {
                             UserId = request.UserId,
                             Subject = "Rental Request Update",
-                            Message = $"Your rental request status has been updated to: {statusName}.".Substring(0, 100),
+                            Message = $"Your rental request status has been updated to: {statusName}.",
                             Status = false
                         };
 
-                        context.Notifications.Add(notification);
-                        context.RentalRequests.Update(request);
+                        approveContext.Notifications.Add(notification);
+                        await approveContext.SaveChangesAsync();
 
-                        context.SaveChanges();
-
-                        //set the DialogResult as OK to indecate the change in the database
                         this.DialogResult = DialogResult.OK;
                         this.Close();
 
-                        EditTransaction editTransaction = new EditTransaction(requestID);
+                        var editTransaction = new EditTransaction(requestID);
                         editTransaction.ShowDialog();
-                        //GeneratedRransaction generatedRransaction = new GeneratedRransaction();
                     }
-
-                }
-                //if the request status is NOT "pending"
-                else
-                {
-                    //the user cannot approve the request after it has been approved or rejected previously
-                    MessageBox.Show("This request cannot be approved, it has been "
-                        + context.RentalRequestStatuses
-                        .Where(x => x.RentalRequestStatusId == request.RentalRequestStatusId)
-                        .Select(x => x.Status)
-                        .FirstOrDefault());
                 }
             }
             catch (Exception ex)
             {
-                var newLog = new Log
-                {
-                    UserId = Global.user.UserId,
-                    Timestamp = DateTime.Now,
-                    AffectedData = "rental request",
-                    Source = "form app",
-                    Exceptions = "Error: " + ex.Message
-                };
-
-                context.Logs.Add(newLog);
-                context.SaveChanges();
-
+                await LogError(ex, "approving rental request");
                 MessageBox.Show(ex.Message);
             }
-
         }
 
-        private void btnReject_Click(object sender, EventArgs e)
+        private async void btnReject_Click(object sender, EventArgs e)
         {
             try
             {
-                var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
-                //if the request status is "pending"
-                if (request.RentalRequestStatusId == 1)
+                using (var rejectContext = new BookRentalDBContext())
                 {
-                    if (MessageBox.Show("are you sure you want to reject requst ID:" + requestID + "?", "conferm Rejection", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        //set the status ID as 3 -> rejected
-                        request.RentalRequestStatusId = 3;
+                    var request = await rejectContext.RentalRequests
+                        .FirstOrDefaultAsync(x => x.RequestId == requestID);
 
-                        var statusName = context.RentalRequestStatuses
-                            .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
-                               .Select(s => s.Status)
-                               .FirstOrDefaultAsync();
+                    if (request?.RentalRequestStatusId != 1)
+                    {
+                        MessageBox.Show("This request cannot be rejected, it has been " +
+                            await GetStatusName(rejectContext, request?.RentalRequestStatusId ?? 0));
+                        return;
+                    }
+
+                    if (MessageBox.Show("Are you sure you want to reject request ID:" + requestID + "?",
+                        "Confirm Rejection", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        request.RentalRequestStatusId = 3;
+                        var statusName = await GetStatusName(rejectContext, request.RentalRequestStatusId);
 
                         var notification = new Notification
                         {
                             UserId = request.UserId,
                             Subject = "Rental Request Update",
-                            Message = $"Your rental request status has been updated to: {statusName}.".Substring(0, 100),
+                            Message = $"Your rental request status has been updated to: {statusName}.",
                             Status = false
                         };
 
-                        context.Notifications.Add(notification);
-                        context.RentalRequests.Update(request);
+                        rejectContext.Notifications.Add(notification);
+                        await rejectContext.SaveChangesAsync();
 
-                        context.SaveChanges();
-                        //set the DialogResult as OK to indecate the change in the database
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
                 }
-                //if the request status is NOT "pending"
-                else
-                {
-                    //the user cannot approve the request after it has been approved or rejected previously
-                    MessageBox.Show("This request cannot be rejected, it has been "
-                        + context.RentalRequestStatuses
-                        .Where(x => x.RentalRequestStatusId == request.RentalRequestStatusId)
-                        .Select(x => x.Status)
-                        .FirstOrDefault());
-                }
             }
             catch (Exception ex)
+            {
+                await LogError(ex, "rejecting rental request");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async Task<string> GetStatusName(BookRentalDBContext dbContext, int statusId)
+        {
+            var status = await dbContext.RentalRequestStatuses
+                .FirstOrDefaultAsync(x => x.RentalRequestStatusId == statusId);
+            return status?.Status ?? "Unknown Status";
+        }
+
+        private async Task LogError(Exception ex, string action)
+        {
+            using (var logContext = new BookRentalDBContext())
             {
                 var newLog = new Log
                 {
@@ -220,16 +166,67 @@ namespace FormApp.Views
                     Timestamp = DateTime.Now,
                     AffectedData = "rental request",
                     Source = "form app",
-                    Exceptions = "Error: " + ex.Message
+                    Exceptions = $"Error {action}: {ex.Message}"
                 };
 
-                context.Logs.Add(newLog);
-                context.SaveChanges();
-
-                MessageBox.Show(ex.Message);
+                logContext.Logs.Add(newLog);
+                await logContext.SaveChangesAsync();
             }
-
         }
+
+        private async void Save_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var saveContext = new BookRentalDBContext())
+                {
+                    var request = await saveContext.RentalRequests
+                        .FirstOrDefaultAsync(x => x.RequestId == requestID);
+
+                    if (request == null)
+                    {
+                        MessageBox.Show("Rental request not found.");
+                        return;
+                    }
+
+                    var oldStartDate = request.RentalStartDate.ToString();
+                    var oldReturnDate = request.ReturnDate.ToString();
+
+                    request.RentalStartDate = DateTime.Parse(txtStartDate.Text);
+                    request.ReturnDate = DateTime.Parse(txtReturnDate.Text);
+
+                    TrackAuditChange(oldStartDate, request.RentalStartDate.ToString(), Global.user.UserId);
+                    TrackAuditChange(oldReturnDate, request.ReturnDate.ToString(), Global.user.UserId);
+
+                    await saveContext.SaveChangesAsync();
+                    MessageBox.Show("Rental Request updated successfully.");
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Please enter valid date formats.");
+            }
+            catch (Exception ex)
+            {
+                await LogError(ex, "saving rental request changes");
+                MessageBox.Show("Failed to update: " + ex.Message);
+            }
+        }
+
+        private void TrackAuditChange(string oldValue, string newValue, int userId)
+        {
+            if (oldValue != newValue)
+            {
+                context.AuditTrails.Add(new AuditTrail
+                {
+                    Timestamp = DateTime.Now,
+                    OldValue = oldValue,
+                    NewValue = newValue,
+                    UserId = userId
+                });
+            }
+        }
+
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
@@ -243,49 +240,6 @@ namespace FormApp.Views
         private void userIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.ShowProfilePage(this);
-        }
-
-        private void Save_Click(object sender, EventArgs e)
-        {
-            // Fetch the rental request record
-            var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
-
-            if (request == null)
-            {
-                MessageBox.Show("Rental request not found.");
-                return;
-            }
-
-            try
-            {
-                var oldStartDate = request.RentalStartDate.ToString();
-                var oldReturnDate = request.ReturnDate.ToString();
-
-                var newStartDate = DateTime.Parse(txtStartDate.Text);
-                var newReturnDate = DateTime.Parse(txtReturnDate.Text);
-
-                // Update the fields
-                request.RentalStartDate = newStartDate;
-                request.ReturnDate = newReturnDate;
-
-                // Track changes before saving
-                TrackAuditChange(oldStartDate, newStartDate.ToString(), Global.user.UserId);
-                TrackAuditChange(oldReturnDate, newReturnDate.ToString(), Global.user.UserId);
-
-                // Update and save
-                context.RentalRequests.Update(request);
-                context.SaveChanges();
-
-                MessageBox.Show("Rental Request updated and changes tracked.");
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Please enter valid date formats.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to update: " + ex.Message);
-            }
         }
     }
 }
