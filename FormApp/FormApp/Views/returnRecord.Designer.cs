@@ -36,12 +36,12 @@
             btnRefresh = new Button();
             btnDetails = new Button();
             filterGB = new GroupBox();
-            ddlFilterBook = new ComboBox();
-            FilterbyBook = new Label();
+            ddlFilterCondition = new ComboBox();
+            FilterbyCondition = new Label();
             btnResetFilter = new Button();
             btnFilter = new Button();
             txtFilterRecordNo = new TextBox();
-            FilterbyRecourdNo = new Label();
+            FilterbyID = new Label();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userIcon).BeginInit();
@@ -143,12 +143,12 @@
             // filterGB
             // 
             filterGB.BackColor = Color.Transparent;
-            filterGB.Controls.Add(ddlFilterBook);
-            filterGB.Controls.Add(FilterbyBook);
+            filterGB.Controls.Add(ddlFilterCondition);
+            filterGB.Controls.Add(FilterbyCondition);
             filterGB.Controls.Add(btnResetFilter);
             filterGB.Controls.Add(btnFilter);
             filterGB.Controls.Add(txtFilterRecordNo);
-            filterGB.Controls.Add(FilterbyRecourdNo);
+            filterGB.Controls.Add(FilterbyID);
             filterGB.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             filterGB.Location = new Point(26, 93);
             filterGB.Name = "filterGB";
@@ -158,24 +158,24 @@
             filterGB.Text = "Filter";
             filterGB.Enter += filterGB_Enter;
             // 
-            // ddlFilterBook
+            // ddlFilterCondition
             // 
-            ddlFilterBook.FormattingEnabled = true;
-            ddlFilterBook.Location = new Point(512, 38);
-            ddlFilterBook.Margin = new Padding(4, 5, 4, 5);
-            ddlFilterBook.Name = "ddlFilterBook";
-            ddlFilterBook.Size = new Size(168, 32);
-            ddlFilterBook.TabIndex = 41;
+            ddlFilterCondition.FormattingEnabled = true;
+            ddlFilterCondition.Location = new Point(512, 38);
+            ddlFilterCondition.Margin = new Padding(4, 5, 4, 5);
+            ddlFilterCondition.Name = "ddlFilterCondition";
+            ddlFilterCondition.Size = new Size(168, 32);
+            ddlFilterCondition.TabIndex = 41;
             // 
-            // FilterbyBook
+            // FilterbyCondition
             // 
-            FilterbyBook.AutoSize = true;
-            FilterbyBook.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            FilterbyBook.Location = new Point(373, 45);
-            FilterbyBook.Name = "FilterbyBook";
-            FilterbyBook.Size = new Size(140, 22);
-            FilterbyBook.TabIndex = 40;
-            FilterbyBook.Text = "Filter by Book:";
+            FilterbyCondition.AutoSize = true;
+            FilterbyCondition.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            FilterbyCondition.Location = new Point(326, 43);
+            FilterbyCondition.Name = "FilterbyCondition";
+            FilterbyCondition.Size = new Size(179, 22);
+            FilterbyCondition.TabIndex = 40;
+            FilterbyCondition.Text = "Filter by Condition:";
             // 
             // btnResetFilter
             // 
@@ -208,20 +208,20 @@
             // 
             // txtFilterRecordNo
             // 
-            txtFilterRecordNo.Location = new Point(194, 41);
+            txtFilterRecordNo.Location = new Point(129, 38);
             txtFilterRecordNo.Name = "txtFilterRecordNo";
             txtFilterRecordNo.Size = new Size(168, 32);
             txtFilterRecordNo.TabIndex = 1;
             // 
-            // FilterbyRecourdNo
+            // FilterbyID
             // 
-            FilterbyRecourdNo.AutoSize = true;
-            FilterbyRecourdNo.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            FilterbyRecourdNo.Location = new Point(10, 45);
-            FilterbyRecourdNo.Name = "FilterbyRecourdNo";
-            FilterbyRecourdNo.Size = new Size(187, 22);
-            FilterbyRecourdNo.TabIndex = 0;
-            FilterbyRecourdNo.Text = "Filter by Record No:";
+            FilterbyID.AutoSize = true;
+            FilterbyID.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            FilterbyID.Location = new Point(10, 45);
+            FilterbyID.Name = "FilterbyID";
+            FilterbyID.Size = new Size(113, 22);
+            FilterbyID.TabIndex = 0;
+            FilterbyID.Text = "Filter by ID:";
             // 
             // returnRecord
             // 
@@ -268,5 +268,8 @@
         private ComboBox ddlFilterBook;
         private Label FilterbyBook;
         private Button btnFilter;
+        private ComboBox ddlFilterCondition;
+        private Label FilterbyCondition;
+        private Label FilterbyID;
     }
 }
