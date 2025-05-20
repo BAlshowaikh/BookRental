@@ -81,6 +81,7 @@ namespace FormApp
                     FullName = s.FullName,
                     Email = s.Email,
                     ContactNumber = s.ContactNo,
+                    Status = s.IsActive,
                     Role = s.UserRole.Role
                 }).ToList();
             }
