@@ -1,6 +1,8 @@
 ﻿using BookRentalObject;
 using FormApp.Controllers;
 using FormApp.Views;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
@@ -14,6 +16,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using ProjectFormApp;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace FormApp
 {
@@ -128,35 +132,64 @@ namespace FormApp
             }
         }
 
-        private void deleteBttn_Click(object sender, EventArgs e)
+        private async void deleteBttn_Click(object sender, EventArgs e)
         {
             try
             {
-                //check if at least one cell is selected
                 if (dgvUsers.SelectedCells.Count > 0)
                 {
-                    //Get the selected cell within the grid view
-                    int selectedCell = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
+                    int selectedUserId = Convert.ToInt32(dgvUsers.SelectedCells[0].OwningRow.Cells[0].Value);
 
-                    //Retrieve the user object of the selected id
-                    BookRentalObject.User u1 = context.Users.Single(x => x.UserId == selectedCell);
+                    // Get the user from BookRental DB
+                    var user = context.Users.FirstOrDefault(x => x.UserId == selectedUserId);
 
-                    if (MessageBox.Show("Are you sure you want to delete the user - (" + u1.UserId + ")?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (user == null)
                     {
-                        context.Users.Remove(u1); //Delete the user with the specified ID
+                        MessageBox.Show("User not found in BookRental DB.");
+                        return;
+                    }
 
-                        context.SaveChanges(); //Execute the changes against the Database
+                    if (MessageBox.Show($"Are you sure you want to delete user ID {user.UserId}?",
+                        "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        // Initialize Identity context and manager (same pattern as AddEditUser)
+                        using (var identityContext = new FormsIdentityContext())
+                        {
+                            var userStore = new UserStore<IdentityUser>(identityContext);
+                            var userManager = new UserManager<IdentityUser>(
+                                userStore, null, new PasswordHasher<IdentityUser>(),
+                                null, null, null, null, null, null);
 
-                        RefreshUsersGridView(); //Call refresh grid view to view the changes
+                            // Find and delete Identity user
+                            var identityUser = await userManager.FindByEmailAsync(user.Email);
+                            if (identityUser != null)
+                            {
+                                var result = await userManager.DeleteAsync(identityUser);
+                                if (!result.Succeeded)
+                                {
+                                    throw new Exception(string.Join("\n",
+                                        result.Errors.Select(x => x.Description)));
+                                }
+                            }
+                        }
+
+                        // Delete from BookRental DB
+                        context.Users.Remove(user);
+                        await context.SaveChangesAsync();
+
+                        RefreshUsersGridView();
+                        MessageBox.Show("User deleted successfully.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Error deleting user: {ex.Message}\n\n{ex.InnerException?.Message}",
+                              "Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
-
 
         private void homeIcon_Click(object sender, EventArgs e)
         {

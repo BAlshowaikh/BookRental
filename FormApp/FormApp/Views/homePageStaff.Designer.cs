@@ -67,6 +67,7 @@
             exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
             exitIcon.TabIndex = 12;
             exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // welcomeTxt
             // 
