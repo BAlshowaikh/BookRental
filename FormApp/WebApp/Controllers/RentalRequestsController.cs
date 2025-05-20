@@ -126,6 +126,9 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    var user = _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
+                    rentalRequest.UserId = user.UserId;
+
                     _context.Add(rentalRequest);
                     await _context.SaveChangesAsync(); // Save first to get RentalRequestId
 
@@ -382,10 +385,12 @@ namespace WebApp.Controllers
 
 			var rentalTransaction = new RentalTransaction
 			{
+				RentalRequestId = request.RequestId,
 				BookId = request.BookId,
 				UserId = request.UserId,
 				RentalStartDate = request.RentalStartDate,
 				ReturnDate = request.ReturnDate,
+				RentalPeriod = (request.ReturnDate - request.RentalStartDate).Days,
 				RentalFee = request.TotalCost,
 				PaymentMethodId = 3,
 				PaymentStatusId = 2

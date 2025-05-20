@@ -49,15 +49,18 @@
                         <p>Category: @feedback.Book.Category.CategoryName</p>
                         <p>Author: @feedback.Book.Author.FullName</p>
                         <p>Timestamp: @feedback.Timestamp</p>
-                        <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
-                            <button type="button"
-                                    id="toggle-btn-@feedback.FeedbackId"
-                                    class="btn btn-sm btn-light prevent-stretch toggle-visibility"
-                                    title="Show/hide Feedback"
-                                    onclick="event.stopPropagation(); toggleFeedbackVisibility(@feedback.FeedbackId, @feedback.IsHidden.ToString().ToLower())">
-                                <i class="bi @(feedback.IsHidden ? "bi-eye-slash text-danger" : "bi-eye text-success")" id="toggle-icon-@feedback.FeedbackId"></i>
-                            </button>
-                        </div>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                            <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
+                                <button type="button"
+                                id="toggle-btn-@feedback.FeedbackId"
+                                class="btn btn-sm btn-light prevent-stretch toggle-visibility"
+                                title="Show/hide Feedback"
+                                onclick="event.stopPropagation(); toggleFeedbackVisibility(@feedback.FeedbackId, @feedback.IsHidden.ToString().ToLower())">
+                                    <i class="bi @(feedback.IsHidden ? "bi-eye-slash text-danger" : "bi-eye text-success")" id="toggle-icon-@feedback.FeedbackId"></i>
+                                </button>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
