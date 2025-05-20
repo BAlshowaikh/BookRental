@@ -28,8 +28,6 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalRequests
-        // ONly logged in users can access the requests
-        [Authorize]
         public async Task<IActionResult> Index(int? searchRequestId, int? searchStatusId, int page = 1)
         {
             int pageSize = 12;
@@ -39,13 +37,6 @@ namespace WebApp.Controllers
                 .Include(r => r.Book)
                 .Include(r => r.RentalRequestStatus)
                 .AsQueryable();
-
-            // Restrict to show logged in user request only
-            if (User.IsInRole("User"))
-            {
-                var loggedInEmail = User.Identity.Name;
-                query = query.Where(rr => rr.User.Email == loggedInEmail);
-            }
 
             if (searchRequestId.HasValue && searchRequestId.Value > 0)
             {
@@ -74,9 +65,29 @@ namespace WebApp.Controllers
         }
 
 
+
+        // GET: RentalRequests/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.RentalRequests == null)
+            {
+                return NotFound();
+            }
+
+            var rentalRequest = await _context.RentalRequests
+                .Include(r => r.Book)
+                .Include(r => r.RentalRequestStatus)
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(m => m.RequestId == id);
+            if (rentalRequest == null)
+            {
+                return NotFound();
+            }
+
+            return View(rentalRequest);
+        }
+
         // GET: RentalRequests/Create
-        // Only User (customer) can create a rental request
-        [Authorize(Roles = "User")]
         public IActionResult Create(int? bookId)
         {
             if (bookId == null)
@@ -113,8 +124,6 @@ namespace WebApp.Controllers
         // POST: RentalRequests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // Only User (customer) can create a rental request
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> Create([Bind("RequestId,UserId,RentalRequestStatusId,BookId,RentalStartDate,TotalCost,ReturnDate")] RentalRequest rentalRequest, IFormFile uploadedFile)
         {
             if ((rentalRequest.ReturnDate - rentalRequest.RentalStartDate).TotalDays > 30)
@@ -162,6 +171,26 @@ namespace WebApp.Controllers
 
                     _context.Notifications.Add(notification);
                     await _context.SaveChangesAsync();
+                    // Log successful creation
+                    var user = await _userManager.GetUserAsync(User);
+                    var email = await _userManager.GetEmailAsync(user);
+
+                    var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+                    if (dbUser != null)
+                    {
+                        var log = new Log
+                        {
+                            UserId = dbUser.UserId,
+                            Timestamp = DateTime.Now,
+                            AffectedData = "Rental Request",
+                            Source = "Create Action",
+                            Exceptions = $"Creation successful for Request ID: {rentalRequest.RequestId}"
+                        };
+
+                        _context.Logs.Add(log);
+                        await _context.SaveChangesAsync();
+                    }
 
                     TempData["SuccessMessage"] = "Rental request submitted successfully!";
                     return RedirectToAction("Index");
@@ -200,8 +229,6 @@ namespace WebApp.Controllers
 
 
         // GET: RentalRequests/Edit/5
-        // Only Admin and manager can edit
-        [Authorize(Roles = "Admin, Manager, User")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.RentalRequests == null)
@@ -219,15 +246,6 @@ namespace WebApp.Controllers
             if (rentalRequest == null)
             {
                 return NotFound();
-            }
-
-            if (User.IsInRole("User"))
-            {
-                var loggedInEmail = User.Identity.Name;
-                if (rentalRequest.User.Email != loggedInEmail)
-                {
-                    return Forbid(); 
-                }
             }
 
             ViewBag.BookName = rentalRequest.Book?.Name ?? "Unknown Book";
@@ -331,6 +349,7 @@ namespace WebApp.Controllers
 
                     _context.Logs.Add(newLog);
                     await _context.SaveChangesAsync();
+
                 }
             }
             else
@@ -343,93 +362,151 @@ namespace WebApp.Controllers
             return View(rentalRequest);
         }
 
+        // GET: RentalRequests/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.RentalRequests == null)
+            {
+                return NotFound();
+            }
+
+            var rentalRequest = await _context.RentalRequests
+                .Include(r => r.Book)
+                .Include(r => r.RentalRequestStatus)
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(m => m.RequestId == id);
+            if (rentalRequest == null)
+            {
+                return NotFound();
+            }
+
+            return View(rentalRequest);
+        }
+
+        // POST: RentalRequests/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.RentalRequests == null)
+            {
+                return Problem("Entity set 'BookRentalDBContext.RentalRequests'  is null.");
+            }
+            var rentalRequest = await _context.RentalRequests.FindAsync(id);
+            if (rentalRequest != null)
+            {
+                _context.RentalRequests.Remove(rentalRequest);
+            }
+
+            await _context.SaveChangesAsync();
+            var user = await _userManager.GetUserAsync(User);
+            var email = await _userManager.GetEmailAsync(user);
+            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (dbUser != null)
+            {
+                var log = new Log
+                {
+                    UserId = dbUser.UserId,
+                    Timestamp = DateTime.Now,
+                    AffectedData = "Rental Request",
+                    Source = "DeleteConfirmed Action",
+                    Exceptions = $"Rental request deleted (ID: {id})"
+                };
+
+                _context.Logs.Add(log);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool RentalRequestExists(int id)
+        {
+            return (_context.RentalRequests?.Any(e => e.RequestId == id)).GetValueOrDefault();
+        }
+
         // In case the "Approve" button is clicked
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // Restrict access to only manager and admin who can approve
         [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Approve(int id)
         {
-            var request = await _context.RentalRequests
-                .Include(r => r.Book).Include(x => x.User)
-                .FirstOrDefaultAsync(r => r.RequestId == id);
-
-            if (request == null)
+            try
             {
-                TempData["ErrorMessage"] = "Request not found.";
+                var request = await _context.RentalRequests
+                    .Include(r => r.Book)
+                    .Include(r => r.User)
+                    .FirstOrDefaultAsync(r => r.RequestId == id);
+
+                if (request == null)
+                {
+                    TempData["ErrorMessage"] = "Request not found.";
+                    return RedirectToAction("Index");
+                }
+
+                // ✅ Check for invalid DateTime
+                if (request.RentalStartDate < new DateTime(1753, 1, 1) || request.ReturnDate < new DateTime(1753, 1, 1))
+                {
+                    TempData["ErrorMessage"] = "Rental Start Date or Return Date is invalid. Please edit the request.";
+                    return RedirectToAction("Edit", new { id = request.RequestId });
+                }
+
+                request.RentalRequestStatusId = 2;
+                request.Book.AvailabilityStatusId = 2;
+
+                var rentalTransaction = new RentalTransaction
+                {
+                    BookId = request.BookId,
+                    UserId = request.UserId,
+                    RentalStartDate = request.RentalStartDate,
+                    ReturnDate = request.ReturnDate,
+                    RentalFee = request.TotalCost,
+                    PaymentMethodId = 3,
+                    PaymentStatusId = 2
+                };
+
+                _context.RentalTransactions.Add(rentalTransaction);
+
+                var statusName = await _context.RentalRequestStatuses
+                    .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
+                    .Select(s => s.Status)
+                    .FirstOrDefaultAsync();
+
+                _context.Notifications.Add(new Notification
+                {
+                    UserId = request.UserId,
+                    Subject = "Rental Request Update",
+                    Message = $"Your rental request status has been updated to: {statusName}.",
+                    Status = false
+                });
+
+                await _context.SaveChangesAsync();
+
+                _context.AuditTrails.Add(new AuditTrail
+                {
+                    Timestamp = DateTime.Now,
+                    UserId = request.UserId,
+                    OldValue = $"Request Status: {request.RentalRequestStatusId}",
+                    NewValue = $"Request Status: Approved"
+                });
+
+                await _context.SaveChangesAsync();
+
+                TempData["ApproveSuccess"] = "Request approved successfully!";
                 return RedirectToAction("Index");
             }
-
-            var originalStatus = request.RentalRequestStatusId;
-            var originalBookStatus = request.Book.AvailabilityStatusId;
-
-            // Update rental request status to Approved (2)
-            request.RentalRequestStatusId = 2;
-
-            // Update book availability status to Rented (2)
-            request.Book.AvailabilityStatusId = 2;
-
-			TempData["ApproveSuccess"] = "Request approved successfully! You will be redirected to the Rental Transaction page.";
-
-			TempData["RedirectData"] = JsonSerializer.Serialize(new
-			{
-				bookId = request.BookId,
-				userId = request.UserId,
-				rentalStartDate = request.RentalStartDate.ToString("yyyy-MM-dd"),
-				returnDate = request.ReturnDate.ToString("yyyy-MM-dd"),
-				totalCost = request.TotalCost
-			});
-
-			var rentalTransaction = new RentalTransaction
-			{
-				BookId = request.BookId,
-				UserId = request.UserId,
-				RentalStartDate = request.RentalStartDate,
-				ReturnDate = request.ReturnDate,
-				RentalFee = request.TotalCost,
-				PaymentMethodId = 3,
-				PaymentStatusId = 2
-			};
-
-			_context.RentalTransactions.Add(rentalTransaction);
-
-            var statusName = await _context.RentalRequestStatuses
-            .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
-            .Select(s => s.Status)
-            .FirstOrDefaultAsync();
-
-            var notification = new Notification
+            catch (Exception ex)
             {
-                UserId = request.UserId,
-                Subject = "Rental Request Update",
-                Message = $"Your rental request status has been updated to: {statusName}.",
-                Status = false
-            };
+                await LogException(ex, "Approve Rental Request");
+                TempData["ErrorMessage"] = "An error occurred while approving the request.";
+                return RedirectToAction("Index");
+            }
+        }
 
-            _context.Notifications.Add(notification);
-
-            await _context.SaveChangesAsync();
-
-            // AUDIT TRAIL for Approve
-            var audit = new AuditTrail
-            {
-                Timestamp = DateTime.Now,
-                UserId = request.UserId,
-                OldValue = $"Request Status: {originalStatus}, Book Status: {originalBookStatus}",
-                NewValue = $"Request Status: {request.RentalRequestStatusId} (Approved), Book Status: {request.Book.AvailabilityStatusId} (Rented)"
-            };
-
-            _context.AuditTrails.Add(audit);
-            await _context.SaveChangesAsync();
-
-
-            return RedirectToAction("Index");
-		}
 
         // In case the "Reject" button is clicked
         [HttpPost]
-        // Only Admin and manager can reject 
-        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Reject(int id)
         {
             var request = await _context.RentalRequests.FindAsync(id);
@@ -448,9 +525,9 @@ namespace WebApp.Controllers
             TempData["RejectSuccess"] = "Request rejected successfully.";
 
             var statusName = await _context.RentalRequestStatuses
-           .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
-           .Select(s => s.Status)
-           .FirstOrDefaultAsync();
+               .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
+               .Select(s => s.Status)
+               .FirstOrDefaultAsync();
 
             var notification = new Notification
             {
@@ -461,8 +538,8 @@ namespace WebApp.Controllers
             };
 
             _context.Notifications.Add(notification);
-
             await _context.SaveChangesAsync();
+
             // AUDIT TRAIL for Reject
             var audit = new AuditTrail
             {
@@ -475,8 +552,28 @@ namespace WebApp.Controllers
             _context.AuditTrails.Add(audit);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            // ✅ Log successful rejection
+            var user = await _userManager.GetUserAsync(User);
+            var email = await _userManager.GetEmailAsync(user);
 
+            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (dbUser != null)
+            {
+                var log = new Log
+                {
+                    UserId = dbUser.UserId,
+                    Timestamp = DateTime.Now,
+                    AffectedData = "Rental Request",
+                    Source = "Reject Action",
+                    Exceptions = $"Rejection successful for Request ID: {request.RequestId}"
+                };
+
+                _context.Logs.Add(log);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
         }
 
         // Function to retrive the documnet and display it
@@ -503,8 +600,6 @@ namespace WebApp.Controllers
         // Function to delete the dosumnet
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        // Only Admin and manager can delete documnet
-        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> DeleteDocument(int id)
         {
             try
@@ -574,6 +669,30 @@ namespace WebApp.Controllers
                 return Ok(new { success = false, message = "An error occurred while uploading the document." });
             }
         }
+
+        private async Task LogException(Exception ex, string source)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var email = await _userManager.GetEmailAsync(user);
+
+            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (dbUser != null)
+            {
+                var log = new Log
+                {
+                    UserId = dbUser.UserId,
+                    Timestamp = DateTime.Now,
+                    AffectedData = "Rental Request",
+                    Source = source,
+                    Exceptions = ex.ToString()
+                };
+
+                _context.Logs.Add(log);
+                await _context.SaveChangesAsync();
+            }
+        }
+
 
 
     }
