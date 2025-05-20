@@ -31,8 +31,15 @@ namespace WebApp.Controllers
                     .ThenInclude(f => f.Author)
                 .Include(f => f.ReturnRecord)                   
                     .ThenInclude(r => r.Transaction)            
-                    .ThenInclude(t => t.User);               
-            
+                    .ThenInclude(t => t.User);
+
+            // Restrict to show logged in user request only
+            if (User.IsInRole("User"))
+            {
+                string currentEmail = User.Identity.Name;
+                bookRentalDBContext = bookRentalDBContext.Where(f => f.ReturnRecord.Transaction.User.Email == currentEmail);
+            }
+
             if (!String.IsNullOrEmpty(SearchString))
             {
                 bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == Convert.ToInt32(SearchString));
@@ -43,13 +50,6 @@ namespace WebApp.Controllers
                 bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == recordId);
             }
             
-            // Restrict to show logged in user request only
-            if (User.IsInRole("User"))
-            {
-                string currentEmail = User.Identity.Name;
-                bookRentalDBContext = bookRentalDBContext.Where(f => f.ReturnRecord.Transaction.User.Email == currentEmail);
-            }
-
             return View(await bookRentalDBContext.ToListAsync());
         }
 
@@ -81,6 +81,8 @@ namespace WebApp.Controllers
             var returnRecord = await _context.ReturnRecords
                              .Include(r => r.Transaction)
                                  .ThenInclude(rt => rt.Book)
+                                 .ThenInclude(u => u.RentalTransactions)
+                                 .ThenInclude(u => u.User)
                              .FirstOrDefaultAsync(r => r.RecordId == id);
 
             if (returnRecord == null)
@@ -103,28 +105,41 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FeedbackId,Timestamp,Comment,TransactionId,Rate,BookId,IsHidden")] Feedback feedback)
+        public async Task<IActionResult> Create([Bind("FeedbackId,Timestamp,Comment,Rate,BookId,IsHidden,ReturnRecordId")] Feedback feedback)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(feedback);
+                // Optional: get current user
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+
+                // Optional: validate the record if needed
+                var returnRecord = await _context.ReturnRecords
+                    .Include(r => r.Transaction)
+                    .ThenInclude(t => t.User)
+                    .FirstOrDefaultAsync(r => r.RecordId == feedback.ReturnRecordId);
+
+                if (returnRecord == null)
+                {
+                    ModelState.AddModelError("", "Associated return record was not found.");
+                    return View(feedback);
+                }
+
+                // Save feedback
+                _context.Feedbacks.Add(feedback);
                 await _context.SaveChangesAsync();
+
                 TempData["FeedbackSuccess"] = "Feedback created successfully!";
-                return RedirectToAction(nameof(Index), new {recordId = feedback.ReturnRecordId});
+                return RedirectToAction(nameof(Index), new { recordId = feedback.ReturnRecordId });
             }
 
-            var returnRecord = await _context.ReturnRecords
-        .Include(r => r.Transaction)
-        .ThenInclude(t => t.Book)
-        .FirstOrDefaultAsync(r => r.RecordId == feedback.ReturnRecordId);
-
-            if (returnRecord != null)
-            {
-                ViewBag.BookName = returnRecord.Transaction.Book.Name;
-            }
+            // Re-populate book name in case of error
+            var book = await _context.Books.FindAsync(feedback.BookId);
+            ViewBag.BookName = book?.Name ?? "N/A";
 
             return View(feedback);
         }
+
 
         // GET: Feedbacks/Edit/5
         public async Task<IActionResult> Edit(int? id)

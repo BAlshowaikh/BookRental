@@ -62,14 +62,14 @@
                                 @if (ViewBag.FeedbackStatus != null && !ViewBag.FeedbackStatus[record.RecordId])
                                 {
                                     <a asp-controller="Feedbacks" asp-action="Create"
-                                       asp-route-Id="@record.RecordId"
+                                       asp-route-id="@record.RecordId"
                                        class="btn btn-sm btn-light prevent-stretch">
                                         Give Feedback
                                     </a>
                                 }
                                 else if (ViewBag.FeedbackStatus != null)
                                 {
-                                    <a asp-controller="Feedbacks" asp-action="Index" asp-route-Id="@record.RecordId"
+                                    <a asp-controller="Feedbacks" asp-action="Index" asp-route-id="@record.RecordId"
                                        class="btn btn-sm btn-light prevent-stretch">
                                         View Feedback
                                     </a>

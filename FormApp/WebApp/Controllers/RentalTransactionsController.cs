@@ -103,7 +103,6 @@ namespace WebApp.Controllers
 						//.Where(r => r.User.UserRole.Role == "Customer")
 						.AsQueryable();
 
-
             if (!String.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
             {
                 query = query.Where(r => r.TransactionId == transId);
@@ -132,7 +131,14 @@ namespace WebApp.Controllers
                 })
                 .ToList();
 
-			Console.WriteLine($"Total cards: {cards.Count}");
+
+            if (User.IsInRole("User"))
+            {
+                var user = _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
+                cards.Where(x => x.RentalTransaction.UserId == user.UserId);
+            }
+
+            Console.WriteLine($"Total cards: {cards.Count}");
 
 			ViewBag.CustList = new SelectList(
 					 await _context.Users
@@ -144,12 +150,6 @@ namespace WebApp.Controllers
 					.ToListAsync(),
 					 "UserId", "FullName", SearchCustomer
 			);
-
-            if (User.IsInRole("User"))
-            {
-				string currentEmail = User.Identity.Name;
-                cards = cards.Where(x => x.RentalTransaction.User.Email == currentEmail).ToList();
-            }
 
 			ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
             ViewBag.CurrentPage = page;
