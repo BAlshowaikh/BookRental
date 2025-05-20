@@ -5,22 +5,37 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
-
-<div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
+<h2 class="text-dark">@ViewData["Title"]</h2>
+<div class="col-md-8">
+<form method="post">
+        <div class="form-floating">
+            <p class="mb-1" style="font-size: 1.1rem">First Name</p>
+            <input asp-for="firstName" class="form-control mb-2" />
+        <span asp-validation-for="firstName" class="text-danger"></span>
     </div>
+
+        <div class="form-floating">
+            <p class="mb-1" style="font-size: 1.1rem">Last Name</p>
+            <input asp-for="lastName" class="form-control mb-2" />
+        <span asp-validation-for="lastName" class="text-danger"></span>
+    </div>
+
+        <div class="form-floating">
+            <p class="mb-1" style="font-size: 1.1rem">Contact Number</p>
+            <input asp-for="contactNo" class="form-control mb-2" />
+        <span asp-validation-for="contactNo" class="text-danger"></span>
+    </div>
+
+        <button type="submit" class="w-100 btn btn-lg btn-primary">Save Changes</button>
+</form>
 </div>
+
+@if (TempData["StatusMessage"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["StatusMessage"]
+    </div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

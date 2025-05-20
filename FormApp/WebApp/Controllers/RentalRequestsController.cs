@@ -9,6 +9,7 @@ using BookRentalObject;
 using System.Net;
 using System.Text.Json;
 using WebApp.ViewModel;
+using Microsoft.AspNetCore.Identity;
 
 
 
@@ -17,18 +18,52 @@ namespace WebApp.Controllers
     public class RentalRequestsController : Controller
     {
         private readonly BookRentalDBContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public RentalRequestsController(BookRentalDBContext context)
+        public RentalRequestsController(BookRentalDBContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: RentalRequests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? searchRequestId, int? searchStatusId, int page = 1)
         {
-            var bookRentalDBContext = _context.RentalRequests.Include(r => r.Book).Include(r => r.RentalRequestStatus).Include(r => r.User);
-            return View(await bookRentalDBContext.ToListAsync());
+            int pageSize = 12;
+
+            var query = _context.RentalRequests
+                .Include(r => r.User)
+                .Include(r => r.Book)
+                .Include(r => r.RentalRequestStatus)
+                .AsQueryable();
+
+            if (searchRequestId.HasValue && searchRequestId.Value > 0)
+            {
+                query = query.Where(r => r.RequestId == searchRequestId.Value);
+            }
+
+            if (searchStatusId.HasValue && searchStatusId.Value > 0)
+            {
+                query = query.Where(r => r.RentalRequestStatusId == searchStatusId.Value);
+            }
+
+            int totalItems = await query.CountAsync();
+
+            query = query.OrderBy(r => r.RequestId); 
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewBag.StatusList = new SelectList(_context.RentalRequestStatuses, "RentalRequestStatusId", "Status");
+
+            return View(items);
         }
+
+
 
         // GET: RentalRequests/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -88,12 +123,11 @@ namespace WebApp.Controllers
         // POST: RentalRequests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RequestId,UserId,RentalRequestStatusId,BookId,RentalStartDate,TotalCost,ReturnDate")] RentalRequest rentalRequest)
+        public async Task<IActionResult> Create([Bind("RequestId,UserId,RentalRequestStatusId,BookId,RentalStartDate,TotalCost,ReturnDate")] RentalRequest rentalRequest, IFormFile uploadedFile)
         {
-            // Server-side validation: ensure rental period does not exceed 30 days
             if ((rentalRequest.ReturnDate - rentalRequest.RentalStartDate).TotalDays > 30)
             {
-                TempData["ErrorMessage"] = ("", "Rental period should not exceed 30 days.");
+                TempData["ErrorMessage"] = "Rental period should not exceed 30 days.";
             }
 
             if (ModelState.IsValid)
@@ -101,38 +135,67 @@ namespace WebApp.Controllers
                 try
                 {
                     _context.Add(rentalRequest);
+                    await _context.SaveChangesAsync(); // Save first to get RentalRequestId
 
+                    // Handle document upload
+                    if (uploadedFile != null && uploadedFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await uploadedFile.CopyToAsync(memoryStream);
+                            var document = new Document
+                            {
+                                UploadDate = DateTime.UtcNow,
+                                Blob = memoryStream.ToArray(),
+                                RentalRequestId = rentalRequest.RequestId,                                                                           
+                            };
+
+                            _context.Documents.Add(document);
+                        }
+                    }
+
+                    // Add notification
                     var statusName = await _context.RentalRequestStatuses
-                    .Where(s => s.RentalRequestStatusId == rentalRequest.RentalRequestStatusId)
-                    .Select(s => s.Status)
-                    .FirstOrDefaultAsync();
+                        .Where(s => s.RentalRequestStatusId == rentalRequest.RentalRequestStatusId)
+                        .Select(s => s.Status)
+                        .FirstOrDefaultAsync();
 
                     var notification = new Notification
                     {
                         UserId = rentalRequest.UserId,
-                        Subject = "Rental Request Update",
-                        Message = $"Your rental request status has been updated to: {statusName}.",
+                        Subject = "Rental Request Submitted",
+                        Message = $"Your rental request has been submitted. Status: {statusName}.",
                         Status = false
                     };
 
                     _context.Notifications.Add(notification);
-
                     await _context.SaveChangesAsync();
-                    ViewBag.EditedBookId = rentalRequest.RequestId;
+
                     TempData["SuccessMessage"] = "Rental request submitted successfully!";
-                    //return View(rentalRequest);
+                    return RedirectToAction("Index");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     TempData["ErrorMessage"] = "An error occurred while saving the rental request.";
+
+                    var user = await _userManager.GetUserAsync(User);
+                    var email = await _userManager.GetEmailAsync(user);
+
+                    var newLog = new Log 
+                    {
+                        UserId = _context.Users.Where(x=> x.Email == email).FirstOrDefault().UserId,
+                        Timestamp = DateTime.Now,
+                        AffectedData = "rental request",
+                        Source = "web app",
+                        Exceptions = "Error: " + ex.Message
+                    };
+
+                    _context.Logs.Add(newLog);
+                    await _context.SaveChangesAsync();
                 }
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Please correct the errors and try again.";
-            }
 
-            // Ensure that necessary data is repopulated in the ViewBag for the form
+            // Repopulate view data if model state invalid
             var book = _context.Books.Find(rentalRequest.BookId);
             ViewBag.BookId = book?.BookId;
             ViewBag.BookName = book?.Name;
@@ -141,6 +204,7 @@ namespace WebApp.Controllers
 
             return View(rentalRequest);
         }
+
 
 
         // GET: RentalRequests/Edit/5
@@ -155,6 +219,7 @@ namespace WebApp.Controllers
                 .Include(r => r.Book)
                 .Include(r => r.User)
                 .Include(r => r.RentalRequestStatus)
+                .Include(r => r.Documents)
                 .FirstOrDefaultAsync(r => r.RequestId == id);
 
             if (rentalRequest == null)
@@ -191,14 +256,78 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    var original = await _context.RentalRequests
+    .AsNoTracking()
+    .FirstOrDefaultAsync(r => r.RequestId == id);
+
                     _context.Update(rentalRequest);
                     await _context.SaveChangesAsync();
+
+                    // Compare and build audit entry
+                    var changes = new List<string>();
+                    var oldValues = new List<string>();
+                    var newValues = new List<string>();
+
+                    if (original.RentalRequestStatusId != rentalRequest.RentalRequestStatusId)
+                    {
+                        changes.Add("Status");
+                        oldValues.Add($"Status: {original.RentalRequestStatusId}");
+                        newValues.Add($"Status: {rentalRequest.RentalRequestStatusId}");
+                    }
+                    if (original.RentalStartDate != rentalRequest.RentalStartDate)
+                    {
+                        changes.Add("StartDate");
+                        oldValues.Add($"Start: {original.RentalStartDate:yyyy-MM-dd}");
+                        newValues.Add($"Start: {rentalRequest.RentalStartDate:yyyy-MM-dd}");
+                    }
+                    if (original.ReturnDate != rentalRequest.ReturnDate)
+                    {
+                        changes.Add("ReturnDate");
+                        oldValues.Add($"Return: {original.ReturnDate:yyyy-MM-dd}");
+                        newValues.Add($"Return: {rentalRequest.ReturnDate:yyyy-MM-dd}");
+                    }
+                    if (original.TotalCost != rentalRequest.TotalCost)
+                    {
+                        changes.Add("TotalCost");
+                        oldValues.Add($"Cost: {original.TotalCost}");
+                        newValues.Add($"Cost: {rentalRequest.TotalCost}");
+                    }
+
+                    if (changes.Any())
+                    {
+                        var audit = new AuditTrail
+                        {
+                            Timestamp = DateTime.Now,
+                            UserId = rentalRequest.UserId,
+                            OldValue = string.Join("; ", oldValues),
+                            NewValue = string.Join("; ", newValues)
+                        };
+
+                        _context.AuditTrails.Add(audit);
+                        await _context.SaveChangesAsync();
+                    }
+
                     TempData["SuccessMessage"] = "Rental request updated successfully!";
                     return RedirectToAction(nameof(Edit), new { id = rentalRequest.RequestId });
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
                     TempData["ErrorMessage"] = "An error occurred while editing the rental request.";
+
+                    var user = await _userManager.GetUserAsync(User);
+                    var email = await _userManager.GetEmailAsync(user);
+
+                    var newLog = new Log
+                    {
+                        UserId = _context.Users.Where(x => x.Email == email).FirstOrDefault().UserId,
+                        Timestamp = DateTime.Now,
+                        AffectedData = "rental request",
+                        Source = "web app",
+                        Exceptions = "Error: " + ex.Message
+                    };
+
+                    _context.Logs.Add(newLog);
+                    await _context.SaveChangesAsync();
                 }
             }
             else
@@ -270,6 +399,9 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index");
             }
 
+            var originalStatus = request.RentalRequestStatusId;
+            var originalBookStatus = request.Book.AvailabilityStatusId;
+
             // Update rental request status to Approved (2)
             request.RentalRequestStatusId = 2;
 
@@ -317,7 +449,20 @@ namespace WebApp.Controllers
 
             await _context.SaveChangesAsync();
 
-			return RedirectToAction("Index");
+            // AUDIT TRAIL for Approve
+            var audit = new AuditTrail
+            {
+                Timestamp = DateTime.Now,
+                UserId = request.UserId,
+                OldValue = $"Request Status: {originalStatus}, Book Status: {originalBookStatus}",
+                NewValue = $"Request Status: {request.RentalRequestStatusId} (Approved), Book Status: {request.Book.AvailabilityStatusId} (Rented)"
+            };
+
+            _context.AuditTrails.Add(audit);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction("Index");
 		}
 
         // In case the "Reject" button is clicked
@@ -331,6 +476,8 @@ namespace WebApp.Controllers
                 TempData["ErrorMessage"] = "Request not found.";
                 return View();
             }
+
+            var originalStatus = request.RentalRequestStatusId;
 
             // Set status to Rejected (3)
             request.RentalRequestStatusId = 3;
@@ -353,8 +500,116 @@ namespace WebApp.Controllers
             _context.Notifications.Add(notification);
 
             await _context.SaveChangesAsync();
+            // AUDIT TRAIL for Reject
+            var audit = new AuditTrail
+            {
+                Timestamp = DateTime.Now,
+                UserId = request.UserId,
+                OldValue = $"Request Status: {originalStatus}",
+                NewValue = $"Request Status: {request.RentalRequestStatusId} (Rejected)"
+            };
+
+            _context.AuditTrails.Add(audit);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index");
 
         }
+
+        // Function to retrive the documnet and display it
+        public async Task<IActionResult> DownloadDocument(int id)
+        {
+            try
+            {
+                var document = await _context.Documents.Where(d => d.RentalRequestId == id).FirstOrDefaultAsync();
+                if (document == null)
+                    return NotFound("Document not found.");
+
+                var rentalRequestId = document.RentalRequestId;
+
+                return File(document.Blob, "application/octet-stream", $"RentalRequest_{rentalRequestId}.pdf");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        // Function to delete the dosumnet
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteDocument(int id)
+        {
+            try
+            {
+                var document = await _context.Documents
+                    .FirstOrDefaultAsync(d => d.RentalRequestId == id);
+
+                if (document == null)
+                    return NotFound("Document not found.");
+
+                _context.Documents.Remove(document);
+                await _context.SaveChangesAsync();
+
+                return Ok(); // AJAX handles the response
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+        // Function to upload a documnet for Manager
+        [HttpPost]
+        public async Task<IActionResult> UploadDocument(int RentalRequestId, IFormFile Document)
+        {
+            try
+            {
+                if (Document == null || Document.Length == 0)
+                    return Ok(new { success = false, message = "Please select a file to upload." });
+
+                if (Path.GetExtension(Document.FileName).ToLower() != ".pdf")
+                    return Ok(new { success = false, message = "Only PDF files are allowed." });
+
+                var rentalRequest = await _context.RentalRequests
+                    .FirstOrDefaultAsync(r => r.RequestId == RentalRequestId);
+
+                if (rentalRequest == null)
+                    return Ok(new { success = false, message = "Rental request not found." });
+
+                var existingDoc = await _context.Documents
+                    .FirstOrDefaultAsync(d => d.RentalRequestId == RentalRequestId);
+
+                using var memoryStream = new MemoryStream();
+                await Document.CopyToAsync(memoryStream);
+
+                if (existingDoc != null)
+                {
+                    existingDoc.Blob = memoryStream.ToArray();
+                    existingDoc.UploadDate = DateTime.UtcNow;
+                }
+                else
+                {
+                    var newDocument = new Document
+                    {
+                        RentalRequestId = RentalRequestId,
+                        UploadDate = DateTime.UtcNow,
+                        Blob = memoryStream.ToArray()
+                    };
+                    _context.Documents.Add(newDocument);
+                }
+
+                await _context.SaveChangesAsync();
+                return Ok(new { success = true, message = "Document updated successfully." });
+            }
+            catch
+            {
+                return Ok(new { success = false, message = "An error occurred while uploading the document." });
+            }
+        }
+
+
     }
 } 

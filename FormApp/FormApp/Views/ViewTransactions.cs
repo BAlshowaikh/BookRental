@@ -57,38 +57,54 @@ namespace FormApp.Views
         {
             try
             {
-                var transaction = context.RentalTransactions.AsQueryable();
+                var transactions = context.RentalTransactions
+                    .Include(x => x.Book)
+                    .Include(x => x.User)
+                    .Include(x => x.PaymentMethod)
+                    .Include(x => x.PaymentStatus)
+                    .AsQueryable();
 
-                // If a Transaction ID is entered, filter the transactions by the specified ID
-                if (txtTransactionID.Text != "")
+                // Apply filters if needed
+                if (!string.IsNullOrWhiteSpace(txtTransactionID.Text))
                 {
-                    transaction = transaction.Where(x => x.TransactionId == Convert.ToInt32(txtTransactionID.Text));
+                    int id = Convert.ToInt32(txtTransactionID.Text);
+                    transactions = transactions.Where(x => x.TransactionId == id);
                 }
 
-                // If a customer is selected in the dropdown, filter the transactions by the selected customer ID
                 if (ddlCustomer.SelectedItem != null)
                 {
-                    transaction = transaction.Where(x => x.UserId == Convert.ToInt32(ddlCustomer.SelectedValue));
+                    int customerId = Convert.ToInt32(ddlCustomer.SelectedValue);
+                    transactions = transactions.Where(x => x.UserId == customerId);
                 }
 
-                //Project the filtered transaction into an anonymous type, then convert the result to a list and bind it to the data grid view.
-                dgvTransaction.DataSource = transaction.Select(x => new
+                // Projection with late fee calculation
+                dgvTransaction.DataSource = transactions.ToList().Select(x =>
                 {
-                    TransactionID = x.TransactionId,
-                    BookName = x.Book.Name,
-                    CustomerName = x.User.FullName,
-                    RentalStartDate = x.RentalStartDate,
-                    ReturnDate = x.ReturnDate,
-                    RentalFee = x.RentalFee,
-                    PaymentMethod = x.PaymentMethod.PaymentMethod1,
-                    PaymentStatus = x.PaymentStatus.PaymentStatus1
+                    DateTime expectedReturnDate = x.RentalStartDate.AddDays(x.RentalPeriod);
+                    int lateDays = (x.ReturnDate > expectedReturnDate) ? (x.ReturnDate - expectedReturnDate).Days : 0;
+                    double lateFee = lateDays * 2.5; // Example: 2.5 currency units per late day
+
+                    return new
+                    {
+                        TransactionID = x.TransactionId,
+                        BookName = x.Book.Name,
+                        CustomerName = x.User.FullName,
+                        RentalStartDate = x.RentalStartDate.ToShortDateString(),
+                        ReturnDate = x.ReturnDate.ToShortDateString(),
+                        RentalFee = x.RentalFee,
+                        LateFee = lateFee,
+                        TotalFee = x.RentalFee + lateFee,
+                        PaymentMethod = x.PaymentMethod.PaymentMethod1,
+                        PaymentStatus = x.PaymentStatus.PaymentStatus1
+                    };
                 }).ToList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Error: {ex.Message}");
             }
         }
+
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

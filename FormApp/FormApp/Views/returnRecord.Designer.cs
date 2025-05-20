@@ -53,7 +53,7 @@
             // 
             pageTitleTxt.AutoSize = true;
             pageTitleTxt.BackColor = Color.Transparent;
-            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            pageTitleTxt.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             pageTitleTxt.ForeColor = Color.Cornsilk;
             pageTitleTxt.Location = new Point(171, 9);
             pageTitleTxt.Margin = new Padding(2, 0, 2, 0);
@@ -115,7 +115,7 @@
             // btnRefresh
             // 
             btnRefresh.BackColor = Color.LightGray;
-            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRefresh.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnRefresh.ForeColor = Color.Black;
             btnRefresh.Location = new Point(845, 542);
             btnRefresh.Margin = new Padding(2);
@@ -129,7 +129,7 @@
             // btnDetails
             // 
             btnDetails.BackColor = Color.Cornsilk;
-            btnDetails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDetails.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnDetails.ForeColor = Color.Black;
             btnDetails.Location = new Point(426, 582);
             btnDetails.Margin = new Padding(2);
@@ -149,13 +149,14 @@
             filterGB.Controls.Add(btnFilter);
             filterGB.Controls.Add(txtFilterRecordNo);
             filterGB.Controls.Add(FilterbyRecourdNo);
-            filterGB.Font = new Font("Tahoma", 10F);
+            filterGB.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             filterGB.Location = new Point(26, 93);
             filterGB.Name = "filterGB";
             filterGB.Size = new Size(928, 96);
             filterGB.TabIndex = 38;
             filterGB.TabStop = false;
             filterGB.Text = "Filter";
+            filterGB.Enter += filterGB_Enter;
             // 
             // ddlFilterBook
             // 
@@ -169,7 +170,7 @@
             // FilterbyBook
             // 
             FilterbyBook.AutoSize = true;
-            FilterbyBook.Font = new Font("Britannic Bold", 10F);
+            FilterbyBook.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             FilterbyBook.Location = new Point(373, 45);
             FilterbyBook.Name = "FilterbyBook";
             FilterbyBook.Size = new Size(140, 22);
@@ -180,7 +181,7 @@
             // 
             btnResetFilter.BackColor = Color.Cornsilk;
             btnResetFilter.FlatAppearance.BorderSize = 0;
-            btnResetFilter.Font = new Font("Britannic Bold", 10F);
+            btnResetFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnResetFilter.ForeColor = Color.Black;
             btnResetFilter.Location = new Point(809, 35);
             btnResetFilter.Margin = new Padding(4, 5, 4, 5);
@@ -194,7 +195,7 @@
             // btnFilter
             // 
             btnFilter.BackColor = Color.Cornsilk;
-            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnFilter.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btnFilter.ForeColor = Color.Black;
             btnFilter.Location = new Point(693, 35);
             btnFilter.Margin = new Padding(2);
@@ -215,7 +216,7 @@
             // FilterbyRecourdNo
             // 
             FilterbyRecourdNo.AutoSize = true;
-            FilterbyRecourdNo.Font = new Font("Britannic Bold", 10F);
+            FilterbyRecourdNo.Font = new Font("Britannic Bold", 10F, FontStyle.Regular, GraphicsUnit.Point);
             FilterbyRecourdNo.Location = new Point(10, 45);
             FilterbyRecourdNo.Name = "FilterbyRecourdNo";
             FilterbyRecourdNo.Size = new Size(187, 22);

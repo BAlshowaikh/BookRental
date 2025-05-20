@@ -31,10 +31,10 @@ namespace FormApp.Views
         private void rentalRequest_Load(object sender, EventArgs e)
         {
             //user drop down list 
-            ddlFilterUser.DataSource = context.Users.ToList(); ;
-            ddlFilterUser.DisplayMember = "FullName";
-            ddlFilterUser.ValueMember = "UserId";
-            ddlFilterUser.SelectedItem = null;
+            ddlFilterStatus.DataSource = context.RentalRequestStatuses.ToList(); ;
+            ddlFilterStatus.DisplayMember = "Status";
+            ddlFilterStatus.ValueMember = "RentalRequestStatusId";
+            ddlFilterStatus.SelectedItem = null;
 
             //refreshing the grid view
             RefreshRentalRequestGridview();
@@ -58,7 +58,7 @@ namespace FormApp.Views
             txtFilterRequestNo.Text = string.Empty;
             txtFilterRequestNo.Focus();
 
-            ddlFilterUser.SelectedValue = string.Empty;
+            ddlFilterStatus.SelectedValue = string.Empty;
 
             //refreshing the grid view
             RefreshRentalRequestGridview();
@@ -92,10 +92,10 @@ namespace FormApp.Views
                     .Where(x => x.RequestId == Convert.ToInt32(txtFilterRequestNo.Text));
             }
             //in case of filtering by the drop down list
-            else if (ddlFilterUser.SelectedValue != null)
+            else if (ddlFilterStatus.SelectedValue != null)
             {
                 RequestToShow = RequestToShow
-                    .Where(x => x.UserId == Convert.ToInt32(ddlFilterUser.SelectedValue.ToString()));
+                    .Where(x => x.RentalRequestStatusId == Convert.ToInt32(ddlFilterStatus.SelectedValue.ToString()));
             }
 
             //customize the data grid view

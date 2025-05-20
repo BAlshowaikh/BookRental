@@ -103,8 +103,9 @@ namespace FormApp.Views
 
         private void refreshBttn_Click_1(object sender, EventArgs e)
         {
-            ddlAuthors.SelectedItem = null; //Clear Pre-selected value
-            RefreshAuthorsGridView(); //Refresh the view to remove the filters
+            txtAuthorID.Text = string.Empty;       // ✅ Clear the Author ID textbox
+            ddlAuthors.SelectedItem = null;        // ✅ Clear the dropdown
+            RefreshAuthorsGridView();              // 🔄 Refresh the data grid
         }
 
         private void addBttn_Click_1(object sender, EventArgs e)

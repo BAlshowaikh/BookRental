@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using FormApp.Controllers;
+using FormApp.Views;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using ProjectFormApp;
 
 namespace FormApp.Views
 {
@@ -85,6 +89,21 @@ namespace FormApp.Views
                     {
                         //set the status ID as 2 -> approved
                         request.RentalRequestStatusId = 2;
+
+                        var statusName =  context.RentalRequestStatuses
+                            .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
+                               .Select(s => s.Status)
+                               .FirstOrDefaultAsync();
+
+                        var notification = new Notification
+                        {
+                            UserId = request.UserId,
+                            Subject = "Rental Request Update",
+                            Message = $"Your rental request status has been updated to: {statusName}.",
+                            Status = false
+                        };
+
+                        context.Notifications.Add(notification);
                         context.RentalRequests.Update(request);
 
                         context.SaveChanges();
@@ -112,6 +131,18 @@ namespace FormApp.Views
             }
             catch (Exception ex)
             {
+                var newLog = new Log
+                {
+                    UserId = Global.user.UserId,
+                    Timestamp = DateTime.Now,
+                    AffectedData = "rental request",
+                    Source = "form app",
+                    Exceptions = "Error: " + ex.Message
+                };
+
+                context.Logs.Add(newLog);
+                context.SaveChanges();
+
                 MessageBox.Show(ex.Message);
             }
 
@@ -129,6 +160,21 @@ namespace FormApp.Views
                     {
                         //set the status ID as 3 -> rejected
                         request.RentalRequestStatusId = 3;
+
+                        var statusName = context.RentalRequestStatuses
+                            .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
+                               .Select(s => s.Status)
+                               .FirstOrDefaultAsync();
+
+                        var notification = new Notification
+                        {
+                            UserId = request.UserId,
+                            Subject = "Rental Request Update",
+                            Message = $"Your rental request status has been updated to: {statusName}.",
+                            Status = false
+                        };
+
+                        context.Notifications.Add(notification);
                         context.RentalRequests.Update(request);
 
                         context.SaveChanges();
@@ -150,6 +196,18 @@ namespace FormApp.Views
             }
             catch (Exception ex)
             {
+                var newLog = new Log
+                {
+                    UserId = Global.user.UserId,
+                    Timestamp = DateTime.Now,
+                    AffectedData = "rental request",
+                    Source = "form app",
+                    Exceptions = "Error: " + ex.Message
+                };
+
+                context.Logs.Add(newLog);
+                context.SaveChanges();
+
                 MessageBox.Show(ex.Message);
             }
 

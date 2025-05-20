@@ -29,18 +29,20 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            usernameTxt = new TextBox();
-            passwordTxt = new TextBox();
+            Email = new Label();
+            Password = new Label();
+            txtUserEmail = new TextBox();
+            txtPassword = new TextBox();
             loginBtn = new Button();
+            exitIcon = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            label1.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.Cornsilk;
             label1.Location = new Point(412, 9);
             label1.Margin = new Padding(2, 0, 2, 0);
@@ -48,55 +50,53 @@
             label1.Size = new Size(171, 63);
             label1.TabIndex = 0;
             label1.Text = "Login";
-            label1.Click += label1_Click;
             // 
-            // label2
+            // Email
             // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Britannic Bold", 14F, FontStyle.Bold);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(243, 183);
-            label2.Margin = new Padding(2, 0, 2, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(146, 31);
-            label2.TabIndex = 2;
-            label2.Text = "Username";
-            label2.Click += label2_Click;
+            Email.AutoSize = true;
+            Email.BackColor = Color.Transparent;
+            Email.Font = new Font("Britannic Bold", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            Email.ForeColor = Color.Black;
+            Email.Location = new Point(243, 183);
+            Email.Margin = new Padding(2, 0, 2, 0);
+            Email.Name = "Email";
+            Email.Size = new Size(88, 31);
+            Email.TabIndex = 2;
+            Email.Text = "Email";
             // 
-            // label3
+            // Password
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Britannic Bold", 14F, FontStyle.Bold);
-            label3.ForeColor = Color.Black;
-            label3.Location = new Point(243, 326);
-            label3.Margin = new Padding(2, 0, 2, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(140, 31);
-            label3.TabIndex = 3;
-            label3.Text = "Password";
+            Password.AutoSize = true;
+            Password.BackColor = Color.Transparent;
+            Password.Font = new Font("Britannic Bold", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            Password.ForeColor = Color.Black;
+            Password.Location = new Point(243, 326);
+            Password.Margin = new Padding(2, 0, 2, 0);
+            Password.Name = "Password";
+            Password.Size = new Size(140, 31);
+            Password.TabIndex = 3;
+            Password.Text = "Password";
             // 
-            // usernameTxt
+            // txtUserEmail
             // 
-            usernameTxt.Location = new Point(252, 220);
-            usernameTxt.Margin = new Padding(2);
-            usernameTxt.Name = "usernameTxt";
-            usernameTxt.Size = new Size(500, 31);
-            usernameTxt.TabIndex = 4;
+            txtUserEmail.Location = new Point(252, 220);
+            txtUserEmail.Margin = new Padding(2);
+            txtUserEmail.Name = "txtUserEmail";
+            txtUserEmail.Size = new Size(500, 31);
+            txtUserEmail.TabIndex = 4;
             // 
-            // passwordTxt
+            // txtPassword
             // 
-            passwordTxt.Location = new Point(252, 363);
-            passwordTxt.Margin = new Padding(2);
-            passwordTxt.Name = "passwordTxt";
-            passwordTxt.Size = new Size(500, 31);
-            passwordTxt.TabIndex = 5;
+            txtPassword.Location = new Point(252, 363);
+            txtPassword.Margin = new Padding(2);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(500, 31);
+            txtPassword.TabIndex = 5;
             // 
             // loginBtn
             // 
             loginBtn.BackColor = Color.Cornsilk;
-            loginBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            loginBtn.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             loginBtn.Location = new Point(400, 432);
             loginBtn.Name = "loginBtn";
             loginBtn.Size = new Size(200, 50);
@@ -104,6 +104,19 @@
             loginBtn.Text = "Login";
             loginBtn.UseVisualStyleBackColor = false;
             loginBtn.Click += loginBtn_Click;
+            // 
+            // exitIcon
+            // 
+            exitIcon.BackColor = Color.Transparent;
+            exitIcon.Image = Properties.Resources.exit_icon;
+            exitIcon.Location = new Point(930, 12);
+            exitIcon.Margin = new Padding(2);
+            exitIcon.Name = "exitIcon";
+            exitIcon.Size = new Size(40, 40);
+            exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            exitIcon.TabIndex = 31;
+            exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
             // 
             // Login
             // 
@@ -113,17 +126,19 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(exitIcon);
             Controls.Add(loginBtn);
-            Controls.Add(passwordTxt);
-            Controls.Add(usernameTxt);
-            Controls.Add(label3);
-            Controls.Add(label2);
+            Controls.Add(txtPassword);
+            Controls.Add(txtUserEmail);
+            Controls.Add(Password);
+            Controls.Add(Email);
             Controls.Add(label1);
             DoubleBuffered = true;
             Margin = new Padding(2);
             Name = "Login";
             Text = "Login";
             Load += Login_Load;
+            ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -131,13 +146,14 @@
         #endregion
 
         private Label label1;
-        private Label label2;
-        private Label label3;
+        private Label Email;
+        private Label Password;
         private TextBox textBox1;
         private TextBox textBox2;
         private Button button1;
         private Button loginBtn;
-        private TextBox usernameTxt;
-        private TextBox passwordTxt;
+        private TextBox txtUserEmail;
+        private TextBox txtPassword;
+        private PictureBox exitIcon;
     }
 }

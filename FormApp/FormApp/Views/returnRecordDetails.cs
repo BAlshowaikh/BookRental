@@ -135,7 +135,7 @@ namespace FormApp.Views
                 book.AvailabilityStatusId = 1;
 
                 var totalCost  = calculateLateReturnFee() + getExtraChargeRate();
-                if (MessageBox.Show("are you sure you want to generate a return record?" + "\nThe amount of the total additional charges is" + totalCost, "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("are you sure you want to generate a return record?" + "\nThe amount of the total additional charges is " + totalCost, "Confirm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     context.ReturnRecords.Add(returnRecord);
                     //save the updated value
