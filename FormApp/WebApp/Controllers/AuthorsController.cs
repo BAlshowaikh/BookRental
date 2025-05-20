@@ -21,6 +21,8 @@ namespace WebApp.Controllers
         }
 
         // GET: Authors
+        // Restrict who can see teh authors
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Index()
         {
               return _context.Authors != null ? 
