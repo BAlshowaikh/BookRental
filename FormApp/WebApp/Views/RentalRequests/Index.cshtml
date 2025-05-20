@@ -9,45 +9,44 @@
 
 <div class="container my-4">
 	<div class="row">
-		@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-		{
-			<!-- Search and filter -->
-			<div class="row py-3">
-				<div class="col-12">
-					<form asp-controller="RentalRequests" asp-action="Index" method="get" class="row gx-2 align-items-center">
 
-						<!-- Search by Request ID -->
-						<div class="col-auto">
-							<label class="form-label">Request ID:</label>
-						</div>
-						<div class="col-auto">
-							<input type="number" name="SearchRequestId" value="@Context.Request.Query["SearchRequestId"]" class="form-control" placeholder="e.g. 1" min="1" />
-						</div>
+		<!-- Search and filter -->
+		<div class="row py-3">
+			<div class="col-12">
+				<form asp-controller="RentalRequests" asp-action="Index" method="get" class="row gx-2 align-items-center">
 
-						<!-- Filter by Status -->
-						<div class="col-auto">
-							<label class="form-label">Status:</label>
-						</div>
-						<div class="col-auto">
-							<select name="SearchStatusId" asp-items="ViewBag.StatusList" class="form-select">
-								<option value="">All</option>
-							</select>
-						</div>
+					<!-- Search by Request ID -->
+					<div class="col-auto">
+						<label class="form-label">Request ID:</label>
+					</div>
+					<div class="col-auto">
+						<input type="number" name="SearchRequestId" value="@Context.Request.Query["SearchRequestId"]" class="form-control" placeholder="e.g. 1" min="1" />
+					</div>
 
-						<!-- Push buttons to right -->
-						<div class="col"></div>
+					<!-- Filter by Status -->
+					<div class="col-auto">
+						<label class="form-label">Status:</label>
+					</div>
+					<div class="col-auto">
+						<select name="SearchStatusId" asp-items="ViewBag.StatusList" class="form-select">
+							<option value="">All</option>
+						</select>
+					</div>
 
-						<!-- Search & Clear -->
-						<div class="col-auto">
-							<input type="submit" value="Search" class="btn btn-primary mx-3" />
-						</div>
-						<div class="col-auto">
-							<a asp-action="Index" class="btn btn-outline-danger">Clear</a>
-						</div>
-					</form>
-				</div>
+					<!-- Push buttons to right -->
+					<div class="col"></div>
+
+					<!-- Search & Clear -->
+					<div class="col-auto">
+						<input type="submit" value="Search" class="btn btn-primary mx-3" />
+					</div>
+					<div class="col-auto">
+						<a asp-action="Index" class="btn btn-outline-danger">Clear</a>
+					</div>
+				</form>
 			</div>
-		}
+		</div>
+
 
 
 		@foreach (var request in Model)
