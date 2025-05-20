@@ -1,7 +1,7 @@
 ﻿<nav class="navbar navbar-expand navbar-dark bg-primary border-bottom shadow-sm fixed-top">
     <div class="container-fluid">
         <!-- Store Icon Logo -->
-        <a class="navbar-brand" asp-controller="Home" asp-action="Dashboard">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <i class="bi bi-book-half fs-2"></i> <!-- Book Icon -->
         </a>
 
@@ -36,7 +36,10 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-controller="Feedbacks" asp-action="Index">Feedback</a>
                 </li>
-            </ul>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
+                </li>
         </div>
 
         <partial name="_LoginPartial" />
