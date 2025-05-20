@@ -269,6 +269,8 @@ namespace WebApp.Controllers
         }
 
         // GET: ReturnRecords/Edit/5
+        // Only admin and manager can edit the return record
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.ReturnRecords == null)
@@ -293,6 +295,8 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // Only admin and manager can edit the return record
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Edit(int id, [Bind("RecordId,ExpectedReturnDate,ActualReturnDate,TotalAdditionalCharges,LateReturnFee,BookId,BookConditionId,TransactionId,ExtraChargesId")] ReturnRecord returnRecord)
         {
             if (id != returnRecord.RecordId)

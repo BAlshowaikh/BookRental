@@ -10,6 +10,7 @@
         <h2 class="text-dark">Manage Authors</h2>
     </div>
 
+    <!-- Search code -->
     <form asp-action="Index" method="get" class="row align-items-center g-2 mb-4">
         <div class="col d-flex align-items-center gap-2">
             <label class="form-label mb-0">Author Name:</label>
@@ -47,7 +48,7 @@
                         <td>@item.FirstName</td>
                         <td>@item.LastName</td>
                         <td>@item.Email</td>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                         {
                             <td class="text-center">
                                 <a href="javascript:void(0);" onclick="openEditModal(@item.AuthorId)" class="btn btn-sm btn-warning me-1">Edit</a>
