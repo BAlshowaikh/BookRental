@@ -57,24 +57,27 @@
 						<p>Rental Start Date: @card.RentalTransaction.RentalStartDate</p>
 					
 						<div class="mt-3 d-flex flex-wrap gap-2">
-							@if (card.RentalTransaction.ReturnRecords != null && card.RentalTransaction.ReturnRecords.Any()) 
+							@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
 							{
-								<button class="btn btn-sm btn-light" disabled>Edit</button>
-							}
-							else
-							{
-								<a asp-action="Edit"
+								@if (card.RentalTransaction.ReturnRecords != null && card.RentalTransaction.ReturnRecords.Any())
+								{
+									<button class="btn btn-sm btn-light" disabled>Edit</button>
+								}
+								else
+								{
+									<a asp-action="Edit"
+									asp-route-id="@card.RentalTransaction.TransactionId"
+									class="btn btn-sm btn-light">
+										Edit
+									</a>
+								}
+
+								<a asp-controller="ReturnRecords" asp-action="Create"
 								asp-route-id="@card.RentalTransaction.TransactionId"
 								class="btn btn-sm btn-light">
-									Edit
+									Generate Return Record
 								</a>
 							}
-
-							<a asp-controller="ReturnRecords" asp-action="Create"
-							   asp-route-id="@card.RentalTransaction.TransactionId"
-							   class="btn btn-sm btn-light">
-								Generate Return Record
-							</a>
 						</div>
 					</div>
 				</div>
@@ -93,10 +96,12 @@
 							<div class="modal-body">
 								<div class="info-group mb-3">
 									<p class="mb-1"><strong>Transaction ID:</strong> @card.RentalTransaction.TransactionId</p>
+									<p class="mb-1"><strong>Rental Request ID:</strong> @card.RentalTransaction.RentalRequestId</p>
 									<p class="mb-1"><strong>Customer Name:</strong> @card.RentalTransaction.User.FullName</p>
 									<p class="mb-1"><strong>Book Name:</strong> @card.RentalTransaction.Book.Name</p>
 									<p class="mb-1"><strong>Rental Start Date:</strong> @card.RentalTransaction.RentalStartDate</p>
 									<p class="mb-1"><strong>Return Date:</strong> @card.RentalTransaction.ReturnDate</p>
+										<p class="mb-1"><strong>Rental Period:</strong> @card.RentalTransaction.RentalPeriod</p>
 									<p class="mb-1"><strong>Rental Fee:</strong>  @card.RentalTransaction.RentalFee</p>
 									<p class="mb-1"><strong>Payment Method:</strong> @card.RentalTransaction.PaymentMethod.PaymentMethod1</p>
 									<p class="mb-1"><strong>Payment Status:</strong> @card.RentalTransaction.PaymentStatus.PaymentStatus1</p>

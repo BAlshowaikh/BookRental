@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using System.Text.Json;
 using WebApp.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class RentalTransactionsController : Controller
     {
         private readonly BookRentalDBContext _context;
@@ -143,6 +145,12 @@ namespace WebApp.Controllers
 					 "UserId", "FullName", SearchCustomer
 			);
 
+            if (User.IsInRole("User"))
+            {
+				string currentEmail = User.Identity.Name;
+                cards = cards.Where(x => x.RentalTransaction.User.Email == currentEmail).ToList();
+            }
+
 			ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
             ViewBag.CurrentPage = page;
 
@@ -203,6 +211,7 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalTransactions/Edit/5
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.RentalTransactions == null)
@@ -229,6 +238,12 @@ namespace WebApp.Controllers
                 var jsonString = TempData["RedirectToTransaction"]?.ToString();
                 redirectData = JsonSerializer.Deserialize<RentalRedirectDataViewModel>(jsonString);
             }
+
+			// Calculate RentalPeriod (in days)
+			if (rentalTransaction.RentalStartDate != null && rentalTransaction.ReturnDate != null)
+			{
+				rentalTransaction.RentalPeriod = (rentalTransaction.ReturnDate - rentalTransaction.RentalStartDate).Days;
+			}
 
 			// Set default values
 			var defaultPaymentMethod = _context.PaymentMethods
@@ -268,7 +283,8 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TransactionId,BookId,UserId,RentalStartDate,ReturnDate,RentalFee,PaymentMethodId,PaymentStatusId,RentalPeriod,IsReturned,RentalRequestId")] RentalTransaction rentalTransaction)
+		[Authorize(Roles = "Admin, Manager")]
+		public async Task<IActionResult> Edit(int id, [Bind("TransactionId,BookId,UserId,RentalStartDate,ReturnDate,RentalFee,PaymentMethodId,PaymentStatusId,RentalPeriod,IsReturned,RentalRequestId")] RentalTransaction rentalTransaction)
         {
             if (id != rentalTransaction.TransactionId)
             {

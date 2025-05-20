@@ -19,6 +19,12 @@
 		<input type="hidden" asp-for="RentalTransaction.TransactionId" />
 		<input type="hidden" asp-for="RentalTransaction.TransactionId" value="@Model.RentalTransaction.TransactionId" />
 
+		<div class="form-group mb-3">
+			<label class="form-label">Rental Request ID</label>
+			<input class="form-control" asp-for="RentalTransaction.RentalRequestId" readonly />
+			<input type="hidden" asp-for="RentalTransaction.RentalRequestId" />
+		</div>
+
 		<!-- Read-only Display Fields -->
 		<div class="form-group mb-3">
 			<label class="form-label">Book Name</label>
@@ -33,12 +39,17 @@
 		</div>
 
 		<div class="form-group mb-3">
+			<label class="form-label">Rental Period</label>
+			<input class="form-control" value="@Model.RentalTransaction.RentalPeriod" readonly />
+			<input type="hidden" asp-for="RentalTransaction.RentalPeriod" />
+		</div>
+
+		<div class="form-group mb-3">
 			<label class="form-label">Rental Fee</label>
 			<input class="form-control" id="rentalFee" value="@Model.RentalTransaction.RentalFee" readonly />
 			<input type="hidden" id="rentalFeeHidden" asp-for="RentalTransaction.RentalFee" />
 		</div>
 
-		<!-- User Input Fields -->
 		<div class="form-group mb-3">
 			<label class="form-label">Rental Start Date</label>
 			<input type="date" id="rentalStartDate" name="RentalTransaction.RentalStartDate" class="form-control input-border" value="@Model.RentalTransaction.RentalStartDate.ToString("yyyy-MM-dd")" readonly />
@@ -50,10 +61,12 @@
 			<input type="date" id="returnDate" name="RentalTransaction.ReturnDate" class="form-control input-border" value="@Model.RentalTransaction.ReturnDate.ToString("yyyy-MM-dd")" readonly />
 			<input type="hidden" asp-for="RentalTransaction.ReturnDate" />
 		</div>
+
 		<div class="form-group mb-1 text-danger d-none" id="dateWarning">
 			Rental period should not exceed 30 days.
 		</div>
 
+		<!-- User Input Fields -->
 		<div class="form-group mb-3">
 			<label class="form-label">Payment Method</label>
 			<select asp-items="@ViewBag.PaymentMethodId" class="form-control input-border">

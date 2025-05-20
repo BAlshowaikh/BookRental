@@ -382,10 +382,12 @@ namespace WebApp.Controllers
 
 			var rentalTransaction = new RentalTransaction
 			{
+				RentalRequestId = request.RequestId,
 				BookId = request.BookId,
 				UserId = request.UserId,
 				RentalStartDate = request.RentalStartDate,
 				ReturnDate = request.ReturnDate,
+				RentalPeriod = (request.ReturnDate - request.RentalStartDate).Days,
 				RentalFee = request.TotalCost,
 				PaymentMethodId = 3,
 				PaymentStatusId = 2
