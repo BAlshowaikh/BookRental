@@ -126,6 +126,9 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    var user = _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
+                    rentalRequest.UserId = user.UserId;
+
                     _context.Add(rentalRequest);
                     await _context.SaveChangesAsync(); // Save first to get RentalRequestId
 
