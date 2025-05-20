@@ -28,10 +28,10 @@ namespace FormApp.Views
         private void returnRecord_Load(object sender, EventArgs e)
         {
             //book drop down list 
-            ddlFilterBook.DataSource = context.Books.ToList(); ;
-            ddlFilterBook.DisplayMember = "Name";
-            ddlFilterBook.ValueMember = "BookId";
-            ddlFilterBook.SelectedItem = null;
+            ddlFilterCondition.DataSource = context.BookConditions.Where(x=>x.BookConditionId != 1).ToList(); ;
+            ddlFilterCondition.DisplayMember = "ReturnCondition";
+            ddlFilterCondition.ValueMember = "BookConditionId";
+            ddlFilterCondition.SelectedItem = null;
 
             //refreshing the grid view
             RefreshReturnRecourdGridview();
@@ -55,7 +55,7 @@ namespace FormApp.Views
             txtFilterRecordNo.Text = String.Empty;
             txtFilterRecordNo.Focus();
 
-            ddlFilterBook.SelectedValue = string.Empty;
+            ddlFilterCondition.SelectedValue = string.Empty;
 
             //refreshing the grid view
             RefreshReturnRecourdGridview();
@@ -92,10 +92,10 @@ namespace FormApp.Views
                     .Where(x => x.RecordId == Convert.ToInt32(txtFilterRecordNo.Text));
             }
             //in case of filtering by the drop down list
-            else if (ddlFilterBook.SelectedValue != null)
+            else if (ddlFilterCondition.SelectedValue != null)
             {
                 RequestToShow = RequestToShow
-                    .Where(x => x.BookId == Convert.ToInt32(ddlFilterBook.SelectedValue.ToString()));
+                    .Where(x => x.BookConditionId == Convert.ToInt32(ddlFilterCondition.SelectedValue.ToString()));
             }
 
             //customize the data grid view

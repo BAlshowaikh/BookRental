@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class FeedbacksController : Controller
     {
         private readonly BookRentalDBContext _context;
@@ -40,6 +42,12 @@ namespace WebApp.Controllers
                 bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == recordId);
             }
 
+            if (User.IsInRole("User"))
+            {
+                string currentEmail = User.Identity.Name;
+                bookRentalDBContext = bookRentalDBContext.Where(f => f.ReturnRecord.Transaction.User.Email == currentEmail);
+            }
+
             return View(await bookRentalDBContext.ToListAsync());
         }
 
@@ -66,11 +74,28 @@ namespace WebApp.Controllers
         }
 
         // GET: Feedbacks/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync(int recordId)
         {
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn");
-            ViewData["TransactionId"] = new SelectList(_context.RentalTransactions, "TransactionId", "TransactionId");
-            return View();
+            var returnRecord = await _context.ReturnRecords
+                             .Include(r => r.Transaction)
+                                 .ThenInclude(rt => rt.Book)
+                             .FirstOrDefaultAsync(r => r.RecordId == recordId);
+
+            if (returnRecord == null)
+                return NotFound();
+
+            var feedback = new Feedback
+            {
+                ReturnRecordId = recordId,
+                BookId = returnRecord.Transaction.BookId,
+                Timestamp = DateTime.Now
+            };
+
+            ViewBag.Book = new SelectList(
+                new List<Book> { returnRecord.Transaction.Book },
+                "BookId", "Name", returnRecord.Transaction.BookId);
+
+            return View(feedback);
         }
 
         // POST: Feedbacks/Create
@@ -86,14 +111,8 @@ namespace WebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Isbn", feedback.BookId);
-            ViewData["TransactionId"] = new SelectList(
-                _context.ReturnRecords.Select(r => r.Transaction).Distinct(),  // Select unique Transactions from ReturnRecords
-                "TransactionId",           // The field you want to use for the option's value
-                "TransactionId",           // The field you want to display in the select list
-                feedback.ReturnRecord?.TransactionId // Set the selected value (if any) from the associated ReturnRecord's TransactionId
-            );
-
+            var book = await _context.Books.FindAsync(feedback.BookId);
+            ViewBag.Book = new SelectList(new List<Book> { book }, "BookId", "Name", feedback.BookId);
             return View(feedback);
         }
 
