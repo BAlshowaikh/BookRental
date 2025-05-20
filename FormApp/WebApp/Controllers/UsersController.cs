@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
+
         private readonly BookRentalDBContext _context;
 
         public UsersController(BookRentalDBContext context)
@@ -19,11 +22,24 @@ namespace WebApp.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchEmail, string isActive)
         {
-            var bookRentalDBContext = _context.Users.Include(u => u.UserRole);
-            return View(await bookRentalDBContext.ToListAsync());
+            var users = _context.Users.Include(u => u.UserRole).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchEmail))
+            {
+                users = users.Where(u => u.Email.Contains(searchEmail));
+            }
+
+            if (!string.IsNullOrEmpty(isActive))
+            {
+                bool status = isActive == "true";
+                users = users.Where(u => u.IsActive == status);
+            }
+
+            return View(await users.ToListAsync());
         }
+
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -47,79 +63,62 @@ namespace WebApp.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["UserRoleId"] = new SelectList(_context.UserRoles, "UserRoleId", "Role");
+            ViewBag.RoleList = new SelectList(_context.UserRoles.ToList(), "UserRoleId", "Role");
             return View();
         }
+
+
 
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Email,UserRoleId,ContactNo,IsActive")] User user)
+        [HttpPost]
+        public IActionResult Create(User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
+                _context.Users.Add(user);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserRoleId"] = new SelectList(_context.UserRoles, "UserRoleId", "Role", user.UserRoleId);
+
+            ViewBag.RoleList = new SelectList(_context.UserRoles.ToList(), "UserRoleId", "Role", user.UserRoleId);
             return View(user);
         }
 
-        // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+
+
+        // GET: Users/Edit/1
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            if (id == null || _context.Users == null)
-            {
-                return NotFound();
-            }
+            var user = _context.Users.FirstOrDefault(u => u.UserId == id);
+            if (user == null) return NotFound();
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserRoleId"] = new SelectList(_context.UserRoles, "UserRoleId", "Role", user.UserRoleId);
+            ViewBag.RoleList = new SelectList(_context.UserRoles.ToList(), "UserRoleId", "Role", user.UserRoleId);
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Users/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Email,UserRoleId,ContactNo,IsActive")] User user)
+        public IActionResult Edit(User user)
         {
-            if (id != user.UserId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.UserId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Users.Update(user);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserRoleId"] = new SelectList(_context.UserRoles, "UserRoleId", "Role", user.UserRoleId);
+
+            ViewBag.RoleList = new SelectList(_context.UserRoles.ToList(), "UserRoleId", "Role", user.UserRoleId);
             return View(user);
         }
+
+
+
 
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)

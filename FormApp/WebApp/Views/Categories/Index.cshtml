@@ -33,10 +33,14 @@
                 <a asp-action="Index" class="btn btn-outline-danger">Clear</a>
             </form>
 
-            <!-- Right: Add Button -->
-            <a href="javascript:void(0);" class="btn btn-success rounded-pill px-4 mt-3 mt-md-0" onclick="openCreateModal()">
-                + Add New Category
-            </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <!-- Right: Add Button -->
+                <a href="javascript:void(0);" class="btn btn-success rounded-pill px-4 mt-3 mt-md-0" onclick="openCreateModal()">
+                    + Add New Category
+                </a>
+            }
+            
         </div>
 
         </div>
@@ -68,10 +72,14 @@
                             }
                         </td>
 
-                        <td class="text-center">
+                    <td class="text-center">
+                        @if (User.IsInRole("Admin"))
+                        {
                             <a href="javascript:void(0);" onclick="openEditModal(@item.CategoryId)" class="btn btn-sm btn-warning me-1">Edit</a>
                             <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="openDeleteModal(@item.CategoryId, '@item.CategoryName')">Delete</a>
-                        </td>
+                        }
+                    </td>
+
                     </tr>
                 }
             </tbody>
