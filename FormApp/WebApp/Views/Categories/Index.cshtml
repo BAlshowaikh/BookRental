@@ -33,7 +33,7 @@
                 <a asp-action="Index" class="btn btn-outline-danger">Clear</a>
             </form>
 
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
             {
                 <!-- Right: Add Button -->
                 <a href="javascript:void(0);" class="btn btn-success rounded-pill px-4 mt-3 mt-md-0" onclick="openCreateModal()">
