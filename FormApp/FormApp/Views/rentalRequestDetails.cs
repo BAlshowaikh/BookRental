@@ -26,6 +26,24 @@ namespace FormApp.Views
         BookRentalDBContext context = new BookRentalDBContext();
         //private variable for thr request ID do it is accessed to all the method in the form
         private int requestID;
+
+        // Function to track changes into the rental request 
+        private void TrackAuditChange(string oldValue, string newValue, int userId)
+        {
+            if (oldValue != newValue)
+            {
+                var audit = new AuditTrail
+                {
+                    Timestamp = DateTime.Now,
+                    OldValue = oldValue,
+                    NewValue = newValue,
+                    UserId = userId
+                };
+
+                context.AuditTrails.Add(audit);
+            }
+        }
+
         public rentalRequestDetails(int requestID)
         {
             //set the requestID as the reseved requestID
@@ -90,7 +108,7 @@ namespace FormApp.Views
                         //set the status ID as 2 -> approved
                         request.RentalRequestStatusId = 2;
 
-                        var statusName =  context.RentalRequestStatuses
+                        var statusName = context.RentalRequestStatuses
                             .Where(s => s.RentalRequestStatusId == request.RentalRequestStatusId)
                                .Select(s => s.Status)
                                .FirstOrDefaultAsync();
@@ -225,6 +243,49 @@ namespace FormApp.Views
         private void userIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.ShowProfilePage(this);
+        }
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            // Fetch the rental request record
+            var request = context.RentalRequests.FirstOrDefault(x => x.RequestId == requestID);
+
+            if (request == null)
+            {
+                MessageBox.Show("Rental request not found.");
+                return;
+            }
+
+            try
+            {
+                var oldStartDate = request.RentalStartDate.ToString();
+                var oldReturnDate = request.ReturnDate.ToString();
+
+                var newStartDate = DateTime.Parse(txtStartDate.Text);
+                var newReturnDate = DateTime.Parse(txtReturnDate.Text);
+
+                // Update the fields
+                request.RentalStartDate = newStartDate;
+                request.ReturnDate = newReturnDate;
+
+                // Track changes before saving
+                TrackAuditChange(oldStartDate, newStartDate.ToString(), Global.user.UserId);
+                TrackAuditChange(oldReturnDate, newReturnDate.ToString(), Global.user.UserId);
+
+                // Update and save
+                context.RentalRequests.Update(request);
+                context.SaveChanges();
+
+                MessageBox.Show("Rental Request updated and changes tracked.");
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Please enter valid date formats.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to update: " + ex.Message);
+            }
         }
     }
 }

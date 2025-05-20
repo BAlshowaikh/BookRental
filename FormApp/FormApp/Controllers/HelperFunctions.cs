@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
 using FormApp.Views;
 using ProjectFormApp;
+using BookRentalObject;
 
 namespace FormApp.Controllers
 {
@@ -106,6 +107,7 @@ namespace FormApp.Controllers
             T form = new T();
             form.Show();
             currentForm.Hide();
+      
         }
 
     }
