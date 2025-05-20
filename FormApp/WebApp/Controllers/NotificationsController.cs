@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class NotificationsController : Controller
     {
         private readonly BookRentalDBContext _context;
@@ -27,7 +29,7 @@ namespace WebApp.Controllers
 
             var bookRentalDBContext = _context.Notifications
                                         .Include(n => n.User)
-                                        //.Where(n => n.UserId == user.UserId)
+                                        .Where(n => n.UserId == user.UserId)
                                         .ToListAsync();
 
             return View(await bookRentalDBContext);
