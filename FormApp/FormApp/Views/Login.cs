@@ -81,8 +81,6 @@ namespace FormApp
         {
             try
             {
-
-
                 var services = new ServiceCollection();
                 ConfigureServices(services);
                 serviceProvider = services.BuildServiceProvider();
