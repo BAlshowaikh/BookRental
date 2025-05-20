@@ -13743,4 +13743,94 @@ input.form-check-input {
     }
 */
 
+/* Bachground image for the Home Index page*/
+.home-background {
+    background-image: url('/images/Book-trans-bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.typing-wrapper {
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 30ch; 
+    min-height: 2.5rem;
+    position: relative;
+    margin: 0 auto; 
+}
+
+.typing-text {
+    position: relative; 
+    height: 2.5rem; 
+    width: 100%;
+}
+    .typing-text span {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 2px solid white; /* cursor */
+        animation-fill-mode: forwards;
+    }
+
+        /* Animations: */
+        .typing-text span:nth-child(1) {
+            animation: showText 12s infinite, /* fades in/out text */
+            typing 4s steps(30) 1 forwards, /* typing effect */
+            blink 0.7s step-end 4 forwards; /* blink cursor only during typing */
+            animation-delay: 0s, 0s, 0s;
+        }
+
+        .typing-text span:nth-child(2) {
+            animation: showText 12s infinite 4s, typing 4s steps(30) 1 forwards 4s, blink 0.7s step-end 4 forwards 4s;
+            animation-delay: 4s, 4s, 4s;
+        }
+
+        .typing-text span:nth-child(3) {
+            animation: showText 12s infinite 8s, typing 4s steps(30) 1 forwards 8s, blink 0.7s step-end 4 forwards 8s;
+            animation-delay: 8s, 8s, 8s;
+        }
+
+/* Typing effect: width grows */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 30ch;
+    }
+}
+
+/* Blink cursor + disappear after typing */
+/* Runs for ~4s, cursor blinks; then border becomes transparent */
+@keyframes blink {
+    0%, 50% {
+        border-color: white;
+    }
+
+    51%, 100% {
+        border-color: transparent;
+    }
+}
+
+/* Text fade in/out */
+@keyframes showText {
+    0%, 33.33% {
+        opacity: 1;
+    }
+
+    33.34%, 100% {
+        opacity: 0;
+    }
+}
+
+
 

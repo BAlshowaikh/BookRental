@@ -21,67 +21,128 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalTransactions
-        public async Task<IActionResult> Index(string SearchString, string SearchCustomer, bool? fromRequest, int? bookId, int? userId, string rentalStartDate, string returnDate, decimal? totalCost)
+        //      public async Task<IActionResult> Index(string SearchString, string SearchCustomer, bool? fromRequest, int? bookId, int? userId, string rentalStartDate, string returnDate, decimal? totalCost)
+        //      {
+        //	/*IQueryable<RentalTransaction> bookRentalDBContext = _context.RentalTransactions.Include(r => r.Book).Include(r => r.PaymentMethod).Include(r => r.PaymentStatus).Include(r => r.User).Where(x => x.User.UserRole.Role == "Customer");
+
+        //          if (!String.IsNullOrEmpty(SearchString))
+        //          {
+        //              bookRentalDBContext = bookRentalDBContext.Where(x => x.TransactionId == Convert.ToInt32(SearchString));
+        //          }
+
+        //          if (!String.IsNullOrEmpty(SearchCustomer))
+        //          {
+        //              bookRentalDBContext = bookRentalDBContext.Where(x => x.User.UserId.ToString() == SearchCustomer);
+        //          }
+
+        //          var custList = new SelectList(_context.Users.Where(x => x.UserRole.Role == "Customer"), "UserId", "FullName", SearchCustomer);
+        //          ViewBag.CustList = custList;
+
+        //          return View(bookRentalDBContext);*/
+
+        //	var query = _context.RentalTransactions
+        //                .Include(r => r.Book)
+        //                .Include(r => r.User)
+        //                      .Include(r => r.PaymentMethod)
+        //                      .Include(r => r.PaymentStatus)
+        //                //.Where(r => r.User.UserRole.Role == "Customer")
+        //                .AsQueryable();
+
+        //	if (!String.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
+        //	{
+        //		query = query.Where(r => r.TransactionId == transId);
+        //	}
+
+        //	if (!String.IsNullOrEmpty(SearchCustomer) && int.TryParse(SearchCustomer, out int userID))
+        //	{
+        //		query = query.Where(r => r.User.UserId == userID);
+        //	}
+
+        //	var transactions = await query.ToListAsync();
+
+        //	var cards = transactions
+        //                   .Select(tr => new RentalTransactionViewModel
+        //                   {
+        //                    RentalTransaction = tr,
+        //                          RedirectData = null
+        //                      })
+        //                   .ToList();
+
+        //	Console.WriteLine($"Total cards: {cards.Count}");
+
+        //	ViewBag.CustList = new SelectList(
+        //             await _context.Users
+        //	        .Where(x => x.UserRole.Role == "Customer")
+        //	        .ToListAsync(),
+        //             "UserId", "FullName", SearchCustomer
+        //       );
+
+        //	return View(cards);
+        //}
+
+        public async Task<IActionResult> Index(
+            string SearchString,
+            string SearchCustomer,
+            bool? fromRequest,
+            int? bookId,
+            int? userId,
+            string rentalStartDate,
+            string returnDate,
+            decimal? totalCost,
+            int page = 1,
+            int pageSize = 12)
         {
-			/*IQueryable<RentalTransaction> bookRentalDBContext = _context.RentalTransactions.Include(r => r.Book).Include(r => r.PaymentMethod).Include(r => r.PaymentStatus).Include(r => r.User).Where(x => x.User.UserRole.Role == "Customer");
+            var query = _context.RentalTransactions
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .Include(r => r.PaymentMethod)
+                .Include(r => r.PaymentStatus)
+                .AsQueryable();
 
-            if (!String.IsNullOrEmpty(SearchString))
+            if (!string.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
             {
-                bookRentalDBContext = bookRentalDBContext.Where(x => x.TransactionId == Convert.ToInt32(SearchString));
+                query = query.Where(r => r.TransactionId == transId);
             }
 
-            if (!String.IsNullOrEmpty(SearchCustomer))
+            if (!string.IsNullOrEmpty(SearchCustomer) && int.TryParse(SearchCustomer, out int userID))
             {
-                bookRentalDBContext = bookRentalDBContext.Where(x => x.User.UserId.ToString() == SearchCustomer);
+                query = query.Where(r => r.User.UserId == userID);
             }
 
-            var custList = new SelectList(_context.Users.Where(x => x.UserRole.Role == "Customer"), "UserId", "FullName", SearchCustomer);
-            ViewBag.CustList = custList;
+            // Total count for pagination
+            int totalItems = await query.CountAsync();
 
-            return View(bookRentalDBContext);*/
+            // Paging
+            var pagedTransactions = await query
+                .OrderByDescending(r => r.RentalStartDate) 
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
-			var query = _context.RentalTransactions
-		                .Include(r => r.Book)
-		                .Include(r => r.User)
-                        .Include(r => r.PaymentMethod)
-                        .Include(r => r.PaymentStatus)
-		                //.Where(r => r.User.UserRole.Role == "Customer")
-		                .AsQueryable();
+            var cards = pagedTransactions
+                .Select(tr => new RentalTransactionViewModel
+                {
+                    RentalTransaction = tr,
+                    RedirectData = null
+                })
+                .ToList();
 
-			if (!String.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
-			{
-				query = query.Where(r => r.TransactionId == transId);
-			}
+            ViewBag.CustList = new SelectList(
+                await _context.Users
+                    .Where(x => x.UserRole.Role == "Customer")
+                    .ToListAsync(),
+                "UserId", "FullName", SearchCustomer
+            );
 
-			if (!String.IsNullOrEmpty(SearchCustomer) && int.TryParse(SearchCustomer, out int userID))
-			{
-				query = query.Where(r => r.User.UserId == userID);
-			}
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewBag.CurrentPage = page;
 
-			var transactions = await query.ToListAsync();
+            return View(cards);
+        }
 
-			var cards = transactions
-	                    .Select(tr => new RentalTransactionViewModel
-	                    {
-		                    RentalTransaction = tr,
-                            RedirectData = null
-                        })
-	                    .ToList();
 
-			Console.WriteLine($"Total cards: {cards.Count}");
-
-			ViewBag.CustList = new SelectList(
-		             await _context.Users
-			        .Where(x => x.UserRole.Role == "Customer")
-			        .ToListAsync(),
-		             "UserId", "FullName", SearchCustomer
-	        );
-
-			return View(cards);
-		}
-
-		// GET: RentalTransactions/Details/5
-		public async Task<IActionResult> Details(int? id)
+        // GET: RentalTransactions/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.RentalTransactions == null)
             {
