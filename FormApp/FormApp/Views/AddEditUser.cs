@@ -1,40 +1,48 @@
 ﻿using BookRentalObject;
 using FormApp.Controllers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ProjectFormApp;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FormApp.Views
 {
     public partial class AddEditUser : Form
     {
-
-        BookRentalDBContext context;
-        User user;
+        private BookRentalDBContext context;
+        private FormsIdentityContext identityContext;
+        private User user;
+        private IdentityUser identityUser;
+        private bool isEdit = false;
 
         public AddEditUser()
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
+
             context = new BookRentalDBContext();
+            identityContext = new FormsIdentityContext();
+
             user = new User();
             pageTitleTxt.Text = "Add User";
         }
 
-        public AddEditUser(int user1)
+        public AddEditUser(int userId)
         {
             InitializeComponent();
-            context = new BookRentalDBContext();
-            this.user = context.Users.Find(user1);
-
             HelperFunctions.setUpFormDesign(this);
+
+            context = new BookRentalDBContext();
+            identityContext = new FormsIdentityContext();
+
+            user = context.Users.Find(userId);
+            isEdit = true;
             pageTitleTxt.Text = "Edit User";
+
+            identityUser = identityContext.Users.FirstOrDefault(u => u.Email == user.Email);
         }
 
         private void AddEditUser_Load(object sender, EventArgs e)
@@ -47,87 +55,98 @@ namespace FormApp.Views
         {
             try
             {
-                //Set the data source of the drop down to the list of roles
                 ddlRole.DataSource = context.UserRoles.ToList();
-                ddlRole.DisplayMember = "role"; // Set which property to display in the dropdown
-                ddlRole.ValueMember = "userRoleId"; // Set the value property for each dropdown item
-                ddlRole.SelectedItem = null; // Clear any pre-selected item
+                ddlRole.DisplayMember = "role";
+                ddlRole.ValueMember = "userRoleId";
+                ddlRole.SelectedItem = null;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Error loading roles: " + ex.Message);
             }
         }
 
         private void AddEditUserDetails()
         {
-            try
+            if (user.UserId > 0)
             {
-                //check if it's an existing user
-                if (this.user.UserId > 0)
-                {
-                    // Populate form fields with the user's data
-                    txtUserID.Text = user.UserId.ToString();
-                    txtFirstName.Text = user.FirstName;
-                    txtLastName.Text = user.LastName;
-                    txtEmail.Text = user.Email;
-                    ddlRole.SelectedValue = user.UserRoleId;
-                    //ddlRole.Enabled = false;
-                }
-                else
-                {
-                    // If this is a new user, clear the role selection
-                    ddlRole.SelectedValue = "";
-                }
+                txtUserID.Text = user.UserId.ToString();
+                txtFirstName.Text = user.FirstName;
+                txtLastName.Text = user.LastName;
+                txtEmail.Text = user.Email;
+                ddlRole.SelectedValue = user.UserRoleId;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                ddlRole.SelectedValue = "";
             }
         }
 
-        private void addBttn_Click(object sender, EventArgs e)
+        private async void addBttn_Click(object sender, EventArgs e)
         {
             try
             {
-                // Assign values to the user object
                 user.FirstName = txtFirstName.Text;
                 user.LastName = txtLastName.Text;
                 user.Email = txtEmail.Text;
                 user.UserRoleId = Convert.ToInt32(ddlRole.SelectedValue);
+                user.IsActive = true;
 
-                // If the user has an existing ID, update the record
-                if (user.UserId > 0)
+                var email = user.Email.Trim();
+                var userStore = new UserStore<IdentityUser>(identityContext);
+                var userManager = new UserManager<IdentityUser>(
+                    userStore, null, new PasswordHasher<IdentityUser>(),
+                    null, null, null, null, null, null);
+
+                if (isEdit)
                 {
-                    if (MessageBox.Show("are you sure you want to edit user ID:" + user.UserId + "?", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (identityUser != null)
                     {
-                        context.Users.Update(user);
+                        identityUser.Email = email;
+                        identityUser.UserName = email;
+                        await userStore.UpdateAsync(identityUser);
+                    }
+
+                    context.Users.Update(user);
+                }
+                else
+                {
+                    if (MessageBox.Show("Are you sure you want to add this user?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        var newIdentityUser = new IdentityUser
+                        {
+                            Email = email,
+                            UserName = email,
+                            EmailConfirmed = true
+                        };
+
+                        var result = await userManager.CreateAsync(newIdentityUser, "Password@123"); // Default password
+                        if (result.Succeeded)
+                        {
+                            context.Users.Add(user);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to create identity user: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+                            return;
+                        }
                     }
                 }
-                else // add a new user
-                {
-                    if (MessageBox.Show("are you sure you want to add this user? ", "conferm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        context.Users.Add(user);
-                    }
-                }
 
-                // Save changes to the database
                 context.SaveChanges();
-
-                // Close the form and return OK result
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Save failed: " + ex.Message);
             }
         }
 
-        private void deleteBttn_Click(object sender, EventArgs e)
+        private void cancelBttn_Click(object sender, EventArgs e)
         {
-            
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         private void exitIcon_Click(object sender, EventArgs e)
@@ -138,13 +157,6 @@ namespace FormApp.Views
         private void homeIcon_Click(object sender, EventArgs e)
         {
             HelperFunctions.homePageBtn(this);
-        }
-
-        private void cancelBttn_Click(object sender, EventArgs e)
-        {
-            // Close the form and return Cancel 
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
         }
 
         private void userIcon_Click(object sender, EventArgs e)

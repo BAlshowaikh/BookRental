@@ -142,5 +142,10 @@ namespace FormApp.Views
             // Position and show
             menu.Show(quickAccessLbl, new Point(0, quickAccessLbl.Height));
         }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
+        }
     }
 }
