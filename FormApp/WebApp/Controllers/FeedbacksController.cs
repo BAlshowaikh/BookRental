@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using Microsoft.AspNetCore.Authorization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApp.Controllers
 {
@@ -41,7 +42,8 @@ namespace WebApp.Controllers
             {
                 bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == recordId);
             }
-
+            
+            // Restrict to show logged in user request only
             if (User.IsInRole("User"))
             {
                 string currentEmail = User.Identity.Name;
@@ -74,26 +76,24 @@ namespace WebApp.Controllers
         }
 
         // GET: Feedbacks/Create
-        public async Task<IActionResult> CreateAsync(int recordId)
+        public async Task<IActionResult> Create(int? id)
         {
             var returnRecord = await _context.ReturnRecords
                              .Include(r => r.Transaction)
                                  .ThenInclude(rt => rt.Book)
-                             .FirstOrDefaultAsync(r => r.RecordId == recordId);
+                             .FirstOrDefaultAsync(r => r.RecordId == id);
 
             if (returnRecord == null)
                 return NotFound();
 
             var feedback = new Feedback
             {
-                ReturnRecordId = recordId,
+                ReturnRecordId = id,
                 BookId = returnRecord.Transaction.BookId,
                 Timestamp = DateTime.Now
             };
 
-            ViewBag.Book = new SelectList(
-                new List<Book> { returnRecord.Transaction.Book },
-                "BookId", "Name", returnRecord.Transaction.BookId);
+            ViewBag.BookName = returnRecord.Transaction.Book.Name;
 
             return View(feedback);
         }
@@ -109,10 +109,20 @@ namespace WebApp.Controllers
             {
                 _context.Add(feedback);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["FeedbackSuccess"] = "Feedback created successfully!";
+                return RedirectToAction(nameof(Index), new {recordId = feedback.ReturnRecordId});
             }
-            var book = await _context.Books.FindAsync(feedback.BookId);
-            ViewBag.Book = new SelectList(new List<Book> { book }, "BookId", "Name", feedback.BookId);
+
+            var returnRecord = await _context.ReturnRecords
+        .Include(r => r.Transaction)
+        .ThenInclude(t => t.Book)
+        .FirstOrDefaultAsync(r => r.RecordId == feedback.ReturnRecordId);
+
+            if (returnRecord != null)
+            {
+                ViewBag.BookName = returnRecord.Transaction.Book.Name;
+            }
+
             return View(feedback);
         }
 
