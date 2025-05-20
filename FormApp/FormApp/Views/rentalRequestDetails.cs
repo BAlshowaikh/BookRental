@@ -99,7 +99,7 @@ namespace FormApp.Views
                         {
                             UserId = request.UserId,
                             Subject = "Rental Request Update",
-                            Message = $"Your rental request status has been updated to: {statusName}.",
+                            Message = $"Your rental request status has been updated to: {statusName}.".Substring(0, 100),
                             Status = false
                         };
 
@@ -170,7 +170,7 @@ namespace FormApp.Views
                         {
                             UserId = request.UserId,
                             Subject = "Rental Request Update",
-                            Message = $"Your rental request status has been updated to: {statusName}.",
+                            Message = $"Your rental request status has been updated to: {statusName}.".Substring(0, 100),
                             Status = false
                         };
 
