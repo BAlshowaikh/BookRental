@@ -30,11 +30,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="ExpectedReturnDate" class="control-label"></label>
-                <input asp-for="ExpectedReturnDate" type="text" class="form-control" value="@ViewBag.ExpextedDate" id="expectedDate" readonly />
+                <input asp-for="ExpectedReturnDate" type="date" class="form-control" value="@(((DateTime)ViewBag.ExpectedDate).ToString("yyyy-MM-dd"))" id="expectedDate" readonly />
             </div>
             <div class="form-group">
                 <label asp-for="ActualReturnDate" class="control-label"></label>
-                <input asp-for="ActualReturnDate" class="form-control" id="actualDate" />
+                <input asp-for="ActualReturnDate" type="date" class="form-control" id="actualDate" />
                 <span asp-validation-for="ActualReturnDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -65,7 +65,6 @@
             const chargeRates = @Html.Raw(Json.Serialize(ViewBag.ChargeRates));
 
             function calculateTotalCharge() {
-                // Clear previous errors
                 document.querySelector('[data-valmsg-for="ActualReturnDate"]').textContent = '';
 
                 const conditionId = parseInt(bookCon.value);
@@ -76,19 +75,12 @@
                 const actualDate = new Date(actualDateInput.value);
                 const today = new Date();
 
-                // Validate date format
                 if (isNaN(actualDate.getTime())) {
                     actualDateInput.setCustomValidity('Please enter a valid date');
                     return;
                 }
 
-                // Validate not in future
-                if (actualDate > today) {
-                    actualDateInput.setCustomValidity('Actual return date cannot be in the future');
-                    return;
-                }
 
-                // Validate not more than 2 days before expected date
                 if (!isNaN(expectedDate.getTime())) {
                     const twoDaysBefore = new Date(expectedDate);
                     twoDaysBefore.setDate(twoDaysBefore.getDate() - 2);
@@ -100,11 +92,9 @@
                 }
 
                 let lateFee = 0;
-                if (!isNaN(expectedDate.getTime()) && !isNaN(actualDate.getTime())) {
-                    if (actualDate > expectedDate) {
-                        const diffDays = Math.ceil((actualDate - expectedDate) / (1000 * 60 * 60 * 24));
-                        lateFee = diffDays * 1;
-                    }
+                if (!isNaN(expectedDate.getTime()) && !isNaN(actualDate.getTime()) && actualDate > expectedDate) {
+                    const diffDays = Math.ceil((actualDate - expectedDate) / (1000 * 60 * 60 * 24));
+                    lateFee = diffDays * 1;
                 }
 
                 lateReturnFee.value = lateFee.toFixed(2);

@@ -32,12 +32,13 @@ namespace WebApp.Controllers
         {
             // Start with base query including all relationships
             var bookRentalDBContext = _context.ReturnRecords
-                    .Include(r => r.Book)
-                    .Include(r => r.BookCondition)
-                    .Include(r => r.ExtraCharges)
-                    .Include(r => r.Transaction)
-                    .AsQueryable();
+                .Include(r => r.Book)
+                .Include(r => r.BookCondition)
+                .Include(r => r.ExtraCharges)
+                .Include(r => r.Transaction)
+                .AsQueryable();
 
+            // Filter for regular users (non-admins)
             if (User.IsInRole("User"))
             {
                 var userEmail = _userManager.GetUserName(User);
@@ -67,7 +68,7 @@ namespace WebApp.Controllers
             if (!string.IsNullOrEmpty(SearchCon))
             {
                 bookRentalDBContext = bookRentalDBContext.Where(x => x.BookCondition != null &&
-                                       x.BookCondition.BookConditionId.ToString() == SearchCon);
+                                   x.BookCondition.BookConditionId.ToString() == SearchCon);
             }
 
             // Populate dropdown with current selection preserved
@@ -78,7 +79,7 @@ namespace WebApp.Controllers
                 SearchCon);
 
             // Total count before pagination
-            var totalrecords = await bookRentalDBContext.CountAsync();
+            var totalRecords = await bookRentalDBContext.CountAsync();
 
             // Apply pagination
             var records = await bookRentalDBContext
@@ -86,7 +87,7 @@ namespace WebApp.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            // Check feedback status for each record
+            // Initialize feedback status dictionary
             var feedbackStatus = new Dictionary<int, bool>();
             foreach (var record in records)
             {
@@ -96,11 +97,10 @@ namespace WebApp.Controllers
             ViewBag.FeedbackStatus = feedbackStatus;
 
             // Pass pagination data to view
-            ViewBag.TotalPages = (int)Math.Ceiling(totalrecords / (double)pageSize);
+            ViewBag.TotalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
             ViewBag.CurrentPage = page;
 
-
-            return View(await bookRentalDBContext.ToListAsync());
+            return View(records);
         }
 
         // GET: ReturnRecords/Details/5
@@ -126,100 +126,143 @@ namespace WebApp.Controllers
         }
 
         // GET: ReturnRecords/Create
+        [Authorize(Roles = "Admin, Manager")]
         public IActionResult Create(int id)
         {
             var transaction = _context.RentalTransactions
-            .Include(t => t.Book)
-            .FirstOrDefault(t => t.TransactionId == id);
+                .Include(t => t.Book)
+                .FirstOrDefault(t => t.TransactionId == id);
 
-            ViewData["BookConditionId"] = new SelectList(_context.BookConditions.Where(x => x.BookConditionId != 1), "BookConditionId", "ReturnCondition");
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+
+            // Exclude "Not Returned" (assuming ID = 1)
+            ViewData["BookConditionId"] = new SelectList(
+                _context.BookConditions.Where(x => x.BookConditionId != 1),
+                "BookConditionId",
+                "ReturnCondition"
+            );
+
             ViewData["TransactionId"] = id;
             ViewData["BookId"] = transaction.BookId;
-            ViewData["ExpextedDate"] = transaction.ReturnDate;
+            ViewData["ExpectedDate"] = transaction.ReturnDate;
 
-            var chargeMap = new Dictionary<int, int>
-            {
-                { 2, 0 }, // Good > no charge
-                { 3, 1 },
-                { 4, 3 }, 
-                { 5, 2 }  // Lost book id = 5 > loost book fee id = 2
-            };
+            // Map BookConditionId to ExtraChargesId
+            var chargeMap = new Dictionary<int, int?>
+    {
+        { 2, null }, // Good condition – no extra charges
+        { 3, 1 },    // Damaged
+        { 4, 3 },    // Poor
+        { 5, 2 }     // Lost
+    };
 
+            // Fetch all extra charges into dictionary
             var charges = _context.ExtraCharges
                 .ToDictionary(e => e.ExtraChargesId, e => (double)e.ExtraChargeRate);
 
             var conditionToRate = chargeMap.ToDictionary(
                 pair => pair.Key,
-                pair => charges.ContainsKey(pair.Value) ? charges[pair.Value] : 0.0
+                pair => pair.Value.HasValue && charges.ContainsKey(pair.Value.Value)
+                    ? charges[pair.Value.Value]
+                    : 0.0 // Default rate for null or invalid ID
             );
+
             ViewData["ChargeRates"] = conditionToRate;
+
             return View();
         }
 
-        // POST: ReturnRecords/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "User")]
-
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Create([Bind("RecordId,ExpectedReturnDate,ActualReturnDate,TotalAdditionalCharges,LateReturnFee,BookId,BookConditionId,TransactionId,ExtraChargesId")] ReturnRecord returnRecord)
         {
-            // Get the original transaction details
             var transaction = await _context.RentalTransactions
                 .FirstOrDefaultAsync(t => t.TransactionId == returnRecord.TransactionId);
 
-            // Validate actual return date not in future
-            if (returnRecord.ActualReturnDate > DateTime.Today)
+            if (transaction == null)
             {
-                ModelState.AddModelError("ActualReturnDate", "Actual return date cannot be in the future");
+                return NotFound("Transaction not found.");
             }
 
-            // Validate not more than 2 days before expected date
-            if (returnRecord.ActualReturnDate < returnRecord.ExpectedReturnDate.AddDays(-2))
+            // Ensure the book exists and update its availability
+            var book = await _context.Books.FindAsync(transaction.BookId);
+            if (book == null)
             {
-                ModelState.AddModelError("ActualReturnDate", "Book cannot be returned more than 2 days before expected return date");
+                return NotFound("Book not found.");
             }
 
-            // Validate date is provided
+            // Update book availability to "Available" (assuming ID = 1)
+            book.AvailabilityStatusId = 1;
+
+            // Update book condition based on the selected return condition
+            if (returnRecord.BookConditionId != null)
+            {
+                book.BookConditionId = returnRecord.BookConditionId;
+            }
+
             if (returnRecord.ActualReturnDate == default)
             {
-                ModelState.AddModelError("ActualReturnDate", "Actual return date is required");
+                ModelState.AddModelError("ActualReturnDate", "Actual return date is required.");
+            }
+
+            // Map BookConditionId to ExtraChargesId
+            var chargeMap = new Dictionary<int, int?>
+            {
+                { 2, null }, // Good condition – no extra charges
+                { 3, 1 },    // Damaged
+                { 4, 3 },    // Poor
+                { 5, 2 }     // Lost
+            };
+
+            if (chargeMap.ContainsKey(returnRecord.BookConditionId))
+            {
+                returnRecord.ExtraChargesId = chargeMap[returnRecord.BookConditionId];
             }
 
             if (ModelState.IsValid)
             {
+                transaction.IsReturned = true;
+                book.AvailabilityStatusId = 1;
+                // Create a notification for the user
                 Notification notif = new Notification
                 {
-                    Subject = "return record have been created",
-                    Message = "Your return record for transaction ID:"+returnRecord.TransactionId+"have been generated, give feedback to your book",
+                    Subject = "Return record has been created",
+                    Message = $"Your return record for transaction ID: {returnRecord.TransactionId} has been generated. Please give feedback on your book.",
                     UserId = transaction.UserId,
                     Status = false
                 };
 
                 _context.Notifications.Add(notif);
                 _context.Add(returnRecord);
+                _context.RentalTransactions.Update(transaction);
+                _context.Books.Update(book);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
-            // Repopulate view data if validation fails
-            ViewData["BookConditionId"] = new SelectList(_context.BookConditions.Where(x => x.BookConditionId != 1), "BookConditionId", "ReturnCondition", returnRecord.BookConditionId);
-            ViewData["BookId"] = returnRecord.BookId;
-            ViewData["ExpextedDate"] = returnRecord.ExpectedReturnDate;
+            // If ModelState is invalid, repopulate dropdowns
+            ViewData["BookConditionId"] = new SelectList(
+                _context.BookConditions.Where(x => x.BookConditionId != 1),
+                "BookConditionId",
+                "ReturnCondition",
+                returnRecord.BookConditionId
+            );
 
-            // Recreate the charge rates dictionary
-            var chargeMap = new Dictionary<int, int>
-            {
-                { 2, 0 }, // good, no extra charge
-                { 3, 1 }, // damaged, damaged book fee
-                { 4, 3 }, // poor, poor book fee
-                { 5, 2 }  // lost, lost book fee
-            };
-            var charges = _context.ExtraCharges.ToDictionary(e => e.ExtraChargesId, e => (double)e.ExtraChargeRate);
+            ViewData["BookId"] = returnRecord.BookId;
+            ViewData["ExpectedDate"] = returnRecord.ExpectedReturnDate;
+
+            var allCharges = await _context.ExtraCharges.ToDictionaryAsync(e => e.ExtraChargesId, e => (double)e.ExtraChargeRate);
+
             ViewData["ChargeRates"] = chargeMap.ToDictionary(
                 pair => pair.Key,
-                pair => charges.ContainsKey(pair.Value) ? charges[pair.Value] : 0.0
+                pair => pair.Value.HasValue && allCharges.ContainsKey(pair.Value.Value)
+                    ? allCharges[pair.Value.Value]
+                    : 0.0
             );
 
             return View(returnRecord);
