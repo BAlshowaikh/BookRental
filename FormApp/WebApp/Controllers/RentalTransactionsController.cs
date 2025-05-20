@@ -92,6 +92,16 @@ namespace WebApp.Controllers
             int page = 1,
             int pageSize = 12)
         {
+<<<<<<< HEAD
+			var query = _context.RentalTransactions
+		                .Include(r => r.Book)
+		                .Include(r => r.User)
+                        .Include(r => r.PaymentMethod)
+                        .Include(r => r.PaymentStatus)
+						.Include(x => x.ReturnRecords)
+						//.Where(r => r.User.UserRole.Role == "Customer")
+						.AsQueryable();
+=======
             var query = _context.RentalTransactions
                 .Include(r => r.Book)
                 .Include(r => r.User)
@@ -126,6 +136,7 @@ namespace WebApp.Controllers
                     RedirectData = null
                 })
                 .ToList();
+>>>>>>> 01e678179299280ff3404ee4238ad6124ec053a2
 
             ViewBag.CustList = new SelectList(
                 await _context.Users
@@ -141,8 +152,29 @@ namespace WebApp.Controllers
         }
 
 
+<<<<<<< HEAD
+			Console.WriteLine($"Total cards: {cards.Count}");
+
+			ViewBag.CustList = new SelectList(
+		             await _context.Users
+			        .Where(x => x.UserRole.Role == "Customer")
+                    .Select(u => new {
+                        u.UserId,
+                        FullName = (u.FirstName ?? "") + " " + (u.LastName ?? "")
+                    })
+                    .ToListAsync(),
+		             "UserId", "FullName", SearchCustomer
+	        );
+
+			return View(cards);
+		}
+
+		// GET: RentalTransactions/Details/5
+		public async Task<IActionResult> Details(int? id)
+=======
         // GET: RentalTransactions/Details/5
         public async Task<IActionResult> Details(int? id)
+>>>>>>> 01e678179299280ff3404ee4238ad6124ec053a2
         {
             if (id == null || _context.RentalTransactions == null)
             {
@@ -220,13 +252,33 @@ namespace WebApp.Controllers
                 redirectData = JsonSerializer.Deserialize<RentalRedirectDataViewModel>(jsonString);
             }
 
-            var selectedPaymentMethod = _context.RentalTransactions.Include(x => x.PaymentMethod).Where(x => x.PaymentMethod.PaymentMethod1 == "cash").FirstOrDefault().PaymentMethodId;
-            var selectedPaymentStatus = _context.RentalTransactions.Include(x => x.PaymentStatus).Where(x => x.PaymentStatus.PaymentStatus1 == "pending").Select(x => x.PaymentStatusId).FirstOrDefault();
+			// Set default values
+			var defaultPaymentMethod = _context.PaymentMethods
+				.FirstOrDefault(pm => pm.PaymentMethod1 == "Cash")?.PaymentMethodId;
 
-			ViewBag.PaymentMethodId = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", selectedPaymentMethod);
-			ViewBag.PaymentStatusId = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", selectedPaymentStatus);
-            
-            return View(new RentalTransactionViewModel
+			var defaultPaymentStatus = _context.PaymentStatuses
+				.FirstOrDefault(ps => ps.PaymentStatus1 == "Pending")?.PaymentId;
+
+			
+			int? selectedPaymentMethod = rentalTransaction?.PaymentMethodId ?? defaultPaymentMethod;
+			int? selectedPaymentStatus = rentalTransaction?.PaymentStatusId ?? defaultPaymentStatus;
+
+			ViewBag.PaymentMethodId = new SelectList(
+				_context.PaymentMethods.ToList(),
+				"PaymentMethodId",
+				"PaymentMethod1",
+				selectedPaymentMethod
+			);
+
+			ViewBag.PaymentStatusId = new SelectList(
+				_context.PaymentStatuses.ToList(),
+				"PaymentId",
+				"PaymentStatus1",
+				selectedPaymentStatus
+			);
+
+
+			return View(new RentalTransactionViewModel
             {
                 RentalTransaction = rentalTransaction,
                 RedirectData = redirectData
