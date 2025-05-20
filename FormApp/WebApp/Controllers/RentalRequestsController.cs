@@ -135,9 +135,6 @@ namespace WebApp.Controllers
             {
                 try
                 {
-                    var user = _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
-                    rentalRequest.UserId = user.UserId;
-
                     _context.Add(rentalRequest);
                     await _context.SaveChangesAsync(); // Save first to get RentalRequestId
 
@@ -458,27 +455,16 @@ namespace WebApp.Controllers
                 request.RentalRequestStatusId = 2;
                 request.Book.AvailabilityStatusId = 2;
 
-			TempData["ApproveSuccess"] = "Request approved successfully! You will be redirected to the Rental Transaction page.";
-
-			TempData["RedirectData"] = JsonSerializer.Serialize(new
-			{
-				bookId = request.BookId,
-				userId = request.UserId,
-				rentalStartDate = request.RentalStartDate.ToString("yyyy-MM-dd"),
-				returnDate = request.ReturnDate.ToString("yyyy-MM-dd"),
-				totalCost = request.TotalCost
-			});
-
-			var rentalTransaction = new RentalTransaction
-			{
-				BookId = request.BookId,
-				UserId = request.UserId,
-				RentalStartDate = request.RentalStartDate,
-				ReturnDate = request.ReturnDate,
-				RentalFee = request.TotalCost,
-				PaymentMethodId = 3,
-				PaymentStatusId = 2
-			};
+                var rentalTransaction = new RentalTransaction
+                {
+                    BookId = request.BookId,
+                    UserId = request.UserId,
+                    RentalStartDate = request.RentalStartDate,
+                    ReturnDate = request.ReturnDate,
+                    RentalFee = request.TotalCost,
+                    PaymentMethodId = 3,
+                    PaymentStatusId = 2
+                };
 
                 _context.RentalTransactions.Add(rentalTransaction);
 
