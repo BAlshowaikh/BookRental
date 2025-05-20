@@ -53,6 +53,7 @@
             lblStatus = new Label();
             lblBookStatus = new Label();
             lblUserID = new Label();
+            Save = new Button();
             ((System.ComponentModel.ISupportInitialize)returnIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)homeIcon).BeginInit();
@@ -114,7 +115,7 @@
             // 
             lbltitle.AutoSize = true;
             lbltitle.BackColor = Color.Transparent;
-            lbltitle.Font = new Font("Tahoma", 26F, FontStyle.Bold);
+            lbltitle.Font = new Font("Tahoma", 26F, FontStyle.Bold, GraphicsUnit.Point);
             lbltitle.ForeColor = Color.Cornsilk;
             lbltitle.Location = new Point(147, 9);
             lbltitle.Margin = new Padding(2, 0, 2, 0);
@@ -126,9 +127,9 @@
             // btnApprove
             // 
             btnApprove.BackColor = Color.Cornsilk;
-            btnApprove.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnApprove.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnApprove.ForeColor = Color.Black;
-            btnApprove.Location = new Point(234, 565);
+            btnApprove.Location = new Point(393, 565);
             btnApprove.Margin = new Padding(2);
             btnApprove.Name = "btnApprove";
             btnApprove.Size = new Size(200, 50);
@@ -140,9 +141,9 @@
             // btnReject
             // 
             btnReject.BackColor = Color.IndianRed;
-            btnReject.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnReject.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnReject.ForeColor = Color.White;
-            btnReject.Location = new Point(542, 565);
+            btnReject.Location = new Point(635, 565);
             btnReject.Margin = new Padding(2);
             btnReject.Name = "btnReject";
             btnReject.Size = new Size(200, 50);
@@ -156,7 +157,6 @@
             txtStartDate.Location = new Point(240, 343);
             txtStartDate.Margin = new Padding(2);
             txtStartDate.Name = "txtStartDate";
-            txtStartDate.ReadOnly = true;
             txtStartDate.Size = new Size(250, 31);
             txtStartDate.TabIndex = 43;
             // 
@@ -173,7 +173,7 @@
             // 
             lblUserName.AutoSize = true;
             lblUserName.BackColor = Color.Transparent;
-            lblUserName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUserName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblUserName.ForeColor = Color.Black;
             lblUserName.Location = new Point(540, 132);
             lblUserName.Margin = new Padding(2, 0, 2, 0);
@@ -195,7 +195,7 @@
             // 
             lblRequestID.AutoSize = true;
             lblRequestID.BackColor = Color.Transparent;
-            lblRequestID.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRequestID.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblRequestID.ForeColor = Color.Black;
             lblRequestID.Location = new Point(19, 128);
             lblRequestID.Margin = new Padding(2, 0, 2, 0);
@@ -244,7 +244,7 @@
             // 
             lblBookName.AutoSize = true;
             lblBookName.BackColor = Color.Transparent;
-            lblBookName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookName.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblBookName.ForeColor = Color.Black;
             lblBookName.Location = new Point(540, 238);
             lblBookName.Margin = new Padding(2, 0, 2, 0);
@@ -257,7 +257,7 @@
             // 
             lblBookID.AutoSize = true;
             lblBookID.BackColor = Color.Transparent;
-            lblBookID.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBookID.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblBookID.ForeColor = Color.Black;
             lblBookID.Location = new Point(19, 235);
             lblBookID.Margin = new Padding(2, 0, 2, 0);
@@ -271,7 +271,6 @@
             txtReturnDate.Location = new Point(710, 344);
             txtReturnDate.Margin = new Padding(2);
             txtReturnDate.Name = "txtReturnDate";
-            txtReturnDate.ReadOnly = true;
             txtReturnDate.Size = new Size(250, 31);
             txtReturnDate.TabIndex = 44;
             // 
@@ -279,7 +278,7 @@
             // 
             lblStartDate.AutoSize = true;
             lblStartDate.BackColor = Color.Transparent;
-            lblStartDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStartDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblStartDate.ForeColor = Color.Black;
             lblStartDate.Location = new Point(19, 342);
             lblStartDate.Margin = new Padding(2, 0, 2, 0);
@@ -292,7 +291,7 @@
             // 
             lblTotalCost.AutoSize = true;
             lblTotalCost.BackColor = Color.Transparent;
-            lblTotalCost.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTotalCost.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblTotalCost.ForeColor = Color.Black;
             lblTotalCost.Location = new Point(19, 450);
             lblTotalCost.Margin = new Padding(2, 0, 2, 0);
@@ -305,7 +304,7 @@
             // 
             lblReturnDate.AutoSize = true;
             lblReturnDate.BackColor = Color.Transparent;
-            lblReturnDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblReturnDate.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblReturnDate.ForeColor = Color.Black;
             lblReturnDate.Location = new Point(540, 343);
             lblReturnDate.Margin = new Padding(2, 0, 2, 0);
@@ -318,7 +317,7 @@
             // 
             lblStatus.AutoSize = true;
             lblStatus.BackColor = Color.Transparent;
-            lblStatus.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStatus.Font = new Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblStatus.ForeColor = Color.Black;
             lblStatus.Location = new Point(540, 450);
             lblStatus.Margin = new Padding(2, 0, 2, 0);
@@ -331,7 +330,7 @@
             // 
             lblBookStatus.AutoSize = true;
             lblBookStatus.BackColor = Color.Transparent;
-            lblBookStatus.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblBookStatus.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             lblBookStatus.ForeColor = Color.Black;
             lblBookStatus.Location = new Point(240, 272);
             lblBookStatus.Margin = new Padding(2, 0, 2, 0);
@@ -344,7 +343,7 @@
             // 
             lblUserID.AutoSize = true;
             lblUserID.BackColor = Color.Transparent;
-            lblUserID.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblUserID.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             lblUserID.ForeColor = Color.Black;
             lblUserID.Location = new Point(710, 165);
             lblUserID.Margin = new Padding(2, 0, 2, 0);
@@ -353,6 +352,20 @@
             lblUserID.TabIndex = 51;
             lblUserID.Text = "lblUserID";
             // 
+            // Save
+            // 
+            Save.BackColor = Color.Cornsilk;
+            Save.Font = new Font("Britannic Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            Save.ForeColor = Color.Black;
+            Save.Location = new Point(147, 565);
+            Save.Margin = new Padding(2);
+            Save.Name = "Save";
+            Save.Size = new Size(200, 50);
+            Save.TabIndex = 52;
+            Save.Text = "Save Editing";
+            Save.UseVisualStyleBackColor = false;
+            Save.Click += Save_Click;
+            // 
             // rentalRequestDetails
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -360,6 +373,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(Save);
             Controls.Add(lblUserID);
             Controls.Add(lblBookStatus);
             Controls.Add(lblStatus);
@@ -424,5 +438,6 @@
         private Label lblStatus;
         private Label lblBookStatus;
         private Label lblUserID;
+        private Button Save;
     }
 }

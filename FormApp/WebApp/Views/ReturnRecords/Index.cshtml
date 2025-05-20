@@ -48,9 +48,9 @@
             {
                 <div class="col-md-4">
                     <div class="second-card mb-4 card-clickable"
-                    data-bs-toggle="modal"
-                    data-bs-target="#detailsModal-@record.RecordId"
-                    style="cursor: pointer; height: 190px;">
+                         data-bs-toggle="modal"
+                         data-bs-target="#detailsModal-@record.RecordId"
+                         style="cursor: pointer; height: 190px;">
 
                         <div class="card-info">
                             <h4>Record ID: @record.RecordId</h4>
@@ -59,15 +59,15 @@
                             <p>Book Return Condition: @record.BookCondition.ReturnCondition</p>
                             <p>Total Extra Charges: @record.TotalAdditionalCharges</p>
                             <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
-                                @if (!ViewBag.FeedbackStatus[record.RecordId])
+                                @if (ViewBag.FeedbackStatus != null && !ViewBag.FeedbackStatus[record.RecordId])
                                 {
                                     <a asp-controller="Feedbacks" asp-action="Create"
-                                    asp-route-Id="@record.RecordId"
-                                    class="btn btn-sm btn-light prevent-stretch">
+                                       asp-route-Id="@record.RecordId"
+                                       class="btn btn-sm btn-light prevent-stretch">
                                         Give Feedback
                                     </a>
                                 }
-                                else
+                                else if (ViewBag.FeedbackStatus != null)
                                 {
                                     <a asp-controller="Feedbacks" asp-action="Index" asp-route-recordId="@record.RecordId"
                                        class="btn btn-sm btn-light prevent-stretch">
