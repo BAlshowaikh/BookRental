@@ -87,6 +87,7 @@ namespace FormApp
                     ContactNumber = s.ContactNo,
                     Role = s.UserRole.Role,
                     s.IsActive
+
                 }).ToList();
             }
             catch (Exception ex)

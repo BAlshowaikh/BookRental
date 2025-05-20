@@ -8,27 +8,28 @@
 
 <h1 class="text-dark text-center">Feedback</h1>
 
-<!--Search and filter-->
-<div class="row py-3">
-    <div class="col-12">
-        <form asp-controller="Feedbacks" asp-action="Index" method="get" class="row gx-2 align-items-center" autocomplete="off">
-            <label class="form-label px-2 ms-2" style="width: 9.5%">Return Record ID:</label>
-            <div class="col-auto position-relative">
-                <input type="text" name="SearchString" value="@Context.Request.Query["SearchString"].ToString()" class="form-control" placeholder="Return Record ID" />
-            </div>
+    <!--Search and filter-->
+    <div class="row py-3">
+        <div class="col-12">
+            <form asp-controller="Feedbacks" asp-action="Index" method="get" class="row gx-2 align-items-center" autocomplete="off">
+                <label class="form-label px-2 ms-2" style="width: 9.5%">Return Record ID:</label>
+                <div class="col-auto position-relative">
+                    <input type="text" name="SearchString" value="@Context.Request.Query["SearchString"].ToString()" class="form-control" placeholder="Return Record ID" />
+                </div>
 
-            <div class="col"></div>
+                <div class="col"></div>
 
-            <!-- Buttons - now aligned to far right -->
-            <div class="col-auto">
-                <input type="submit" value="Search" class="btn btn-primary mx-3" />
-            </div>
-            <div class="col-auto">
-                <a asp-controller="Feedbacks" asp-action="Index" class="btn btn-outline-danger">Clear</a>
-            </div>
-        </form>
+                <!-- Buttons - now aligned to far right -->
+                <div class="col-auto">
+                    <input type="submit" value="Search" class="btn btn-primary mx-3" />
+                </div>
+                <div class="col-auto">
+                    <a asp-controller="Feedbacks" asp-action="Index" class="btn btn-outline-danger">Clear</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+
 
 
 <div class="container my-4">
@@ -44,7 +45,7 @@
                          style="cursor: pointer;">
 
                     <div class="card-info">
-                        <h5>Customer Name: @(feedback.ReturnRecord.Transaction.User.FullName)</h5>
+                        <h5>Customer Name: @(feedback.ReturnRecord?.Transaction.User.FullName)</h5>
                         <p>Book Name: @feedback.Book.Name</p>
                         <p>Category: @feedback.Book.Category.CategoryName</p>
                         <p>Author: @feedback.Book.Author.FullName</p>
@@ -78,7 +79,6 @@
 							</div>
 							<div class="modal-body">
 								<div class="info-group mb-3">
-									<p class="mb-1"><strong>Feedback ID:</strong> @feedback.FeedbackId</p>
                                     <p class="mb-1"><strong>Book Name:</strong> @feedback.Book.Name</p>
                                     <p class="mb-1"><strong>Customer Name:</strong> @feedback.ReturnRecord?.Transaction.User.FullName</p>
 									<p class="mb-1"><strong>Timestamp:</strong> @feedback.Timestamp</p>
@@ -100,6 +100,7 @@
 <script>
     $(document).ready(function () {
         preventStretchedLinkClick();
+
 
         $('.card-clickable').on('click', function () {
             const modalId = $(this).data('modal-id');
@@ -151,6 +152,6 @@
                 }
             });
         }
-	
+
 </script>
 }

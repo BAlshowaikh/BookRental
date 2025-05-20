@@ -11,15 +11,16 @@
                 <!-- Books Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-                        Books
+                        Management
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" asp-controller="Books" asp-action="Index">Book List</a></li>
+                        <li><a class="dropdown-item" asp-controller="Books" asp-action="Index">Manage Books</a></li>
                         <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Manage Categories</a></li>
                         <li><a class="dropdown-item" asp-controller="Authors" asp-action="Index">Manage Authors</a></li>
+                        <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">Manage Users</a></li>
+                        
                     </ul>
                 </li>
-
                 <!-- Rentals Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
@@ -31,11 +32,16 @@
                         <li><a class="dropdown-item" asp-controller="ReturnRecords" asp-action="Index">Return Records</a></li>
                     </ul>
                 </li>
+                <!-- System Reports -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                        System Reports
+                    </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="AuditTrails" asp-action="Index">Audit Trails</a></li>
+                    <li><a class="dropdown-item" asp-controller="RentalRequestLogs" asp-action="Index">Logs</a></li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-controller="Users" asp-action="Index">Manage Users</a>
-                </li>
-
+                </ul>
                 <!-- Feedback Link -->
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-controller="Feedbacks" asp-action="Index">Feedback</a>
