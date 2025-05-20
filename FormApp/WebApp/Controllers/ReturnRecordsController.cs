@@ -9,28 +9,46 @@ using BookRentalObject;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Drawing.Printing;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApp.Controllers
 {
     public class ReturnRecordsController : Controller
     {
         private readonly BookRentalDBContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ReturnRecordsController(BookRentalDBContext context)
+        public ReturnRecordsController(BookRentalDBContext context, UserManager<IdentityUser> UserManager)
         {
             _context = context;
+            _userManager = UserManager;
         }
 
         // GET: ReturnRecords
+        [Authorize]
         public async Task<IActionResult> Index(string SearchString, string SearchCon, int page = 1, int pageSize = 9)
         {
             // Start with base query including all relationships
             var bookRentalDBContext = _context.ReturnRecords
-                .Include(r => r.Book)
-                .Include(r => r.BookCondition)
-                .Include(r => r.ExtraCharges)
-                .Include(r => r.Transaction)
-                .AsQueryable();
+                    .Include(r => r.Book)
+                    .Include(r => r.BookCondition)
+                    .Include(r => r.ExtraCharges)
+                    .Include(r => r.Transaction)
+                    .AsQueryable();
+
+            if (User.IsInRole("User"))
+            {
+                var userEmail = _userManager.GetUserName(User);
+                var dbUser = _context.Users.FirstOrDefault(x => x.Email == userEmail);
+
+                if (dbUser != null)
+                {
+                    var dbUserId = dbUser.UserId;
+                    bookRentalDBContext = bookRentalDBContext.Where(x => x.Transaction.UserId == dbUserId);
+                }
+            }
 
             // Apply Record ID filter
             if (!string.IsNullOrEmpty(SearchString))
@@ -143,6 +161,8 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User")]
+
         public async Task<IActionResult> Create([Bind("RecordId,ExpectedReturnDate,ActualReturnDate,TotalAdditionalCharges,LateReturnFee,BookId,BookConditionId,TransactionId,ExtraChargesId")] ReturnRecord returnRecord)
         {
             // Get the original transaction details

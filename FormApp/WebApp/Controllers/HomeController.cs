@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using BookRentalObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
@@ -33,7 +34,7 @@ namespace WebApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        [Authorize(Roles = "Admin, Manager")]
         public IActionResult Dashboard()
         {
             var now = DateTime.Now;
