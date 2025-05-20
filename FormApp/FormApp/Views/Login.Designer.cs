@@ -34,6 +34,8 @@
             txtUserEmail = new TextBox();
             txtPassword = new TextBox();
             loginBtn = new Button();
+            exitIcon = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)exitIcon).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -103,6 +105,19 @@
             loginBtn.UseVisualStyleBackColor = false;
             loginBtn.Click += loginBtn_Click;
             // 
+            // exitIcon
+            // 
+            exitIcon.BackColor = Color.Transparent;
+            exitIcon.Image = Properties.Resources.exit_icon;
+            exitIcon.Location = new Point(930, 12);
+            exitIcon.Margin = new Padding(2);
+            exitIcon.Name = "exitIcon";
+            exitIcon.Size = new Size(40, 40);
+            exitIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            exitIcon.TabIndex = 31;
+            exitIcon.TabStop = false;
+            exitIcon.Click += exitIcon_Click;
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -111,6 +126,7 @@
             BackgroundImage = Properties.Resources.Book_trans_bg;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(978, 644);
+            Controls.Add(exitIcon);
             Controls.Add(loginBtn);
             Controls.Add(txtPassword);
             Controls.Add(txtUserEmail);
@@ -122,6 +138,7 @@
             Name = "Login";
             Text = "Login";
             Load += Login_Load;
+            ((System.ComponentModel.ISupportInitialize)exitIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -137,5 +154,6 @@
         private Button loginBtn;
         private TextBox txtUserEmail;
         private TextBox txtPassword;
+        private PictureBox exitIcon;
     }
 }

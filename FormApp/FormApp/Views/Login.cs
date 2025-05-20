@@ -32,9 +32,7 @@ namespace FormApp
         {
             InitializeComponent();
             HelperFunctions.setUpFormDesign(this);
-
-            BookRentalDBContext context = new BookRentalDBContext();
-
+            context = new BookRentalDBContext();
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -139,6 +137,11 @@ namespace FormApp
             {
                 MessageBox.Show("Error");
             }
+        }
+
+        private void exitIcon_Click(object sender, EventArgs e)
+        {
+            HelperFunctions.exitBtn();
         }
     }
 }
