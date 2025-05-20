@@ -23,30 +23,14 @@ namespace WebApp.Controllers
         // GET: RentalTransactions
         public async Task<IActionResult> Index(string SearchString, string SearchCustomer, bool? fromRequest, int? bookId, int? userId, string rentalStartDate, string returnDate, decimal? totalCost)
         {
-			/*IQueryable<RentalTransaction> bookRentalDBContext = _context.RentalTransactions.Include(r => r.Book).Include(r => r.PaymentMethod).Include(r => r.PaymentStatus).Include(r => r.User).Where(x => x.User.UserRole.Role == "Customer");
-
-            if (!String.IsNullOrEmpty(SearchString))
-            {
-                bookRentalDBContext = bookRentalDBContext.Where(x => x.TransactionId == Convert.ToInt32(SearchString));
-            }
-
-            if (!String.IsNullOrEmpty(SearchCustomer))
-            {
-                bookRentalDBContext = bookRentalDBContext.Where(x => x.User.UserId.ToString() == SearchCustomer);
-            }
-
-            var custList = new SelectList(_context.Users.Where(x => x.UserRole.Role == "Customer"), "UserId", "FullName", SearchCustomer);
-            ViewBag.CustList = custList;
-
-            return View(bookRentalDBContext);*/
-
 			var query = _context.RentalTransactions
 		                .Include(r => r.Book)
 		                .Include(r => r.User)
                         .Include(r => r.PaymentMethod)
                         .Include(r => r.PaymentStatus)
-		                //.Where(r => r.User.UserRole.Role == "Customer")
-		                .AsQueryable();
+						.Include(x => x.ReturnRecords)
+						//.Where(r => r.User.UserRole.Role == "Customer")
+						.AsQueryable();
 
 			if (!String.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
 			{
@@ -73,7 +57,11 @@ namespace WebApp.Controllers
 			ViewBag.CustList = new SelectList(
 		             await _context.Users
 			        .Where(x => x.UserRole.Role == "Customer")
-			        .ToListAsync(),
+                    .Select(u => new {
+                        u.UserId,
+                        FullName = (u.FirstName ?? "") + " " + (u.LastName ?? "")
+                    })
+                    .ToListAsync(),
 		             "UserId", "FullName", SearchCustomer
 	        );
 
@@ -159,13 +147,33 @@ namespace WebApp.Controllers
                 redirectData = JsonSerializer.Deserialize<RentalRedirectDataViewModel>(jsonString);
             }
 
-            var selectedPaymentMethod = _context.RentalTransactions.Include(x => x.PaymentMethod).Where(x => x.PaymentMethod.PaymentMethod1 == "cash").FirstOrDefault().PaymentMethodId;
-            var selectedPaymentStatus = _context.RentalTransactions.Include(x => x.PaymentStatus).Where(x => x.PaymentStatus.PaymentStatus1 == "pending").Select(x => x.PaymentStatusId).FirstOrDefault();
+			// Set default values
+			var defaultPaymentMethod = _context.PaymentMethods
+				.FirstOrDefault(pm => pm.PaymentMethod1 == "Cash")?.PaymentMethodId;
 
-			ViewBag.PaymentMethodId = new SelectList(_context.PaymentMethods, "PaymentMethodId", "PaymentMethod1", selectedPaymentMethod);
-			ViewBag.PaymentStatusId = new SelectList(_context.PaymentStatuses, "PaymentId", "PaymentStatus1", selectedPaymentStatus);
-            
-            return View(new RentalTransactionViewModel
+			var defaultPaymentStatus = _context.PaymentStatuses
+				.FirstOrDefault(ps => ps.PaymentStatus1 == "Pending")?.PaymentId;
+
+			
+			int? selectedPaymentMethod = rentalTransaction?.PaymentMethodId ?? defaultPaymentMethod;
+			int? selectedPaymentStatus = rentalTransaction?.PaymentStatusId ?? defaultPaymentStatus;
+
+			ViewBag.PaymentMethodId = new SelectList(
+				_context.PaymentMethods.ToList(),
+				"PaymentMethodId",
+				"PaymentMethod1",
+				selectedPaymentMethod
+			);
+
+			ViewBag.PaymentStatusId = new SelectList(
+				_context.PaymentStatuses.ToList(),
+				"PaymentId",
+				"PaymentStatus1",
+				selectedPaymentStatus
+			);
+
+
+			return View(new RentalTransactionViewModel
             {
                 RentalTransaction = rentalTransaction,
                 RedirectData = redirectData

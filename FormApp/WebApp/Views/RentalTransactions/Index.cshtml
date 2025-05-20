@@ -57,10 +57,23 @@
 						<p>Rental Start Date: @card.RentalTransaction.RentalStartDate</p>
 					
 						<div class="mt-3 d-flex flex-wrap gap-2">
-							<a asp-action="Edit"
+							@if (card.RentalTransaction.ReturnRecords != null && card.RentalTransaction.ReturnRecords.Any()) 
+							{
+								<button class="btn btn-sm btn-light" disabled>Edit</button>
+							}
+							else
+							{
+								<a asp-action="Edit"
+								asp-route-id="@card.RentalTransaction.TransactionId"
+								class="btn btn-sm btn-light">
+									Edit
+								</a>
+							}
+
+							<a asp-controller="ReturnRecords" asp-action="Create"
 							   asp-route-id="@card.RentalTransaction.TransactionId"
 							   class="btn btn-sm btn-light">
-								Edit
+								Generate Return Record
 							</a>
 						</div>
 					</div>

@@ -19,16 +19,26 @@ namespace WebApp.Controllers
         }
 
         // GET: Feedbacks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int recordId, string SearchString)
         {
-            var bookRentalDBContext = _context.Feedbacks
+            IQueryable<Feedback> bookRentalDBContext = _context.Feedbacks
                 .Include(f => f.Book)             
                     .ThenInclude(f => f.Category)
                 .Include(f => f.Book)
                     .ThenInclude(f => f.Author)
                 .Include(f => f.ReturnRecord)                   
                     .ThenInclude(r => r.Transaction)            
-                    .ThenInclude(t => t.User);                  
+                    .ThenInclude(t => t.User);               
+            
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == Convert.ToInt32(SearchString));
+            }
+
+            if (recordId != null && recordId != 0)
+            {
+                bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == recordId);
+            }
 
             return View(await bookRentalDBContext.ToListAsync());
         }

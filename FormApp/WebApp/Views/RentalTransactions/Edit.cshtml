@@ -65,7 +65,7 @@
 
 		<div class="form-group mb-3">
 			<label class="form-label">Payment Status</label>
-			<select asp-for="RentalTransaction.PaymentStatus.PaymentStatus1" asp-items="@ViewBag.PaymentStatusId" class="form-control input-border">
+			<select asp-items="@ViewBag.PaymentStatusId" class="form-control input-border">
 				<option disabled selected value="0">Payment Status</option>
 			</select>
 			<input type="hidden" asp-for="RentalTransaction.PaymentStatusId" />
