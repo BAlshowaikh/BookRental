@@ -130,7 +130,7 @@ namespace FormApp
         private void quickAccessLbl_Click(object sender, EventArgs e)
         {
 
-             var menu = new ContextMenuStrip();
+            var menu = new ContextMenuStrip();
 
             // ── Books ──
             var booksMenu = new ToolStripMenuItem("📚 Books");
@@ -173,5 +173,10 @@ namespace FormApp
             menu.Show(quickAccessLbl, new Point(0, quickAccessLbl.Height));
         }
 
+        private void ViewStatsBtn_Click(object sender, EventArgs e)
+        {
+            Form monitoringDashboardForm = new mointoringDashboard();
+            HelperFunctions.navigationToPage(this, monitoringDashboardForm);
+        }
     }
 }
