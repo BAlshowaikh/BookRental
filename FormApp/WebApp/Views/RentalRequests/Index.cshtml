@@ -60,8 +60,8 @@
 
 			<div class="col-md-4">
 				<div class="main-card mb-4 card-clickable @borderClass"
-					 data-modal-id="detailsModal-@request.RequestId"
-					 style="cursor: pointer;">
+				data-modal-id="detailsModal-@request.RequestId"
+				style="cursor: pointer;">
 
 
 					<div class="card-info">
@@ -70,13 +70,18 @@
 						<p>Request Status: @request.RentalRequestStatus.Status</p>
 
 						<div class="mt-3 d-flex flex-wrap gap-2">
-							<a asp-action="Edit"
-							   asp-route-id="@request.RequestId"
-							   class="btn btn-sm btn-light">
-								Edit
-							</a>
 
-							@if (request.RentalRequestStatus.Status == "Pending")
+							<!-- Restrict so only -->
+							@if ( (User.IsInRole("Admin") || User.IsInRole("Manager") ) || ( request.RentalRequestStatus.Status == "Pending" && User.IsInRole("User")) ) {
+								<a asp-action="Edit"
+								asp-route-id="@request.RequestId"
+								class="btn btn-sm btn-light">
+									Edit
+								</a>
+							}
+
+							<!-- Restrict so only Admin and manager see approve or reject buttons-->
+							@if (request.RentalRequestStatus.Status == "Pending" && (User.IsInRole("Admin") || User.IsInRole("Manager")))
 							{
 								<form asp-action="Approve" asp-route-id="@request.RequestId" method="post" class="prevent-stretch">
 									<button type="submit" class="btn btn-sm btn-success text-light">Approve</button>
@@ -129,6 +134,7 @@
 					</div>
 				</div>
 			</div>
+			
 		}
 
 		<!-- Pagination -->
