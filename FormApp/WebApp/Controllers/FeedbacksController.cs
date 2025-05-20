@@ -113,24 +113,24 @@ namespace WebApp.Controllers
                 var user = await _context.Users
                     .FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
 
-                // Optional: validate the record if needed
-                var returnRecord = await _context.ReturnRecords
-                    .Include(r => r.Transaction)
-                    .ThenInclude(t => t.User)
-                    .FirstOrDefaultAsync(r => r.RecordId == feedback.ReturnRecordId);
-
-                if (returnRecord == null)
-                {
-                    ModelState.AddModelError("", "Associated return record was not found.");
-                    return View(feedback);
-                }
-
+                
                 // Save feedback
                 _context.Feedbacks.Add(feedback);
                 await _context.SaveChangesAsync();
 
-                TempData["FeedbackSuccess"] = "Feedback created successfully!";
-                return RedirectToAction(nameof(Index), new { recordId = feedback.ReturnRecordId });
+
+                var updatedList = await _context.Feedbacks
+                                .Include(f => f.Book)
+                                    .ThenInclude(b => b.Category)
+                                .Include(f => f.Book)
+                                    .ThenInclude(b => b.Author)
+                                .Include(f => f.ReturnRecord)
+                                    .ThenInclude(r => r.Transaction)
+                                    .ThenInclude(t => t.User)
+                                .Where(f => f.ReturnRecordId == feedback.ReturnRecordId)
+                                .ToListAsync();
+
+                return RedirectToAction(nameof(Index));
             }
 
             // Re-populate book name in case of error

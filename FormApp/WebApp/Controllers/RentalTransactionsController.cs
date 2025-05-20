@@ -43,6 +43,12 @@ namespace WebApp.Controllers
 						//.Where(r => r.User.UserRole.Role == "Customer")
 						.AsQueryable();
 
+            if (User.IsInRole("User"))
+            {
+                string currentEmail = User.Identity.Name;
+                query = query.Where(r => r.User.Email == currentEmail);
+            }
+
             if (!String.IsNullOrEmpty(SearchString) && int.TryParse(SearchString, out int transId))
             {
                 query = query.Where(r => r.TransactionId == transId);
@@ -72,11 +78,11 @@ namespace WebApp.Controllers
                 .ToList();
 
 
-            if (User.IsInRole("User"))
-            {
-                var user = _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
-                cards.Where(x => x.RentalTransaction.UserId == user.UserId);
-            }
+            //if (User.IsInRole("User"))
+            //{
+            //    var user = _context.Users.Where(r => r.Email == User.Identity.Name).FirstOrDefault();
+            //    cards.Where(x => x.RentalTransaction.UserId == user.UserId);
+            //}
 
             Console.WriteLine($"Total cards: {cards.Count}");
 
