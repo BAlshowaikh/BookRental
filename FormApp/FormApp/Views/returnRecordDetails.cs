@@ -133,12 +133,12 @@ namespace FormApp.Views
                 //change the AvailabilityStatusId
                 Book book = context.Books.Find(transaction.BookId);
                 book.AvailabilityStatusId = 1;
+                book.BookConditionId = Convert.ToInt32(ddlBookCondition.SelectedValue.ToString());
 
                 var totalCost  = calculateLateReturnFee() + getExtraChargeRate();
                 if (MessageBox.Show("are you sure you want to generate a return record?" + "\nThe amount of the total additional charges is " + totalCost, "Confirm Approval", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     context.ReturnRecords.Add(returnRecord);
-                    //save the updated value
                     context.RentalTransactions.Update(transaction);
                     context.Books.Update(book);
 

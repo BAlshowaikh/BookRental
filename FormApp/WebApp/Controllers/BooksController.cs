@@ -311,58 +311,6 @@ namespace WebApp.Controllers
             return View(fullBookOnError);
         }
 
-
-        // GET: Books/Delete/5
-        // Restrict the user for deleting book
-        [Authorize(Roles = "Admin, Manager")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Books == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books
-                .Include(b => b.Author)
-                .Include(b => b.AvailabilityStatus)
-                .Include(b => b.BookCondition)
-                .Include(b => b.Category)
-                .Include(b => b.Image)
-                .FirstOrDefaultAsync(m => m.BookId == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
-        // POST: Books/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        // Restrict the user for deleting book
-        [Authorize(Roles = "Admin, Manager")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Books == null)
-            {
-                return Problem("Entity set 'BookRentalDBContext.Books'  is null.");
-            }
-            var book = await _context.Books.FindAsync(id);
-            if (book != null)
-            {
-                _context.Books.Remove(book);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool BookExists(int id)
-        {
-            return (_context.Books?.Any(e => e.BookId == id)).GetValueOrDefault();
-        }
-
         // Method to autocompletion for the Book name search
         [HttpGet]
         public IActionResult SearchBooks(string term)

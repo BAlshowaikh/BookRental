@@ -28,6 +28,8 @@ namespace WebApp.Controllers
         }
 
         // GET: RentalRequests
+        // ONly logged in users can access the requests
+        [Authorize]
         public async Task<IActionResult> Index(int? searchRequestId, int? searchStatusId, int page = 1)
         {
             int pageSize = 12;
@@ -37,6 +39,13 @@ namespace WebApp.Controllers
                 .Include(r => r.Book)
                 .Include(r => r.RentalRequestStatus)
                 .AsQueryable();
+
+            // Restrict to show logged in user request only
+            if (User.IsInRole("User"))
+            {
+                var loggedInEmail = User.Identity.Name;
+                query = query.Where(rr => rr.User.Email == loggedInEmail);
+            }
 
             if (searchRequestId.HasValue && searchRequestId.Value > 0)
             {
@@ -64,28 +73,6 @@ namespace WebApp.Controllers
             return View(items);
         }
 
-
-
-        // GET: RentalRequests/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.RentalRequests == null)
-            {
-                return NotFound();
-            }
-
-            var rentalRequest = await _context.RentalRequests
-                .Include(r => r.Book)
-                .Include(r => r.RentalRequestStatus)
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.RequestId == id);
-            if (rentalRequest == null)
-            {
-                return NotFound();
-            }
-
-            return View(rentalRequest);
-        }
 
         // GET: RentalRequests/Create
         // Only User (customer) can create a rental request
@@ -213,6 +200,8 @@ namespace WebApp.Controllers
 
 
         // GET: RentalRequests/Edit/5
+        // Only Admin and manager can edit
+        [Authorize(Roles = "Admin, Manager, User")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.RentalRequests == null)
@@ -230,6 +219,15 @@ namespace WebApp.Controllers
             if (rentalRequest == null)
             {
                 return NotFound();
+            }
+
+            if (User.IsInRole("User"))
+            {
+                var loggedInEmail = User.Identity.Name;
+                if (rentalRequest.User.Email != loggedInEmail)
+                {
+                    return Forbid(); 
+                }
             }
 
             ViewBag.BookName = rentalRequest.Book?.Name ?? "Unknown Book";
@@ -345,53 +343,11 @@ namespace WebApp.Controllers
             return View(rentalRequest);
         }
 
-        // GET: RentalRequests/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.RentalRequests == null)
-            {
-                return NotFound();
-            }
-
-            var rentalRequest = await _context.RentalRequests
-                .Include(r => r.Book)
-                .Include(r => r.RentalRequestStatus)
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.RequestId == id);
-            if (rentalRequest == null)
-            {
-                return NotFound();
-            }
-
-            return View(rentalRequest);
-        }
-
-        // POST: RentalRequests/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.RentalRequests == null)
-            {
-                return Problem("Entity set 'BookRentalDBContext.RentalRequests'  is null.");
-            }
-            var rentalRequest = await _context.RentalRequests.FindAsync(id);
-            if (rentalRequest != null)
-            {
-                _context.RentalRequests.Remove(rentalRequest);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool RentalRequestExists(int id)
-        {
-            return (_context.RentalRequests?.Any(e => e.RequestId == id)).GetValueOrDefault();
-        }
-
         // In case the "Approve" button is clicked
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        // Restrict access to only manager and admin who can approve
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Approve(int id)
         {
             var request = await _context.RentalRequests
@@ -474,6 +430,8 @@ namespace WebApp.Controllers
 
         // In case the "Reject" button is clicked
         [HttpPost]
+        // Only Admin and manager can reject 
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Reject(int id)
         {
             var request = await _context.RentalRequests.FindAsync(id);
@@ -547,6 +505,8 @@ namespace WebApp.Controllers
         // Function to delete the dosumnet
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        // Only Admin and manager can delete documnet
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> DeleteDocument(int id)
         {
             try
