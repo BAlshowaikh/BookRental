@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookRentalObject;
 using Microsoft.AspNetCore.Authorization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApp.Controllers
 {
@@ -30,8 +31,15 @@ namespace WebApp.Controllers
                     .ThenInclude(f => f.Author)
                 .Include(f => f.ReturnRecord)                   
                     .ThenInclude(r => r.Transaction)            
-                    .ThenInclude(t => t.User);               
-            
+                    .ThenInclude(t => t.User);
+
+            // Restrict to show logged in user request only
+            if (User.IsInRole("User"))
+            {
+                string currentEmail = User.Identity.Name;
+                bookRentalDBContext = bookRentalDBContext.Where(f => f.ReturnRecord.Transaction.User.Email == currentEmail);
+            }
+
             if (!String.IsNullOrEmpty(SearchString))
             {
                 bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == Convert.ToInt32(SearchString));
@@ -41,13 +49,7 @@ namespace WebApp.Controllers
             {
                 bookRentalDBContext = bookRentalDBContext.Where(x => x.ReturnRecordId == recordId);
             }
-
-            if (User.IsInRole("User"))
-            {
-                string currentEmail = User.Identity.Name;
-                bookRentalDBContext = bookRentalDBContext.Where(f => f.ReturnRecord.Transaction.User.Email == currentEmail);
-            }
-
+            
             return View(await bookRentalDBContext.ToListAsync());
         }
 
@@ -74,26 +76,26 @@ namespace WebApp.Controllers
         }
 
         // GET: Feedbacks/Create
-        public async Task<IActionResult> CreateAsync(int recordId)
+        public async Task<IActionResult> Create(int? id)
         {
             var returnRecord = await _context.ReturnRecords
                              .Include(r => r.Transaction)
                                  .ThenInclude(rt => rt.Book)
-                             .FirstOrDefaultAsync(r => r.RecordId == recordId);
+                                 .ThenInclude(u => u.RentalTransactions)
+                                 .ThenInclude(u => u.User)
+                             .FirstOrDefaultAsync(r => r.RecordId == id);
 
             if (returnRecord == null)
                 return NotFound();
 
             var feedback = new Feedback
             {
-                ReturnRecordId = recordId,
+                ReturnRecordId = id,
                 BookId = returnRecord.Transaction.BookId,
                 Timestamp = DateTime.Now
             };
 
-            ViewBag.Book = new SelectList(
-                new List<Book> { returnRecord.Transaction.Book },
-                "BookId", "Name", returnRecord.Transaction.BookId);
+            ViewBag.BookName = returnRecord.Transaction.Book.Name;
 
             return View(feedback);
         }
@@ -103,18 +105,41 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FeedbackId,Timestamp,Comment,TransactionId,Rate,BookId,IsHidden")] Feedback feedback)
+        public async Task<IActionResult> Create([Bind("FeedbackId,Timestamp,Comment,Rate,BookId,IsHidden,ReturnRecordId")] Feedback feedback)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(feedback);
+                // Optional: get current user
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+
+                
+                // Save feedback
+                _context.Feedbacks.Add(feedback);
                 await _context.SaveChangesAsync();
+
+
+                var updatedList = await _context.Feedbacks
+                                .Include(f => f.Book)
+                                    .ThenInclude(b => b.Category)
+                                .Include(f => f.Book)
+                                    .ThenInclude(b => b.Author)
+                                .Include(f => f.ReturnRecord)
+                                    .ThenInclude(r => r.Transaction)
+                                    .ThenInclude(t => t.User)
+                                .Where(f => f.ReturnRecordId == feedback.ReturnRecordId)
+                                .ToListAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
+            // Re-populate book name in case of error
             var book = await _context.Books.FindAsync(feedback.BookId);
-            ViewBag.Book = new SelectList(new List<Book> { book }, "BookId", "Name", feedback.BookId);
+            ViewBag.BookName = book?.Name ?? "N/A";
+
             return View(feedback);
         }
+
 
         // GET: Feedbacks/Edit/5
         public async Task<IActionResult> Edit(int? id)

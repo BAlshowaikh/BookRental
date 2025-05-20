@@ -17,14 +17,17 @@
                 <input type="text" name="SearchString" value="@Context.Request.Query["SearchString"].ToString()" class="form-control" placeholder="Transaction ID" />
             </div>
 
-            <div class="col-auto">
-                <label class="form-label ms-3" style="width: 9.5%">Customer:</label>
-            </div>
-            <div class="col-auto">
-                <select asp-items="ViewBag.CustList" name="SearchCustomer" class="form-select" >
+			@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+			{
+				<div class="col-auto">
+					<label class="form-label ms-3" style="width: 9.5%">Customer:</label>
+				</div>
+				<div class="col-auto">
+					<select asp-items="ViewBag.CustList" name="SearchCustomer" class="form-select" >
                     <option disabled selected value="0">Select Customer</option>
                 </select>
-            </div>
+				</div>
+			}
 
             <div class="col"></div>
 

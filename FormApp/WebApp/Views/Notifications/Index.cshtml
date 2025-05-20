@@ -45,8 +45,6 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="info-group mb-3">
-                                        <p class="mb-1"><strong>Notification ID:</strong> @item.NotificationId</p>
-                                        <p class="mb-1"><strong>Customer Name:</strong> @item.User.FullName</p>
                                         <p class="mb-1"><strong>Subject:</strong> @item.Subject</p>
                                         <p class="mb-1"><strong>Message:</strong> @item.Message</p>
                                         <p class="mb-1"><strong>Status:</strong> <span id="modal-status-@item.NotificationId">@(item.Status ? "Read" : "Unread")</span></p>
@@ -103,6 +101,18 @@
     <style>
         .table td, .table th {
             background-color: transparent !important;
+        }
+
+        /* Table Header Styling */
+        table thead tr {
+            background-color: #a97463;
+        }
+
+        table thead th {
+            color: white !important;
+            font-weight: bold;
+            font-size: 1rem;
+            vertical-align: middle;
         }
     </style>
 }
