@@ -42,7 +42,11 @@
     </div>
 
     <!-- Only Admin and manager can see the add book button-->
+<<<<<<< HEAD
     @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+=======
+    @if (User.IsInRole("Admin") || User.IsInRole("Maanger"))
+>>>>>>> 95e447b4cdcdb53e96b6bfe072c0c520faa19624
     {
         <a href="/Books/Create"
         class="rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center add-book-btn"
