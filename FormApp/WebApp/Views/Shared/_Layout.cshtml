@@ -24,15 +24,10 @@
             if (SignInManager.IsSignedIn(User))
             {
                 var currentUser = await UserManager.GetUserAsync(User);
-<<<<<<< HEAD
                 if (currentUser != null) {
                     var roles = await UserManager.GetRolesAsync(currentUser);
                     userRole = roles.FirstOrDefault() ?? "";
                 }
-=======
-                var roles = await UserManager.GetRolesAsync(currentUser);
-                userRole = roles.FirstOrDefault() ?? "";
->>>>>>> 95e447b4cdcdb53e96b6bfe072c0c520faa19624
             }
 
             if (userRole == "Admin")

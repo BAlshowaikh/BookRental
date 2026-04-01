@@ -29,7 +29,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-<<<<<<< HEAD
 
 // Seed user role if not roles exist create them (Once the app start these data will be added automatically)
 using (var scope = app.Services.CreateScope())
@@ -51,12 +50,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
-=======
-app.UseStaticFiles();
+//=======
+//app.UseStaticFiles();
 
-app.UseRouting();
-app.UseAuthentication();;
->>>>>>> 95e447b4cdcdb53e96b6bfe072c0c520faa19624
+//app.UseRouting();
+//app.UseAuthentication();;
+//>>>>>>> 95e447b4cdcdb53e96b6bfe072c0c520faa19624
 
 app.UseAuthorization();
 
