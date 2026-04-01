@@ -1,0 +1,134 @@
+﻿@using WebApp.ViewModel;
+@model RentalTransactionViewModel;
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+
+<div class="container mt-2">
+	<h1 class="display-5 fw-bold text-dark mb-3">Edit a Rental Transaction</h1>
+	<p class="fs-4 text-muted">Edit for rental transaction ID: @Model.RentalTransaction.TransactionId</p>
+	<a asp-controller="RentalTransactions" asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to rental transaction</a>
+	<hr class="mb-4" />
+
+	<form asp-action="Edit" method="post">
+		<div asp-validation-summary="All" class="text-danger mb-3"></div>
+		<input type="hidden" asp-for="RentalTransaction.TransactionId" />
+		<input type="hidden" asp-for="RentalTransaction.TransactionId" value="@Model.RentalTransaction.TransactionId" />
+
+		<div class="form-group mb-3">
+			<label class="form-label">Rental Request ID</label>
+			<input class="form-control" asp-for="RentalTransaction.RentalRequestId" readonly />
+			<input type="hidden" asp-for="RentalTransaction.RentalRequestId" />
+		</div>
+
+		<!-- Read-only Display Fields -->
+		<div class="form-group mb-3">
+			<label class="form-label">Book Name</label>
+			<input class="form-control" value="@Model.RentalTransaction.Book.Name" readonly />
+			<input type="hidden" asp-for="RentalTransaction.BookId" />
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">User Name</label>
+			<input class="form-control" value="@Model.RentalTransaction.User.FullName" readonly />
+			<input type="hidden" asp-for="RentalTransaction.UserId" />
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">Rental Period</label>
+			<input class="form-control" value="@Model.RentalTransaction.RentalPeriod" readonly />
+			<input type="hidden" asp-for="RentalTransaction.RentalPeriod" />
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">Rental Fee</label>
+			<input class="form-control" id="rentalFee" value="@Model.RentalTransaction.RentalFee" readonly />
+			<input type="hidden" id="rentalFeeHidden" asp-for="RentalTransaction.RentalFee" />
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">Rental Start Date</label>
+			<input type="date" id="rentalStartDate" name="RentalTransaction.RentalStartDate" class="form-control input-border" value="@Model.RentalTransaction.RentalStartDate.ToString("yyyy-MM-dd")" readonly />
+			<input type="hidden" asp-for="RentalTransaction.RentalStartDate" />
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">Return Date</label>
+			<input type="date" id="returnDate" name="RentalTransaction.ReturnDate" class="form-control input-border" value="@Model.RentalTransaction.ReturnDate.ToString("yyyy-MM-dd")" readonly />
+			<input type="hidden" asp-for="RentalTransaction.ReturnDate" />
+		</div>
+
+		<div class="form-group mb-1 text-danger d-none" id="dateWarning">
+			Rental period should not exceed 30 days.
+		</div>
+
+		<!-- User Input Fields -->
+		<div class="form-group mb-3">
+			<label class="form-label">Payment Method</label>
+			<select asp-items="@ViewBag.PaymentMethodId" class="form-control input-border">
+				<option disabled selected value="0">Payment Method</option>
+			</select>
+			<input type="hidden" asp-for="RentalTransaction.PaymentMethodId" />
+			<span asp-validation-for="RentalTransaction.PaymentMethod.PaymentMethod1" class="text-danger"></span>
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">Payment Status</label>
+			<select asp-items="@ViewBag.PaymentStatusId" class="form-control input-border">
+				<option disabled selected value="0">Payment Status</option>
+			</select>
+			<input type="hidden" asp-for="RentalTransaction.PaymentStatusId" />
+			<span asp-validation-for="RentalTransaction.PaymentStatus.PaymentStatus1" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<input type="submit" value="Save Changes" class="btn btn-success w-100" />
+		</div>
+	</form>
+</div>
+
+<script>
+	const rentalStartDate = document.getElementById("rentalStartDate");
+	const returnDate = document.getElementById("returnDate");
+	const rentalFee = document.getElementById("rentalFee");
+	const rentalFeeValue = document.getElementById("rentalFeeHidden");
+
+	const originalStartDate = new Date(rentalStartDate.defaultValue);
+	const originalReturnDate = new Date(returnDate.defaultValue);
+	const originalRentalFee = parseFloat(rentalFee.defaultValue);
+
+	const originalDays = (originalReturnDate - originalStartDate) / (1000 * 60 * 60 * 24);
+
+	function calculateRentalPeriod(startDate, returnDate) {
+		if (startDate && returnDate) {
+			const start = new Date(startDate);
+			const end = new Date(returnDate);
+			if (!isNaN(start) && !isNaN(end)) {
+				return Math.floor((end - start) / (1000 * 60 * 60 * 24));
+			}
+		}
+		return 0;
+	}
+
+	function updateRentalFee() {
+		const start = rentalStartDate.value;
+		const end = returnDate.value;
+
+		const newPeriod = calculateRentalPeriod(start, end);
+
+		if (newPeriod > 0 && originalDays > 0) {
+			const scaledFee = ((newPeriod / originalDays) * originalRentalFee).toFixed(2);
+			rentalFee.value = scaledFee;
+			rentalFeeValue.value = scaledFee;
+		}
+	}
+
+	rentalStartDate.addEventListener("change", updateRentalFee);
+	returnDate.addEventListener("change", updateRentalFee);
+	window.addEventListener("load", updateRentalFee);
+</script>
+

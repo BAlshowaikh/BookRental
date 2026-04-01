@@ -1,0 +1,29 @@
+﻿@model BookRentalObject.Author
+
+@{
+    Layout = Context.Request.Headers["X-Requested-With"] == "XMLHttpRequest" ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Create" method="post" id="createAuthorForm">
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label fw-semibold">First Name</label>
+        <input asp-for="FirstName" class="form-control rounded-3 bg-light shadow-sm" placeholder="Enter first name" />
+        <span asp-validation-for="FirstName" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label fw-semibold">Last Name</label>
+        <input asp-for="LastName" class="form-control rounded-3 bg-light shadow-sm" placeholder="Enter last name" />
+        <span asp-validation-for="LastName" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label fw-semibold">Email</label>
+        <input asp-for="Email" class="form-control rounded-3 bg-light shadow-sm" placeholder="Enter email address" />
+        <span asp-validation-for="Email" class="text-danger small"></span>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-success px-4 rounded-pill">Create</button>
+    </div>
+</form>

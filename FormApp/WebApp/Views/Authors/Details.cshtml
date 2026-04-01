@@ -1,0 +1,20 @@
+﻿@model BookRentalObject.Author
+
+@{
+    Layout = Context.Request.Headers["X-Requested-With"] == "XMLHttpRequest" ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mb-3">
+    <label class="fw-semibold d-block">First Name</label>
+    <div>@Model.FirstName</div>
+</div>
+
+<div class="mb-3">
+    <label class="fw-semibold d-block">Last Name</label>
+    <div>@Model.LastName</div>
+</div>
+
+<div class="mb-3">
+    <label class="fw-semibold d-block">Email</label>
+    <div>@Model.Email</div>
+</div>

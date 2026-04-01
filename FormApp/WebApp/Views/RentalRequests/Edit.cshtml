@@ -1,0 +1,270 @@
+﻿@model BookRentalObject.RentalRequest
+
+@{
+	ViewData["Title"] = "Edit";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+
+<div class="container mt-2">
+	<h1 class="display-5 fw-bold text-dark mb-3">Edit a Rental Request</h1>
+	<p class="fs-4 text-muted">Edit for rental request ID: @Model.RequestId</p>
+	<a asp-controller="RentalRequests" asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to rental requests</a>
+	<hr class="mb-4" />
+
+	<form asp-action="Edit" method="post">
+		@Html.AntiForgeryToken()
+		<div asp-validation-summary="All" class="text-danger mb-3"></div>
+		<input type="hidden" asp-for="RequestId" />
+		<input type="hidden" asp-for="BookId" value="@ViewBag.BookId" />
+
+		<!-- Read-only Display Fields -->
+		<div class="form-group mb-3">
+			<label class="form-label">Book Name</label>
+			<input class="form-control" value="@ViewBag.BookName" readonly />
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">User Name</label>
+			<input class="form-control" value="@ViewBag.UserFullName" readonly />
+			<input type="hidden" asp-for="UserId" />
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">Request Status</label>
+			<input class="form-control" value="@ViewBag.RentalRequestStatus" readonly />
+			<input type="hidden" asp-for="RentalRequestStatusId" />
+		</div>
+
+		<!-- User Input Fields -->
+		<div class="form-group mb-3">
+			<label asp-for="RentalStartDate" class="form-label"></label>
+			<input asp-for="RentalStartDate" value="@Model.RentalStartDate.ToString("yyyy-MM-dd")" type="text" class="form-control input-border" id="rentalStartDate" />
+			<span asp-validation-for="RentalStartDate" class="text-danger"></span>
+		</div>
+
+		<div class="form-group mb-3">
+			<label asp-for="ReturnDate" class="form-label"></label>
+			<input asp-for="ReturnDate" value="@Model.ReturnDate.ToString("yyyy-MM-dd")" type="text" class="form-control input-border" id="returnDate" />
+			<span asp-validation-for="ReturnDate" class="text-danger"></span>
+		</div>
+		<div class="form-group mb-1 text-danger d-none" id="dateWarning">
+			Rental period should not exceed 30 days.
+		</div>
+
+		<div class="form-group mb-3">
+			<label class="form-label">Total Cost</label>
+			<input asp-for="TotalCost" class="form-control" id="totalCost" readonly />
+			<input type="hidden" asp-for="TotalCost" />
+		</div>
+
+
+		@if (Model.Documents != null && Model.Documents.Any())
+		{
+			<div class="form-group mb-3">
+				<label class="form-label">Attached Document for Store Regulation</label>
+				<div class="d-flex align-items-center gap-3">
+					<div id="documentActions" class="d-flex align-items-center gap-3">
+						<!-- Download Icon -->
+						<a asp-controller="RentalRequests" asp-action="DownloadDocument" asp-route-id="@Model.Documents.First().RentalRequestId" class="text-decoration-none d-flex align-items-center">
+							<i class="bi bi-file-earmark-arrow-down-fill fs-4 text-primary" title="Download"></i>
+						</a>
+
+						<!-- Delete Icon -->
+						<button type="button" class="btn btn-link p-0 d-flex align-items-center" onclick="deleteDocument(@Model.Documents.First().RentalRequestId)">
+							<i class="bi bi-trash-fill fs-4 text-danger" title="Delete Document"></i>
+						</button>
+
+						<!-- Edit Icon -->
+						<label for="documentUpload" class="btn btn-link p-0 m-0 d-flex align-items-center" title="Edit Document" style="cursor: pointer;">
+							<i class="bi bi-pencil-fill fs-4 text-warning"></i>
+						</label>
+
+						<!-- Hidden File Input -->
+						<input type="file" id="documentUpload" name="documentUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+							   class="d-none" onchange="uploadDocument(@Model.RequestId)" />
+						<!-- Edit Icon -->
+						<span id="documentWarning" class="text-danger small mt-1 d-block"></span>
+					</div>
+
+					<div id="documentDeletedMessage" class="text-muted d-none">
+						You deleted the document.
+					</div>
+				</div>
+			</div>
+
+
+		}
+
+		<div class="form-group">
+			<input type="submit" value="Submit Request" class="btn btn-success w-100" />
+		</div>
+	</form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@section Scripts {
+	<script>
+		const rentalPrice = @ViewBag.RentalPrice;
+
+		function calculateCost() {
+			const startInput = document.getElementById('rentalStartDate');
+			const endInput = document.getElementById('returnDate');
+			const start = new Date(startInput.value);
+			const end = new Date(endInput.value);
+			const dateWarning = document.getElementById('dateWarning');
+			const submitButton = document.querySelector('input[type="submit"]');
+
+			if (start && end) {
+				// Calculate the difference in days
+				const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+
+				// Check if return date is before rental start date
+				if (end < start) {
+					dateWarning.textContent = "Return date cannot be before rental start date.";
+					dateWarning.classList.remove('d-none');
+					submitButton.disabled = true;
+					document.getElementById('totalCost').value = '';
+				}
+				// Check if rental period exceeds 30 days
+				else if (days > 30) {
+					dateWarning.textContent = "Rental period should not exceed 30 days.";
+					dateWarning.classList.remove('d-none');
+					submitButton.disabled = true;
+					document.getElementById('totalCost').value = '';
+				}
+				// Check if rental start date is equal to return date
+				else if (start.getDate() === end.getDate()) {
+					dateWarning.textContent = "Rental start date cannot be the same as return date.";
+					dateWarning.classList.remove('d-none');
+					submitButton.disabled = true;
+					document.getElementById('totalCost').value = '';
+				}
+				// If the date is valid, calculate the cost
+				else {
+					dateWarning.classList.add('d-none');
+					submitButton.disabled = false;
+					const totalCost = (days * rentalPrice).toFixed(2);
+					document.getElementById('totalCost').value = totalCost;
+				}
+			} else {
+				// If dates are empty, reset everything
+				dateWarning.classList.add('d-none');
+				submitButton.disabled = false;
+				document.getElementById('totalCost').value = '';
+			}
+		}
+
+		const rentedRanges = @Html.Raw(ViewBag.RentedRanges ?? "[]");
+
+		function isDateInRange(dateStr, fromStr, toStr) {
+			const date = new Date(dateStr);
+			const from = new Date(fromStr);
+			const to = new Date(toStr);
+			return date >= from && date <= to;
+		}
+
+		const disableBookedDates = (input) => {
+			flatpickr(input, {
+				dateFormat: "Y-m-d",
+				disable: rentedRanges.map(r => ({
+					from: r.RentalStartDate,
+					to: r.ReturnDate
+				})),
+				onDayCreate: function(dObj, dStr, fp, dayElem) {
+					const dateStr = dayElem.dateObj.toISOString().split('T')[0];
+					rentedRanges.forEach(r => {
+						if (isDateInRange(dateStr, r.RentalStartDate, r.ReturnDate)) {
+							dayElem.style.border = "2px solid red";
+							dayElem.style.borderRadius = "50%";
+							dayElem.setAttribute("title", "Rented on this date");
+						}
+					});
+				}
+			});
+		};
+
+		function uploadDocument(requestId) {
+			const fileInput = document.getElementById("documentUpload");
+			const file = fileInput.files[0];
+			const warningSpan = document.getElementById("documentWarning");
+
+			warningSpan.textContent = "";
+
+			if (!file) {
+				warningSpan.textContent = "Please choose a file.";
+				return;
+			}
+
+			const formData = new FormData();
+			formData.append("RentalRequestId", requestId);
+			formData.append("Document", file);
+
+			fetch("/RentalRequests/UploadDocument", {
+				method: "POST",
+				body: formData
+			})
+			.then(res => res.json())
+			.then(data => {
+				if (data.success) {
+					showSuccessMessage(data.message);
+					setTimeout(() => location.reload(), 1500);
+				} else {
+					warningSpan.textContent = data.message;
+				}
+			})
+			.catch(() => {
+				showErrorMessage("Unexpected error occurred.");
+			});
+		}
+
+
+		function deleteDocument(rentalRequestId) {
+			if (!confirm("Are you sure you want to delete this document?")) return;
+
+			fetch(`/RentalRequests/DeleteDocument/${rentalRequestId}`, {
+				method: "POST"
+			})
+			.then(response => {
+				if (response.ok) {
+					showSuccessMessage("Document has been deleted.");
+					document.getElementById("documentActions").classList.add("d-none");
+					document.getElementById("documentDeletedMessage").classList.remove("d-none");
+				} else {
+					showErrorMessage("Failed to delete document.");
+				}
+			})
+			.catch(() => {
+				showErrorMessage("Unexpected error occurred.");
+			});
+		}
+
+
+		$(document).ready(function () {
+			// Disable booked dates
+			disableBookedDates(document.getElementById('rentalStartDate'));
+			disableBookedDates(document.getElementById('returnDate'));
+
+			// Calculate cost on date change
+			document.getElementById('rentalStartDate').addEventListener('change', calculateCost);
+			document.getElementById('returnDate').addEventListener('change', calculateCost);
+
+			// Show success message and redirect if applicable
+			var successMessage = '@TempData["SuccessMessage"]';
+			if (successMessage) {
+				showSuccessMessage(successMessage);
+
+				setTimeout(function () {
+					window.location.href = '/RentalRequests';
+				}, 1000);
+			}
+
+			// Show error message if applicable
+			var errorMessage = '@TempData["ErrorMessage"]';
+			if (errorMessage) {
+				showErrorMessage(errorMessage);
+			}
+		});
+	</script>
+}

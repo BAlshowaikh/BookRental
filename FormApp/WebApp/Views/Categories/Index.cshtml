@@ -1,0 +1,270 @@
+﻿@model IEnumerable<BookRentalObject.Category>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <!-- Centered title -->
+    <h2 class="text-center text-dark mb-4">Manage Categories</h2>
+
+    <!-- Add & Filter -->
+    <div class="row align-items-end mb-3 gx-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <!-- Left: Filters -->
+            <form asp-action="Index" method="get" class="d-flex flex-wrap align-items-center gap-3" autocomplete="off">
+                <div class="d-flex align-items-center gap-2 me-3">
+                    <label for="searchName" class="form-label mb-0">Category Name:</label>
+                    <input type="text" name="searchName" class="form-control" placeholder="Enter name" value="@Context.Request.Query["searchName"]" />
+                </div>
+
+
+                <div class="d-flex align-items-center">
+                    <label for="isActive" class="form-label mb-0 me-2">Status:</label>
+                    <select name="isActive" class="form-select">
+                        <option value="">All</option>
+                        <option value="true" selected="@(Context.Request.Query["isActive"] == "true" ? "selected" : null)">Active</option>
+                        <option value="false" selected="@(Context.Request.Query["isActive"] == "false" ? "selected" : null)">Inactive</option>
+                    </select>
+                </div>
+
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-danger">Clear</a>
+            </form>
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+                <!-- Right: Add Button -->
+                <a href="javascript:void(0);" class="btn btn-success rounded-pill px-4 mt-3 mt-md-0" onclick="openCreateModal()">
+                    + Add New Category
+                </a>
+            }
+            
+        </div>
+
+        </div>
+    </div>
+
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                    <th>@Html.DisplayNameFor(model => model.IsActive)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="status-badge bg-active">Active</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge bg-inactive">Inactive</span>
+                            }
+                        </td>
+
+                    <td class="text-center">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="javascript:void(0);" onclick="openEditModal(@item.CategoryId)" class="btn btn-sm btn-warning me-1">Edit</a>
+                            <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="openDeleteModal(@item.CategoryId, '@item.CategoryName')">Delete</a>
+                        }
+                    </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header custom-brown text-white border-bottom-0">
+                <h5 class="modal-title fw-bold">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" id="editModalContent"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title fw-bold">Delete Category</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete <strong id="deleteCategoryName"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    <input type="hidden" name="id" id="deleteCategoryId" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header custom-brown text-white border-bottom-0">
+                <h5 class="modal-title fw-bold">Add a new category</h5>
+                <button type="button" class="btn-close btn-close-brown" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" id="createModalContent"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openEditModal(id) {
+            $.get('/Categories/Edit/' + id, function (response) {
+                $('#editModalContent').html(response);
+                $('#editCategoryModal').modal('show');
+            });
+        }
+
+        $(document).on('submit', '#editForm', function (e) {
+            e.preventDefault();
+            $.post($(this).attr('action'), $(this).serialize(), function () {
+                $('#editCategoryModal').modal('hide');
+                location.reload();
+            });
+        });
+
+        function openDeleteModal(id, name) {
+            $('#deleteCategoryId').val(id);
+            $('#deleteCategoryName').text(name);
+            $('#deleteCategoryModal').modal('show');
+        }
+
+        $(document).on('submit', '#deleteForm', function (e) {
+            e.preventDefault();
+            $.post('/Categories/Delete/' + $('#deleteCategoryId').val(), $(this).serialize(), function () {
+                $('#deleteCategoryModal').modal('hide');
+                location.reload();
+            });
+        });
+
+        function openCreateModal() {
+            $.get('/Categories/Create', function (response) {
+                $('#createModalContent').html(response);
+                $('#createCategoryModal').modal('show');
+            });
+        }
+
+        $(document).on('submit', '#createForm', function (e) {
+            e.preventDefault();
+            $.post($(this).attr('action'), $(this).serialize(), function () {
+                $('#createCategoryModal').modal('hide');
+                location.reload();
+            });
+        });
+    </script>
+
+    <style>
+        .table-hover tbody tr {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background-color: transparent !important;
+        }
+
+        .table-hover tbody tr:hover {
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            background-color: rgba(255, 255, 255, 0.5) !important;
+            border-radius: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            font-size: 0.9rem;
+            border-radius: 1rem;
+        }
+
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .bg-active {
+            background-color: #2e7d32; /* dark green */
+        }
+
+        .bg-inactive {
+            background-color: #c62828; /* dark red */
+        }
+
+        .btn-brown {
+            background-color: #8a5a44;
+            color: white;
+            border: none;
+        }
+
+            .btn-brown:hover {
+                background-color: #754b39;
+                color: white;
+            }
+
+        .form-label {
+            white-space: nowrap;
+        }
+
+        .table,
+        .table thead,
+        .table tbody,
+        .table th,
+        .table td {
+            background-color: transparent !important;
+        }
+
+        /* Table Header Styling */
+        table thead tr {
+            background-color: #a97463; 
+        }
+
+        table thead th {
+            color: white !important;
+            font-weight: bold;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+
+
+        .table-light {
+            background-color: transparent !important;
+        }
+
+        .table-responsive {
+            background-color: transparent !important;
+        }
+
+    </style>
+
+
+}

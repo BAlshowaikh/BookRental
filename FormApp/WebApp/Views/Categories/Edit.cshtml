@@ -1,0 +1,40 @@
+﻿@model BookRentalObject.Category
+
+@{
+    // Use layout only if NOT loaded via AJAX
+    Layout = Context.Request.Headers["X-Requested-With"] == "XMLHttpRequest" ? null : "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@if (Layout != null)
+{
+    <h1>Edit</h1>
+    <h4>Category</h4>
+    <hr />
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit" method="post" id="editForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+            <input type="hidden" asp-for="CategoryId" />
+
+            <div class="mb-3">
+                <label asp-for="CategoryName" class="form-label fw-semibold"></label>
+                <input asp-for="CategoryName" class="form-control border border-secondary shadow-sm bg-light" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="IsActive" />
+                <label class="form-check-label" asp-for="IsActive"></label>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+
+    </div>
+</div>

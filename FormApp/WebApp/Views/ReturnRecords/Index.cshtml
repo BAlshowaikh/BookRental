@@ -1,0 +1,141 @@
+﻿@model IEnumerable<BookRentalObject.ReturnRecord>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-dark text-center">Return Records</h1>
+
+<!-- Search and filter section -->
+<div class="row py-3">
+    <div class="col-12">
+        <form asp-controller="ReturnRecords" asp-action="Index" method="get" class="row gx-2 align-items-center" autocomplete="off">
+            <label class="form-label px-2 ms-3" style="width: 9.5%">Record ID:</label>
+            <div class="col-auto position-relative">
+                <input type="text" name="SearchString" value="@Context.Request.Query["SearchString"]" class="form-control" placeholder="Type record ID" />
+            </div>
+
+            <div class="col-auto">
+                <label class="form-label ms-3">Book Condition:</label>
+            </div>
+            <div class="col-auto">
+                <select name="SearchCon" asp-items="ViewBag.conList" class="form-select">
+                    <option value="">All Conditions</option>
+                </select>
+            </div>
+
+            <div class="col"></div>
+
+            <div class="col-auto">
+                <input type="submit" value="Search" class="btn btn-primary mx-3" />
+            </div>
+            <div class="col-auto">
+                <a asp-controller="ReturnRecords" asp-action="Index" class="btn btn-outline-danger">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<!-- Records display -->
+<div class="container my-4">
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var record in Model)
+            {
+                <div class="col-md-4">
+                    <div class="second-card mb-4 card-clickable"
+                         data-bs-toggle="modal"
+                         data-bs-target="#detailsModal-@record.RecordId"
+                         style="cursor: pointer; height: 190px;">
+
+                        <div class="card-info">
+                            <h4>Record ID: @record.RecordId</h4>
+                            <p>User: @record.Transaction.UserId</p>
+                            <p>Book: @record.Book.Name</p>
+                            <p>Condition: @record.BookCondition.ReturnCondition</p>
+                            <p>Charges: @record.TotalAdditionalCharges</p>
+
+                           @{
+                                var feedbackMap = ViewBag.FeedbackStatus as Dictionary<int, bool>;
+                                bool hasFeedback = feedbackMap != null && feedbackMap.ContainsKey(record.RecordId) && feedbackMap[record.RecordId];
+                           }
+
+                            <!-- Feedback Button Section -->
+                            <div class="mt-auto d-flex justify-content-center gap-2 pt-2">
+                                @if (!hasFeedback)
+                                {
+                                    <a asp-controller="Feedbacks" asp-action="Create"
+                                       asp-route-id="@record.RecordId"
+                                       class="btn btn-sm btn-light prevent-stretch">
+                                        Give Feedback
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Feedbacks" asp-action="Index" asp-route-id="@record.RecordId"
+                                       class="btn btn-sm btn-light prevent-stretch">
+                                        View Feedback
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade fade-scale" id="detailsModal-@record.RecordId" tabindex="-1" aria-hidden="true">
+                        <!-- ... (keep your existing modal code) ... -->
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p class="text-center">No records available.</p>
+            </div>
+        }
+    </div>
+
+    @if (ViewBag.TotalPages > 1)
+    {
+        <div class="row mt-4">
+            <div class="col text-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, SearchString = Context.Request.Query["SearchString"], SearchCon = Context.Request.Query["SearchCon"] })">Previous</a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = i, SearchString = Context.Request.Query["SearchString"], SearchCon = Context.Request.Query["SearchCon"] })">@i</a>
+                            </li>
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, SearchString = Context.Request.Query["SearchString"], SearchCon = Context.Request.Query["SearchCon"] })">Next</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            preventStretchedLinkClick();
+        });
+    </script>
+}

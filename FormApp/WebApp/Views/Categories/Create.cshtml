@@ -1,0 +1,24 @@
+﻿@model BookRentalObject.Category
+
+@{
+    Layout = Context.Request.Headers["X-Requested-With"] == "XMLHttpRequest" ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Create" method="post" id="createForm">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryName" class="form-label fw-semibold">Category Name</label>
+        <input asp-for="CategoryName" class="form-control rounded-3 bg-light shadow-sm" placeholder="Enter category name" />
+        <span asp-validation-for="CategoryName" class="text-danger small"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input class="form-check-input" asp-for="IsActive" />
+        <label class="form-check-label" asp-for="IsActive">Active</label>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-success px-4 rounded-pill">Create</button>
+    </div>
+</form>

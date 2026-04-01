@@ -1,0 +1,109 @@
+﻿@model BookRentalObject.ReturnRecord
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Generate Return Record</h4>
+<a asp-action="Index" class="btn btn-outline-secondary mb-2 text-dark">← Back to list</a>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TransactionId" class="control-label"></label>
+                <input asp-for="TransactionId" type="text" class="form-control" value="@ViewBag.TransactionId" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="BookId" class="control-label"></label>
+                <input asp-for="BookId" type="text" class="form-control" value="@ViewBag.BookId" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="BookCondition.ReturnCondition" class="control-label"></label>
+                <select asp-for="BookConditionId" class="form-control" asp-items="ViewBag.BookConditionId" id="bookCon"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExtraCharges.ExtraChargeRate" class="control-label"></label>
+                <input asp-for="ExtraCharges.ExtraChargeRate" type="text" class="form-control" id="extraCharge" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpectedReturnDate" class="control-label"></label>
+                <input asp-for="ExpectedReturnDate" type="date" class="form-control" value="@(((DateTime)ViewBag.ExpectedDate).ToString("yyyy-MM-dd"))" id="expectedDate" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="ActualReturnDate" class="control-label"></label>
+                <input asp-for="ActualReturnDate" type="date" class="form-control" id="actualDate" />
+                <span asp-validation-for="ActualReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LateReturnFee" class="control-label"></label>
+                <input asp-for="LateReturnFee" type="text" class="form-control" id="lateReturnFee" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAdditionalCharges" class="control-label"></label>
+                <input asp-for="TotalAdditionalCharges" type="text" class="form-control" id="totalCharges" readonly />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const bookCon = document.getElementById("bookCon");
+            const extraCharge = document.getElementById("extraCharge");
+            const expectedDateInput = document.getElementById("expectedDate");
+            const actualDateInput = document.getElementById("actualDate");
+            const lateReturnFee = document.getElementById("lateReturnFee");
+            const totalCharges = document.getElementById("totalCharges");
+
+            const chargeRates = @Html.Raw(Json.Serialize(ViewBag.ChargeRates));
+
+            function calculateTotalCharge() {
+                document.querySelector('[data-valmsg-for="ActualReturnDate"]').textContent = '';
+
+                const conditionId = parseInt(bookCon.value);
+                const extra = chargeRates[conditionId] || 0;
+                extraCharge.value = extra.toFixed(2);
+
+                const expectedDate = new Date(expectedDateInput.value);
+                const actualDate = new Date(actualDateInput.value);
+                const today = new Date();
+
+                if (isNaN(actualDate.getTime())) {
+                    actualDateInput.setCustomValidity('Please enter a valid date');
+                    return;
+                }
+
+
+                if (!isNaN(expectedDate.getTime())) {
+                    const twoDaysBefore = new Date(expectedDate);
+                    twoDaysBefore.setDate(twoDaysBefore.getDate() - 2);
+
+                    if (actualDate < twoDaysBefore) {
+                        actualDateInput.setCustomValidity('Book cannot be returned more than 2 days before expected return date');
+                        return;
+                    }
+                }
+
+                let lateFee = 0;
+                if (!isNaN(expectedDate.getTime()) && !isNaN(actualDate.getTime()) && actualDate > expectedDate) {
+                    const diffDays = Math.ceil((actualDate - expectedDate) / (1000 * 60 * 60 * 24));
+                    lateFee = diffDays * 1;
+                }
+
+                lateReturnFee.value = lateFee.toFixed(2);
+                totalCharges.value = (lateFee + extra).toFixed(2);
+                actualDateInput.setCustomValidity('');
+            }
+
+            bookCon.addEventListener('change', calculateTotalCharge);
+            actualDateInput.addEventListener('change', calculateTotalCharge);
+        });
+    </script>
+}

@@ -1,0 +1,137 @@
+﻿@model BookRentalObject.Book
+
+@{
+	ViewData["Title"] = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-2">
+    <h1 class="display-5 fw-bold text-dark mb-3">Add a New Book</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary mb-3">← Back to book list</a>
+    <hr class="mb-4" />
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <!-- Left: Image Upload -->
+            <div class="col-md-6 d-flex justify-content-center">
+                <div id="uploadBox" class="border rounded w-100 text-center image-upload-box p-4 d-flex flex-column justify-content-center align-items-center position-relative bg-light cursor-pointer" style="height: 400px;">
+
+                    <input type="file" id="ImageFile" name="ImageFile" accept="image/*"
+                           class="form-control position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" />
+
+                    <!-- Placeholder -->
+                    <div id="uploadPlaceholder" class="upload-placeholder">
+                        <i class="bi bi-cloud-upload fs-1 text-secondary"></i>
+                        <p class="text-muted">Click or drag image here to upload</p>
+                    </div>
+
+                    <!-- Preview -->
+                    <div id="uploadPreview" class="position-absolute top-0 start-0 w-100 h-100 d-none bg-cover bg-center rounded"></div>
+                </div>
+            </div>
+
+            <!-- Right: Book Details -->
+            <div class="col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control input-border" maxlength="50" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control input-border" rows="3" maxlength="100"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="RentalPrice" class="form-label"></label>
+                    <input asp-for="RentalPrice" type="number" step="0.01" min="0.1" max="50" class="form-control input-border" />
+                    <span asp-validation-for="RentalPrice" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="BookConditionId" class="form-label"></label>
+                    <select asp-for="BookConditionId" class="form-select input-border" asp-items="ViewBag.BookConditionId"></select>
+                    <span asp-validation-for="BookConditionId" class="text-danger"></span> 
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="AvailabilityStatusId" class="form-label"></label>
+                    <select asp-for="AvailabilityStatusId" class="form-select input-border" asp-items="ViewBag.AvailabilityStatusId"></select>
+                    <span asp-validation-for="AvailabilityStatusId" class="text-danger"></span> 
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="IsActive" class="form-label"></label>
+                    <select asp-for="IsActive" class="form-select input-border">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                    <span asp-validation-for="IsActive" class="text-danger"></span> 
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PublishDate" class="form-label"></label>
+                    <input asp-for="PublishDate" type="date" class="form-control input-border" />
+                    <span asp-validation-for="PublishDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Isbn" class="form-label"></label>
+                    <input asp-for="Isbn" maxlength="50" class="form-control input-border" />
+                    <span asp-validation-for="Isbn" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="CategoryId" class="form-label"></label>
+                    <select asp-for="CategoryId" class="form-select input-border" asp-items="ViewBag.CategoryId"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="AuthorId" class="form-label"></label>
+                    <select asp-for="AuthorId" class="form-select input-border" asp-items="ViewBag.AuthorId"></select>
+                    <span asp-validation-for="AuthorId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success w-100" />
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- Code to handle the click on the Create button-->
+@section Scripts {
+    <script src="~/js/ImageUpload.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var newBookId = '@ViewBag.NewBookId';
+
+            if (successMessage) {
+                showSuccessMessage(successMessage);
+
+                // Redirect to details page after a short delay
+                setTimeout(function () {
+                    window.location.href = '/Books/Details/' + newBookId;
+                }, 1000); 
+            }
+
+            var errorMessage = '@TempData["ErrorMessage"]';
+            if (errorMessage) {
+                showErrorMessage(errorMessage);
+            }
+        });
+
+    </script>
+}
+
+

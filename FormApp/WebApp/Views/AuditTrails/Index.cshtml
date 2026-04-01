@@ -1,0 +1,104 @@
+﻿@model IEnumerable<BookRentalObject.AuditTrail>
+
+@{
+    ViewData["Title"] = "Audit Trails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center text-dark mb-4">Audit Trails</h2>
+
+    <!-- Filter Form -->
+    <form asp-action="Index" method="get" class="d-flex flex-wrap gap-3 align-items-end mb-4" autocomplete="off">
+        <div class="d-flex flex-column">
+            <label for="auditId" class="form-label">Audit ID:</label>
+            <input type="number" name="auditId" id="auditId" class="form-control" />
+        </div>
+
+        <div class="d-flex flex-column">
+            <label for="userId" class="form-label">User:</label>
+            @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select User", new { @class = "form-select" })
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+            <a asp-action="Index" class="btn btn-outline-danger mt-2">Clear</a>
+        </div>
+    </form>
+
+    <!-- Styled Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-sm">
+            <thead class="table-light" style=" color: black;">
+                <tr>
+                    <th>Audit ID</th>
+                    <th>Timestamp</th>
+                    <th>Old Value</th>
+                    <th>New Value</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No records found.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.AuditId</td>
+                            <td>@item.Timestamp.ToString("g")</td>
+                            <td>@item.OldValue</td>
+                            <td>@item.NewValue</td>
+                            <td>@(item.User?.FullName ?? "N/A")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <style>
+        .table-hover tbody tr {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background-color: transparent !important;
+        }
+
+            .table-hover tbody tr:hover {
+                transform: scale(1.01);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                background-color: rgba(255, 255, 255, 0.5) !important;
+                border-radius: 0.5rem;
+                position: relative;
+                z-index: 1;
+            }
+
+        table thead tr {
+            background-color: #a97463;
+        }
+
+        table thead th {
+            font-weight: bold;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+
+        .table-light {
+            background-color: transparent !important;
+        }
+
+        .table-responsive {
+            background-color: transparent !important;
+        }
+
+        .form-label {
+            white-space: nowrap;
+        }
+    </style>
+}
