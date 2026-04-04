@@ -108,9 +108,6 @@ namespace WebApp.Controllers
         }
 
         // POST: RentalRequests/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // POST: RentalRequests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Only User (customer) can create a rental request
@@ -140,9 +137,11 @@ namespace WebApp.Controllers
                             await uploadedFile.CopyToAsync(memoryStream);
                             var document = new Document
                             {
+                                FileName = user.FirstName + rentalRequest.RequestId,
                                 UploadDate = DateTime.UtcNow,
                                 Blob = memoryStream.ToArray(),
-                                RentalRequestId = rentalRequest.RequestId,                                                                           
+                                RentalRequestId = rentalRequest.RequestId,
+                                FileType = Path.GetExtension(uploadedFile.FileName)
                             };
 
                             _context.Documents.Add(document);
