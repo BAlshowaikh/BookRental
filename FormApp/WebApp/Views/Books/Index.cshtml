@@ -71,6 +71,10 @@
                         <div class="col-5 d-flex justify-content-center align-items-center" style="height: 100%; min-height: 200px;">
                             @if (book.ImageId != null)
                             {
+                                // URl.Action receives 3 parameters the first is the method -to be look insied the controller-
+                                // The second parameter is the name of the controller to look for
+                                // The third: Route Parameter. It passes the specific ID of the book's image to the controller so the 
+                                // server knows which image to pull from the database or folder.
                                 <img src="@Url.Action("GetImage", "Images", new { id = book.ImageId })"
                                 alt="@book.Name"
                                 class="img-fluid rounded shadow-sm"

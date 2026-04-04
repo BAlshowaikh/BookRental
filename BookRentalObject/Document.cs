@@ -16,10 +16,18 @@ namespace BookRentalObject
         [Column("uploadDate", TypeName = "datetime")]
         [Display(Name = "Upload Date")]
         public DateTime UploadDate { get; set; }
+        [Column("fileName")]
+        [StringLength(100)]
+        [Display(Name = "File Name")]
+        public String FileName { get; set; }
         [Required]
         [Column("BLOB")]
         [Display(Name = "BLOB")]
         public byte[] Blob { get; set; }
+        [Column("fileType")]
+        [StringLength(50)]
+        [Display(Name = "File Type")]
+        public string FileType { get; set; }
         [Column("rentalRequestId")]
         [Display(Name = "Rental Request ID")]
         public int RentalRequestId { get; set; }
